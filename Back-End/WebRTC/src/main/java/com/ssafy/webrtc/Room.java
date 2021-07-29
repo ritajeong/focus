@@ -35,7 +35,6 @@ public class Room implements Closeable {
 	public Room(String roomName, MediaPipeline pipeline) {
 		this.name = roomName;
 		this.pipeline = pipeline;
-//		log.info("Room constructor has benn called!!!!!");
 		log.info("ROOM {} has been created", roomName);
 	}
 
