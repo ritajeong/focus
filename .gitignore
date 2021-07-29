@@ -3,8 +3,8 @@
 # Edit at httpswww.toptal.comdevelopersgitignoretemplates=windows,java,vue,vuejs
 
 ### Spring Boot ###
-./.metadata
-./Back-End/.metadata
+/.metadata
+/Back-End/.metadata
 
 
 ### Java ###
