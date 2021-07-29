@@ -34,6 +34,7 @@ public class RoomManager {
 		this.rooms.remove(room.getName());
 		room.close();
 		log.info("Room {} removed and closed", room.getName());
+//		log.info("Why has Room {} been created? - RoomManager.removeRoom", room.getName());
 	}
 
 }

@@ -13,39 +13,39 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @EnableWebSocket
 public class GroupCallApp implements WebSocketConfigurer {
 
-  @Bean
-  public UserRegistry registry() {
-    return new UserRegistry();
-  }
+	@Bean
+	public UserRegistry registry() {
+		return new UserRegistry();
+	}
 
-  @Bean
-  public RoomManager roomManager() {
-    return new RoomManager();
-  }
+	@Bean
+	public RoomManager roomManager() {
+		return new RoomManager();
+	}
 
-  @Bean
-  public CallHandler groupCallHandler() {
-    return new CallHandler();
-  }
+	@Bean
+	public CallHandler groupCallHandler() {
+		return new CallHandler();
+	}
 
-  @Bean
-  public KurentoClient kurentoClient() {
-    return KurentoClient.create();
-  }
+	@Bean
+	public KurentoClient kurentoClient() {
+		return KurentoClient.create();
+	}
 
-  @Bean
-  public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
-    ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-    container.setMaxTextMessageBufferSize(32768);
-    return container;
-  }
+	@Bean
+	public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
+		ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
+		container.setMaxTextMessageBufferSize(32768);
+		return container;
+	}
 
-  public static void main(String[] args) throws Exception {
-    SpringApplication.run(GroupCallApp.class, args);
-  }
+	public static void main(String[] args) throws Exception {
+		SpringApplication.run(GroupCallApp.class, args);
+	}
 
-  @Override
-  public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-    registry.addHandler(groupCallHandler(), "/groupcall");
-  }
+	@Override
+	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+		registry.addHandler(groupCallHandler(), "/groupcall");
+	}
 }
