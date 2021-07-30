@@ -1,4 +1,4 @@
-package com.ssafy.webrtc;
+package com.ssafy.api.service;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -7,6 +7,8 @@ import org.kurento.client.KurentoClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ssafy.common.util.Room;
 
 public class RoomManager {
 

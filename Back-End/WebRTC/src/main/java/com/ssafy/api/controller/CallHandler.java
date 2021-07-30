@@ -1,4 +1,4 @@
-package com.ssafy.webrtc;
+package com.ssafy.api.controller;
 
 import java.io.IOException;
 
@@ -14,6 +14,10 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.ssafy.api.service.RoomManager;
+import com.ssafy.common.util.Room;
+import com.ssafy.common.util.UserRegistry;
+import com.ssafy.common.util.UserSession;
 
 public class CallHandler extends TextWebSocketHandler {
 

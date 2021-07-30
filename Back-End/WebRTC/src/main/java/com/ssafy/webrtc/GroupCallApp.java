@@ -9,6 +9,10 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
+import com.ssafy.api.controller.CallHandler;
+import com.ssafy.api.service.RoomManager;
+import com.ssafy.common.util.UserRegistry;
+
 @SpringBootApplication
 @EnableWebSocket
 public class GroupCallApp implements WebSocketConfigurer {

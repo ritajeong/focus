@@ -1,4 +1,4 @@
-package com.ssafy.webrtc;
+package com.ssafy.common.util;
 
 import java.util.concurrent.ConcurrentHashMap;
 
