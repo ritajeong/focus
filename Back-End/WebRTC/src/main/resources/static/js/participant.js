@@ -15,27 +15,39 @@ function Participant(name) {
 	container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS;
 	container.id = name;
 	var span = document.createElement('span');
-	var video = document.createElement('video');
+	var localVideo = document.createElement('video');
+	var remoteVideo = document.createElement('video');
 	var rtcPeer;
 
-	container.appendChild(video);
+	container.appendChild(localVideo);
+	container.appendChild(remoteVideo);
 	container.appendChild(span);
 	container.onclick = switchContainerClass;
 	document.getElementById('participants').appendChild(container);
 
 	span.appendChild(document.createTextNode(name));
 
-	video.id = 'video-' + name;
-	video.autoplay = true;
-	video.controls = false;
+	remoteVideo.id = 'video-' + name;
+	remoteVideo.autoplay = true;
+	remoteVideo.controls = false;
+	remoteVideo.style.display = 'none';
+
+	localVideo.id = 'localVideo-' + name;
+	localVideo.autoplay = true;
+	localVideo.controls = false;
+	// localVideo.style.display = 'none';
 
 
 	this.getElement = function() {
 		return container;
 	}
 
-	this.getVideoElement = function() {
-		return video;
+	this.getLocalVideoElement = function() {
+		return localVideo;
+	}
+
+	this.getRemoteVideoElement = function() {
+		return remoteVideo;
 	}
 
 	function switchContainerClass() {

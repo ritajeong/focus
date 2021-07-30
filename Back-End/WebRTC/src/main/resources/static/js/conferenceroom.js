@@ -87,14 +87,14 @@ function onExistingParticipants(msg) {
 	console.log(name + " registered in room " + room);
 	var participant = new Participant(name);
 	participants[name] = participant;
-	var video = participant.getVideoElement();
-
+	var videoInput = participant.getLocalVideoElement();
+	var videoOutput = participant.getRemoteVideoElement();
 	var options = {
-	      localVideo: video,
-	      mediaConstraints: constraints,
-	      onicecandidate: participant.onIceCandidate.bind(participant)
+		localVideo: videoInput,
+	    mediaConstraints: constraints,
+	    onicecandidate: participant.onIceCandidate.bind(participant)
 	    }
-	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
+	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
 		function (error) {
 		  if(error) {
 			  return console.error(error);
@@ -123,10 +123,10 @@ function leaveRoom() {
 function receiveVideo(sender) {
 	var participant = new Participant(sender);
 	participants[sender] = participant;
-	var video = participant.getVideoElement();
+	var videoOutput = participant.getRemoteVideoElement();
 
 	var options = {
-      remoteVideo: video,
+      remoteVideo: videoOutput,
       onicecandidate: participant.onIceCandidate.bind(participant)
     }
 
