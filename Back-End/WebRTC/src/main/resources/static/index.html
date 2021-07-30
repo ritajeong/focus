@@ -7,6 +7,7 @@
 <script src="./js/conferenceroom.js"></script>
 <script src="./js/participant.js"></script>
 <script src="./js/kurento-utils.js"></script>
+<script src="./js/image-overlay.js"></script>
 </head>
 <body>
 	<div id="container">
@@ -30,6 +31,28 @@
 				<div id="participants"></div>
 				<input type="button" id="button-leave" onmouseup="leaveRoom();" value="Leave room">
 			</div>
+
+			<div>
+				<a id="add-image" href="#" class="btn btn-info"
+				   onclick="addImage(); return false;"> Add Image</a>
+				<br/> <br/>
+				<a id="remove-image" href="#" class="btn btn-warning"
+				   onclick="removeImage(); return false;"> Remove Image</a>
+				<br/> <br/>
+				<a id="prev-image" href="#" class="btn btn-info"
+				   onclick="previousImage(); return false;"> Prev</a>
+				<br/> <br/>
+				<a id="next-image" href="#" class="btn btn-warning"
+				   onclick="nextImage(); return false;"> Next</a>
+	
+			</div>
+
+
+			<div class="col-md-5">
+                <h3>Remote stream</h3>
+                <video id="videoOutput" autoplay width="480px" height="360px"
+                       poster="img/webrtc.png"></video>
+            </div>
 		</div>
 	</div>
 </body>
