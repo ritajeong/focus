@@ -72,6 +72,10 @@ $ sudo service coturn restart
 
 ### OpenVidu 서버 실행하기
 ```
+## local 에서 실행시
+docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=MY_SECRET openvidu/openvidu-server-kms:2.19.0
+
+## ubuntu 서버에서 실행시
 $ sudo docker run -p 4443:4443 -e OPENVIDU_SECRET=MY_SECRET -e DOMAIN_OR_PUBLIC_IP={Public-IP} -e KMS_STUN_IP={Public-IP} -e KMS_STUN_PORT=3478 -e KMS_TURN_URL=myuser:mypassword@{Public-IP}:3478?transport=udp openvidu/openvidu-server-kms:2.19.0
 
 ## 싸피 AWS IP주소로 한 예시
@@ -90,9 +94,13 @@ $ mvn package exec:java
 ```
 
 ### 접속하기
-* https://{퍼블릭 ip}:5000
-* SSAFY AWS
-    * https://52.79.80.65:5000
+* local
+    * https://localhost:5000
+
+* ubuntu
+    * https://{퍼블릭 ip}:5000
+    * SSAFY AWS
+        * https://52.79.80.65:5000
 
 
 ### 참고자료
