@@ -104,4 +104,5 @@ $ mvn package exec:java
 
 
 ### 참고자료
-https://jade-puffin-ae5.notion.site/OpenVidu-527e485fddd54beb8640404b961cf756
+* https://jade-puffin-ae5.notion.site/OpenVidu-527e485fddd54beb8640404b961cf756
+* https://docs.openvidu.io/en/2.19.0/tutorials/openvidu-js-java/
