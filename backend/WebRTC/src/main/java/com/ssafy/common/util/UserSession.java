@@ -106,16 +106,15 @@ public class UserSession implements Closeable {
     log.trace("USER {}: SdpOffer for {} is {}", this.name, sender.getName(), sdpOffer);
 
     //image Overlay Filter
-    System.out.println("[UserSession] receiveVideoFrom image 필터 씌우기");
+    log.trace("[UserSession] receiveVideoFrom image 필터 씌우기");
     imageOverlayFilter=new ImageOverlayFilter.Builder(pipeline).build();
     String imageId = "testImage";
     String imageUri = "/home/ubuntu/image/flower.jpg";
-    System.out.println("image start imageId: "+imageId+" imageUri: "+imageUri+" pipeline: "+pipeline);
+    log.trace("image start imageId: "+imageId+" imageUri: "+imageUri+" pipeline: "+pipeline);
     imageOverlayFilter.addImage(imageId, imageUri, 0.4f, 0.4f, 0.4f, 0.4f, true, true);
 
 
 
-    System.out.println("[UserSession] sdpSession start");
     final String ipSdpAnswer = this.getEndpointForUser(sender).processOffer(sdpOffer);
     final JsonObject scParams = new JsonObject();
     scParams.addProperty("id", "receiveVideoAnswer");
@@ -131,10 +130,8 @@ public class UserSession implements Closeable {
   private WebRtcEndpoint getEndpointForUser(final UserSession sender) {
     if (sender.getName().equals(name)) {
       log.debug("PARTICIPANT {}: configuring loopback", this.name);
-      System.out.println("[UserSession] outgoingMedia WebRTCEndpoint 리턴함 name: "+this.name);
       return outgoingMedia;
     }
-    System.out.println("[UserSession] outgoingMedia WebRTCEndpoint 다른거 리턴 name: "+this.name);
     log.debug("PARTICIPANT {}: receiving video from {}", this.name, sender.getName());
 
     WebRtcEndpoint incoming = incomingMedia.get(sender.getName());

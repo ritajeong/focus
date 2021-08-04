@@ -89,12 +89,12 @@ public class CallHandler extends TextWebSocketHandler {
         break;
 
       case "prev":{
-        System.out.println("prev");
+        log.trace("prev");
         prev(session);
         break;
       }
       case "next":{
-        System.out.println("next");
+        log.trace("next");
         next(session);
         break;
       }
