@@ -7,6 +7,7 @@
     <script src="./js/conferenceroom.js"></script>
     <script src="./js/participant.js"></script>
     <script src="./js/kurento-utils.js"></script>
+    <script src="./js/presentation.js"></script>
 </head>
 <body>
 <div id="container">
@@ -35,13 +36,21 @@
 
         </div>
 
-
+        <!--발표자 설정 및 발표자료 컨트롤러-->
         <div>
-            <a id="Prev" href="#" class="btn btn-info"
-               onclick="prev(); return false;"> Prev</a>
-            <br/> <br/>
-            <a id="Next" href="#" class="btn btn-warning"
-               onclick="next(); return false;"> Next</a>
+            <div class="form-group">
+                <label for="presenter">발표자 이름:</label>
+                <input type="text" class="form-control" id="presenter">
+                <button id="presenter-set" type="button" onclick="presenterSet(); return false;"> 설정</button>
+            </div>
+            <button id="start" type="button" href="#" class="btn btn-info"
+                    onclick="start(); return false;"> Start</button>
+            <button id="stop" type="button" href="#" class="btn btn-info"
+                    onclick="stop(); return false;"> Stop</button>
+            <button id="prev" type="button" href="#" class="btn btn-info"
+               onclick="prev(); return false;"> Prev</button>
+            <button id="next" type="button" href="#" class="btn btn-warning"
+               onclick="next(); return false;"> Next</button>
 
         </div>
     </div>
