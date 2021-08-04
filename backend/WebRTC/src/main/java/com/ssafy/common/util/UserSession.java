@@ -79,6 +79,16 @@ public class UserSession implements Closeable {
 
 		log.trace("USER {}: SdpOffer for {} is {}", this.name, sender.getName(), sdpOffer);
 
+		//image Overlay Filter
+		System.out.println("[UserSession] receiveVideoFrom image 필터 씌우기");
+		imageOverlayFilter=new ImageOverlayFilter.Builder(pipeline).build();
+		String imageId = "testImage";
+		String imageUri = "/home/ubuntu/image/flower.jpg";
+		System.out.println("image start imageId: "+imageId+" imageUri: "+imageUri+" pipeline: "+pipeline);
+		imageOverlayFilter.addImage(imageId, imageUri, 0.4f, 0.4f, 0.4f, 0.4f, true, true);
+
+
+
 		final String ipSdpAnswer = this.getEndpointForUser(sender).processOffer(sdpOffer);
 		final JsonObject scParams = new JsonObject();
 		scParams.addProperty("id", "receiveVideoAnswer");
@@ -126,7 +136,11 @@ public class UserSession implements Closeable {
 		}
 
 		log.debug("PARTICIPANT {}: obtained endpoint for {}", this.name, sender.getName());
-		sender.getOutgoingWebRtcPeer().connect(incoming);
+		//sender.getOutgoingWebRtcPeer().connect(incoming);
+
+		//imageOverlay pipeline 연결
+		sender.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
+		imageOverlayFilter.connect(incoming);
 
 		return incoming;
 	}
