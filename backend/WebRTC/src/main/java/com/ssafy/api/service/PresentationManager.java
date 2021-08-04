@@ -62,6 +62,6 @@ public class PresentationManager {
         log.info("[start] imageId: {}, imageUri: {}", imageId, imageUri);
 
        // user.setPresenter();
-       // user.linkImageOverlayPipeline(user, imageOverlayFilter);
+
     }
 }
