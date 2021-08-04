@@ -107,14 +107,6 @@ public class UserSession implements Closeable {
 
     log.trace("USER {}: SdpOffer for {} is {}", this.name, sender.getName(), sdpOffer);
 
-    //image Overlay Filter
-    System.out.println("[UserSession] receiveVideoFrom image 필터 씌우기");
-    imageOverlayFilter=new ImageOverlayFilter.Builder(pipeline).build();
-    String imageId = "testImage";
-    String imageUri = "/home/ubuntu/image/ssafy2.jpg";
-    System.out.println("image start imageId: "+imageId+" imageUri: "+imageUri+" pipeline: "+pipeline);
-    imageOverlayFilter.addImage(imageId, imageUri, 0.4f, 0.4f, 0.4f, 0.4f, true, true);
-
     System.out.println("[UserSession] sdpSession start");
     // My code starts
     if (sender.getName().equals(name)) {
