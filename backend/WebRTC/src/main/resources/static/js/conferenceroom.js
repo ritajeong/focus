@@ -49,6 +49,7 @@ function register() {
 		name : name,
 		room : room,
 	}
+
 	sendMessage(message);
 }
 
@@ -88,9 +89,13 @@ function onExistingParticipants(msg) {
 	var participant = new Participant(name);
 	participants[name] = participant;
 	var videoInput = participant.getLocalVideoElement();
-	var videoOutput = participant.getRemoteVideoElement();
+	var videoOutput = document.getElementById('videoOutput');
+	videoOutput.id='remoteVideo-' + name;
+	videoOutput.autoplay = true;
+
 	var options = {
 		localVideo: videoInput,
+		remoteVideo:videoOutput,
 	    mediaConstraints: constraints,
 	    onicecandidate: participant.onIceCandidate.bind(participant)
 	    }
@@ -102,6 +107,7 @@ function onExistingParticipants(msg) {
 		  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 	});
 
+    console.log('[conferenceroom onExistingParticipant] msg.data: ', msg.data)
 	msg.data.forEach(receiveVideo);
 }
 
@@ -121,9 +127,17 @@ function leaveRoom() {
 }
 
 function receiveVideo(sender) {
+    if(sender==name){
+        console.log(`[receiveVideo] sender: ${sender}, name: ${name}`);
+        return;
+    }else{
+        console.log(`[receiveVideo] sender: ${sender}, name: ${name}`);
+    }
 	var participant = new Participant(sender);
 	participants[sender] = participant;
-	var videoOutput = participant.getRemoteVideoElement();
+	 console.log('[conferenceroom receiveVideo] participant: ', participant)
+
+	var videoOutput = participant.getLocalVideoElement();
 
 	var options = {
       remoteVideo: videoOutput,
@@ -138,6 +152,8 @@ function receiveVideo(sender) {
 			  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 	});;
 }
+
+
 
 function onParticipantLeft(request) {
 	console.log('Participant ' + request.name + ' left');

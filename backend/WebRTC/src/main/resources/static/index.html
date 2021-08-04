@@ -12,10 +12,6 @@
 <body>
 	<div id="container">
 		<div id="wrapper">
-			<div style="display: none;">
-				<h3>Local stream</h3>
-				<video id="videoInput" autoplay width="960px" height="720px"></video>
-			</div>
 			<div id="join" class="animate join">
 				<h1>Join a Room</h1>
 				<form onsubmit="register(); return false;" accept-charset="UTF-8">
@@ -52,10 +48,17 @@
 			</div>
 
 
-			<div class="col-md-5">
-                <h3>Remote stream</h3>
-                <video id="videoOutput" autoplay width="480px" height="360px"
-                       poster="img/webrtc.png"></video>
+            <div class="row">
+<!--                <div class="col-md-5">-->
+<!--                    <h3>local stream</h3>-->
+<!--                    <video id="videoInput" autoplay width="480px" height="360px"-->
+<!--                           poster="img/webrtc.png"></video>-->
+<!--                </div>-->
+                <div class="col-md-5">
+                    <h3>Remote stream</h3>
+                    <video id="videoOutput" autoplay width="480px" height="360px"
+                           poster="img/webrtc.png"></video>
+                </div>
             </div>
 		</div>
 	</div>

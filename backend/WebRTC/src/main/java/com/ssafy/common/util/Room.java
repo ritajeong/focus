@@ -48,6 +48,11 @@ public class Room implements Closeable {
 		final UserSession participant = new UserSession(userName, this.name, session, this.pipeline);
 		joinRoom(participant);
 		participants.put(participant.getName(), participant);
+
+		// SDP negotiation (offer and answer)
+		//String sdpAnswer = participant.getOutgoingWebRtcPeer().processOffer(sdpOffer);
+		//log.info("[Room join] sdpAnswer: {}", sdpAnswer);
+
 		sendParticipantNames(participant);
 		return participant;
 	}
@@ -107,16 +112,17 @@ public class Room implements Closeable {
 
 		final JsonArray participantsArray = new JsonArray();
 		for (final UserSession participant : this.getParticipants()) {
-			if (!participant.equals(user)) {
+			//if (!participant.equals(user)) {
 				final JsonElement participantName = new JsonPrimitive(participant.getName());
 				participantsArray.add(participantName);
-			}
+			//}
 		}
 
 		final JsonObject existingParticipantsMsg = new JsonObject();
 		existingParticipantsMsg.addProperty("id", "existingParticipants");
 		existingParticipantsMsg.add("data", participantsArray);
 		log.info("PARTICIPANT {}: sending a list of {} participants", user.getName(), participantsArray.size());
+		System.out.println("[Room sendParticipantNames] size: "+participantsArray.size());
 		user.sendMessage(existingParticipantsMsg);
 	}
 

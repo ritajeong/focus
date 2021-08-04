@@ -42,7 +42,7 @@ public class CallHandler extends TextWebSocketHandler {
 		} else {
 			log.debug("Incoming message from new user: {}", jsonMessage);
 		}
-
+		System.out.println("[handleTextMessage] jsonMessage: "+jsonMessage);
 		switch (jsonMessage.get("id").getAsString()) {
 		case "joinRoom":
 			joinRoom(jsonMessage, session);
@@ -51,6 +51,7 @@ public class CallHandler extends TextWebSocketHandler {
 			final String senderName = jsonMessage.get("sender").getAsString();
 			final UserSession sender = registry.getByName(senderName);
 			final String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
+			System.out.println("[receiveVideoFrom] senderName: "+senderName+" sdpOffer: "+sdpOffer);
 			user.receiveVideoFrom(sender, sdpOffer);
 			break;
 		case "leaveRoom":
@@ -76,12 +77,21 @@ public class CallHandler extends TextWebSocketHandler {
 	}
 
 	private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
+		System.out.println("[joinRoom] params: "+ params);
 		final String roomName = params.get("room").getAsString();
 		final String name = params.get("name").getAsString();
-		log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
+		//String sdpOffer = params.get("sdpOffer").getAsString();
 
+		log.info("PARTICIPANT {}: trying to join room {} ", name, roomName);
+		//log.info("[joinRoom] sdpOffer: {}", sdpOffer);
 		Room room = roomManager.getRoom(roomName);
+
+
+
 		final UserSession user = room.join(name, session);
+
+
+
 		registry.register(user);
 	}
 

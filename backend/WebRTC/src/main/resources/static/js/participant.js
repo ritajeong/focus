@@ -16,21 +16,23 @@ function Participant(name) {
 	container.id = name;
 	var span = document.createElement('span');
 	var localVideo = document.createElement('video');
-	var remoteVideo = document.createElement('video');
+	//var localVideo = document.getElementById('videoInput');
+	//var remoteVideo = document.createElement('videoOutputForParticipants');
+	//var remoteVideo=document.getElementById('videoOutput');
 	var rtcPeer;
 
 	container.appendChild(localVideo);
-	container.appendChild(remoteVideo);
+	//container.appendChild(remoteVideo);
 	container.appendChild(span);
 	container.onclick = switchContainerClass;
 	document.getElementById('participants').appendChild(container);
 
 	span.appendChild(document.createTextNode(name));
 
-	remoteVideo.id = 'video-' + name;
-	remoteVideo.autoplay = true;
-	remoteVideo.controls = false;
-	remoteVideo.style.display = 'none';
+//	remoteVideo.id = 'video-' + name;
+//	remoteVideo.autoplay = true;
+//	remoteVideo.controls = false;
+//	remoteVideo.style.display = 'none';
 
 	localVideo.id = 'localVideo-' + name;
 	localVideo.autoplay = true;
@@ -46,9 +48,9 @@ function Participant(name) {
 		return localVideo;
 	}
 
-	this.getRemoteVideoElement = function() {
-		return remoteVideo;
-	}
+//	this.getRemoteVideoElement = function() {
+//		return remoteVideo;
+//	}
 
 	function switchContainerClass() {
 		if (container.className === PARTICIPANT_CLASS) {
