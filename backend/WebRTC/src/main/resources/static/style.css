@@ -231,8 +231,7 @@ input[type=button]:active, input[type=submit]:active {
 	/* border: 2px groove; */
 	margin-left: 5;
 	margin-right: 5;
-	width: 500;
-	/* width: 150; */
+	width: 150;
 	text-align: center;
 	overflow: hide;
 	float: left;

@@ -1,3 +1,20 @@
+/*
+ * (C) Copyright 2014 Kurento (http://kurento.org/)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 var ws = new WebSocket('wss://' + location.host + '/groupcall');
 var participants = {};
 var name;
@@ -49,7 +66,6 @@ function register() {
 		name : name,
 		room : room,
 	}
-
 	sendMessage(message);
 }
 
@@ -88,18 +104,14 @@ function onExistingParticipants(msg) {
 	console.log(name + " registered in room " + room);
 	var participant = new Participant(name);
 	participants[name] = participant;
-	var videoInput = participant.getLocalVideoElement();
-	var videoOutput = document.getElementById('videoOutput');
-	videoOutput.id='remoteVideo-' + name;
-	videoOutput.autoplay = true;
+	var video = participant.getVideoElement();
 
 	var options = {
-		localVideo: videoInput,
-		remoteVideo:videoOutput,
-	    mediaConstraints: constraints,
-	    onicecandidate: participant.onIceCandidate.bind(participant)
+	      localVideo: video,
+	      mediaConstraints: constraints,
+	      onicecandidate: participant.onIceCandidate.bind(participant)
 	    }
-	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
+	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
 		function (error) {
 		  if(error) {
 			  return console.error(error);
@@ -107,7 +119,6 @@ function onExistingParticipants(msg) {
 		  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 	});
 
-    console.log('[conferenceroom onExistingParticipant] msg.data: ', msg.data)
 	msg.data.forEach(receiveVideo);
 }
 
@@ -127,20 +138,15 @@ function leaveRoom() {
 }
 
 function receiveVideo(sender) {
-    if(sender==name){
-        console.log(`[receiveVideo] sender: ${sender}, name: ${name}`);
-        return;
-    }else{
-        console.log(`[receiveVideo] sender: ${sender}, name: ${name}`);
-    }
+
 	var participant = new Participant(sender);
 	participants[sender] = participant;
-	 console.log('[conferenceroom receiveVideo] participant: ', participant)
-
-	var videoOutput = participant.getLocalVideoElement();
-
+	var video = participant.getVideoElement();
+    if(sender==name){
+        video.id = 'remoteVideo-' + name;
+    }
 	var options = {
-      remoteVideo: videoOutput,
+      remoteVideo: video,
       onicecandidate: participant.onIceCandidate.bind(participant)
     }
 
@@ -152,8 +158,6 @@ function receiveVideo(sender) {
 			  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 	});;
 }
-
-
 
 function onParticipantLeft(request) {
 	console.log('Participant ' + request.name + ' left');

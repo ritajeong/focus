@@ -1,3 +1,20 @@
+/*
+ * (C) Copyright 2014 Kurento (http://kurento.org/)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 const PARTICIPANT_MAIN_CLASS = 'participant main';
 const PARTICIPANT_CLASS = 'participant';
 
@@ -15,42 +32,28 @@ function Participant(name) {
 	container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS;
 	container.id = name;
 	var span = document.createElement('span');
-	var localVideo = document.createElement('video');
-	//var localVideo = document.getElementById('videoInput');
-	//var remoteVideo = document.createElement('videoOutputForParticipants');
-	//var remoteVideo=document.getElementById('videoOutput');
+	var video = document.createElement('video');
 	var rtcPeer;
 
-	container.appendChild(localVideo);
-	//container.appendChild(remoteVideo);
+	container.appendChild(video);
 	container.appendChild(span);
 	container.onclick = switchContainerClass;
 	document.getElementById('participants').appendChild(container);
 
 	span.appendChild(document.createTextNode(name));
 
-//	remoteVideo.id = 'video-' + name;
-//	remoteVideo.autoplay = true;
-//	remoteVideo.controls = false;
-//	remoteVideo.style.display = 'none';
-
-	localVideo.id = 'localVideo-' + name;
-	localVideo.autoplay = true;
-	localVideo.controls = false;
-	// localVideo.style.display = 'none';
+	video.id = 'video-' + name;
+	video.autoplay = true;
+	video.controls = false;
 
 
 	this.getElement = function() {
 		return container;
 	}
 
-	this.getLocalVideoElement = function() {
-		return localVideo;
+	this.getVideoElement = function() {
+		return video;
 	}
-
-//	this.getRemoteVideoElement = function() {
-//		return remoteVideo;
-//	}
 
 	function switchContainerClass() {
 		if (container.className === PARTICIPANT_CLASS) {

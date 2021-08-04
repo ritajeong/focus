@@ -1,3 +1,20 @@
+/*
+ * (C) Copyright 2014 Kurento (http://kurento.org/)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package com.ssafy.common.util;
 
 import java.io.Closeable;
@@ -5,12 +22,7 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.kurento.client.Continuation;
-import org.kurento.client.EventListener;
-import org.kurento.client.IceCandidate;
-import org.kurento.client.IceCandidateFoundEvent;
-import org.kurento.client.MediaPipeline;
-import org.kurento.client.WebRtcEndpoint;
+import org.kurento.client.*;
 import org.kurento.jsonrpc.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,219 +31,258 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.google.gson.JsonObject;
 
+/**
+ *
+ * @author Ivan Gracia (izanmail@gmail.com)
+ * @since 4.3.1
+ */
 public class UserSession implements Closeable {
 
-	private static final Logger log = LoggerFactory.getLogger(UserSession.class);
+  private static final Logger log = LoggerFactory.getLogger(UserSession.class);
 
-	private final String name;
-	private final WebSocketSession session;
+  private final String name;
+  private final WebSocketSession session;
 
-	private final MediaPipeline pipeline;
+  private final MediaPipeline pipeline;
 
-	private final String roomName;
-	private final WebRtcEndpoint outgoingMedia;
-	private final ConcurrentMap<String, WebRtcEndpoint> incomingMedia = new ConcurrentHashMap<>();
+  private final String roomName;
+  private final WebRtcEndpoint outgoingMedia;
+  private final ConcurrentMap<String, WebRtcEndpoint> incomingMedia = new ConcurrentHashMap<>();
 
-	public UserSession(final String name, String roomName, final WebSocketSession session, MediaPipeline pipeline) {
-		this.pipeline = pipeline;
-		this.name = name;
-		this.session = session;
-		this.roomName = roomName;
-		this.outgoingMedia = new WebRtcEndpoint.Builder(pipeline).build();
+  private ImageOverlayFilter imageOverlayFilter;
 
-		this.outgoingMedia.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
+  public UserSession(final String name, String roomName, final WebSocketSession session,
+      MediaPipeline pipeline) {
 
-			@Override
-			public void onEvent(IceCandidateFoundEvent event) {
-				JsonObject response = new JsonObject();
-				response.addProperty("id", "iceCandidate");
-				response.addProperty("name", name);
-				response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
-				try {
-					synchronized (session) {
-						session.sendMessage(new TextMessage(response.toString()));
-					}
-				} catch (IOException e) {
-					log.debug(e.getMessage());
-				}
-			}
-		});
-	}
+    this.pipeline = pipeline;
+    this.name = name;
+    this.session = session;
+    this.roomName = roomName;
+    this.outgoingMedia = new WebRtcEndpoint.Builder(pipeline).build();
 
-	public WebRtcEndpoint getOutgoingWebRtcPeer() {
-		return outgoingMedia;
-	}
+    this.outgoingMedia.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
 
-	public String getName() {
-		return name;
-	}
+      @Override
+      public void onEvent(IceCandidateFoundEvent event) {
+        JsonObject response = new JsonObject();
+        response.addProperty("id", "iceCandidate");
+        response.addProperty("name", name);
+        response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
+        try {
+          synchronized (session) {
+            session.sendMessage(new TextMessage(response.toString()));
+          }
+        } catch (IOException e) {
+          log.debug(e.getMessage());
+        }
+      }
+    });
+  }
 
-	public WebSocketSession getSession() {
-		return session;
-	}
+  public WebRtcEndpoint getOutgoingWebRtcPeer() {
+    return outgoingMedia;
+  }
 
-	public String getRoomName() {
-		return this.roomName;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void receiveVideoFrom(UserSession sender, String sdpOffer) throws IOException {
-		log.info("USER {}: connecting with {} in room {}", this.name, sender.getName(), this.roomName);
+  public WebSocketSession getSession() {
+    return session;
+  }
 
-		log.trace("USER {}: SdpOffer for {} is {}", this.name, sender.getName(), sdpOffer);
-		System.out.println("[UserSession receiveVideoFrom] User : "+this.name+" SdpOffer: "+sdpOffer);
-		final String ipSdpAnswer = this.getEndpointForUser(sender).processOffer(sdpOffer);
-		final JsonObject scParams = new JsonObject();
-		scParams.addProperty("id", "receiveVideoAnswer");
-		scParams.addProperty("name", sender.getName());
-		scParams.addProperty("sdpAnswer", ipSdpAnswer);
+  /**
+   * The room to which the user is currently attending.
+   *
+   * @return The room
+   */
+  public String getRoomName() {
+    return this.roomName;
+  }
 
-		log.trace("USER {}: SdpAnswer for {} is {}", this.name, sender.getName(), ipSdpAnswer);
-		System.out.println("[UserSession receiveVideoFrom] User: "+this.name+" senderName: "+sender.getName()+" sdpAnswer: "+ipSdpAnswer);
-		this.sendMessage(scParams);
-		log.debug("gather candidates");
-		this.getEndpointForUser(sender).gatherCandidates();
-	}
+  public void receiveVideoFrom(UserSession sender, String sdpOffer) throws IOException {
+    log.info("USER {}: connecting with {} in room {}", this.name, sender.getName(), this.roomName);
 
-	private WebRtcEndpoint getEndpointForUser(final UserSession sender) {
-		if (sender.getName().equals(name)) {
-			log.debug("PARTICIPANT {}: configuring loopback", this.name);
-			return outgoingMedia;
-		}
+    log.trace("USER {}: SdpOffer for {} is {}", this.name, sender.getName(), sdpOffer);
 
-		log.debug("PARTICIPANT {}: receiving video from {}", this.name, sender.getName());
+    //image Overlay Filter
+    System.out.println("[UserSession] receiveVideoFrom image 필터 씌우기");
+    imageOverlayFilter=new ImageOverlayFilter.Builder(pipeline).build();
+    String imageId = "testImage";
+    String imageUri = "/home/ubuntu/image/flower.jpg";
+    System.out.println("image start imageId: "+imageId+" imageUri: "+imageUri+" pipeline: "+pipeline);
+    imageOverlayFilter.addImage(imageId, imageUri, 0.4f, 0.4f, 0.4f, 0.4f, true, true);
 
-		WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
-		if (incoming == null) {
-			log.debug("PARTICIPANT {}: creating new endpoint for {}", this.name, sender.getName());
-			incoming = new WebRtcEndpoint.Builder(pipeline).build();
 
-			incoming.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
 
-				@Override
-				public void onEvent(IceCandidateFoundEvent event) {
-					JsonObject response = new JsonObject();
-					response.addProperty("id", "iceCandidate");
-					response.addProperty("name", sender.getName());
-					response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
-					try {
-						synchronized (session) {
-							session.sendMessage(new TextMessage(response.toString()));
-						}
-					} catch (IOException e) {
-						log.debug(e.getMessage());
-					}
-				}
-			});
+    System.out.println("[UserSession] sdpSession start");
+    final String ipSdpAnswer = this.getEndpointForUser(sender).processOffer(sdpOffer);
+    final JsonObject scParams = new JsonObject();
+    scParams.addProperty("id", "receiveVideoAnswer");
+    scParams.addProperty("name", sender.getName());
+    scParams.addProperty("sdpAnswer", ipSdpAnswer);
 
-			incomingMedia.put(sender.getName(), incoming);
-		}
+    log.trace("USER {}: SdpAnswer for {} is {}", this.name, sender.getName(), ipSdpAnswer);
+    this.sendMessage(scParams);
+    log.debug("gather candidates");
+    this.getEndpointForUser(sender).gatherCandidates();
+  }
 
-		log.debug("PARTICIPANT {}: obtained endpoint for {}", this.name, sender.getName());
-		sender.getOutgoingWebRtcPeer().connect(incoming);
+  private WebRtcEndpoint getEndpointForUser(final UserSession sender) {
+    if (sender.getName().equals(name)) {
+      log.debug("PARTICIPANT {}: configuring loopback", this.name);
+      System.out.println("[UserSession] outgoingMedia WebRTCEndpoint 리턴함 name: "+this.name);
+      return outgoingMedia;
+    }
+    System.out.println("[UserSession] outgoingMedia WebRTCEndpoint 다른거 리턴 name: "+this.name);
+    log.debug("PARTICIPANT {}: receiving video from {}", this.name, sender.getName());
 
-		return incoming;
-	}
+    WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
+    if (incoming == null) {
+      log.debug("PARTICIPANT {}: creating new endpoint for {}", this.name, sender.getName());
+      incoming = new WebRtcEndpoint.Builder(pipeline).build();
 
-	public void cancelVideoFrom(final UserSession sender) {
-		this.cancelVideoFrom(sender.getName());
-	}
+      incoming.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
 
-	public void cancelVideoFrom(final String senderName) {
-		log.debug("PARTICIPANT {}: canceling video reception from {}", this.name, senderName);
-		final WebRtcEndpoint incoming = incomingMedia.remove(senderName);
+        @Override
+        public void onEvent(IceCandidateFoundEvent event) {
+          JsonObject response = new JsonObject();
+          response.addProperty("id", "iceCandidate");
+          response.addProperty("name", sender.getName());
+          response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
+          try {
+            synchronized (session) {
+              session.sendMessage(new TextMessage(response.toString()));
+            }
+          } catch (IOException e) {
+            log.debug(e.getMessage());
+          }
+        }
+      });
 
-		log.debug("PARTICIPANT {}: removing endpoint for {}", this.name, senderName);
-		incoming.release(new Continuation<Void>() {
-			@Override
-			public void onSuccess(Void result) throws Exception {
-				log.trace("PARTICIPANT {}: Released successfully incoming EP for {}", UserSession.this.name,
-						senderName);
-			}
+      incomingMedia.put(sender.getName(), incoming);
+    }
 
-			@Override
-			public void onError(Throwable cause) throws Exception {
-				log.warn("PARTICIPANT {}: Could not release incoming EP for {}", UserSession.this.name, senderName);
-			}
-		});
-	}
+    log.debug("PARTICIPANT {}: obtained endpoint for {}", this.name, sender.getName());
+    //sender.getOutgoingWebRtcPeer().connect(incoming);
 
-	@Override
-	public void close() throws IOException {
-		log.debug("PARTICIPANT {}: Releasing resources", this.name);
-		for (final String remoteParticipantName : incomingMedia.keySet()) {
+    sender.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
+    imageOverlayFilter.connect(incoming);
 
-			log.trace("PARTICIPANT {}: Released incoming EP for {}", this.name, remoteParticipantName);
+    return incoming;
+  }
 
-			final WebRtcEndpoint ep = this.incomingMedia.get(remoteParticipantName);
+  public void cancelVideoFrom(final UserSession sender) {
+    this.cancelVideoFrom(sender.getName());
+  }
 
-			ep.release(new Continuation<Void>() {
+  public void cancelVideoFrom(final String senderName) {
+    log.debug("PARTICIPANT {}: canceling video reception from {}", this.name, senderName);
+    final WebRtcEndpoint incoming = incomingMedia.remove(senderName);
 
-				@Override
-				public void onSuccess(Void result) throws Exception {
-					log.trace("PARTICIPANT {}: Released successfully incoming EP for {}", UserSession.this.name,
-							remoteParticipantName);
-				}
+    log.debug("PARTICIPANT {}: removing endpoint for {}", this.name, senderName);
+    incoming.release(new Continuation<Void>() {
+      @Override
+      public void onSuccess(Void result) throws Exception {
+        log.trace("PARTICIPANT {}: Released successfully incoming EP for {}",
+            UserSession.this.name, senderName);
+      }
 
-				@Override
-				public void onError(Throwable cause) throws Exception {
-					log.warn("PARTICIPANT {}: Could not release incoming EP for {}", UserSession.this.name,
-							remoteParticipantName);
-				}
-			});
-		}
+      @Override
+      public void onError(Throwable cause) throws Exception {
+        log.warn("PARTICIPANT {}: Could not release incoming EP for {}", UserSession.this.name,
+            senderName);
+      }
+    });
+  }
 
-		outgoingMedia.release(new Continuation<Void>() {
+  @Override
+  public void close() throws IOException {
+    log.debug("PARTICIPANT {}: Releasing resources", this.name);
+    for (final String remoteParticipantName : incomingMedia.keySet()) {
 
-			@Override
-			public void onSuccess(Void result) throws Exception {
-				log.trace("PARTICIPANT {}: Released outgoing EP", UserSession.this.name);
-			}
+      log.trace("PARTICIPANT {}: Released incoming EP for {}", this.name, remoteParticipantName);
 
-			@Override
-			public void onError(Throwable cause) throws Exception {
-				log.warn("USER {}: Could not release outgoing EP", UserSession.this.name);
-			}
-		});
-	}
+      final WebRtcEndpoint ep = this.incomingMedia.get(remoteParticipantName);
 
-	public void sendMessage(JsonObject message) throws IOException {
-		log.debug("USER {}: Sending message {}", name, message);
-		synchronized (session) {
-			session.sendMessage(new TextMessage(message.toString()));
-		}
-	}
+      ep.release(new Continuation<Void>() {
 
-	public void addCandidate(IceCandidate candidate, String name) {
-		if (this.name.compareTo(name) == 0) {
-			outgoingMedia.addIceCandidate(candidate);
-		} else {
-			WebRtcEndpoint webRtc = incomingMedia.get(name);
-			if (webRtc != null) {
-				webRtc.addIceCandidate(candidate);
-			}
-		}
-	}
+        @Override
+        public void onSuccess(Void result) throws Exception {
+          log.trace("PARTICIPANT {}: Released successfully incoming EP for {}",
+              UserSession.this.name, remoteParticipantName);
+        }
 
-	@Override
-	public boolean equals(Object obj) {
+        @Override
+        public void onError(Throwable cause) throws Exception {
+          log.warn("PARTICIPANT {}: Could not release incoming EP for {}", UserSession.this.name,
+              remoteParticipantName);
+        }
+      });
+    }
 
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null || !(obj instanceof UserSession)) {
-			return false;
-		}
-		UserSession other = (UserSession) obj;
-		boolean eq = name.equals(other.name);
-		eq &= roomName.equals(other.roomName);
-		return eq;
-	}
+    outgoingMedia.release(new Continuation<Void>() {
 
-	@Override
-	public int hashCode() {
-		int result = 1;
-		result = 31 * result + name.hashCode();
-		result = 31 * result + roomName.hashCode();
-		return result;
-	}
+      @Override
+      public void onSuccess(Void result) throws Exception {
+        log.trace("PARTICIPANT {}: Released outgoing EP", UserSession.this.name);
+      }
+
+      @Override
+      public void onError(Throwable cause) throws Exception {
+        log.warn("USER {}: Could not release outgoing EP", UserSession.this.name);
+      }
+    });
+  }
+
+  public void sendMessage(JsonObject message) throws IOException {
+    log.debug("USER {}: Sending message {}", name, message);
+    synchronized (session) {
+      session.sendMessage(new TextMessage(message.toString()));
+    }
+  }
+
+  public void addCandidate(IceCandidate candidate, String name) {
+    if (this.name.compareTo(name) == 0) {
+      outgoingMedia.addIceCandidate(candidate);
+    } else {
+      WebRtcEndpoint webRtc = incomingMedia.get(name);
+      if (webRtc != null) {
+        webRtc.addIceCandidate(candidate);
+      }
+    }
+  }
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || !(obj instanceof UserSession)) {
+      return false;
+    }
+    UserSession other = (UserSession) obj;
+    boolean eq = name.equals(other.name);
+    eq &= roomName.equals(other.roomName);
+    return eq;
+  }
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    int result = 1;
+    result = 31 * result + name.hashCode();
+    result = 31 * result + roomName.hashCode();
+    return result;
+  }
 }

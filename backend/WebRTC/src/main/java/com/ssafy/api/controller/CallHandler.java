@@ -1,7 +1,28 @@
+/*
+ * (C) Copyright 2014 Kurento (http://kurento.org/)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package com.ssafy.api.controller;
 
 import java.io.IOException;
 
+import com.ssafy.api.service.RoomManager;
+import com.ssafy.common.util.Room;
+import com.ssafy.common.util.UserRegistry;
+import com.ssafy.common.util.UserSession;
 import org.kurento.client.IceCandidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,92 +35,104 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.ssafy.api.service.RoomManager;
-import com.ssafy.common.util.Room;
-import com.ssafy.common.util.UserRegistry;
-import com.ssafy.common.util.UserSession;
 
+/**
+ * 
+ * @author Ivan Gracia (izanmail@gmail.com)
+ * @since 4.3.1
+ */
 public class CallHandler extends TextWebSocketHandler {
 
-	private static final Logger log = LoggerFactory.getLogger(CallHandler.class);
+  private static final Logger log = LoggerFactory.getLogger(CallHandler.class);
 
-	private static final Gson gson = new GsonBuilder().create();
+  private static final Gson gson = new GsonBuilder().create();
 
-	@Autowired
-	private RoomManager roomManager;
+  @Autowired
+  private RoomManager roomManager;
 
-	@Autowired
-	private UserRegistry registry;
+  @Autowired
+  private UserRegistry registry;
 
-	@Override
-	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		final JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
+  @Override
+  public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+    final JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
 
-		final UserSession user = registry.getBySession(session);
+    final UserSession user = registry.getBySession(session);
 
-		if (user != null) {
-			log.debug("Incoming message from user '{}': {}", user.getName(), jsonMessage);
-		} else {
-			log.debug("Incoming message from new user: {}", jsonMessage);
-		}
-		System.out.println("[handleTextMessage] jsonMessage: "+jsonMessage);
-		switch (jsonMessage.get("id").getAsString()) {
-		case "joinRoom":
-			joinRoom(jsonMessage, session);
-			break;
-		case "receiveVideoFrom":
-			final String senderName = jsonMessage.get("sender").getAsString();
-			final UserSession sender = registry.getByName(senderName);
-			final String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
-			System.out.println("[receiveVideoFrom] senderName: "+senderName+" sdpOffer: "+sdpOffer);
-			user.receiveVideoFrom(sender, sdpOffer);
-			break;
-		case "leaveRoom":
-			leaveRoom(user);
-			break;
-		case "onIceCandidate":
-			JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
+    if (user != null) {
+      log.debug("Incoming message from user '{}': {}", user.getName(), jsonMessage);
+    } else {
+      log.debug("Incoming message from new user: {}", jsonMessage);
+    }
 
-			if (user != null) {
-				IceCandidate cand = new IceCandidate(candidate.get("candidate").getAsString(),
-						candidate.get("sdpMid").getAsString(), candidate.get("sdpMLineIndex").getAsInt());
-				user.addCandidate(cand, jsonMessage.get("name").getAsString());
-			}
-			break;
-		default:
-			break;
-		}
-	}
+    switch (jsonMessage.get("id").getAsString()) {
+      case "joinRoom":
+        joinRoom(jsonMessage, session);
+        break;
+      case "receiveVideoFrom":
+        final String senderName = jsonMessage.get("sender").getAsString();
+        final UserSession sender = registry.getByName(senderName);
+        final String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
+        user.receiveVideoFrom(sender, sdpOffer);
+        break;
+      case "leaveRoom":
+        leaveRoom(user);
+        break;
+      case "onIceCandidate":
+        JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
 
-	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		UserSession user = registry.removeBySession(session);
-	}
+        if (user != null) {
+          IceCandidate cand = new IceCandidate(candidate.get("candidate").getAsString(),
+              candidate.get("sdpMid").getAsString(), candidate.get("sdpMLineIndex").getAsInt());
+          user.addCandidate(cand, jsonMessage.get("name").getAsString());
+        }
+        break;
 
-	private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
-		System.out.println("[joinRoom] params: "+ params);
-		final String roomName = params.get("room").getAsString();
-		final String name = params.get("name").getAsString();
-		//String sdpOffer = params.get("sdpOffer").getAsString();
-
-		log.info("PARTICIPANT {}: trying to join room {} ", name, roomName);
-		//log.info("[joinRoom] sdpOffer: {}", sdpOffer);
-		Room room = roomManager.getRoom(roomName);
+      case "prev":{
+        System.out.println("prev");
+        prev(session);
+        break;
+      }
+      case "next":{
+        System.out.println("next");
+        next(session);
+        break;
+      }
+      default:
+        break;
+    }
+  }
 
 
 
-		final UserSession user = room.join(name, session);
 
+  @Override
+  public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    UserSession user = registry.removeBySession(session);
+    roomManager.getRoom(user.getRoomName()).leave(user);
+  }
 
+  private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
+    final String roomName = params.get("room").getAsString();
+    final String name = params.get("name").getAsString();
+    log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
 
-		registry.register(user);
-	}
+    Room room = roomManager.getRoom(roomName);
+    final UserSession user = room.join(name, session);
+    registry.register(user);
+  }
 
-	private void leaveRoom(UserSession user) throws IOException {
-		final Room room = roomManager.getRoom(user.getRoomName());
-		room.leave(user);
-		if (room.getParticipants().isEmpty()) {
-			roomManager.removeRoom(room);
-		}
-	}
+  private void leaveRoom(UserSession user) throws IOException {
+    final Room room = roomManager.getRoom(user.getRoomName());
+    room.leave(user);
+    if (room.getParticipants().isEmpty()) {
+      roomManager.removeRoom(room);
+    }
+  }
+
+  private void prev(WebSocketSession session) {
+  }
+
+  private void next(WebSocketSession session) {
+  }
 }
