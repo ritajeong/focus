@@ -111,9 +111,7 @@ public class UserSession implements Closeable {
     this.presenter=presenter;
   }
 
-
-
-
+  
   public void receiveVideoFrom(UserSession sender, String sdpOffer) throws IOException {
     log.info("USER {}: connecting with {} in room {}", this.name, sender.getName(), this.roomName);
 
@@ -129,34 +127,35 @@ public class UserSession implements Closeable {
     log.info("image start imageId: "+imageId+" imageUri: "+imageUri+" pipeline: "+pipeline);
     imageOverlayFilter.addImage(imageId, imageUri, 0.4f, 0.4f, 0.4f, 0.4f, true, true);
 
+
+    String ipSdpAnswer;
+    JsonObject scParams=new JsonObject();
     // 본인일 경우 자신의 outgoing과 incoming 연결
     if (sender.getName().equals(name)) {
-      final String ipSdpAnswer = this.getOutgoingWebRtcPeer().processOffer(sdpOffer);
-      final JsonObject scParams = new JsonObject();
-      scParams.addProperty("id", "receiveVideoAnswer");
-      scParams.addProperty("name", sender.getName());
-      scParams.addProperty("sdpAnswer", ipSdpAnswer);
-
-      log.trace("USER {}: SdpAnswer for {} is {}", this.name, sender.getName(), ipSdpAnswer);
-      this.sendMessage(scParams);
-      log.debug("gather candidates");
-      this.getOutgoingWebRtcPeer().gatherCandidates();
-
-      linkImageOverlayPipeline(sender, imageOverlayFilter);
-
+      ipSdpAnswer = this.getOutgoingWebRtcPeer().processOffer(sdpOffer);
     }
     else {
-      final String ipSdpAnswer = this.getEndpointForUser(sender).processOffer(sdpOffer);
-      final JsonObject scParams = new JsonObject();
-      scParams.addProperty("id", "receiveVideoAnswer");
-      scParams.addProperty("name", sender.getName());
-      scParams.addProperty("sdpAnswer", ipSdpAnswer);
-
-      log.trace("USER {}: SdpAnswer for {} is {}", this.name, sender.getName(), ipSdpAnswer);
-      this.sendMessage(scParams);
-      log.debug("gather candidates");
-      this.getEndpointForUser(sender).gatherCandidates();
+      ipSdpAnswer = this.getEndpointForUser(sender).processOffer(sdpOffer);
     }
+
+    scParams.addProperty("id", "receiveVideoAnswer");
+    scParams.addProperty("name", sender.getName());
+    scParams.addProperty("sdpAnswer", ipSdpAnswer);
+
+    log.trace("USER {}: SdpAnswer for {} is {}", this.name, sender.getName(), ipSdpAnswer);
+    this.sendMessage(scParams);
+    log.debug("gather candidates");
+    this.getEndpointForUser(sender).gatherCandidates();
+
+    WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
+
+    if(sender.getName().equals(presenter)){
+      linkImageOverlayPipeline(sender, incoming, imageOverlayFilter);
+    } else{
+      sender.getOutgoingWebRtcPeer().connect(incoming);
+    }
+
+
   }
 
   private WebRtcEndpoint getEndpointForUser(final UserSession sender) {
@@ -192,7 +191,6 @@ public class UserSession implements Closeable {
 
     log.info("[getEndpointForUser] incoming: {}", incoming);
 
-    linkImageOverlayPipeline(sender, imageOverlayFilter);
 
     return incoming;
   }
@@ -200,15 +198,12 @@ public class UserSession implements Closeable {
   /*
    * ImageOverlayPipeline 연결
    */
-  public void linkImageOverlayPipeline(UserSession sender, ImageOverlayFilter imageOverlayFilter) {
-    WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
-    if(sender.getName().equals(presenter)){
+  public void linkImageOverlayPipeline(UserSession sender, WebRtcEndpoint incoming, ImageOverlayFilter imageOverlayFilter) {
+
       log.info("[getEndpointFromUser] sender: {} ImageOverlayPipeline 연결", sender.getName());
       sender.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
       imageOverlayFilter.connect(incoming);
-    }else{
-      sender.getOutgoingWebRtcPeer().connect(incoming);
-    }
+
   }
 
   public void cancelVideoFrom(final UserSession sender) {
