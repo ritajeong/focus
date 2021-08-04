@@ -85,8 +85,7 @@ public class Room implements Closeable {
     newParticipantMsg.addProperty("name", newParticipant.getName());
 
     final List<String> participantsList = new ArrayList<>(participants.values().size());
-    log.debug("ROOM {}: notifying other participants of new participant {}", name,
-        newParticipant.getName());
+    log.debug("ROOM {}: notifying other participants of new participant {}", name, newParticipant.getName());
 
     for (final UserSession participant : participants.values()) {
       try {

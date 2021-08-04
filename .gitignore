@@ -6,7 +6,9 @@
 
 ### Spring Boot ###
 /.metadata/
-/Back-End/.metadata/
+/backend/WebRTC/.metadata/
+/backend/WebRTC/.gradle/
+/backend/WebRTC/.mvn/
 
 
 ### Java ###

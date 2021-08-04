@@ -91,27 +91,29 @@ function callResponse(message) {
 }
 
 function onExistingParticipants(msg) {
-	var constraints = {
-		audio : true,
-		video : {
-			mandatory : {
-				maxWidth : 320,
-				maxFrameRate : 15,
-				minFrameRate : 15
-			}
-		}
-	};
+	// var constraints = {
+	// 	audio : true,
+	// 	video : {
+	// 		mandatory : {
+	// 			maxWidth : 320,
+	// 			maxFrameRate : 15,
+	// 			minFrameRate : 15
+	// 		}
+	// 	}
+	// };
 	console.log(name + " registered in room " + room);
 	var participant = new Participant(name);
 	participants[name] = participant;
 	var video = participant.getVideoElement();
+	var remoteVideo = participant.getRemoteVideoElement();
 
 	var options = {
 	      localVideo: video,
-	      mediaConstraints: constraints,
+		  remoteVideo: remoteVideo,
+	    //	mediaConstraints: constraints,
 	      onicecandidate: participant.onIceCandidate.bind(participant)
 	    }
-	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
+	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
 		function (error) {
 		  if(error) {
 			  return console.error(error);
@@ -142,15 +144,15 @@ function receiveVideo(sender) {
 	var participant = new Participant(sender);
 	participants[sender] = participant;
 	var video = participant.getVideoElement();
-    if(sender==name){
-        video.id = 'remoteVideo-' + name;
-    }
+	var remoteVideo = participant.getRemoteVideoElement();
+
 	var options = {
-      remoteVideo: video,
+      localVideo: video,
+	  remoteVideo: remoteVideo,
       onicecandidate: participant.onIceCandidate.bind(participant)
     }
 
-	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options,
+	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
 			function (error) {
 			  if(error) {
 				  return console.error(error);

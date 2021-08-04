@@ -19,10 +19,6 @@ package com.ssafy.api.controller;
 
 import java.io.IOException;
 
-import com.ssafy.api.service.RoomManager;
-import com.ssafy.common.util.Room;
-import com.ssafy.common.util.UserRegistry;
-import com.ssafy.common.util.UserSession;
 import org.kurento.client.IceCandidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +31,10 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.ssafy.api.service.RoomManager;
+import com.ssafy.common.util.Room;
+import com.ssafy.common.util.UserRegistry;
+import com.ssafy.common.util.UserSession;
 
 /**
  * 
@@ -87,24 +87,10 @@ public class CallHandler extends TextWebSocketHandler {
           user.addCandidate(cand, jsonMessage.get("name").getAsString());
         }
         break;
-
-      case "prev":{
-        System.out.println("prev");
-        prev(session);
-        break;
-      }
-      case "next":{
-        System.out.println("next");
-        next(session);
-        break;
-      }
       default:
         break;
     }
   }
-
-
-
 
   @Override
   public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
@@ -128,11 +114,5 @@ public class CallHandler extends TextWebSocketHandler {
     if (room.getParticipants().isEmpty()) {
       roomManager.removeRoom(room);
     }
-  }
-
-  private void prev(WebSocketSession session) {
-  }
-
-  private void next(WebSocketSession session) {
   }
 }

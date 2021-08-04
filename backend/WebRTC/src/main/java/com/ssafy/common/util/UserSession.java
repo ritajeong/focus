@@ -59,7 +59,9 @@ public class UserSession implements Closeable {
     this.session = session;
     this.roomName = roomName;
     this.outgoingMedia = new WebRtcEndpoint.Builder(pipeline).build();
-
+    
+    // 생성자에서 outgoingMedia를 incomingMedia에 포함
+    this.incomingMedia.put(name, outgoingMedia);
     this.outgoingMedia.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
 
       @Override
@@ -109,34 +111,45 @@ public class UserSession implements Closeable {
     System.out.println("[UserSession] receiveVideoFrom image 필터 씌우기");
     imageOverlayFilter=new ImageOverlayFilter.Builder(pipeline).build();
     String imageId = "testImage";
-    String imageUri = "/home/ubuntu/image/flower.jpg";
+    String imageUri = "/home/ubuntu/image/ssafy2.jpg";
     System.out.println("image start imageId: "+imageId+" imageUri: "+imageUri+" pipeline: "+pipeline);
     imageOverlayFilter.addImage(imageId, imageUri, 0.4f, 0.4f, 0.4f, 0.4f, true, true);
 
-
-
     System.out.println("[UserSession] sdpSession start");
-    final String ipSdpAnswer = this.getEndpointForUser(sender).processOffer(sdpOffer);
-    final JsonObject scParams = new JsonObject();
-    scParams.addProperty("id", "receiveVideoAnswer");
-    scParams.addProperty("name", sender.getName());
-    scParams.addProperty("sdpAnswer", ipSdpAnswer);
+    // My code starts
+    if (sender.getName().equals(name)) {
+      final String ipSdpAnswer = this.getOutgoingWebRtcPeer().processOffer(sdpOffer);
+      final JsonObject scParams = new JsonObject();
+      scParams.addProperty("id", "receiveVideoAnswer");
+      scParams.addProperty("name", sender.getName());
+      scParams.addProperty("sdpAnswer", ipSdpAnswer);
 
-    log.trace("USER {}: SdpAnswer for {} is {}", this.name, sender.getName(), ipSdpAnswer);
-    this.sendMessage(scParams);
-    log.debug("gather candidates");
-    this.getEndpointForUser(sender).gatherCandidates();
+      log.trace("USER {}: SdpAnswer for {} is {}", this.name, sender.getName(), ipSdpAnswer);
+      this.sendMessage(scParams);
+      log.debug("gather candidates");
+      this.getOutgoingWebRtcPeer().gatherCandidates();
+
+      //본인의 outgoingMedia와 incomingMedia 연결
+      WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
+      sender.getOutgoingWebRtcPeer().connect(incoming);
+    }
+    else {
+      final String ipSdpAnswer = this.getEndpointForUser(sender).processOffer(sdpOffer);
+      final JsonObject scParams = new JsonObject();
+      scParams.addProperty("id", "receiveVideoAnswer");
+      scParams.addProperty("name", sender.getName());
+      scParams.addProperty("sdpAnswer", ipSdpAnswer);
+
+      log.trace("USER {}: SdpAnswer for {} is {}", this.name, sender.getName(), ipSdpAnswer);
+      this.sendMessage(scParams);
+      log.debug("gather candidates");
+      this.getEndpointForUser(sender).gatherCandidates();
+    }
   }
 
   private WebRtcEndpoint getEndpointForUser(final UserSession sender) {
-    if (sender.getName().equals(name)) {
-      log.debug("PARTICIPANT {}: configuring loopback", this.name);
-      System.out.println("[UserSession] outgoingMedia WebRTCEndpoint 리턴함 name: "+this.name);
-      return outgoingMedia;
-    }
-    System.out.println("[UserSession] outgoingMedia WebRTCEndpoint 다른거 리턴 name: "+this.name);
     log.debug("PARTICIPANT {}: receiving video from {}", this.name, sender.getName());
-
+    
     WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
     if (incoming == null) {
       log.debug("PARTICIPANT {}: creating new endpoint for {}", this.name, sender.getName());

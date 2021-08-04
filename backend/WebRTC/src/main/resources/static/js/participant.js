@@ -33,9 +33,11 @@ function Participant(name) {
 	container.id = name;
 	var span = document.createElement('span');
 	var video = document.createElement('video');
+	var remoteVideo = document.createElement('video');
 	var rtcPeer;
 
 	container.appendChild(video);
+	container.appendChild(remoteVideo);
 	container.appendChild(span);
 	container.onclick = switchContainerClass;
 	document.getElementById('participants').appendChild(container);
@@ -45,6 +47,12 @@ function Participant(name) {
 	video.id = 'video-' + name;
 	video.autoplay = true;
 	video.controls = false;
+	video.poster = 'img/ssafy.png';
+
+	remoteVideo.id = 'remoteVideo-' + name;
+	remoteVideo.autoplay = true;
+	remoteVideo.controls = false;
+	remoteVideo.poster = 'img/ssafy2.jpg';
 
 
 	this.getElement = function() {
@@ -53,6 +61,10 @@ function Participant(name) {
 
 	this.getVideoElement = function() {
 		return video;
+	}
+
+	this.getRemoteVideoElement = function() {
+		return remoteVideo;
 	}
 
 	function switchContainerClass() {
