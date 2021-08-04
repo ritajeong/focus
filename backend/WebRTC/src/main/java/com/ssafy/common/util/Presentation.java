@@ -8,6 +8,7 @@ public class Presentation {
     private String roomName;
     private MediaPipeline pipeline;
 
+    public Presentation(){}
     public Presentation(String presenter, String[] imageUris, String roomName, MediaPipeline pipeline){
         this.presenter=presenter;
         this.presentationImageUris=imageUris;

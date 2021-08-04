@@ -104,8 +104,9 @@ public class UserSession implements Closeable {
   }
 
 
-  public void setPresenter() {
-    isPresenter=true;
+  public void setPresenter(String presenter) {
+    //isPresenter=true;
+    this.presenter=presenter;
   }
 
   public void linkImageOverlayPipeline(UserSession sender, ImageOverlayFilter imageOverlayFilter) {
@@ -126,7 +127,7 @@ public class UserSession implements Closeable {
 
     log.trace("USER {}: SdpOffer for {} is {}", this.name, sender.getName(), sdpOffer);
 
-    //image Overlay Filter
+    //처음부터 이미지 띄우기 image Overlay Filter
     log.info("[UserSession] receiveVideoFrom image 필터 씌우기");
     imageOverlayFilter=new ImageOverlayFilter.Builder(pipeline).build();
     String imageId = "testImage";
@@ -187,6 +188,7 @@ public class UserSession implements Closeable {
 
     log.info("[getEndpointForUser] incoming: {}", incoming);
 
+    //presenter로 지정된 사람 영상 위에 ImageOverlayFilter 적용
     if(sender.getName().equals(presenter)){
       log.info("[getEndpointFromUser] sender: {} ImageOverlayPipeline 연결", sender.getName());
       sender.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
