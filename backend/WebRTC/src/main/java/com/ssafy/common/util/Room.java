@@ -52,6 +52,9 @@ public class Room implements Closeable {
   public String getName() {
     return name;
   }
+  public MediaPipeline getPipeline(){
+    return pipeline;
+  }
 
   public Room(String roomName, MediaPipeline pipeline) {
     this.name = roomName;
@@ -63,6 +66,7 @@ public class Room implements Closeable {
   private void shutdown() {
     this.close();
   }
+
 
   public UserSession join(String userName, WebSocketSession session) throws IOException {
     log.info("ROOM {}: adding participant {}", this.name, userName);
