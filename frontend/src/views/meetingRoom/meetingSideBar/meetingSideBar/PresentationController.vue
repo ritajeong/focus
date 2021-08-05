@@ -2,17 +2,17 @@
   <div>
     <div class="form-group">
       <label for="presenter">발표자 이름:</label>
-      <input type="text" class="form-control" id="presenter">
+      <input type="text" class="form-control" v-model="presenter">
       <button id="presenter-set" type="button" 
-              onclick="presenterSet()"> 설정</button>
+              @click="presenterSet"> 설정</button>
       <button id="start" type="button" href="#" class="btn btn-info"
-              onclick="start(); return false;"> Start</button>
+              @click="start"> Start</button>
       <button id="stop" type="button" href="#" class="btn btn-info"
-              onclick="stop(); return false;"> Stop</button>
+              @click="stop"> Stop</button>
       <button id="prev" type="button" href="#" class="btn btn-info"
-              onclick="prev(); return false;"> Prev</button>
+              @click="prev"> Prev</button>
       <button id="next" type="button" href="#" class="btn btn-warning"
-              onclick="next(); return false;"> Next</button>
+              @click="next"> Next</button>
     </div>
   </div>
 </template>
@@ -30,6 +30,7 @@ export default {
   // : data
   data() {
     return {
+      presenter: null,
     }
   },
   // : computed
@@ -40,6 +41,37 @@ export default {
   },
   // : methods
   methods: {
+    presenterSet: function () {
+      const message = {
+        id: 'presneterSet',
+        presenter: this.presenter
+      }
+      this.$store.dispatch('meetingRoom/sendMessage', message)
+    },
+    start: function () {
+      const message = {
+        id: 'start'
+      }
+      this.$store.dispatch('meetingRoom/sendMessage', message)
+    },
+    stop: function () {
+      const message = {
+        id: 'start'
+      }
+      this.$store.dispatch('meetingRoom/sendMessage', message)
+    },
+    prev: function () {
+      const message = {
+        id: 'start'
+      }
+      this.$store.dispatch('meetingRoom/sendMessage', message)
+    },
+    next: function () {
+      const message = {
+        id: 'start'
+      }
+      this.$store.dispatch('meetingRoom/sendMessage', message)
+    }
   }
 }
 </script>
