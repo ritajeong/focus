@@ -26,6 +26,16 @@ const PARTICIPANT_CLASS = 'participant';
  *                        The tag of the new element will be 'video<name>'
  * @return
  */
+var presentationController;
+var presenterView;
+var participantView;
+window.onload = function() {
+	// console = new Console();
+	console.log("Page loaded ...");
+	presentationController=document.getElementById('presentationController');
+	presenterView = document.getElementById('presenter-view');
+	participantView = document.getElementById('participants');
+}
 function Participant(name) {
 	this.name = name;
 	var container = document.createElement('div');
@@ -36,11 +46,14 @@ function Participant(name) {
 	var remoteVideo = document.createElement('video');
 	var rtcPeer;
 
+
+
 	container.appendChild(video);
 	container.appendChild(remoteVideo);
 	container.appendChild(span);
 	container.onclick = switchContainerClass;
-	document.getElementById('participants').appendChild(container);
+
+	participantView.appendChild(container);
 
 	span.appendChild(document.createTextNode(name));
 
@@ -75,8 +88,18 @@ function Participant(name) {
 				});
 
 				container.className = PARTICIPANT_MAIN_CLASS;
+				container.style.width="100%";
+			container.style.height = "100%";
+			
+			presenterView.innerHTML = '';
+			
+			presenterView.appendChild(container);
+			
 			} else {
 			container.className = PARTICIPANT_CLASS;
+			container.style.width="50%";
+			container.style.height = "50%";
+			participantView.appendChild(container);
 		}
 	}
 

@@ -147,7 +147,7 @@ function receiveVideo(sender) {
 	var remoteVideo = participant.getRemoteVideoElement();
 
 	var options = {
-      localVideo: video,
+     // localVideo: video,
 	  remoteVideo: remoteVideo,
       onicecandidate: participant.onIceCandidate.bind(participant)
     }
