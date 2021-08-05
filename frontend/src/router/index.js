@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/meetingroom',
+    path: '/',
     name: 'MeetingRoom',
     component: MeetingRoom,
   }

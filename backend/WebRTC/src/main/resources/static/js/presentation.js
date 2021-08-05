@@ -1,5 +1,4 @@
 function presenterSet(){
-
 var presenter=document.getElementById('presenter').value;
 console.log("presenter 지정 presenter: ", presenter)
 var message = {
