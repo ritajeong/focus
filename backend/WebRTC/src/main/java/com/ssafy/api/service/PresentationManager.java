@@ -88,7 +88,7 @@ public class PresentationManager {
                 heightPrecent = 0.56f;
                 break;
             case "right":{
-                offsetXPercent = 0.44f;
+                offsetXPercent = 0.34f;
                 offsetYPercent = 0.25f;
                 widthPrecent = 0.64f;
                 heightPrecent = 0.56f;
@@ -109,10 +109,12 @@ public class PresentationManager {
         originHeightPrecent=heightPrecent;
 
         String removeImageId = "testImage" + imageIndex;
-        String addImageId = "presentation" +imageIndex;
+        String addImageId = "testImage" +imageIndex;
         String addImageUri = imageUris[imageIndex];
-        imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent, keepAspectRatio, imageCenter);
+
         imageOverlayFilter.removeImage(removeImageId);
+        imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent, keepAspectRatio, imageCenter);
+
         presenter.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
         imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
     }
@@ -121,7 +123,7 @@ public class PresentationManager {
         imageIndex=0;
         String imageId = "testImage" +imageIndex;
         String imageUri = imageUris[imageIndex];
-        //imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
+
         imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent, keepAspectRatio, imageCenter);
         log.info("[start] imageId: {}, imageUri: {}", imageId, imageUri);
 
@@ -132,9 +134,6 @@ public class PresentationManager {
     public void prev(String sdpOffer) {
         if(imageIndex > 0) {
             String removeImageId = "testImage" + imageIndex;
-
-          //  imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
-
 
             imageIndex--;
             String addImageId = "testImage" + imageIndex;
@@ -166,9 +165,6 @@ public class PresentationManager {
     public void next(String sdpOffer){
         if(imageIndex < imageUris.length-1) {
             String removeImageId = "testImage" + imageIndex;
-
-           // imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
-
 
             imageIndex++;
             String addImageId = "testImage" + imageIndex;
