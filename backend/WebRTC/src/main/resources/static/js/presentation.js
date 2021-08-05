@@ -1,5 +1,4 @@
 function presenterSet(){
-
 var presenter=document.getElementById('presenter').value;
 console.log("presenter 지정 presenter: ", presenter)
 var message = {
@@ -44,4 +43,12 @@ var message = {
 		}
 		sendMessage(message);
 
+}
+
+function full(){
+    console.log("full toggle");
+    var message={
+        id:'full'
+    }
+    sendMessage(message);
 }

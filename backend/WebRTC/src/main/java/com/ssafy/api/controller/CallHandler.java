@@ -37,10 +37,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.ssafy.api.service.RoomManager;
-import com.ssafy.common.util.Room;
-import com.ssafy.common.util.UserRegistry;
-import com.ssafy.common.util.UserSession;
+
 
 /**
  * 
@@ -62,7 +59,12 @@ public class CallHandler extends TextWebSocketHandler {
   @Autowired
   private PresentationManager presentationManager;
 
+  /*
+  TODO 여러 사람이 쓰는 거니까 전역변수 쓰면 안되고 final 써야 할것같음
+       수정 필요
+   */
   private Presentation presentation;
+  private String sdpOffer="";
 
   @Override
   public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -83,7 +85,7 @@ public class CallHandler extends TextWebSocketHandler {
       case "receiveVideoFrom":
         final String senderName = jsonMessage.get("sender").getAsString();
         final UserSession sender = registry.getByName(senderName);
-        final String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
+        sdpOffer = jsonMessage.get("sdpOffer").getAsString();
         user.receiveVideoFrom(sender, sdpOffer);
         break;
       case "leaveRoom":
@@ -115,13 +117,18 @@ public class CallHandler extends TextWebSocketHandler {
       }
       case "prev":{
         log.trace("prev");
-        prev();
+        prev(sdpOffer);
         break;
       }
       case "next":{
         log.trace("next");
-        next();
+        next(sdpOffer);
+
         break;
+      }
+      case "full":{
+        log.trace("full toggle");
+        full();
       }
       default:
         break;
@@ -172,11 +179,15 @@ public class CallHandler extends TextWebSocketHandler {
     //presentationManager.stop();
   }
 
-  private void prev() {
-    presentationManager.prev();
+  private void prev(String sdpOffer) {
+    presentationManager.prev(sdpOffer);
   }
 
-  private void next() {
-    presentationManager.next();
+  private void next(String sdpOffer) {
+    presentationManager.next(sdpOffer);
+  }
+
+  private void full(){
+    presentationManager.full();
   }
 }

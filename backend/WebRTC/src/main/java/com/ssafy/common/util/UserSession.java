@@ -120,7 +120,7 @@ public class UserSession implements Closeable {
     log.trace("USER {}: SdpOffer for {} is {}", this.name, sender.getName(), sdpOffer);
 
      //처음부터 이미지 띄우기 image Overlay Filter
-    log.info("[UserSession] receiveVideoFrom image 필터 씌우기");
+    log.info("[receiveVideoFrom] receiveVideoFrom image 필터 씌우기");
     imageOverlayFilter=new ImageOverlayFilter.Builder(pipeline).build();
     String imageId = "testImage";
     String imageUri = "/home/ubuntu/presentations/demo/flower.jpg";
@@ -149,6 +149,7 @@ public class UserSession implements Closeable {
 
     //Pipeline 연결
     if(sender.isPresenter){
+      log.info("[receiveVideoFrom] sender: {} is presenter ", sender.getName());
       linkImageOverlayPipeline(sender, imageOverlayFilter);
     } else{
       WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
