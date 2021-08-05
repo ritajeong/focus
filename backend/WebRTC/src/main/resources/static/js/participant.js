@@ -49,9 +49,10 @@ function Participant(name) {
 
 
 	container.appendChild(video);
-	container.appendChild(remoteVideo);
+	//container.appendChild(remoteVideo);
 	container.appendChild(span);
 	container.onclick = switchContainerClass;
+	container.style.width="100%"
 
 	participantView.appendChild(container);
 
@@ -61,6 +62,8 @@ function Participant(name) {
 	video.autoplay = true;
 	video.controls = false;
 	video.poster = 'img/ssafy.png';
+	video.style.width="100%"
+	
 
 	remoteVideo.id = 'remoteVideo-' + name;
 	remoteVideo.autoplay = true;
@@ -90,16 +93,17 @@ function Participant(name) {
 				container.className = PARTICIPANT_MAIN_CLASS;
 				container.style.width="100%";
 			container.style.height = "100%";
-			
+
+			//participantView.appendChild(presenterView.innerHTML);
 			presenterView.innerHTML = '';
-			
-			presenterView.appendChild(container);
+			var presenterVideo=container;
+			presenterView.appendChild(presenterVideo);
 			
 			} else {
 			container.className = PARTICIPANT_CLASS;
-			container.style.width="50%";
-			container.style.height = "50%";
-			participantView.appendChild(container);
+//			container.style.width="50%";
+//			container.style.height = "50%";
+//			participantView.appendChild(container);
 		}
 	}
 

@@ -11,10 +11,11 @@
     <script src="./js/kurento-utils.js"></script>
     <script src="./js/presentation.js"></script>
 </head>
-<body style="width: auto; height: auto;">
+<body style="width: 100%; height: 100%;">
 <div id="container" style="background-color:#2C4858; width: 100%; height: 100%;">
     <div id="wrapper">
-        <div id="join" class="animate join">
+        <div id="join" class="animate join" style="justify-content: center;">
+            
             <h1>Join a Room</h1>
             <form onsubmit="register(); return false;" accept-charset="UTF-8">
                 <p>
@@ -41,28 +42,57 @@
             <div id="presenter-view" class="col-8" style="background-color: #2C4858;height: 100%;">  </div>
             <!--발표자 설정 및 발표자료 컨트롤러-->
             <div id="presentationController" class="col" style="position: relative;background-color: #638B9B;height: 100%;" > 
-                <div style="vertical-align:bottom;">
-                    <div class="form-group row" style="background-color: #D9E8DC;">
-                        <label for="presenter" class="col">발표자 이름:</label>
-                        <input type="text" class="form-control col-5" id="presenter">
-                        <button id="presenter-set" class="col" type="button" onclick="presenterSet(); return false;"> 설정</button>
-                    </div>
-
-                    <div style="background-color: #FFDDCE;">
-                        <button id="start" type="button" href="#" class="btn btn-primary" onclick="start(); return false;">
-                            Start</button>
-                        <button id="stop" type="button" href="#" class="btn btn-danger" onclick="stop(); return false;"> Stop</button>
-                        <button id="prev" type="button" href="#" class="btn btn-success" onclick="prev(); return false;"> Prev</button>
-                        <button id="next" type="button" href="#" class="btn btn-success" onclick="next(); return false;">
-                            Next</button>
-                        <button id="full" type="button" href="#" class="btn btn-warning" onclick="full(); return false;">
-                            Full</button>
+                <div class="row-cols-1">
+                    <div class="col">
+                        <div class="form-group row" style="background-color: #D9E8DC;">
+                            <label for="presenter" class="col">발표자 이름:</label>
+                            <input type="text" class="form-control col-5" id="presenter">
+                            <button id="presenter-set" class="col" type="button" onclick="presenterSet(); return false;"> 설정</button>
+                        </div>
 
                     </div>
                    
+
+                    <div class="col">
+                            프레젠테이션 애니메이션
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                <img src="img/right.jpg" width="150">
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                <img src="img/left.jpg" width="150">
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" >
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                <img src="img/top.jpg" width="150">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+
+                   
+                        <div class="row" style="background-color: #FFDDCE;">
+                            <button id="start" type="button" href="#" class="btn btn-primary col" onclick="start(); return false;">
+                                Start</button>
+                            <button id="stop" type="button" href="#" class="btn btn-danger col" onclick="stop(); return false;"> Stop</button>
+                            <button id="prev" type="button" href="#" class="btn btn-success col" onclick="prev(); return false;"> Prev</button>
+                            <button id="next" type="button" href="#" class="btn btn-success col" onclick="next(); return false;">
+                                Next</button>
+                            <button id="full" type="button" href="#" class="btn btn-warning col" onclick="full(); return false;">
+                                Full</button>
+
+                        </div>
+                    </div>
                 </div>
-        
-        
+
             </div>
         
         </div>
@@ -70,7 +100,7 @@
 
     
     
-        <input type="button" id="button-leave" onmouseup="leaveRoom();" value="Leave room">
+        <button type="button" id="button-leave" onmouseup="leaveRoom();"><img src="img/exit.jpg" width="50"></button>
     
     </div>
 </div>

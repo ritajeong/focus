@@ -26,11 +26,14 @@ public class PresentationManager {
 
     //TODO 임시자료 -> 나중에는 db에서 경로 가져와서 Presentation.class - presentationImageUris 에 저장되어야함
     private String[] imageUris={
-            "/home/ubuntu/presentations/demo/bird.jpg",
-            "/home/ubuntu/presentations/demo/cat.jpg",
-            "/home/ubuntu/presentations/demo/cat2.jpg",
-            "/home/ubuntu/presentations/demo/flower.jpg",
-            "/home/ubuntu/presentations/demo/pets.jpg"
+            "/home/ubuntu/presentations/kim/001.jpg",
+            "/home/ubuntu/presentations/kim/002.jpg",
+            "/home/ubuntu/presentations/kim/003.jpg",
+            "/home/ubuntu/presentations/kim/004.jpg",
+            "/home/ubuntu/presentations/kim/005.jpg",
+            "/home/ubuntu/presentations/kim/006.jpg",
+            "/home/ubuntu/presentations/kim/007.jpg",
+            "/home/ubuntu/presentations/kim/008.jpg",
     };
     private int imageIndex;
     private Presentation presentation;
@@ -38,10 +41,16 @@ public class PresentationManager {
     private UserSession presenter;
 
     //ImageOverlayFilter 위치, 크기 설정 변수
-    private float offsetXPercent = 0.05f;
-    private float offsetYPercent = 0.25f;
-    private float widthPrecent = 0.64f;
-    private float heightPrecent = 0.36f;
+    private float originOffsetXPercent = 0.02f;
+    private float originOffsetYPercent = 0.25f;
+    private float originWidthPrecent = 0.64f;
+    private float originHeightPrecent = 0.56f;
+
+    private float offsetXPercent =originOffsetXPercent;
+    private float offsetYPercent = originOffsetYPercent;
+    private float widthPrecent = originWidthPrecent;
+    private float heightPrecent = originHeightPrecent;
+
     private boolean keepAspectRatio = false;
     private boolean imageCenter = true;
     private boolean isFullScreen = false;
@@ -67,6 +76,31 @@ public class PresentationManager {
 
     public UserSession getPresenter(){
         return presenter;
+    }
+
+    public void changeImageLocation(String location){
+        switch (location) {
+            case "left":
+                offsetXPercent = 0.02f;
+                offsetYPercent = 0.25f;
+                widthPrecent = 0.64f;
+                heightPrecent = 0.56f;
+                break;
+            case "right":{
+                offsetXPercent = 0.44f;
+                offsetYPercent = 0.25f;
+                widthPrecent = 0.64f;
+                heightPrecent = 0.56f;
+                break;
+            } case "top":{
+                offsetXPercent = 0.2f;
+                offsetYPercent = 0.02f;
+                widthPrecent = 0.64f;
+                heightPrecent = 0.56f;
+                break;
+            } default:
+                break;
+        }
     }
 
     public void start(){
@@ -149,10 +183,10 @@ public class PresentationManager {
 
     public void full() {
         if(isFullScreen){
-            offsetXPercent = 0.05f;
+            offsetXPercent = 0.02f;
             offsetYPercent = 0.25f;
-            widthPrecent = 0.65f;
-            heightPrecent = 0.45f;
+            widthPrecent = 0.64f;
+            heightPrecent = 0.56f;
             isFullScreen = false;
         }else{
             offsetXPercent = 0.0f;
