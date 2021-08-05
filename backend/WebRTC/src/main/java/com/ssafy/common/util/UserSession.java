@@ -152,6 +152,7 @@ public class UserSession implements Closeable {
       log.info("[receiveVideoFrom] sender: {} is presenter ", sender.getName());
       linkImageOverlayPipeline(sender, imageOverlayFilter);
     } else{
+      log.info("[receiveVideoFrom] sender: {} is not presenter", sender.getName());
       WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
       sender.getOutgoingWebRtcPeer().connect(incoming);
     }

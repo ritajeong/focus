@@ -65,6 +65,10 @@ public class PresentationManager {
         presenter.setPresenter();
     }
 
+    public UserSession getPresenter(){
+        return presenter;
+    }
+
     public void start(){
         imageIndex=0;
         String imageId = "presentation" +imageIndex;
@@ -127,7 +131,7 @@ public class PresentationManager {
             imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
 
             /*
-            TODO prev() 내용과 동일일
+            TODO prev() 내용과 동일
             */
             //presenter.linkImageOverlayPipeline(presenter, imageOverlayFilter);
 //            try{

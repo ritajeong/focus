@@ -160,12 +160,14 @@ public class CallHandler extends TextWebSocketHandler {
   }
 
   private void presenterSet(JsonObject params) {
+    //TODO presentationSession이랑 presentationManager.getPresenter() 꼬인거 해결해야함
     String presenter=params.get("presenter").getAsString();
     UserSession presenterSession=registry.getByName(presenter);
     Room room = roomManager.getRoom(presenterSession.getRoomName());
 
     presentation=presentationManager.getPresentation(presenter, room, presenterSession);
     presentationManager.setPresenter();
+    registry.register(presentationManager.getPresenter());
     log.info("[presentationSet] presentation: {}", presentation);
 
   }
