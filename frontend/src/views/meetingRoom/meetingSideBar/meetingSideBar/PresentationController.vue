@@ -56,19 +56,19 @@ export default {
     },
     stop: function () {
       const message = {
-        id: 'start'
+        id: 'stop'
       }
       this.$store.dispatch('meetingRoom/sendMessage', message)
     },
     prev: function () {
       const message = {
-        id: 'start'
+        id: 'prev'
       }
       this.$store.dispatch('meetingRoom/sendMessage', message)
     },
     next: function () {
       const message = {
-        id: 'start'
+        id: 'next'
       }
       this.$store.dispatch('meetingRoom/sendMessage', message)
     }

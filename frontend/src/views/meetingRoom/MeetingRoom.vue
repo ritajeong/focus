@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="meeting-room">
     <!-- register -->
     <div v-if="participants===null">
       <h1>MeetingRoom</h1>
@@ -52,19 +52,23 @@ export default {
     serverMessage: function () {
       console.log(this.serverMessage.id)
       switch (this.serverMessage.id) {
-      case 'existingParticipants':
+      case 'existingParticipants':{
         this.$store.dispatch('meetingRoom/onExistingParticipants', this.serverMessage)
         break;
-      case 'newParticipantArrived':
+      }
+      case 'newParticipantArrived':{
         this.$store.dispatch('meetingRoom/onNewParticipant', this.serverMessage)
         break;
-      case 'participantLeft':
+      }
+      case 'participantLeft':{
         this.$store.dispatch('meetingRoom/onParticipantLeft', this.serverMessage)
         break;
-      case 'receiveVideoAnswer':
+      }
+      case 'receiveVideoAnswer':{
         this.$store.dispatch('meetingRoom/receiveVideoResponse', this.serverMessage)
         break;
-      case 'iceCandidate':
+      }
+      case 'iceCandidate':{
         const message = this.serverMessage
         this.participants[message.name].rtcPeer.addIceCandidate(message.candidate, function (error) {
           if (error) {
@@ -73,8 +77,10 @@ export default {
           }
         })
         break;
-      default:
+      }
+      default:{
         console.error('Unrecognized message' + this.serverMessage)
+      }
       }
     },
   },
@@ -116,3 +122,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .meeting-room {
+    background: black
+  }
+</style>

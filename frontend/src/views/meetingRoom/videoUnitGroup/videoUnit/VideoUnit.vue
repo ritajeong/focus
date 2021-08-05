@@ -33,6 +33,7 @@ export default {
   // : lifecycle hook
   mounted() {
     document.getElementById(this.videoId).appendChild(this.video)
+    console.log('video' + this.videoId + 'mounted')
   },
   // : methods
   methods: {

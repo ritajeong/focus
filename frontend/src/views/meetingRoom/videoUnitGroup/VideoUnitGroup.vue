@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="participant in participants" :key="participant.name">
-      <VideoUnit :participant="participant">
+      <VideoUnit :participant="participant"/>
     </div>
   </div>
 </template>
