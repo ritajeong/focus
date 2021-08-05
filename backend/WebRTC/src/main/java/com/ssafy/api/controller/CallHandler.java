@@ -129,6 +129,13 @@ public class CallHandler extends TextWebSocketHandler {
       case "full":{
         log.trace("full toggle");
         full();
+        break;
+      }
+      case "moveImage":{
+        final String location = jsonMessage.get("location").getAsString();
+        log.trace("move image");
+        presentationManager.changeImageLocation(location);
+        break;
       }
       default:
         break;

@@ -52,3 +52,30 @@ function full(){
     }
     sendMessage(message);
 }
+
+function moveRight(){
+    console.log("move right");
+    var message={
+        id:'moveImage',
+        location:'right'
+    }
+    sendMessage(message);
+}
+
+function moveLeft(){
+    console.log("move left");
+    var message={
+        id:'moveImage',
+        location:'left'
+    }
+    sendMessage(message);
+}
+
+function moveTop(){
+    console.log("move top");
+    var message={
+        id:'moveImage',
+        location:'top'
+    }
+    sendMessage(message);
+}

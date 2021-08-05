@@ -56,21 +56,21 @@
                     <div class="col">
                             프레젠테이션 애니메이션
 
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                            <label class="form-check-label" for="flexRadioDefault1">
+                        <div class="form-check" onclick="moveRight(); return false;">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="move-right">
+                            <label class="form-check-label" for="move-right">
                                 <img src="img/right.jpg" width="150">
                             </label>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                            <label class="form-check-label" for="flexRadioDefault2">
+                        <div class="form-check" onclick="moveLeft(); return false;">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="move-left" checked>
+                            <label class="form-check-label" for="move-left">
                                 <img src="img/left.jpg" width="150">
                             </label>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" >
-                            <label class="form-check-label" for="flexRadioDefault2">
+                        <div class="form-check" onclick="moveTop(); return false;">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="move-top" >
+                            <label class="form-check-label" for="move-top">
                                 <img src="img/top.jpg" width="150">
                             </label>
                         </div>
@@ -96,13 +96,9 @@
             </div>
         
         </div>
-      
 
-    
-    
-        <button type="button" id="button-leave" onmouseup="leaveRoom();"><img src="img/exit.jpg" width="50"></button>
-    
     </div>
+    <button type="button" id="button-leave" onmouseup="leaveRoom();"><img src="img/exit.jpg" width="50"></button>
 </div>
 </body>
 </html>

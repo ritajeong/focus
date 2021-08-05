@@ -65,6 +65,7 @@ public class PresentationManager {
             presentation=new Presentation(presenterName, imageUris, room.getName(), pipeline);
             presentations.put(key, presentation);
             this.presenter=presenter;
+            imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
 
         }
         return presentation;
@@ -101,13 +102,26 @@ public class PresentationManager {
             } default:
                 break;
         }
+
+        originOffsetXPercent=offsetXPercent;
+        originOffsetYPercent=offsetYPercent;
+        originWidthPrecent=widthPrecent;
+        originHeightPrecent=heightPrecent;
+
+        String removeImageId = "testImage" + imageIndex;
+        String addImageId = "presentation" +imageIndex;
+        String addImageUri = imageUris[imageIndex];
+        imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent, keepAspectRatio, imageCenter);
+        imageOverlayFilter.removeImage(removeImageId);
+        presenter.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
+        imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
     }
 
     public void start(){
         imageIndex=0;
-        String imageId = "presentation" +imageIndex;
+        String imageId = "testImage" +imageIndex;
         String imageUri = imageUris[imageIndex];
-        imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
+        //imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
         imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent, keepAspectRatio, imageCenter);
         log.info("[start] imageId: {}, imageUri: {}", imageId, imageUri);
 
@@ -119,7 +133,7 @@ public class PresentationManager {
         if(imageIndex > 0) {
             String removeImageId = "testImage" + imageIndex;
 
-            imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
+          //  imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
 
 
             imageIndex--;
@@ -153,7 +167,7 @@ public class PresentationManager {
         if(imageIndex < imageUris.length-1) {
             String removeImageId = "testImage" + imageIndex;
 
-            imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
+           // imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
 
 
             imageIndex++;
@@ -183,10 +197,10 @@ public class PresentationManager {
 
     public void full() {
         if(isFullScreen){
-            offsetXPercent = 0.02f;
-            offsetYPercent = 0.25f;
-            widthPrecent = 0.64f;
-            heightPrecent = 0.56f;
+            offsetXPercent = originOffsetXPercent;
+            offsetYPercent = originOffsetYPercent;
+            widthPrecent = originWidthPrecent;
+            heightPrecent = originHeightPrecent;
             isFullScreen = false;
         }else{
             offsetXPercent = 0.0f;
