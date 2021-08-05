@@ -169,7 +169,6 @@ public class UserSession implements Closeable {
     }
 
     log.debug("PARTICIPANT {}: obtained endpoint for {}", this.name, sender.getName());
-    //sender.getOutgoingWebRtcPeer().connect(incoming);
 
     sender.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
     imageOverlayFilter.connect(incoming);
