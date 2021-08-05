@@ -18,6 +18,7 @@
 package com.ssafy.webrtc;
 
 import com.ssafy.api.controller.CallHandler;
+import com.ssafy.api.service.PresentationManager;
 import com.ssafy.api.service.RoomManager;
 import com.ssafy.common.util.UserRegistry;
 import org.kurento.client.KurentoClient;
@@ -63,6 +64,11 @@ public class GroupCallApp implements WebSocketConfigurer {
     ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
     container.setMaxTextMessageBufferSize(32768);
     return container;
+  }
+
+
+  @Bean
+  public PresentationManager presentationManager(){return new PresentationManager();
   }
 
   public static void main(String[] args) throws Exception {

@@ -19,6 +19,12 @@ package com.ssafy.api.controller;
 
 import java.io.IOException;
 
+import com.ssafy.api.service.PresentationManager;
+import com.ssafy.api.service.RoomManager;
+import com.ssafy.common.util.Presentation;
+import com.ssafy.common.util.Room;
+import com.ssafy.common.util.UserRegistry;
+import com.ssafy.common.util.UserSession;
 import org.kurento.client.IceCandidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +58,9 @@ public class CallHandler extends TextWebSocketHandler {
 
   @Autowired
   private UserRegistry registry;
+
+  @Autowired
+  private PresentationManager presentationManager;
 
   @Override
   public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -87,6 +96,31 @@ public class CallHandler extends TextWebSocketHandler {
           user.addCandidate(cand, jsonMessage.get("name").getAsString());
         }
         break;
+      case "presenterSet":{
+        log.trace("presenterSet");
+        presenterSet(jsonMessage, user);
+        break;
+      }
+      case "start":{
+        log.trace("start");
+        start(session);
+        break;
+      }
+      case "stop":{
+        log.trace("stop");
+        stop(session);
+        break;
+      }
+      case "prev":{
+        log.trace("prev");
+        prev(session);
+        break;
+      }
+      case "next":{
+        log.trace("next");
+        next(session);
+        break;
+      }
       default:
         break;
     }
@@ -114,5 +148,32 @@ public class CallHandler extends TextWebSocketHandler {
     if (room.getParticipants().isEmpty()) {
       roomManager.removeRoom(room);
     }
+  }
+
+  private void presenterSet(JsonObject params, UserSession user) {
+    String presenter=params.get("presenter").getAsString();
+    Room room = roomManager.getRoom(user.getRoomName());
+
+    Presentation presentation=presentationManager.getPresentation(presenter, room, user);
+
+    log.info("[presentationSet] presentation: {}", presentation);
+
+  }
+
+
+  private void start(WebSocketSession session) {
+    presentationManager.start();
+  }
+
+  private void stop(WebSocketSession session) {
+    //presentationManager.stop();
+  }
+
+  private void prev(WebSocketSession session) {
+    //presentationManager.start();
+  }
+
+  private void next(WebSocketSession session) {
+    //presentationManager.start();
   }
 }
