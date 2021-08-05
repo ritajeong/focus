@@ -50,7 +50,7 @@ export default {
   // : watch
   watch: {
     serverMessage: function () {
-      console.log(this.serverMessage.id)
+      // console.log(this.serverMessage.id)
       switch (this.serverMessage.id) {
       case 'existingParticipants':{
         this.$store.dispatch('meetingRoom/onExistingParticipants', this.serverMessage)

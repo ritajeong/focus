@@ -27,7 +27,7 @@ export default function Participant(name) {
   // 웹소켓을 통해 
   this.offerToReceiveVideo = function(error, offerSdp, wp){
     if (error) return console.error("sdp offer error")
-    console.log('Invoking participant.offerToReceiveVideo method')
+    // console.log('Invoking participant.offerToReceiveVideo method')
     let message = {
       id: "receiveVideoFrom",
       sender : name,
@@ -38,7 +38,7 @@ export default function Participant(name) {
 
   //
   this.onIceCandidate = function(candidate, wp) {
-    console.log("Local Participant candidate" + JSON.stringify(candidate))
+    // console.log("Local Participant candidate" + JSON.stringify(candidate))
 
     let message = {
       id: 'onIceCandidate',

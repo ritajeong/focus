@@ -40,14 +40,14 @@ export default {
       context.commit('WS_INIT', url)
       context.state.ws.onmessage = function(message) {
         let parsedMessage = JSON.parse(message.data)
-        console.info('Received message: ' + message.data)
+        // console.info('Received message: ' + message.data)
         context.commit('WS_ONMESSAGE', parsedMessage)
       }
     },
     // 웹소켓으로 메시지 발신 action
     sendMessage(context, message) {
       var jsonMessage = JSON.stringify(message)
-      console.log('Sending message: ' + jsonMessage)
+      // console.log('Sending message: ' + jsonMessage)
       context.state.ws.send(jsonMessage)
     },
     // user 이름 설정 action
@@ -56,7 +56,7 @@ export default {
     },
     // onExistingParticipants 메시지에 대한 반응
     onExistingParticipants(context, message) {
-      console.log('onExistingParticipants start')
+      // console.log('onExistingParticipants start')
       // 브라우저 사용자의 Participant 오브젝트 정의
       let participant = new Participant(context.state.myName)
       var video = participant.getVideoElement()
@@ -101,7 +101,7 @@ export default {
         console.log('forEach문 sender: ' + sender)
         context.dispatch('receiveVideo', sender)
         })
-      console.log('onExistingParticipants end')
+      // console.log('onExistingParticipants end')
     },
     // 다른 참가자 participant 비디오 받기
     receiveVideo(context, sender) {
