@@ -16,6 +16,10 @@ import java.util.concurrent.ConcurrentMap;
 public class PresentationManager {
     private final Logger log = LoggerFactory.getLogger(RoomManager.class);
 
+    /*
+    key: [방 이름]-[발표자 이름]
+    value: 발표자료, pipeline , 등등
+     */
     private final ConcurrentMap<String, Presentation> presentations = new ConcurrentHashMap<>();
     private String[] imageUris={
             "/home/ubuntu/presentations/demo/bird.jpg",
@@ -27,7 +31,7 @@ public class PresentationManager {
     private int imageIndex;
     private Presentation presentation;
     private ImageOverlayFilter imageOverlayFilter;
-    private UserSession user;
+    private UserSession presenter;
 
     //ImageOverlayFilter 위치, 크기 설정 변수
     private float offsetXPercent = 0.05f;
@@ -39,7 +43,7 @@ public class PresentationManager {
     private boolean isFullScreen = false;
 
 
-    public Presentation getPresentation(String presenterName, Room room, UserSession user){
+    public Presentation getPresentation(String presenterName, Room room, UserSession presenter){
         String key=room.getName()+"-"+presenterName;
         presentation=presentations.get(key);
 
@@ -47,10 +51,14 @@ public class PresentationManager {
         if(presentation==null){
             presentation=new Presentation(presenterName, imageUris, room.getName(), pipeline);
             presentations.put(key, presentation);
-            this.user=user;
+            this.presenter=presenter;
 
         }
         return presentation;
+    }
+
+    public void setPresenter() {
+        presenter.setPresenter();
     }
 
     public void start(){
@@ -61,7 +69,51 @@ public class PresentationManager {
         imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent, keepAspectRatio, imageCenter);
         log.info("[start] imageId: {}, imageUri: {}", imageId, imageUri);
 
-       // user.setPresenter();
-
+        presenter.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
+        imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
     }
+
+    public void prev() {
+        if(imageIndex > 0) {
+            String removeImageId = "testImage" + imageIndex;
+
+            imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
+            imageOverlayFilter.removeImage(removeImageId);
+
+            imageIndex--;
+            String addImageId = "testImage" + imageIndex;
+            String addImageUri = imageUris[imageIndex];
+            imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent, keepAspectRatio, imageCenter);
+
+            presenter.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
+            imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
+            //presenter.linkImageOverlayPipeline(presenter, imageOverlayFilter);
+        }else{
+            log.info("[prev] 맨 처음 사진입니다.");
+        }
+    }
+
+
+    public void next() {
+        if(imageIndex < imageUris.length-1) {
+            String removeImageId = "testImage" + imageIndex;
+
+            imageOverlayFilter=new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
+            imageOverlayFilter.removeImage(removeImageId);
+
+            imageIndex++;
+            String addImageId = "testImage" + imageIndex;
+            String addImageUri = imageUris[imageIndex];
+            imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent, keepAspectRatio, imageCenter);
+
+            presenter.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
+            imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
+            //presenter.linkImageOverlayPipeline(presenter, imageOverlayFilter);
+        }else{
+            log.info("[next] 마지막 사진입니다.");
+        }
+    }
+
+
+
 }

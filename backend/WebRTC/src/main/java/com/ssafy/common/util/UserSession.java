@@ -52,7 +52,6 @@ public class UserSession implements Closeable {
 
   private ImageOverlayFilter imageOverlayFilter;
   private boolean isPresenter=false;
-  private String presenter="김민지";
 
   public UserSession(final String name, String roomName, final WebSocketSession session,
       MediaPipeline pipeline) {
@@ -106,9 +105,12 @@ public class UserSession implements Closeable {
   }
 
 
-  public void setPresenter(String presenter) {
-    //isPresenter=true;
-    this.presenter=presenter;
+  public void setPresenter() {
+    isPresenter=true;
+  }
+
+  public WebRtcEndpoint getIncomingMedia(String name){
+    return incomingMedia.get(name);
   }
 
   
@@ -116,8 +118,6 @@ public class UserSession implements Closeable {
     log.info("USER {}: connecting with {} in room {}", this.name, sender.getName(), this.roomName);
 
     log.trace("USER {}: SdpOffer for {} is {}", this.name, sender.getName(), sdpOffer);
-
-    System.out.println("[UserSession] sdpSession start");
 
      //처음부터 이미지 띄우기 image Overlay Filter
     log.info("[UserSession] receiveVideoFrom image 필터 씌우기");
@@ -147,15 +147,13 @@ public class UserSession implements Closeable {
     log.debug("gather candidates");
     this.getEndpointForUser(sender).gatherCandidates();
 
-    WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
-
-    if(sender.getName().equals(presenter)){
-      linkImageOverlayPipeline(sender, incoming, imageOverlayFilter);
+    //Pipeline 연결
+    if(sender.isPresenter){
+      linkImageOverlayPipeline(sender, imageOverlayFilter);
     } else{
+      WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
       sender.getOutgoingWebRtcPeer().connect(incoming);
     }
-
-
   }
 
   private WebRtcEndpoint getEndpointForUser(final UserSession sender) {
@@ -198,8 +196,8 @@ public class UserSession implements Closeable {
   /*
    * ImageOverlayPipeline 연결
    */
-  public void linkImageOverlayPipeline(UserSession sender, WebRtcEndpoint incoming, ImageOverlayFilter imageOverlayFilter) {
-
+  public void linkImageOverlayPipeline(UserSession sender, ImageOverlayFilter imageOverlayFilter) {
+      WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
       log.info("[getEndpointFromUser] sender: {} ImageOverlayPipeline 연결", sender.getName());
       sender.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
       imageOverlayFilter.connect(incoming);
