@@ -48,6 +48,13 @@ ws.onmessage = function(message) {
 	        }
 	    });
 	    break;
+	case 'startPresentation':
+		var message = {
+			id : 'startPresentation',
+			presenter: parsedMessage.presenter,
+		}
+		sendMessage(message);
+		break;
 	default:
 		console.error('Unrecognized message', parsedMessage);
 	}

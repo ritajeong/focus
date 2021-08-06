@@ -105,6 +105,13 @@ public class CallHandler extends TextWebSocketHandler {
         presenterSet(jsonMessage);
         break;
       }
+      case "startPresentation": {
+    	  final String presenterName = jsonMessage.get("presenter").getAsString();
+    	  final UserSession presenter = registry.getByName(presenterName);
+    	  for(UserSession audience : registry.getUsersByName().values()) {
+    		  audience.linkImageOverlayPipeline(presenter, presentationManager.getImageOverlayFilter());
+    	  }
+      }
       case "start":{
         log.trace("start");
         start();
@@ -166,14 +173,15 @@ public class CallHandler extends TextWebSocketHandler {
     }
   }
 
-  private void presenterSet(JsonObject params) {
+  private void presenterSet(JsonObject params) throws IOException {
     //TODO presentationSession이랑 presentationManager.getPresenter() 꼬인거 해결해야함
-    String presenter=params.get("presenter").getAsString();
-    UserSession presenterSession=registry.getByName(presenter);
+    String presenter = params.get("presenter").getAsString();
+    boolean isPresenter = params.get("isPresenter").getAsBoolean();
+    UserSession presenterSession = registry.getByName(presenter);
     Room room = roomManager.getRoom(presenterSession.getRoomName());
 
-    presentation=presentationManager.getPresentation(presenter, room, presenterSession);
-    presentationManager.setPresenter();
+    presentation = presentationManager.getPresentation(presenter, room, presenterSession);
+    presentationManager.setPresenter(isPresenter);
     registry.register(presentationManager.getPresenter());
     log.info("[presentationSet] presentation: {}", presentation);
 

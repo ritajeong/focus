@@ -38,8 +38,21 @@ public class UserRegistry {
   public void register(UserSession user) {
     usersByName.put(user.getName(), user);
     usersBySessionId.put(user.getSession().getId(), user);
+    System.out.println("===================================================================");
+    for(String userName : usersByName.keySet()) {
+    	System.out.println("userName : " + userName + " is persenster?" + usersByName.get(userName).getPresenter());
+    }
+    System.out.println("===================================================================");
   }
-
+  
+  public ConcurrentHashMap<String, UserSession> getUsersByName(){
+	  return usersByName;
+  }
+  
+  public ConcurrentHashMap<String, UserSession> getUsersBySessionId(){
+	  return usersBySessionId;
+  }
+  
   public UserSession getByName(String name) {
     return usersByName.get(name);
   }
