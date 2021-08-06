@@ -1,20 +1,16 @@
 <template>
-  <div class="d-flex flex-column">
-    <div class="d-flex justify-content-end">
-      <button type="button" class="btn-close" aria-label="Close" @click="toggleRightSide"></button>
-    </div>
-    <PresentationController/>
+  <div class="d-flex justify-content-center">
+    <button @click="toggleLeftSide">left</button>
+    <button @click="toggleRightSide">right</button>
   </div>
 </template>
 
 <script>
 // import "./template.scss";
-import PresentationController from './meetingSideBar/PresentationController.vue'
 
 export default {
-  name: 'MeetingSideBar',
+  name: 'Template',
   components: {
-    PresentationController
   },
   // : props
   props: {
@@ -32,9 +28,12 @@ export default {
   },
   // : methods
   methods: {
+    toggleLeftSide() {
+      this.$emit('toggleLeftSide')
+    },
     toggleRightSide() {
       this.$emit('toggleRightSide')
-    }
+    },
   }
 }
 </script>

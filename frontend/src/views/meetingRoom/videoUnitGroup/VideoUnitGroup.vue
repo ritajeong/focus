@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div class="d-flex flex-column">
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn-close" aria-label="Close" @click="toggleLeftSide"></button>
+    </div>
     <div v-for="participant in participants" :key="participant.name">
-      <VideoUnit :participant="participant"/>
+      <VideoUnit class="video-unit" :participant="participant"/>
     </div>
   </div>
 </template>
@@ -34,6 +37,15 @@ export default {
   },
   // : methods
   methods: {
+    toggleLeftSide() {
+      this.$emit('toggleLeftSide')
+    }
   }
 }
 </script>
+
+<style scoped>
+  .video-unit {
+    height: 20%;
+  }
+</style>

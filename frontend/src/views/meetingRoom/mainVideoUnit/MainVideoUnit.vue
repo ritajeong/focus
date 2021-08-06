@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>LocalVideo</p>
     <div id="mainVideo"></div>
   </div>
 </template>
@@ -29,6 +28,7 @@ export default {
   },
   // : lifecycle hook
   mounted() {
+    this.video.classList.add("video-insert")
     document.getElementById("mainVideo").appendChild(this.video)
   },
   // : updated

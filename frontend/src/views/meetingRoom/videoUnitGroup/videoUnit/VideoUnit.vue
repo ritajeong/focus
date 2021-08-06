@@ -32,11 +32,19 @@ export default {
   },
   // : lifecycle hook
   mounted() {
+    this.video.classList.add('video-insert')
     document.getElementById(this.videoId).appendChild(this.video)
-    console.log( this.videoId + 'mounted')
+    console.log( this.videoId + ' mounted')
   },
   // : methods
   methods: {
   }
 }
 </script>
+
+<style>
+  .video-insert {
+    width: 100%;
+    border: white;
+  }
+</style>

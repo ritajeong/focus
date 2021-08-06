@@ -1,23 +1,26 @@
 <template>
   <div class="meeting-room">
     <!-- register -->
-    <div v-if="participants===null">
+    <div v-if="participants === null">
       <h1>MeetingRoom</h1>
       <input type="text" v-model="name">
       <button @click="register">register</button>
     </div>
     <!-- register -->
     <!-- groupcall -->
-    <div v-if="participants!==null">
+    <div v-if="participants !== null" class="main-container">
       <div class="row">
-        <div class="col-2">
-          <VideoUnitGroup/>
+        <div class="col-2" id="left-sidebar" v-show="leftSideShow">
+          <VideoUnitGroup class="section" @toggleLeftSide="onToggleLeftSide"/>
         </div>
-        <div class="col-7">
-          <MainVideoUnit :mainParticipant="mainParticipant"/>
+        <div class="col-7" id="main-video">
+          <div class="d-flex flex-column justify-content-center section">
+            <MainVideoUnit :mainParticipant="mainParticipant"/>
+            <MeetingRoomController @toggleLeftSide="onToggleLeftSide" @toggleRightSide="onToggleRightSide"/>
+          </div>
         </div>
-        <div class="col-3">
-          <MeetingSideBar/>
+        <div class="col-3" id="right-sidebar" v-show="rightSideShow">
+          <MeetingSideBar class="section" @toggleRightSide="onToggleRightSide"/>
         </div>
       </div>
     </div>
@@ -30,6 +33,7 @@
 import VideoUnitGroup from './videoUnitGroup/VideoUnitGroup.vue'
 import MainVideoUnit from './mainVideoUnit/MainVideoUnit.vue'
 import MeetingSideBar from './meetingSideBar/MeetingSideBar.vue'
+import MeetingRoomController from './meetingRoomController/MeetingRoomController.vue'
 
 export default {
   name: 'MeetingRoom',
@@ -37,6 +41,7 @@ export default {
     VideoUnitGroup,
     MainVideoUnit,
     MeetingSideBar,
+    MeetingRoomController,
   },
   // : props
   props: {
@@ -44,7 +49,10 @@ export default {
   // : data
   data() {
     return {
-      myName: null
+      name: null,
+      leftSideShow: true,
+      rightSideShow: true,
+      mainVideoGrid: null,
     }
   },
   // : watch
@@ -119,6 +127,35 @@ export default {
       this.$store.dispatch('meetingRoom/sendMessage', message)
       this.$store.dispatch('meetingRoom/setMyName', this.name)
     },
+    onToggleLeftSide() {
+      this.leftSideShow = !this.leftSideShow
+      this.arrangeGrid()
+    },
+    onToggleRightSide() {
+      this.rightSideShow = !this.rightSideShow
+      console.log('toggleRightSide', this.rightSideShow)
+      this.arrangeGrid()
+    },
+    arrangeGrid() {
+      this.mainVideoGrid = 12
+      if (this.leftSideShow) {
+        this.mainVideoGrid -= 2
+      }
+      if (this.rightSideShow) {
+        this.mainVideoGrid -= 3
+      }
+      var colClass = 'col-' + String(this.mainVideoGrid)
+      document.getElementById('main-video').className = colClass
+    }
   }
 }
 </script>
+
+<style scoped>
+  .main-container {
+    height: 100%;
+  }
+  .section {
+    height: 100%;
+  }
+</style>
