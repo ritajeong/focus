@@ -4,7 +4,7 @@ import meetingRoom from './modules/meetingRoom.js'
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {},
   mutations: {},
   actions: {},
@@ -12,3 +12,5 @@ export default new Vuex.Store({
     meetingRoom,
   },
 });
+
+export default store

@@ -1,0 +1,59 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="styleSheet" href="style.css" type="text/css" media="screen">
+
+    <script src="/webjars/webrtc-adapter/release/adapter.js"></script>
+    <script src="./js/conferenceroom.js"></script>
+    <script src="./js/participant.js"></script>
+    <script src="./js/kurento-utils.js"></script>
+    <script src="./js/presentation.js"></script>
+</head>
+<body>
+<div id="container">
+    <div id="wrapper">
+        <div id="join" class="animate join">
+            <h1>Join a Room</h1>
+            <form onsubmit="register(); return false;" accept-charset="UTF-8">
+                <p>
+                    <input type="text" name="name" value="" id="name"
+                           placeholder="Username" required>
+                </p>
+                <p>
+                    <input type="text" name="room" value="" id="roomName"
+                           placeholder="Room" required>
+                </p>
+                <p class="submit">
+                    <input type="submit" name="commit" value="Join!">
+                </p>
+            </form>
+        </div>
+        <div id="room" style="display: none;">
+            <h2 id="room-header"></h2>
+            <div id="participants"></div>
+            <input type="button" id="button-leave" onmouseup="leaveRoom();"
+                   value="Leave room">
+
+        </div>
+
+        <!--발표자 설정 및 발표자료 컨트롤러-->
+        <div>
+            <div class="form-group">
+                <label for="presenter">발표자 이름:</label>
+                <input type="text" class="form-control" id="presenter">
+                <button id="presenter-set" type="button" onclick="presenterSet(); return false;"> 설정</button>
+            </div>
+            <button id="start" type="button" href="#" class="btn btn-info"
+                    onclick="start(); return false;"> Start</button>
+            <button id="stop" type="button" href="#" class="btn btn-info"
+                    onclick="stop(); return false;"> Stop</button>
+            <button id="prev" type="button" href="#" class="btn btn-info"
+               onclick="prev(); return false;"> Prev</button>
+            <button id="next" type="button" href="#" class="btn btn-warning"
+               onclick="next(); return false;"> Next</button>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
