@@ -49,131 +49,139 @@ import com.ssafy.common.util.UserSession;
  */
 public class CallHandler extends TextWebSocketHandler {
 
-  private static final Logger log = LoggerFactory.getLogger(CallHandler.class);
+	private static final Logger log = LoggerFactory.getLogger(CallHandler.class);
 
-  private static final Gson gson = new GsonBuilder().create();
+	private static final Gson gson = new GsonBuilder().create();
 
-  @Autowired
-  private RoomManager roomManager;
+	@Autowired
+	private RoomManager roomManager;
 
-  @Autowired
-  private UserRegistry registry;
+	@Autowired
+	private UserRegistry registry;
 
-  @Autowired
-  private PresentationManager presentationManager;
+	@Autowired
+	private PresentationManager presentationManager;
 
-  @Override
-  public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-    final JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
+	@Override
+	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		final JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
 
-    final UserSession user = registry.getBySession(session);
+		final UserSession user = registry.getBySession(session);
 
-    if (user != null) {
-      log.debug("Incoming message from user '{}': {}", user.getName(), jsonMessage);
-    } else {
-      log.debug("Incoming message from new user: {}", jsonMessage);
-    }
+		if (user != null) {
+			log.debug("Incoming message from user '{}': {}", user.getName(), jsonMessage);
+		} else {
+			log.debug("Incoming message from new user: {}", jsonMessage);
+		}
 
-    switch (jsonMessage.get("id").getAsString()) {
-      case "joinRoom":
-        joinRoom(jsonMessage, session);
-        break;
-      case "receiveVideoFrom":
-        final String senderName = jsonMessage.get("sender").getAsString();
-        final UserSession sender = registry.getByName(senderName);
-        final String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
-        user.receiveVideoFrom(sender, sdpOffer);
-        break;
-      case "leaveRoom":
-        leaveRoom(user);
-        break;
-      case "onIceCandidate":
-        JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
+		switch (jsonMessage.get("id").getAsString()) {
+		case "joinRoom":
+			joinRoom(jsonMessage, session);
+			break;
+		case "receiveVideoFrom":
+			final String senderName = jsonMessage.get("sender").getAsString();
+			final UserSession sender = registry.getByName(senderName);
+			final String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
+			user.receiveVideoFrom(sender, sdpOffer);
+			break;
+		case "leaveRoom":
+			leaveRoom(user);
+			break;
+		case "onIceCandidate":
+			JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
 
-        if (user != null) {
-          IceCandidate cand = new IceCandidate(candidate.get("candidate").getAsString(),
-              candidate.get("sdpMid").getAsString(), candidate.get("sdpMLineIndex").getAsInt());
-          user.addCandidate(cand, jsonMessage.get("name").getAsString());
-        }
-        break;
-      case "presenterSet":{
-        log.trace("presenterSet");
-        presenterSet(jsonMessage, user);
-        break;
-      }
-      case "start":{
-        log.trace("start");
-        start(session);
-        break;
-      }
-      case "stop":{
-        log.trace("stop");
-        stop(session);
-        break;
-      }
-      case "prev":{
-        log.trace("prev");
-        prev(session);
-        break;
-      }
-      case "next":{
-        log.trace("next");
-        next(session);
-        break;
-      }
-      default:
-        break;
-    }
-  }
+			if (user != null) {
+				IceCandidate cand = new IceCandidate(candidate.get("candidate").getAsString(),
+						candidate.get("sdpMid").getAsString(), candidate.get("sdpMLineIndex").getAsInt());
+				user.addCandidate(cand, jsonMessage.get("name").getAsString());
+			}
+			break;
+		case "presenterSet": {
+			log.trace("presenterSet");
+			presenterSet(jsonMessage, user);
+			break;
+		}
+		case "start": {
+			log.trace("start");
+			start(session);
+			break;
+		}
+		case "stop": {
+			log.trace("stop");
+			stop(session);
+			break;
+		}
+		case "prev": {
+			log.trace("prev");
+			prev(session);
+			break;
+		}
+		case "next": {
+			log.trace("next");
+			next(session);
+			break;
+		}
+		case "cameraToggle": {
+			log.trace("camera toggle");
+			cameraToggle(session);
+			break;
+		}
+		default:
+			break;
+		}
+	}
 
-  @Override
-  public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-    UserSession user = registry.removeBySession(session);
-    roomManager.getRoom(user.getRoomName()).leave(user);
-  }
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		UserSession user = registry.removeBySession(session);
+		roomManager.getRoom(user.getRoomName()).leave(user);
+	}
 
-  private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
-    final String roomName = params.get("room").getAsString();
-    final String name = params.get("name").getAsString();
-    log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
+	private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
+		final String roomName = params.get("room").getAsString();
+		final String name = params.get("name").getAsString();
+		log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
 
-    Room room = roomManager.getRoom(roomName);
-    final UserSession user = room.join(name, session);
-    registry.register(user);
-  }
+		Room room = roomManager.getRoom(roomName);
+		final UserSession user = room.join(name, session);
+		registry.register(user);
+	}
 
-  private void leaveRoom(UserSession user) throws IOException {
-    final Room room = roomManager.getRoom(user.getRoomName());
-    room.leave(user);
-    if (room.getParticipants().isEmpty()) {
-      roomManager.removeRoom(room);
-    }
-  }
+	private void leaveRoom(UserSession user) throws IOException {
+		final Room room = roomManager.getRoom(user.getRoomName());
+		room.leave(user);
+		if (room.getParticipants().isEmpty()) {
+			roomManager.removeRoom(room);
+		}
+	}
 
-  private void presenterSet(JsonObject params, UserSession user) {
-    String presenter=params.get("presenter").getAsString();
-    Room room = roomManager.getRoom(user.getRoomName());
+	private void presenterSet(JsonObject params, UserSession user) {
+		String presenter = params.get("presenter").getAsString();
+		Room room = roomManager.getRoom(user.getRoomName());
 
-    Presentation presentation=presentationManager.getPresentation(presenter, room, user);
+		Presentation presentation = presentationManager.getPresentation(presenter, room, user);
 
-    log.info("[presentationSet] presentation: {}", presentation);
+		log.info("[presentationSet] presentation: {}", presentation);
 
-  }
+	}
 
+	private void start(WebSocketSession session) {
+		presentationManager.start();
+	}
 
-  private void start(WebSocketSession session) {
-    presentationManager.start();
-  }
+	private void stop(WebSocketSession session) {
+		// presentationManager.stop();
+	}
 
-  private void stop(WebSocketSession session) {
-    //presentationManager.stop();
-  }
+	private void prev(WebSocketSession session) {
+		// presentationManager.start();
+	}
 
-  private void prev(WebSocketSession session) {
-    //presentationManager.start();
-  }
+	private void next(WebSocketSession session) {
+		// presentationManager.start();
+	}
 
-  private void next(WebSocketSession session) {
-    //presentationManager.start();
-  }
+	private void cameraToggle(WebSocketSession session) {
+		
+	}
 }

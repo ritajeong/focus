@@ -110,7 +110,7 @@ function onExistingParticipants(msg) {
 	var options = {
 	      localVideo: video,
 		  remoteVideo: remoteVideo,
-	    //	mediaConstraints: constraints,
+	      mediaConstraints: {audio: true, video: true},
 	      onicecandidate: participant.onIceCandidate.bind(participant)
 	    }
 	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
@@ -172,4 +172,11 @@ function sendMessage(message) {
 	var jsonMessage = JSON.stringify(message);
 	console.log('Sending message: ' + jsonMessage);
 	ws.send(jsonMessage);
+}
+
+function cameraToggle(){
+	console.log('camera toggle');
+	sendMessage({
+		id: 'cameraToggle'
+	});
 }
