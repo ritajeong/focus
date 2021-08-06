@@ -142,7 +142,8 @@ export default {
     },
     receiveVideoResponse(context, result) {
       context.state.participants[result.name].rtcPeer.processAnswer(result.sdpAnswer, function (error) {
-        if (error) return console.error (error)
+        if (error) {
+          return console.error(error)}
       })
     }
   },

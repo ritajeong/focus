@@ -9,7 +9,7 @@
 // import "./template.scss";
 
 export default {
-  name: 'Template',
+  name: 'VideoUnit',
   components: {
   },
   // : props
@@ -24,7 +24,7 @@ export default {
   // : computed
   computed: {
     videoId() {
-      return "video-" + this.participant.name
+      return "video-of-" + this.participant.name
     },
     video() {
       return this.participant.getVideoElement()
@@ -33,7 +33,7 @@ export default {
   // : lifecycle hook
   mounted() {
     document.getElementById(this.videoId).appendChild(this.video)
-    console.log('video' + this.videoId + 'mounted')
+    console.log( this.videoId + 'mounted')
   },
   // : methods
   methods: {

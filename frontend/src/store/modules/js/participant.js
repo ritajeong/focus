@@ -6,19 +6,11 @@ export default function Participant(name) {
   var rtcPeer
   Object.defineProperty(this, 'rtcPeer', {writable: true})
 
-  // container 엘리먼트에 video 엘리먼트를 넣고 이에 접근하는 메서드 생성
-  var container = document.createElement('div');
+  // video 엘리먼트와 이에 접근하는 메서드 생성
   var video = document.createElement('video');
-
-  container.appendChild(video);
-
   video.id = 'video-' + name;
   video.autoplay = true;
   video.controls = false;
-
-  this.getElement = function() {
-		return container;
-	}
 
   this.getVideoElement = function() {
 		return video;
@@ -39,7 +31,6 @@ export default function Participant(name) {
   //
   this.onIceCandidate = function(candidate, wp) {
     // console.log("Local Participant candidate" + JSON.stringify(candidate))
-
     let message = {
       id: 'onIceCandidate',
       candidate: candidate,

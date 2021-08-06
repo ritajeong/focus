@@ -21,7 +21,7 @@
 // import "./template.scss";
 
 export default {
-  name: 'Template',
+  name: 'PresentationController',
   components: {
   },
   // : props

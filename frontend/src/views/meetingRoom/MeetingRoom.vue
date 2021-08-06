@@ -122,9 +122,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .meeting-room {
-    background: black
-  }
-</style>
