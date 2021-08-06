@@ -1,40 +1,41 @@
 <template>
   <div class="d-flex flex-column">
     <div class="d-flex justify-content-end">
-      <button type="button" class="btn-close" aria-label="Close" @click="toggleRightSide"></button>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        @click="toggleRightSide"
+      ></button>
     </div>
-    <PresentationController/>
+    <PresentationController />
   </div>
 </template>
 
 <script>
 // import "./template.scss";
-import PresentationController from './meetingSideBar/PresentationController.vue'
+import PresentationController from './meetingSideBar/PresentationController.vue';
 
 export default {
   name: 'MeetingSideBar',
   components: {
-    PresentationController
+    PresentationController,
   },
   // : props
-  props: {
-  },
+  props: {},
   // : data
   data() {
-    return {
-    }
+    return {};
   },
   // : computed
-  computed: {
-  },
+  computed: {},
   // : lifecycle hook
-  mounted() {
-  },
+  mounted() {},
   // : methods
   methods: {
     toggleRightSide() {
-      this.$emit('toggleRightSide')
-    }
-  }
-}
+      this.$emit('toggleRightSide');
+    },
+  },
+};
 </script>

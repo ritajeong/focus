@@ -1,17 +1,22 @@
 <template>
   <div class="d-flex flex-column">
     <div class="d-flex justify-content-end">
-      <button type="button" class="btn-close" aria-label="Close" @click="toggleLeftSide"></button>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        @click="toggleLeftSide"
+      ></button>
     </div>
     <div v-for="participant in participants" :key="participant.name">
-      <VideoUnit class="video-unit" :participant="participant"/>
+      <VideoUnit class="video-unit" :participant="participant" />
     </div>
   </div>
 </template>
 
 <script>
 // import "./template.scss";
-import VideoUnit from './videoUnit/VideoUnit.vue'
+import VideoUnit from './videoUnit/VideoUnit.vue';
 
 export default {
   name: 'VideoUnitGroup',
@@ -19,33 +24,30 @@ export default {
     VideoUnit,
   },
   // : props
-  props: {
-  },
+  props: {},
   // : data
   data() {
-    return {
-    }
+    return {};
   },
   // : computed
   computed: {
     participants() {
-      return this.$store.state.meetingRoom.participants
-    }
+      return this.$store.state.meetingRoom.participants;
+    },
   },
   // : lifecycle hook
-  mounted() {
-  },
+  mounted() {},
   // : methods
   methods: {
     toggleLeftSide() {
-      this.$emit('toggleLeftSide')
-    }
-  }
-}
+      this.$emit('toggleLeftSide');
+    },
+  },
+};
 </script>
 
 <style scoped>
-  .video-unit {
-    height: 20%;
-  }
+.video-unit {
+  height: 20%;
+}
 </style>
