@@ -1,5 +1,6 @@
 import Participant from './js/participant.js'
 import kurentoUtils from 'kurento-utils'
+import Vue from 'vue';
 
 export default {
   namespaced: true,
@@ -25,7 +26,9 @@ export default {
       if (state.participants===null) {
         state.participants = {}
       }
-      state.participants[name] = participant
+      // 객체 변경 감지를 위한 추가법
+      Vue.set(state.participants, name, participant)
+      //state.participants[name] = participant
       // 디버깅
       console.log('participant added', state.participants)
     },
