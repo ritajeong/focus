@@ -34,6 +34,7 @@ public class PresentationManager {
             "/home/ubuntu/presentations/kim/006.jpg",
             "/home/ubuntu/presentations/kim/007.jpg",
             "/home/ubuntu/presentations/kim/008.jpg",
+            "/home/ubuntu/presentations/kim/009.jpg",
     };
     private int imageIndex;
     private Presentation presentation;
