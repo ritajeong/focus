@@ -14,8 +14,8 @@
             >
               <div class="card card-plain">
                 <div class="card-header pb-0 text-left">
-                  <h4 class="font-weight-bolder">Sign In</h4>
-                  <p class="mb-0">Enter your email and password to sign in</p>
+                  <h4 class="font-weight-bolder">Sign Up</h4>
+                  <p class="mb-0">Enter your infomation to sign up</p>
                 </div>
                 <div class="card-body">
                   <form role="form">
@@ -30,9 +30,26 @@
                     </div>
                     <div class="mb-3">
                       <input
-                        type="email"
+                        type="text"
+                        class="form-control form-control-lg"
+                        placeholder="Name"
+                        aria-label="Name"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <input
+                        type="password"
                         class="form-control form-control-lg"
                         placeholder="Password"
+                        aria-label="Password"
+                        aria-describedby="password-addon"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <input
+                        type="password"
+                        class="form-control form-control-lg"
+                        placeholder="Password Confirm"
                         aria-label="Password"
                         aria-describedby="password-addon"
                       />
@@ -59,18 +76,18 @@
                           mb-0
                         "
                       >
-                        Sign in
+                        Sign Up
                       </button>
                     </div>
                   </form>
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
-                    Don't have an account?
-                    <a
-                      href="javascript:;"
+                    Do you already have an account?
+                    <router-link
+                      to="login"
                       class="text-primary text-gradient font-weight-bold"
-                      >Sign up</a
+                      >Sign Up</router-link
                     >
                   </p>
                 </div>
