@@ -16,7 +16,7 @@
 <br>
 
 ## 디렉토리 구조
-
+[디렉토리 구조](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/develop/Documents/21-08-05_%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC_%EA%B5%AC%EC%A1%B0.md)
 <br>
 
 ## 프로젝트 명세
