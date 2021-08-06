@@ -54,15 +54,22 @@
                         aria-describedby="password-addon"
                       />
                     </div>
-                    <div class="form-check form-switch">
+                    <div class="form-check form-check-info text-left">
                       <input
                         class="form-check-input"
                         type="checkbox"
-                        id="rememberMe"
+                        value=""
+                        id="flexCheckDefault"
+                        checked
                       />
-                      <label class="form-check-label" for="rememberMe"
-                        >Remember me</label
-                      >
+                      <label class="form-check-label" for="flexCheckDefault">
+                        I agree the
+                        <a
+                          href="javascript:;"
+                          class="text-dark font-weight-bolder"
+                          >Terms and Conditions</a
+                        >
+                      </label>
                     </div>
                     <div class="text-center">
                       <button
@@ -83,7 +90,7 @@
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
-                    Do you already have an account?
+                    Already have an account?
                     <router-link
                       to="login"
                       class="text-primary text-gradient font-weight-bold"
