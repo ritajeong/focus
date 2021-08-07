@@ -50,6 +50,10 @@ public class GroupCallApp implements WebSocketConfigurer {
   }
 
   @Bean
+  public PresentationManager presentationManager(){return new PresentationManager();
+  }
+
+  @Bean
   public CallHandler groupCallHandler() {
     return new CallHandler();
   }
@@ -64,11 +68,6 @@ public class GroupCallApp implements WebSocketConfigurer {
     ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
     container.setMaxTextMessageBufferSize(32768);
     return container;
-  }
-
-
-  @Bean
-  public PresentationManager presentationManager(){return new PresentationManager();
   }
 
   public static void main(String[] args) throws Exception {

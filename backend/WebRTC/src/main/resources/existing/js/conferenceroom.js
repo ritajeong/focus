@@ -48,6 +48,13 @@ ws.onmessage = function(message) {
 	        }
 	    });
 	    break;
+	case 'startPresentation':
+		var message = {
+			id : 'startPresentation',
+			presenter: parsedMessage.presenter,
+		}
+		sendMessage(message);
+		break;
 	default:
 		console.error('Unrecognized message', parsedMessage);
 	}
@@ -57,7 +64,8 @@ function register() {
 	name = document.getElementById('name').value;
 	var room = document.getElementById('roomName').value;
 
-	document.getElementById('room-header').innerText = 'ROOM ' + room;
+	document.getElementById('room-header').innerText = 'FOCUS ROOM : ' + room;
+	document.getElementById('room-header').style.color = "##FFFFFF";
 	document.getElementById('join').style.display = 'none';
 	document.getElementById('room').style.display = 'block';
 
@@ -108,9 +116,15 @@ function onExistingParticipants(msg) {
 	var remoteVideo = participant.getRemoteVideoElement();
 
 	var options = {
+<<<<<<< HEAD:backend/WebRTC/src/main/resources/existing/js/conferenceroom.js
 	      localVideo: video,
 		  remoteVideo: remoteVideo,
 	      mediaConstraints: {audio: true, video: true},
+=======
+	     // localVideo: video,
+		  remoteVideo: video,
+	    //	mediaConstraints: constraints,
+>>>>>>> feature/for-pjt-ppt:backend/WebRTC/src/main/resources/static/js/conferenceroom.js
 	      onicecandidate: participant.onIceCandidate.bind(participant)
 	    }
 	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
@@ -147,8 +161,8 @@ function receiveVideo(sender) {
 	var remoteVideo = participant.getRemoteVideoElement();
 
 	var options = {
-      localVideo: video,
-	  remoteVideo: remoteVideo,
+     // localVideo: video,
+	  remoteVideo: video,
       onicecandidate: participant.onIceCandidate.bind(participant)
     }
 

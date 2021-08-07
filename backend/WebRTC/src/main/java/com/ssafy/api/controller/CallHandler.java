@@ -37,10 +37,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.ssafy.api.service.RoomManager;
-import com.ssafy.common.util.Room;
-import com.ssafy.common.util.UserRegistry;
-import com.ssafy.common.util.UserSession;
 
 /**
  * 
@@ -98,32 +94,45 @@ public class CallHandler extends TextWebSocketHandler {
 			break;
 		case "presenterSet": {
 			log.trace("presenterSet");
-			presenterSet(jsonMessage, user);
+			presenterSet(jsonMessage);
 			break;
+		}
+		case "startPresentation": {
+			final String presenterName = jsonMessage.get("presenter").getAsString();
+			final UserSession presenter = registry.getByName(presenterName);
+			for (UserSession audience : registry.getUsersByName().values()) {
+				audience.linkImageOverlayPipeline(presenter, presentationManager.getImageOverlayFilter());
+			}
 		}
 		case "start": {
 			log.trace("start");
-			start(session);
+			presentationManager.start();
 			break;
 		}
 		case "stop": {
 			log.trace("stop");
-			stop(session);
+			// presentationManager.stop();
 			break;
 		}
 		case "prev": {
 			log.trace("prev");
-			prev(session);
+			presentationManager.prev();
 			break;
 		}
 		case "next": {
 			log.trace("next");
-			next(session);
+			presentationManager.next();
 			break;
 		}
-		case "cameraToggle": {
-			log.trace("camera toggle");
-			cameraToggle(session);
+		case "full": {
+			log.trace("full toggle");
+			presentationManager.full();
+			break;
+		}
+		case "moveImage": {
+			final String location = jsonMessage.get("location").getAsString();
+			log.trace("move image");
+			presentationManager.changeImageLocation(location);
 			break;
 		}
 		default:
@@ -155,33 +164,16 @@ public class CallHandler extends TextWebSocketHandler {
 		}
 	}
 
-	private void presenterSet(JsonObject params, UserSession user) {
+	private void presenterSet(JsonObject params) throws IOException {
+		// TODO presentationSession이랑 presentationManager.getPresenter() 꼬인거 해결해야함
 		String presenter = params.get("presenter").getAsString();
-		Room room = roomManager.getRoom(user.getRoomName());
+		boolean isPresenter = params.get("isPresenter").getAsBoolean();
+		UserSession presenterSession = registry.getByName(presenter);
+		Room room = roomManager.getRoom(presenterSession.getRoomName());
 
-		Presentation presentation = presentationManager.getPresentation(presenter, room, user);
-
+		final Presentation presentation = presentationManager.getPresentation(presenter, room, presenterSession);
+		presentationManager.setPresenter(isPresenter);
+		registry.register(presentationManager.getPresenter());
 		log.info("[presentationSet] presentation: {}", presentation);
-
-	}
-
-	private void start(WebSocketSession session) {
-		presentationManager.start();
-	}
-
-	private void stop(WebSocketSession session) {
-		// presentationManager.stop();
-	}
-
-	private void prev(WebSocketSession session) {
-		// presentationManager.start();
-	}
-
-	private void next(WebSocketSession session) {
-		// presentationManager.start();
-	}
-
-	private void cameraToggle(WebSocketSession session) {
-		
 	}
 }
