@@ -165,7 +165,6 @@ public class CallHandler extends TextWebSocketHandler {
 	}
 
 	private void presenterSet(JsonObject params) throws IOException {
-		// TODO presentationSession이랑 presentationManager.getPresenter() 꼬인거 해결해야함
 		String presenter = params.get("presenter").getAsString();
 		boolean isPresenter = params.get("isPresenter").getAsBoolean();
 		UserSession presenterSession = registry.getByName(presenter);
