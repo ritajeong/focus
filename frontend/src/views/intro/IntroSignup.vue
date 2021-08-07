@@ -76,7 +76,7 @@
                         type="button"
                         class="
                           btn btn-lg
-                          bg-gradient-primary
+                          bg-gradient-dark
                           btn-lg
                           w-100
                           mt-4
@@ -93,8 +93,8 @@
                     Already have an account?
                     <router-link
                       to="login"
-                      class="text-primary text-gradient font-weight-bold"
-                      >Sign Up</router-link
+                      class="text-dark text-gradient font-weight-bold"
+                      >Sign In</router-link
                     >
                   </p>
                 </div>
@@ -118,7 +118,7 @@
               <div
                 class="
                   position-relative
-                  bg-gradient-primary
+                  bg-gradient-dark
                   h-100
                   m-3
                   px-7
@@ -136,7 +136,7 @@
                 <div class="position-relative">
                   <img
                     class="max-width-500 w-100 position-relative z-index-2"
-                    src="@/assets/img/illustrations/chat.png"
+                    src="@/assets/img/illustrations/rocket-white.png"
                   />
                 </div>
                 <h4 class="mt-5 text-white font-weight-bolder">

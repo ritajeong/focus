@@ -17,6 +17,7 @@
           </button>
         </div>
         <!-- 닫기버튼 끝 -->
+        <!-- 사이드탭 바디-->
       </div>
       <hr class="horizontal dark my-1" />
       <div class="card-body pt-sm-3 pt-0">

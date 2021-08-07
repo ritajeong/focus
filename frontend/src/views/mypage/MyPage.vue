@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppNav />
-    <div style="padding-top: 60px">
+    <div>
       <router-view></router-view>
     </div>
     <AppFooter />

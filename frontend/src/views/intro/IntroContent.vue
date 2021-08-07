@@ -15,7 +15,7 @@
             ms-n6
           "
           style="
-            background-image: url(../../assets/img/curved-images/curved11.jpg);
+            background-image: url(../../assets/img/curved-images/curved-11.jpg);
           "
         ></div>
       </div>
@@ -24,22 +24,30 @@
           <div
             class="col-lg-6 col-md-7 d-flex justify-content-center flex-column"
           >
-            <h1 class="text-gradient text-primary">Your Work With</h1>
-            <h1 class="mb-4">Soft Design System</h1>
+            <h1 class="text-gradient text-dark">Your Work With</h1>
+            <h1 class="text-gradient text-dark mb-4">Soft Design System</h1>
             <p class="lead pe-5 me-5">
               The time is now for it be okay to be great. People in this world
               shun people for being nice.
             </p>
             <div class="buttons">
-              <button type="button" class="btn bg-gradient-primary mt-4">
-                <router-link to="/login"> Login </router-link>
-              </button>
-              <button type="button" class="btn text-primary shadow-none mt-4">
-                <router-link to="/meetingroom"> MeetingRoom </router-link>
-              </button>
-              <button type="button" class="btn text-primary shadow-none mt-4">
-                <router-link to="/dashboard"> Dashboard </router-link>
-              </button>
+              <router-link to="/login" class="btn bg-gradient-dark mt-4">
+                Login
+              </router-link>
+
+              <router-link
+                to="/meetingroom"
+                class="btn btn-outline-dark text-dark shadow-none mt-4"
+              >
+                MeetingRoom
+              </router-link>
+
+              <router-link
+                to="/dashboard"
+                class="btn btn-outline-dark text-dark shadow-none mt-4"
+              >
+                Dashboard
+              </router-link>
             </div>
           </div>
         </div>

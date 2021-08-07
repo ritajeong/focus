@@ -14,6 +14,18 @@
       >
         FOCUS
       </router-link>
+      <!-- <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navigation"
+        aria-controls="navigation"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      > 
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+
       <div
         class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0"
         id="navigation"
@@ -74,17 +86,6 @@
                 align-items-center
               "
               >Mypage</router-link
-            >
-          </li>
-        </ul>
-
-        <ul class="navbar-nav d-lg-block d-none">
-          <li class="nav-item">
-            <a
-              href="https://www.creative-tim.com/product/soft-ui-design-system-pro#pricingCard"
-              class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1"
-              role="button"
-              >Button</a
             >
           </li>
         </ul>

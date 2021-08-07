@@ -1,3 +1,10 @@
 <template>
-  <div>MyInfo</div>
+  <div><AppForm /></div>
 </template>
+<script>
+import AppForm from '@/components/common/AppForm';
+export default {
+  name: 'MyInfo',
+  components: { AppForm },
+};
+</script>
