@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column">
+  <div class="sidebar-container d-flex flex-column p-3">
     <div class="d-flex justify-content-end">
       <button type="button" class="btn-close" aria-label="Close" @click="toggleRightSide"></button>
     </div>
@@ -38,3 +38,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .sidebar-container {
+    background: #405463;
+    border-radius: 15px;
+  }
+</style>

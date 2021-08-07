@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column">
+  <div class="video-group-container d-flex flex-column p-3">
     <div class="d-flex justify-content-end">
       <button type="button" class="btn-close" aria-label="Close" @click="toggleLeftSide"></button>
     </div>
@@ -47,5 +47,9 @@ export default {
 <style scoped>
   .video-unit {
     height: 20%;
+  }
+  .video-group-container {
+    background: #405463;
+    border-radius: 15px;
   }
 </style>

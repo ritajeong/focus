@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :id="videoId">
+    <div class="video-container" :id="videoId">
     </div>
   </div>
 </template>
@@ -45,6 +45,8 @@ export default {
 <style>
   .video-insert {
     width: 100%;
-    border: white;
+  }
+  .video-container {
+    border: black;
   }
 </style>

@@ -8,7 +8,7 @@
     </div>
     <!-- register -->
     <!-- groupcall -->
-    <div v-if="participants !== null" class="main-container">
+    <div v-if="participants !== null" class="meetingroom-container">
       <div class="row">
         <div class="col-2" id="left-sidebar" v-show="leftSideShow">
           <VideoUnitGroup class="section" @toggleLeftSide="onToggleLeftSide"/>
@@ -152,10 +152,14 @@ export default {
 </script>
 
 <style scoped>
-  .main-container {
-    height: 100%;
+  .meetingroom-container {
+    height: 100vh;
+    width: 100vw;
+    background: black;
+    overflow: hidden;
   }
   .section {
-    height: 100%;
+    height: 100vh;
+    width: 100%;
   }
 </style>

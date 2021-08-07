@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="mainVideo"></div>
+    <div class="video-container p-3" id="mainVideo"></div>
   </div>
 </template>
 

@@ -9,7 +9,7 @@
 // import "./template.scss";
 
 export default {
-  name: 'Template',
+  name: 'MeetingRoomController',
   components: {
   },
   // : props
