@@ -58,12 +58,6 @@ public class CallHandler extends TextWebSocketHandler {
 	@Autowired
 	private PresentationManager presentationManager;
 
-	/*
-	 * TODO 여러 사람이 쓰는 거니까 전역변수 쓰면 안되고 final 써야 할것같음 수정 필요
-	 */
-	private Presentation presentation;
-	private String sdpOffer = "";
-
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		final JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
@@ -83,7 +77,7 @@ public class CallHandler extends TextWebSocketHandler {
 		case "receiveVideoFrom":
 			final String senderName = jsonMessage.get("sender").getAsString();
 			final UserSession sender = registry.getByName(senderName);
-			sdpOffer = jsonMessage.get("sdpOffer").getAsString();
+			final String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
 			user.receiveVideoFrom(sender, sdpOffer);
 			break;
 		case "leaveRoom":
@@ -112,28 +106,27 @@ public class CallHandler extends TextWebSocketHandler {
 		}
 		case "start": {
 			log.trace("start");
-			start();
+			presentationManager.start();
 			break;
 		}
 		case "stop": {
 			log.trace("stop");
-			stop();
+			// presentationManager.stop();
 			break;
 		}
 		case "prev": {
 			log.trace("prev");
-			prev(sdpOffer);
+			presentationManager.prev();
 			break;
 		}
 		case "next": {
 			log.trace("next");
-			next(sdpOffer);
-
+			presentationManager.next();
 			break;
 		}
 		case "full": {
 			log.trace("full toggle");
-			full();
+			presentationManager.full();
 			break;
 		}
 		case "moveImage": {
@@ -178,29 +171,9 @@ public class CallHandler extends TextWebSocketHandler {
 		UserSession presenterSession = registry.getByName(presenter);
 		Room room = roomManager.getRoom(presenterSession.getRoomName());
 
-		presentation = presentationManager.getPresentation(presenter, room, presenterSession);
+		final Presentation presentation = presentationManager.getPresentation(presenter, room, presenterSession);
 		presentationManager.setPresenter(isPresenter);
 		registry.register(presentationManager.getPresenter());
 		log.info("[presentationSet] presentation: {}", presentation);
-	}
-
-	private void start() {
-		presentationManager.start();
-	}
-
-	private void stop() {
-		// presentationManager.stop();
-	}
-
-	private void prev(String sdpOffer) {
-		presentationManager.prev(sdpOffer);
-	}
-
-	private void next(String sdpOffer) {
-		presentationManager.next(sdpOffer);
-	}
-
-	private void full() {
-		presentationManager.full();
 	}
 }

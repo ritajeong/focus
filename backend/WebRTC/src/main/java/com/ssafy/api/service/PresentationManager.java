@@ -113,8 +113,6 @@ public class PresentationManager {
 		imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPrecent,
 				heightPrecent, keepAspectRatio, imageCenter);
 
-//		presenter.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
-//		imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
 	}
 
 	public void start() {
@@ -130,7 +128,7 @@ public class PresentationManager {
 		imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
 	}
 
-	public void prev(String sdpOffer) {
+	public void prev() {
 		if (imageIndex > 0) {
 			String removeImageId = "testImage" + imageIndex;
 
@@ -140,27 +138,13 @@ public class PresentationManager {
 			imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPrecent,
 					heightPrecent, keepAspectRatio, imageCenter);
 			imageOverlayFilter.removeImage(removeImageId);
-//			presenter.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
-//			imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
-			// presenter.linkImageOverlayPipeline(presenter, imageOverlayFilter);
-
-			/*
-			 * TODO 다른 사람 remote 영상에 발표자의 자료를 보여주기 위해서 파이프라인 연결을 다시 해야하는데 negotiation 중복 현상
-			 * 발생함 심지어 이미지 적용도 안됨
-			 */
-//            try{
-//                presenter.receiveVideoFrom(presenter, sdpOffer);
-//            }catch (Exception e){
-//                e.printStackTrace();
-//                log.error("error: {}, sdpOffer: {}", e.getMessage(), sdpOffer);
-//            }
 
 		} else {
 			log.info("[prev] 맨 처음 사진입니다.");
 		}
 	}
 
-	public void next(String sdpOffer) {
+	public void next() {
 		if (imageIndex < imageUris.length - 1) {
 			String removeImageId = "testImage" + imageIndex;
 
@@ -170,19 +154,6 @@ public class PresentationManager {
 			imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPrecent,
 					heightPrecent, keepAspectRatio, imageCenter);
 			imageOverlayFilter.removeImage(removeImageId);
-//			presenter.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
-//			imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
-
-			/*
-			 * TODO prev() 내용과 동일
-			 */
-			// presenter.linkImageOverlayPipeline(presenter, imageOverlayFilter);
-//            try{
-//                presenter.receiveVideoFrom(presenter, sdpOffer);
-//            }catch (Exception e){
-//                e.printStackTrace();
-//                log.error("error: {}, sdpOffer: {}", e.getMessage(), sdpOffer);
-//            }
 
 		} else {
 			log.info("[next] 마지막 사진입니다.");
@@ -211,7 +182,6 @@ public class PresentationManager {
 		imageOverlayFilter.removeImage(imageId);
 		imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent,
 				keepAspectRatio, imageCenter);
-//		presenter.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
-//		imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
+
 	}
 }
