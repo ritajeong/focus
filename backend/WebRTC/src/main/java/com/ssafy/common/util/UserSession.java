@@ -129,14 +129,6 @@ public class UserSession implements Closeable {
 
 		log.trace("USER {}: SdpOffer for {} is {}", this.name, sender.getName(), sdpOffer);
 
-		// 처음부터 이미지 띄우기 image Overlay Filter
-//		log.info("[receiveVideoFrom] receiveVideoFrom image 필터 씌우기");
-//		imageOverlayFilter = new ImageOverlayFilter.Builder(pipeline).build();
-//		String imageId = "testImage";
-//		String imageUri = "/home/ubuntu/presentations/demo/flower.jpg";
-//		log.info("image start imageId: " + imageId + " imageUri: " + imageUri + " pipeline: " + pipeline);
-//		imageOverlayFilter.addImage(imageId, imageUri, 0.4f, 0.4f, 0.4f, 0.4f, true, true);
-
 		String ipSdpAnswer;
 		JsonObject scParams = new JsonObject();
 
@@ -161,10 +153,6 @@ public class UserSession implements Closeable {
 			log.info("sender == this - connect");
 			this.getOutgoingWebRtcPeer().gatherCandidates();
 			this.getOutgoingWebRtcPeer().connect(incomingMedia.get(this.name));
-
-			// 처음부터 이미지 띄우기 image Overlay Filter
-//			this.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
-//			imageOverlayFilter.connect(incomingMedia.get(this.name));
 		} else {
 			log.info("sender != this - connect");
 			this.getEndpointForUser(sender).gatherCandidates();
@@ -173,7 +161,6 @@ public class UserSession implements Closeable {
 		// Pipeline 연결
 		if (sender.isPresenter) {
 			log.info("[receiveVideoFrom] sender: {} is presenter ", sender.getName());
-//			linkImageOverlayPipeline(sender, imageOverlayFilter);
 		} else {
 			log.info("[receiveVideoFrom] sender: {} is not presenter", sender.getName());
 			WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
