@@ -10,9 +10,9 @@
           <h5 class="mt-3 mb-0">header</h5>
           <p>p</p>
         </div>
+        <!--닫기버튼-->
         <div class="float-end mt-4">
           <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-            <!--닫기버튼-->
             <i class="fa fa-close"></i>
           </button>
         </div>
@@ -33,20 +33,20 @@
           <button
             class="btn bg-gradient-primary w-100 px-3 mb-2 active"
             data-class="bg-transparent"
-            onclick="sidebarType(this)"
           >
+            <!--onclick="sidebarType(this)"-->
             Tap
           </button>
           <button
             class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2"
             data-class="bg-white"
-            onclick="sidebarType(this)"
           >
+            <!--onclick="sidebarType(this)"-->
             Tap
           </button>
         </div>
         <p class="text-sm d-xl-none d-block mt-2">p</p>
-        <!--토글-->
+        <!-- 토글-->
         <div class="mt-3">
           <h6 class="mb-0">Toggle</h6>
         </div>
@@ -55,8 +55,8 @@
             class="form-check-input mt-1 ms-auto"
             type="checkbox"
             id="navbarFixed"
-            onclick="navbarFixed(this)"
           />
+          <!--onclick="navbarFixed(this)"-->
         </div>
         <!--긴 버튼-->
         <hr class="horizontal dark my-sm-4" />
