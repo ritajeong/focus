@@ -9,34 +9,31 @@
 
 export default {
   name: 'MainVideoUnit',
-  components: {
-  },
+  components: {},
   // : props
   props: {
-    mainParticipant: Object
+    mainParticipant: Object,
   },
   // : data
   data() {
-    return {
-    }
+    return {};
   },
   // : computed
   computed: {
     video() {
-      return this.mainParticipant.getVideoElement()
+      return this.mainParticipant.getVideoElement();
     },
   },
   // : lifecycle hook
   mounted() {
-    this.video.classList.add("video-insert")
-    document.getElementById("mainVideo").appendChild(this.video)
+    this.video.classList.add('video-insert');
+    document.getElementById('mainVideo').appendChild(this.video);
   },
   // : updated
   updated() {
-    console.log(this.mainParticipant)
+    console.log(this.mainParticipant);
   },
   // : methods
-  methods: {
-  }
-}
+  methods: {},
+};
 </script>

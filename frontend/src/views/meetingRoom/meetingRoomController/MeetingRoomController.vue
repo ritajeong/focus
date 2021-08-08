@@ -10,30 +10,25 @@
 
 export default {
   name: 'MeetingRoomController',
-  components: {
-  },
+  components: {},
   // : props
-  props: {
-  },
+  props: {},
   // : data
   data() {
-    return {
-    }
+    return {};
   },
   // : computed
-  computed: {
-  },
+  computed: {},
   // : lifecycle hook
-  mounted() {
-  },
+  mounted() {},
   // : methods
   methods: {
     toggleLeftSide() {
-      this.$emit('toggleLeftSide')
+      this.$emit('toggleLeftSide');
     },
     toggleRightSide() {
-      this.$emit('toggleRightSide')
+      this.$emit('toggleRightSide');
     },
-  }
-}
+  },
+};
 </script>

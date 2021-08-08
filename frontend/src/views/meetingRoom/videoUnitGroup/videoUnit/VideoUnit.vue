@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div class="video-container" :id="videoId">
-    </div>
+    <div class="video-container" :id="videoId"></div>
   </div>
 </template>
 
@@ -10,43 +9,40 @@
 
 export default {
   name: 'VideoUnit',
-  components: {
-  },
+  components: {},
   // : props
   props: {
-    participant: Object
+    participant: Object,
   },
   // : data
   data() {
-    return {
-    }
+    return {};
   },
   // : computed
   computed: {
     videoId() {
-      return "video-of-" + this.participant.name
+      return 'video-of-' + this.participant.name;
     },
     video() {
-      return this.participant.getVideoElement()
-    }
+      return this.participant.getVideoElement();
+    },
   },
   // : lifecycle hook
   mounted() {
-    this.video.classList.add('video-insert')
-    document.getElementById(this.videoId).appendChild(this.video)
-    console.log( this.videoId + ' mounted')
+    this.video.classList.add('video-insert');
+    document.getElementById(this.videoId).appendChild(this.video);
+    console.log(this.videoId + ' mounted');
   },
   // : methods
-  methods: {
-  }
-}
+  methods: {},
+};
 </script>
 
 <style>
-  .video-insert {
-    width: 100%;
-  }
-  .video-container {
-    border: black;
-  }
+/* .video-insert {
+  width: 100%;
+} */
+.video-container {
+  border: black;
+}
 </style>
