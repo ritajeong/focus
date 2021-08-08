@@ -178,4 +178,7 @@ export default {
   animation-delay: 0.3s;
   visibility: hidden;
 }
+::-webkit-scrollbar {
+  display: none;
+}
 </style>

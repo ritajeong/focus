@@ -1,15 +1,20 @@
 <template>
   <div>
-    <h1>발표자료 선택</h1>
+    <PresentationContentItem />
+    <PresentationContentItem />
+    <PresentationContentItem />
+    <PresentationContentItem />
+    <PresentationContentItem />
+    <PresentationContentItem />
   </div>
 </template>
 
 <script>
-// import "./template.scss";
+import PresentationContentItem from './presentationContentItem.vue';
 
 export default {
   name: 'PresentationContentSelector',
-  components: {},
+  components: { PresentationContentItem },
   // : props
   props: {},
   // : data

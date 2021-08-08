@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding-bottom: 70px">
     <!-- presentation controller componenets -->
     <PresentationContentSelector v-if="contentShow" />
     <PresentationLocationSelector v-if="locationShow" />

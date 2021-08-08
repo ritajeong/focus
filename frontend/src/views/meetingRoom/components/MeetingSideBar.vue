@@ -94,9 +94,9 @@ export default {
   background: linear-gradient(90deg, #a0b0d0 0%, #7587a6 100%);
 }
 .meeting-participants {
-  margin: 50px 25px;
+  margin: 25px 25px;
 }
 .presentation-controller {
-  margin: 75px 25px 0;
+  margin: 50px 25px 0;
 }
 </style>
