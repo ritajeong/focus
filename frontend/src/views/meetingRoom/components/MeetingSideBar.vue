@@ -24,15 +24,23 @@
       </button>
     </div>
     <!-- navigator -->
+    <!-- SideBar Items -->
+    <MeetingParticipants v-if="participantShow" class="meeting-participants" />
+    <PresentationController
+      v-if="!participantShow"
+      class="presentation-controller"
+    />
+    <!-- SideBar Items -->
   </div>
 </template>
 
 <script>
-// import "./template.scss";
+import MeetingParticipants from './MeetingParticipants.vue';
+import PresentationController from './PresentationController.vue';
 
 export default {
   name: 'MeetingSideBar',
-  components: {},
+  components: { MeetingParticipants, PresentationController },
   // : props
   props: {},
   // : data
@@ -81,5 +89,8 @@ export default {
 }
 .navigator-button-inactive {
   background: linear-gradient(90deg, #a0b0d0 0%, #7587a6 100%);
+}
+.meeting-participants {
+  margin: 50px 25px;
 }
 </style>

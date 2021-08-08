@@ -11,6 +11,7 @@
         'd-flex',
         'flex-column',
         'align-items-center',
+        'justify-content-center',
       ]"
     >
       <!-- left side bar control buttons -->
@@ -18,7 +19,7 @@
         ><img
           src="@/assets/icons/left.svg"
           alt=""
-          :class="[{ 'main-left-margin': leftSideShow }, 'left-side-toggler']"
+          :class="[{ 'button-left-margin': leftSideShow }, 'left-side-toggler']"
           v-if="leftSideShow"
           @click="toggleLeftSide"
       /></transition>
@@ -40,7 +41,7 @@
           src="@/assets/icons/right.svg"
           alt=""
           :class="[
-            { 'main-right-margin': rightSideShow },
+            { 'button-right-margin': rightSideShow },
             'right-side-toggler',
           ]"
           v-if="rightSideShow"
@@ -128,11 +129,20 @@ export default {
   height: 100vh;
   background: #e9ecef;
   position: fixed;
+  overflow: auto;
 }
 .main-left-margin {
   margin-left: 255px;
+  transition: 0.3s;
 }
 .main-right-margin {
+  margin-right: 390px;
+  transition: 0.3s;
+}
+.button-left-margin {
+  margin-left: 255px;
+}
+.button-right-margin {
   margin-right: 390px;
 }
 .left-side-toggler {
