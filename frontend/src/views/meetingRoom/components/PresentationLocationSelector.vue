@@ -62,7 +62,7 @@ export default {
 }
 .template-insert {
   border-radius: 25px;
-  box-shadow: 0px 4px 4px black;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: 240px;
   height: 180px;
 }

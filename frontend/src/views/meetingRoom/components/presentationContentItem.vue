@@ -42,7 +42,7 @@ export default {
 }
 .content-insert {
   border-radius: 25px;
-  box-shadow: 0px 4px 4px black;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: 100%;
   height: auto;
 }
@@ -50,7 +50,7 @@ export default {
   position: absolute;
   bottom: 0;
   border-radius: 25px;
-  background: rgba(0, 0, 0, 0.7); /* Black see-through */
+  background: rgba(0, 0, 0, 0.7);
   width: 100%;
   height: 100%;
   transition: 0.3s ease;

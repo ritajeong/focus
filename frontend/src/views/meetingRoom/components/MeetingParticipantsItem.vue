@@ -67,6 +67,7 @@ export default {
 <style scoped>
 .participant-item {
   background: linear-gradient(90deg, #2c3153 0%, #15182a 100%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   height: 50px;
   width: 350px;
   margin-top: 25px;
@@ -90,6 +91,7 @@ export default {
 }
 .popup-item {
   background: linear-gradient(90deg, #a0b0d0 0%, #7587a6 100%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: 250px;
   height: 50px;
   display: flex;
