@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- navigator -->
-    <div class="d-flex justify-content-center mt-4">
+    <div class="d-flex justify-content-center navigator">
       <button
         :class="[
           { 'navigator-button-active': participantShow },
@@ -66,6 +66,9 @@ export default {
 </script>
 
 <style scoped>
+.navigator {
+  margin-top: 25px;
+}
 .navigator-participant-button {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border: none;
@@ -92,5 +95,8 @@ export default {
 }
 .meeting-participants {
   margin: 50px 25px;
+}
+.presentation-controller {
+  margin: 75px 25px 0;
 }
 </style>
