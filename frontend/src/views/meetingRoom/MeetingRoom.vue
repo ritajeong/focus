@@ -1,187 +1,102 @@
 <template>
-  <div class="meeting-room">
-    <!-- register -->
-    <div v-if="participants === null">
-      <h1>MeetingRoom</h1>
-      <input type="text" v-model="name" />
-      <button @click="register">register</button>
+  <div class="meetingroom-container">
+    <transition name="left-slide">
+      <VideoUnitGroup class="left-side-bar" v-if="leftSideShow" />
+    </transition>
+    <div
+      :class="[
+        { 'main-left-margin': leftSideShow },
+        { 'main-right-margin': rightSideShow },
+        'main',
+        'd-flex',
+        'flex-column',
+        'align-items-center',
+      ]"
+    >
+      <!-- left side bar control buttons -->
+      <transition name="button-show"
+        ><img
+          src="@/assets/icons/left.svg"
+          alt=""
+          :class="[{ 'main-left-margin': leftSideShow }, 'left-side-toggler']"
+          v-if="leftSideShow"
+          @click="toggleLeftSide"
+      /></transition>
+      <transition name="button-show"
+        ><img
+          src="@/assets/icons/right.svg"
+          alt=""
+          class="left-side-toggler"
+          v-if="!leftSideShow"
+          @click="toggleLeftSide"
+      /></transition>
+      <!-- left side bar control buttons -->
+      <h1 class="room-title">Room Title</h1>
+      <MainVideoUnit class="mt-4" />
+      <MeetingController class="mt-4" />
+      <!-- right side bar control buttons -->
+      <transition name="button-show"
+        ><img
+          src="@/assets/icons/right.svg"
+          alt=""
+          :class="[
+            { 'main-right-margin': rightSideShow },
+            'right-side-toggler',
+          ]"
+          v-if="rightSideShow"
+          @click="toggleRightSide"
+      /></transition>
+      <transition name="button-show"
+        ><img
+          src="@/assets/icons/left.svg"
+          alt=""
+          class="right-side-toggler"
+          v-if="!rightSideShow"
+          @click="toggleRightSide"
+      /></transition>
+      <!-- right side bar control buttons -->
     </div>
-    <!-- register -->
-    <!-- groupcall -->
-    <div v-if="participants !== null" class="meetingroom-container">
-      <!-- left side bar -->
-      <div id="left-sidebar" v-if="leftSideShow">
-        <VideoUnitGroup
-          class="left-side-bar"
-          @toggleLeftSide="onToggleLeftSide"
-        />
-      </div>
-      <!-- left side bar -->
-      <!-- main Video -->
-      <div
-        id="main-video"
-        :class="[
-          { 'main-left-margin': leftSideShow },
-          { 'main-right-margin': rightSideShow },
-          'main-video',
-        ]"
-      >
-        <MainVideoUnit
-          :mainParticipant="mainParticipant"
-          class="main-video-unit"
-        />
-        <MeetingRoomController
-          class="controller"
-          @toggleLeftSide="onToggleLeftSide"
-          @toggleRightSide="onToggleRightSide"
-        />
-      </div>
-      <!-- main Video -->
-      <!-- right side bar -->
-      <div id="right-sidebar" v-if="rightSideShow">
-        <MeetingSideBar
-          class="right-side-bar"
-          @toggleRightSide="onToggleRightSide"
-        />
-      </div>
-      <!-- right side bar -->
-    </div>
-    <!-- groupcall -->
+    <transition name="right-slide">
+      <MeetingSideBar class="right-side-bar" v-if="rightSideShow" />
+    </transition>
   </div>
 </template>
 
 <script>
-// import "./template.scss";
-import VideoUnitGroup from './videoUnitGroup/VideoUnitGroup.vue';
-import MainVideoUnit from './mainVideoUnit/MainVideoUnit.vue';
-import MeetingSideBar from './meetingSideBar/MeetingSideBar.vue';
-import MeetingRoomController from './meetingRoomController/MeetingRoomController.vue';
+import VideoUnitGroup from './components/VideoUnitGroup.vue';
+import MainVideoUnit from './components/MainVideoUnit.vue';
+import MeetingController from './components/MeetingController.vue';
+import MeetingSideBar from './components/MeetingSideBar.vue';
 
 export default {
   name: 'MeetingRoom',
   components: {
     VideoUnitGroup,
     MainVideoUnit,
+    MeetingController,
     MeetingSideBar,
-    MeetingRoomController,
   },
   // : props
   props: {},
   // : data
   data() {
     return {
-      name: null,
       leftSideShow: true,
       rightSideShow: true,
-      /* mainVideoGrid: null, */
     };
   },
-  // : watch
-  watch: {
-    serverMessage: function () {
-      // console.log(this.serverMessage.id)
-      switch (this.serverMessage.id) {
-        case 'existingParticipants': {
-          this.$store.dispatch(
-            'meetingRoom/onExistingParticipants',
-            this.serverMessage,
-          );
-          break;
-        }
-        case 'newParticipantArrived': {
-          this.$store.dispatch(
-            'meetingRoom/onNewParticipant',
-            this.serverMessage,
-          );
-          break;
-        }
-        case 'participantLeft': {
-          this.$store.dispatch(
-            'meetingRoom/onParticipantLeft',
-            this.serverMessage,
-          );
-          break;
-        }
-        case 'receiveVideoAnswer': {
-          this.$store.dispatch(
-            'meetingRoom/receiveVideoResponse',
-            this.serverMessage,
-          );
-          break;
-        }
-        case 'iceCandidate': {
-          const message = this.serverMessage;
-          this.participants[message.name].rtcPeer.addIceCandidate(
-            message.candidate,
-            function (error) {
-              if (error) {
-                console.error('Error adding candidate: ' + error);
-                return;
-              }
-            },
-          );
-          break;
-        }
-        default: {
-          console.error('Unrecognized message' + this.serverMessage);
-        }
-      }
-    },
-  },
   // : computed
-  computed: {
-    serverMessage() {
-      return this.$store.state.meetingRoom.serverMessage;
-    },
-    participants() {
-      return this.$store.state.meetingRoom.participants;
-    },
-    ws() {
-      return this.$store.state.meetingRoom.ws;
-    },
-    mainParticipant() {
-      return this.participants[this.$store.state.meetingRoom.myName];
-    },
-  },
+  computed: {},
   // : lifecycle hook
-  created() {
-    const url = 'wss://' + location.host + '/groupcall';
-    this.$store.dispatch('meetingRoom/wsInit', url);
-  },
   mounted() {},
   // : methods
   methods: {
-    register() {
-      let name = this.name;
-      let room = 'SaffyRoom';
-      let message = {
-        id: 'joinRoom',
-        name: name,
-        room: room,
-      };
-      this.$store.dispatch('meetingRoom/sendMessage', message);
-      this.$store.dispatch('meetingRoom/setMyName', this.name);
-    },
-    onToggleLeftSide() {
+    toggleLeftSide: function () {
       this.leftSideShow = !this.leftSideShow;
-      /* this.arrangeGrid(); */
     },
-    onToggleRightSide() {
+    toggleRightSide: function () {
       this.rightSideShow = !this.rightSideShow;
-      console.log('toggleRightSide', this.rightSideShow);
-      /* this.arrangeGrid(); */
     },
-    /* arrangeGrid() {
-      this.mainVideoGrid = 12;
-      if (this.leftSideShow) {
-        this.mainVideoGrid -= 2;
-      }
-      if (this.rightSideShow) {
-        this.mainVideoGrid -= 3;
-      }
-      var colClass = 'col-' + String(this.mainVideoGrid);
-      document.getElementById('main-video').className = colClass;
-    }, */
   },
 };
 </script>
@@ -190,46 +105,67 @@ export default {
 .meetingroom-container {
   height: 100vh;
   width: 100vw;
-  padding: 50px 35px;
-  transition: 0.3s;
-  background: #252f40;
+  padding: 20px 20px;
+  background: linear-gradient(90deg, #2c3153 0%, #15182a 100%);
 }
 .left-side-bar {
   background: none;
-  width: 300px;
+  height: 100vh;
+  width: 250px;
   top: 0;
-  left: 0;
+  left: 20px;
   position: fixed;
 }
-.main-video {
+.main {
   background: none;
   width: auto;
-  height: 50%;
-}
-.main-video-unit {
-  width: auto;
   height: 100%;
-  margin-top: 50px;
-  margin-bottom: 50px;
-}
-.controller {
-  position: absolute;
-  bottom: 50px;
-  left: 50%;
-  transform: translate(-50%);
 }
 .right-side-bar {
   width: 400px;
   top: 0;
   right: 0;
   height: 100vh;
+  background: #e9ecef;
   position: fixed;
-  transition: 0.3s;
 }
 .main-left-margin {
-  margin-left: 320px;
+  margin-left: 255px;
 }
 .main-right-margin {
-  margin-right: 420px;
+  margin-right: 390px;
+}
+.left-side-toggler {
+  position: absolute;
+  left: 0%;
+  top: 50%;
+  cursor: pointer;
+  transform: translate(100%, -50%);
+}
+.right-side-toggler {
+  position: absolute;
+  right: 0%;
+  top: 50%;
+  cursor: pointer;
+  transform: translate(-100%, -50%);
+}
+.room-title {
+  color: white;
+}
+.left-slide-enter-active {
+  animation: slideInLeft 0.3s;
+}
+.left-slide-leave-active {
+  animation: slideOutLeft 0.3s;
+}
+.right-slide-enter-active {
+  animation: slideInRight 0.3s;
+}
+.right-slide-leave-active {
+  animation: slideOutRight 0.3s;
+}
+.button-show-enter-active {
+  animation-delay: 0.3s;
+  visibility: hidden;
 }
 </style>
