@@ -22,7 +22,13 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.kurento.client.*;
+import org.kurento.client.Continuation;
+import org.kurento.client.EventListener;
+import org.kurento.client.IceCandidate;
+import org.kurento.client.IceCandidateFoundEvent;
+import org.kurento.client.ImageOverlayFilter;
+import org.kurento.client.MediaPipeline;
+import org.kurento.client.WebRtcEndpoint;
 import org.kurento.jsonrpc.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,7 +110,7 @@ public class UserSession implements Closeable {
 	public void setPresenter(boolean isPresenter) throws IOException {
 		log.info("USER {} is now a presenter of room {}", this.name, this.roomName);
 		this.isPresenter = isPresenter;
-
+		
 		JsonObject presenterParams = new JsonObject();
 		presenterParams.addProperty("id", "startPresentation");
 		presenterParams.addProperty("presenter", this.getName());
@@ -112,7 +118,7 @@ public class UserSession implements Closeable {
 		this.sendMessage(presenterParams);
 	}
 
-	public boolean getPresenter() {
+	public boolean getPresenter() {		
 		return this.isPresenter;
 	}
 

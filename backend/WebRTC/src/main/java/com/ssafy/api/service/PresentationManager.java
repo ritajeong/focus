@@ -9,6 +9,7 @@ import org.kurento.client.MediaPipeline;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.JsonObject;
 import com.ssafy.common.util.Presentation;
 import com.ssafy.common.util.Room;
 import com.ssafy.common.util.UserSession;
@@ -115,19 +116,25 @@ public class PresentationManager {
 
 	}
 
-	public void start() {
+	public void start(UserSession user) throws IOException {
+//		JsonObject presenterParams = new JsonObject();
+//		presenterParams.addProperty("id", "startPresentation");
+//		presenterParams.addProperty("presenter", user.getName());
+//
+//		user.sendMessage(presenterParams);
+		
 		imageIndex = 0;
 		String imageId = "testImage" + imageIndex;
 		String imageUri = imageUris[imageIndex];
 
+		log.info("[start] imageId: {}, imageUri: {}", imageId, imageUri);
 		imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent,
 				keepAspectRatio, imageCenter);
-		log.info("[start] imageId: {}, imageUri: {}", imageId, imageUri);
 
 		presenter.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
 		imageOverlayFilter.connect(presenter.getIncomingMedia(presenter.getName()));
 	}
-
+	
 	public void prev() {
 		if (imageIndex > 0) {
 			String removeImageId = "testImage" + imageIndex;

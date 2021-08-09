@@ -107,7 +107,7 @@ public class CallHandler extends TextWebSocketHandler {
 		}
 		case "start": {
 			log.trace("start");
-			presentationManager.start();
+			presentationManager.start(user);
 			break;
 		}
 		case "stop": {
@@ -166,7 +166,6 @@ public class CallHandler extends TextWebSocketHandler {
 	}
 
 	private void presenterSet(JsonObject params) throws IOException {
-		// TODO presentationSession이랑 presentationManager.getPresenter() 꼬인거 해결해야함
 		String presenter = params.get("presenter").getAsString();
 		boolean isPresenter = params.get("isPresenter").getAsBoolean();
 		UserSession presenterSession = registry.getByName(presenter);
@@ -176,6 +175,5 @@ public class CallHandler extends TextWebSocketHandler {
 		presentationManager.setPresenter(isPresenter);
 		registry.register(presentationManager.getPresenter());
 		log.info("[presentationSet] presentation: {}", presentation);
-
 	}
 }
