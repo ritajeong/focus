@@ -25,21 +25,20 @@
                         class="form-control form-control-lg"
                         placeholder="Email"
                         aria-label="Email"
-                        aria-describedby="email-addon"
-                        v-model="userEmail"
+                        v-model="useremail"
                       />
                     </div>
                     <div class="mb-3">
                       <input
-                        type="email"
+                        type="password"
                         class="form-control form-control-lg"
                         placeholder="Password"
                         aria-label="Password"
-                        aria-describedby="password-addon"
-                        v-model="userPwd"
+                        v-model="userpwd"
                       />
                     </div>
-                    <div class="form-check form-switch">
+                    <!-- ㅎㅇ 아이디 기억-->
+                    <!-- <div class="form-check form-switch">
                       <input
                         class="form-check-input"
                         type="checkbox"
@@ -48,7 +47,7 @@
                       <label class="form-check-label" for="rememberMe"
                         >Remember me</label
                       >
-                    </div>
+                    </div> -->
                     <div class="text-center">
                       <button
                         type="button"
@@ -60,7 +59,7 @@
                           mt-4
                           mb-0
                         "
-                        @click.prevent="userLogin()"
+                        @click.prevent="submitForm()"
                       >
                         Sign in
                       </button>
@@ -71,6 +70,7 @@
                   <p class="mb-4 text-sm mx-auto">
                     Don't have an account?
                     <router-link
+                      v:bind:disabled="!isUseremailValid || password"
                       to="signup"
                       class="text-dark text-gradient font-weight-bold"
                       >Sign Up</router-link
@@ -135,8 +135,9 @@
 </template>
 <script>
 import Vue from 'vue';
-import axios from '@/api/axios.js';
+import { loginUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
+import { validateEmail } from '@/common/validation.js';
 
 Vue.use(VueAlertify);
 
@@ -144,35 +145,38 @@ export default {
   name: 'IntroLogin',
   data() {
     return {
-      userEmail: '',
-      userPwd: '',
+      useremail: '',
+      userpwd: '',
+      logMessage: '',
     };
   },
+  computed: {
+    isUseremailValid() {
+      return validateEmail(this.useremail);
+    },
+  },
   methods: {
-    userLogin() {
-      axios
-        .post('/users', {
-          userId: this.$store.state.login.userId,
-          userPwd: this.$store.state.login.userPwd,
-        })
-        .then(({ data }) => {
-          //id, pwd가 맞으면 로그인 진행
-          console.log(data);
+    async submitForm() {
+      try {
+        console.log('submitForm()');
+        const userData = {
+          name: this.username, //ㅇㅇ api요청할 때 name도 돌려주세요
+          email: this.useremail,
+          password: this.userpwd,
+        };
+        await loginUser(userData);
+        this.$store.commit('SET_LOGIN', userData);
+        this.$router.push('/dashboard');
 
-          this.$store.commit('SET_LOGIN', {
-            isLogin: true,
-            userName: data.name,
-            userEmail: data.email,
-          });
-
-          this.$alertify.alert('로그인 성공.\n메인 페이지로 이동합니다.');
-          this.$router.push('/');
-        })
-        .catch(error => {
-          this.$alertify.alert('로그인에 실패했습니다.');
-          console.log('userLogin: error ');
-          console.log(error);
-        });
+        // this.initForm();
+      } catch (error) {
+        console.log(error.response.data);
+        this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
+      }
+    },
+    initForm() {
+      this.useremail = '';
+      this.userpwd = '';
     },
   },
 };

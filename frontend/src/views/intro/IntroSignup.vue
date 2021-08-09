@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--ㅎㅇ 회원가입 유효성 검사 -->
     <section>
       <div class="page-header min-vh-100">
         <div class="container">
@@ -21,33 +22,52 @@
                   <form role="form">
                     <div class="mb-3">
                       <input
+                        required="required"
                         type="email"
                         class="form-control form-control-lg"
                         placeholder="Email"
                         aria-label="Email"
                         aria-describedby="email-addon"
-                        v-model="userEmail"
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                        v-model="useremail"
                       />
+
+                      <!--ㅎㅇ 후순위 : 아이디 중복확인 추가(/users/{email})-->
+                      <!--ㅎㅇ 후순위 : validation check-->
                     </div>
                     <div class="mb-3">
                       <input
+                        required="required"
                         type="text"
                         class="form-control form-control-lg"
                         placeholder="Name"
                         aria-label="Name"
-                        v-model="userName"
+                        v-model="username"
                       />
                     </div>
                     <div class="mb-3">
                       <input
+                        required="required"
                         type="password"
                         class="form-control form-control-lg"
                         placeholder="Password"
                         aria-label="Password"
                         aria-describedby="password-addon"
-                        v-model="userPwd"
+                        v-model="userpwd"
                       />
                     </div>
+                    <div class="mb-3">
+                      <input
+                        required="required"
+                        type="password"
+                        class="form-control form-control-lg"
+                        placeholder="Password Confirm"
+                        aria-label="Password"
+                        aria-describedby="password-addon"
+                        v-model="userpwdcheck"
+                      />
+                    </div>
+                    <!--ㅎㅇ 후순위 : 약관 동의-->
                     <!-- <div class="form-check form-check-info text-left">
                       <input
                         class="form-check-input"
@@ -76,7 +96,7 @@
                           mt-4
                           mb-0
                         "
-                        @click.prevent="userSignup()"
+                        @click.prevent="submitForm()"
                       >
                         Sign Up
                       </button>
@@ -151,7 +171,7 @@
 </template>
 <script>
 import Vue from 'vue';
-import axios from '@/api/axios.js';
+import { registerUser, checkUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
 
 Vue.use(VueAlertify);
@@ -160,37 +180,52 @@ export default {
   name: 'IntroSignup',
   data() {
     return {
-      userName: '',
-      userPwd: '',
-      userPwdConfirm: '',
-      userEmail: '',
+      username: '',
+      userpwd: '',
+      userpwdcheck: '',
+      useremail: '',
+      isPwdSame: 'false',
     };
   },
-  created() {},
+  created: {
+    checkPwd() {
+      return (this.isPwdSame =
+        this.userpwd === this.userpwdcheck ? true : false);
+    },
+  },
   methods: {
-    userSignup() {
-      axios
-        .post('/users', {
-          email: this.userEmail,
-          name: this.userName,
-          password: this.userPwd,
-        })
-        .then(({ data }) => {
-          console.log(data);
-          this.$alertify.alert(
-            '회원 가입 성공',
-            '회원 가입이 완료되었습니다.\n메인 페이지로 이동합니다.',
-          );
-          this.$router.push('/');
-        })
-        .catch(error => {
-          this.$alertify.alert(
-            '회원 가입 오류',
-            '회원 가입에 오류가 생겼습니다.',
-          );
-          console.log('userSignup: error ');
-          console.log(error);
-        });
+    async submitForm() {
+      console.log('submitForm()');
+      if (this.checkEmail() !== 409) {
+        //ㅇㅇ api오류 . 아이디 중복확인과 멤버 초대가 상충함 -> 해결하고 validation check 작업하기
+        this.$alertify.error('이미 가입된 이메일입니다.');
+        return;
+      }
+
+      if (!this.checkPwd) {
+        this.$alertify.error('비밀번호확인이 틀렸습니다.');
+        return;
+      }
+
+      const userData = {
+        name: this.username,
+        email: this.useremail,
+      };
+      // const response = registerUser(userData);
+      const { data } = await registerUser(userData);
+      console.log(data.name);
+      this.initForm();
+    },
+    async checkEmail() {
+      console.log('checkEmail()');
+      const { data } = await checkUser(this.useremail);
+      console.log(data);
+      return data.statusCode;
+    },
+    initForm() {
+      this.username = '';
+      this.userpwd = '';
+      this.useremail = '';
     },
   },
 };
