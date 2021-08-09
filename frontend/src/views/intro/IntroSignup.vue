@@ -26,6 +26,7 @@
                         placeholder="Email"
                         aria-label="Email"
                         aria-describedby="email-addon"
+                        v-model="userEmail"
                       />
                     </div>
                     <div class="mb-3">
@@ -34,6 +35,7 @@
                         class="form-control form-control-lg"
                         placeholder="Name"
                         aria-label="Name"
+                        v-model="userName"
                       />
                     </div>
                     <div class="mb-3">
@@ -43,18 +45,10 @@
                         placeholder="Password"
                         aria-label="Password"
                         aria-describedby="password-addon"
+                        v-model="userPwd"
                       />
                     </div>
-                    <div class="mb-3">
-                      <input
-                        type="password"
-                        class="form-control form-control-lg"
-                        placeholder="Password Confirm"
-                        aria-label="Password"
-                        aria-describedby="password-addon"
-                      />
-                    </div>
-                    <div class="form-check form-check-info text-left">
+                    <!-- <div class="form-check form-check-info text-left">
                       <input
                         class="form-check-input"
                         type="checkbox"
@@ -70,7 +64,7 @@
                           >Terms and Conditions</a
                         >
                       </label>
-                    </div>
+                    </div> -->
                     <div class="text-center">
                       <button
                         type="button"
@@ -82,6 +76,7 @@
                           mt-4
                           mb-0
                         "
+                        @click.prevent="userSignup()"
                       >
                         Sign Up
                       </button>
@@ -155,7 +150,56 @@
   </div>
 </template>
 <script>
+import Vue from 'vue';
+import axios from '@/api/axios.js';
+import VueAlertify from 'vue-alertify';
+
+Vue.use(VueAlertify);
+
 export default {
-  name: 'IntroLogin',
+  name: 'IntroSignup',
+  data() {
+    return {
+      userName: '',
+      userPwd: '',
+      userPwdConfirm: '',
+      userEmail: '',
+    };
+  },
+  created() {},
+  methods: {
+    userSignup() {
+      axios
+        .post('/users', {
+          email: this.userEmail,
+          name: this.userName,
+          password: this.userPwd,
+        })
+        .then(({ data }) => {
+          console.log(data);
+          this.$alertify.alert(
+            '회원 가입 성공',
+            '회원 가입이 완료되었습니다.\n메인 페이지로 이동합니다.',
+          );
+          this.$router.push('/');
+        })
+        .catch(error => {
+          this.$alertify.alert(
+            '회원 가입 오류',
+            '회원 가입에 오류가 생겼습니다.',
+          );
+          console.log('userSignup: error ');
+          console.log(error);
+        });
+    },
+  },
 };
+/*
+{
+  "email": "string",
+  "name": "string",
+  "password": "string",
+  "userId": 0
+}
+*/
 </script>

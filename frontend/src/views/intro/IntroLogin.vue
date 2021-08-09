@@ -26,6 +26,7 @@
                         placeholder="Email"
                         aria-label="Email"
                         aria-describedby="email-addon"
+                        v-model="userEmail"
                       />
                     </div>
                     <div class="mb-3">
@@ -35,6 +36,7 @@
                         placeholder="Password"
                         aria-label="Password"
                         aria-describedby="password-addon"
+                        v-model="userPwd"
                       />
                     </div>
                     <div class="form-check form-switch">
@@ -58,6 +60,7 @@
                           mt-4
                           mb-0
                         "
+                        @click.prevent="userLogin()"
                       >
                         Sign in
                       </button>
@@ -131,7 +134,46 @@
   </div>
 </template>
 <script>
+import Vue from 'vue';
+import axios from '@/api/axios.js';
+import VueAlertify from 'vue-alertify';
+
+Vue.use(VueAlertify);
+
 export default {
   name: 'IntroLogin',
+  data() {
+    return {
+      userEmail: '',
+      userPwd: '',
+    };
+  },
+  methods: {
+    userLogin() {
+      axios
+        .post('/users', {
+          userId: this.$store.state.login.userId,
+          userPwd: this.$store.state.login.userPwd,
+        })
+        .then(({ data }) => {
+          //id, pwd가 맞으면 로그인 진행
+          console.log(data);
+
+          this.$store.commit('SET_LOGIN', {
+            isLogin: true,
+            userName: data.name,
+            userEmail: data.email,
+          });
+
+          this.$alertify.alert('로그인 성공.\n메인 페이지로 이동합니다.');
+          this.$router.push('/');
+        })
+        .catch(error => {
+          this.$alertify.alert('로그인에 실패했습니다.');
+          console.log('userLogin: error ');
+          console.log(error);
+        });
+    },
+  },
 };
 </script>

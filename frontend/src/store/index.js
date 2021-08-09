@@ -1,6 +1,6 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import meetingRoom from './modules/meetingRoom.js'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import meetingRoom from './modules/meetingRoom.js';
 
 Vue.use(Vuex);
 
@@ -13,4 +13,4 @@ const store = new Vuex.Store({
   },
 });
 
-export default store
+export default store;
