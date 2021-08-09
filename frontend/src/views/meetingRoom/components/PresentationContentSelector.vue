@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import PresentationContentItem from './presentationContentItem.vue';
+import PresentationContentItem from './PresentationContentItem.vue';
 
 export default {
   name: 'PresentationContentSelector',
