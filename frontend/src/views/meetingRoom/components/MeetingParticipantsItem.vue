@@ -5,7 +5,7 @@
     >
       <div class="d-flex align-items-center">
         <img src="@/assets/icons/user.svg" alt="" class="user-icon" />
-        <h3 class="username">username</h3>
+        <h4 class="username">username</h4>
       </div>
       <img
         src="@/assets/icons/menu.svg"

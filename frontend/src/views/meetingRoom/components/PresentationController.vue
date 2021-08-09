@@ -67,6 +67,7 @@ export default {
       contentShow: true,
       locationShow: false,
       sliderShow: false,
+      /* 이 외 slide controller의 모든 데이터는 발표와 관련(다른 사람과 동일한 데이터를 유지해야함) 있으므로 state에서 관리  */
     };
   },
   // : computed

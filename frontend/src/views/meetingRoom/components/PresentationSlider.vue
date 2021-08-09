@@ -1,26 +1,87 @@
 <template>
   <div>
-    <h1>발표자료 넘기기</h1>
+    <!-- prev -->
+    <PresentationSlideItem :slideUrl="slideUrls[prev].url" />
+    <!-- now -->
+    <div style="position: relative">
+      <PresentationSlideItem :slideUrl="slideUrls[now].url" />
+      <div class="overlay"><span>Now</span></div>
+    </div>
+    <!-- next -->
+    <PresentationSlideItem :slideUrl="slideUrls[next].url" />
+    <div class="d-flex justify-content-around align-items-center">
+      <img
+        src="@/assets/icons/prev.svg"
+        alt="previous slide"
+        class="progress-button"
+        @click="progressPrev"
+      />
+      <img
+        src="@/assets/icons/next.svg"
+        alt="next slide"
+        class="progress-button"
+        @click="progressNext"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-// import "./template.scss";
+import PresentationSlideItem from './PresentationSlideItem.vue';
+import Dummy from './Dummy.js';
 
 export default {
   name: 'PresentationSlider.vue',
-  components: {},
+  components: { PresentationSlideItem },
   // : props
   props: {},
   // : data
   data() {
-    return {};
+    return {
+      /* 임시 데이터 */
+      slideUrls: Dummy.getSlideUrls(),
+      /* 임시로 data에 저장, 실 서비스에서는 state로 관리해야 함 나갔다 들어와도 그대로여야 하니까 */
+      prev: 0,
+      now: 1,
+      next: 2,
+    };
   },
   // : computed
   computed: {},
   // : lifecycle hook
   mounted() {},
   // : methods
-  methods: {},
+  methods: {
+    progressPrev: function () {
+      this.prev -= 1;
+      this.now -= 1;
+      this.next -= 1;
+    },
+    progressNext: function () {
+      this.prev += 1;
+      this.now += 1;
+      this.next += 1;
+    },
+  },
 };
 </script>
+<style scoped>
+.progress-button {
+  cursor: pointer;
+}
+.overlay {
+  position: absolute;
+  bottom: 0;
+  border-radius: 25px;
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  color: white;
+  font-size: 2rem;
+  line-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

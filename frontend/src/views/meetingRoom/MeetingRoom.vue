@@ -33,8 +33,8 @@
       /></transition>
       <!-- left side bar control buttons -->
       <h1 class="room-title">Room Title</h1>
-      <MainVideoUnit class="mt-4" />
-      <MeetingController class="mt-4" />
+      <MainVideoUnit style="margin-top: 25px" />
+      <MeetingController style="margin-top: 25px" />
       <!-- right side bar control buttons -->
       <transition name="button-show"
         ><img

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <img
-      src="https://images.unsplash.com/photo-1566475955255-404134a79aeb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
-      alt=""
-      class="video-insert img-fluid"
-    />
+    <img :src="videoUrl" alt="" class="video-insert img-fluid" />
   </div>
 </template>
 
@@ -15,7 +11,9 @@ export default {
   name: 'VideoUnit',
   components: {},
   // : props
-  props: {},
+  props: {
+    videoUrl: String,
+  },
   // : data
   data() {
     return {};

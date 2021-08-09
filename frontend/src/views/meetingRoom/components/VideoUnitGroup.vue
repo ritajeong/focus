@@ -1,18 +1,30 @@
 <template>
   <div class="d-flex flex-column justify-content-center align-items-center">
-    <a href=""><img src="@/assets/icons/up.svg" alt="" class="up-button" /></a>
-    <VideoUnit class="video-container" />
-    <VideoUnit class="video-container" />
-    <VideoUnit class="video-container" />
-    <VideoUnit class="video-container" />
-    <a href=""
-      ><img src="@/assets/icons/down.svg" alt="" class="down-button"
-    /></a>
+    <img
+      src="@/assets/icons/up.svg"
+      alt=""
+      class="up-button"
+      @click="onPrevVideos"
+    />
+    <VideoUnit
+      class="video-container"
+      v-for="videoUrl in videoUrls"
+      :key="videoUrl.id"
+      :videoUrl="videoUrl.url"
+      v-show="first <= videoUrl.id && videoUrl.id <= last"
+    />
+    <img
+      src="@/assets/icons/down.svg"
+      alt=""
+      class="down-button"
+      @click="onNextVideos"
+    />
   </div>
 </template>
 
 <script>
 import VideoUnit from './VideoUnit.vue';
+import Dummy from './Dummy.js';
 
 export default {
   name: 'VideoUnitGroup',
@@ -21,14 +33,28 @@ export default {
   props: {},
   // : data
   data() {
-    return {};
+    return {
+      /* 임시 데이터: videoUrls */
+      videoUrls: Dummy.getVideoUrls(),
+      first: 1,
+      last: 4,
+    };
   },
   // : computed
   computed: {},
   // : lifecycle hook
   mounted() {},
   // : methods
-  methods: {},
+  methods: {
+    onPrevVideos: function () {
+      this.first -= 1;
+      this.last -= 1;
+    },
+    onNextVideos: function () {
+      this.first += 1;
+      this.last += 1;
+    },
+  },
 };
 </script>
 
@@ -43,11 +69,19 @@ export default {
   top: 50px;
   left: 50%;
   transform: translate(-50%);
+  cursor: pointer;
 }
 .down-button {
   position: absolute;
   left: 50%;
   bottom: 50px;
   transform: translate(-50%);
+  cursor: pointer;
+}
+.upslide-enter-active {
+  animation: slideInUp 0.3s;
+}
+.upslide-leave-active {
+  animation: slideOutUp 0.3s;
 }
 </style>
