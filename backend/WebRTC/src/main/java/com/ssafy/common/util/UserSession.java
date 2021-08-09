@@ -109,7 +109,7 @@ public class UserSession implements Closeable {
 	}
 
 	public void setPresenter(boolean isPresenter) throws IOException {
-		log.info("USER {} {} is now a presenter of room {}", this.name, this.session.getId(), this.roomName);
+		log.info("USER {} is now a presenter of room {}", this.name, this.roomName);
 		this.isPresenter = isPresenter;
 
 		JsonObject presenterParams = new JsonObject();
@@ -287,7 +287,6 @@ public class UserSession implements Closeable {
 
 	public void sendMessage(JsonObject message) throws IOException {
 		log.debug("USER {}: Sending message {}", name, message);
-		log.info("(User){} (SessionId){} tried to send a message", name, session.getId());
 		synchronized (session) {
 			session.sendMessage(new TextMessage(message.toString()));
 		}

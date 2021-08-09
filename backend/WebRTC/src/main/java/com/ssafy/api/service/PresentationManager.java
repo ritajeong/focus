@@ -153,14 +153,30 @@ public class PresentationManager {
 			log.info("[prev] 맨 처음 사진입니다.");
 		}
 	}
-
+	
 	public void next() {
 		if (imageIndex < imageUris.length - 1) {
-			smallOut();
+			String removeImageId = "testImage" + imageIndex;
+
+			imageIndex++;
+			String addImageId = "testImage" + imageIndex;
+			String addImageUri = imageUris[imageIndex];
+			imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPercent,
+					heightPercent, keepAspectRatio, imageCenter);
+			imageOverlayFilter.removeImage(removeImageId);
+
 		} else {
 			log.info("[next] 마지막 사진입니다.");
 		}
 	}
+	
+//	public void next() {
+//		if (imageIndex < imageUris.length - 1) {
+//			smallOut();
+//		} else {
+//			log.info("[next] 마지막 사진입니다.");
+//		}
+//	}
 
 	private void smallOut() {
 		String removeImageId = "testImage" + imageIndex;
@@ -278,22 +294,6 @@ public class PresentationManager {
 			}
 		}
 	}
-
-//	public void next() {
-//		if (imageIndex < imageUris.length - 1) {
-//			String removeImageId = "testImage" + imageIndex;
-//
-//			imageIndex++;
-//			String addImageId = "testImage" + imageIndex;
-//			String addImageUri = imageUris[imageIndex];
-//			imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPercent,
-//					heightPercent, keepAspectRatio, imageCenter);
-//			imageOverlayFilter.removeImage(removeImageId);
-//
-//		} else {
-//			log.info("[next] 마지막 사진입니다.");
-//		}
-//	}
 
 	public void full() {
 		if (isFullScreen) {
