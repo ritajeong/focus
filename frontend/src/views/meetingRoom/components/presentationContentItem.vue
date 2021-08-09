@@ -27,7 +27,7 @@ export default {
   computed: {},
   // : lifecycle hook
   mounted() {},
-  // : methods
+  // :    methods
   methods: {},
 };
 </script>
