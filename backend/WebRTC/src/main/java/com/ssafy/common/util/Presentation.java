@@ -5,14 +5,12 @@ import org.kurento.client.MediaPipeline;
 public class Presentation {
     private String presenter;
     private String[] presentationImageUris;
-    private String roomName;
     private MediaPipeline pipeline;
 
     public Presentation(){}
     public Presentation(String presenter, String[] imageUris, String roomName, MediaPipeline pipeline){
         this.presenter=presenter;
         this.presentationImageUris=imageUris;
-        this.roomName=roomName;
         this.pipeline=pipeline;
     }
 
