@@ -1,5 +1,12 @@
 <template>
   <div>
-    <h1>Component : components/room/RoomInfo.vue</h1>
+    <router-link to="/dashboard/modify">방정보수정</router-link><AppForm />
   </div>
 </template>
+<script>
+import AppForm from '@/components/common/AppForm';
+export default {
+  name: 'RoomInfo',
+  components: { AppForm },
+};
+</script>

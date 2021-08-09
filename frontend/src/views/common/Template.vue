@@ -9,24 +9,18 @@
 
 export default {
   name: 'Template',
-  components: {
-  },
+  components: {},
   // : props
-  props: {
-  },
+  props: {},
   // : data
   data() {
-    return {
-    }
+    return {};
   },
   // : computed
-  computed: {
-  },
+  computed: {},
   // : lifecycle hook
-  mounted() {
-  },
+  mounted() {},
   // : methods
-  methods: {
-  }
-}
+  methods: {},
+};
 </script>

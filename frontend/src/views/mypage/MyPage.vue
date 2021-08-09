@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppNav />
-    <div style="padding-top: 60px">
+    <div>
       <router-view></router-view>
     </div>
     <AppFooter />
@@ -9,8 +9,9 @@
 </template>
 <script>
 import AppNav from '@/components/common/AppNav.vue';
+import AppFooter from '@/components/common/AppFooter.vue';
 export default {
   name: 'MyPage',
-  components: { AppNav },
+  components: { AppNav, AppFooter },
 };
 </script>
