@@ -145,6 +145,7 @@ public class CallHandler extends TextWebSocketHandler {
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		UserSession user = registry.removeBySession(session);
 		roomManager.getRoom(user.getRoomName()).leave(user);
+		log.info("{} is removed from {}", user.getName(), user.getRoomName());
 	}
 
 	private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
