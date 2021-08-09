@@ -35,7 +35,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@PostMapping()
+	@PostMapping("/register")
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -52,7 +52,7 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
-	@PostMapping()
+	@PostMapping("/login")
 	@ApiOperation(value = "login.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -63,10 +63,7 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> login(
 			@RequestBody @ApiParam(value="로그인", required = true) LoginReq loginInfo) {
 		Users user = userService.getUserByEmail(loginInfo.getEmail());
-	  
-	      if (user==null) {
-	         return new ResponseEntity(HttpStatus.NO_CONTENT);
-	      }
+	  System.out.println(user.getEmail());
 	      return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	      
 	   }
