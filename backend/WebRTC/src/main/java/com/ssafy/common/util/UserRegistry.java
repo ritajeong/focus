@@ -55,14 +55,21 @@ public class UserRegistry {
 
 	public UserSession getByName(String name) {
 		System.out.println("===================================================================");
+		System.out.println("getByName");
 		for (String userName : usersByName.keySet()) {
-			System.out.println("userName : " + userName);
+			System.out.println("userName : " + userName + " sessionId : " + usersByName.get(userName).getSession().getId());
 		}
 		System.out.println("===================================================================");
 		return usersByName.get(name);
 	}
 
 	public UserSession getBySession(WebSocketSession session) {
+		System.out.println("===================================================================");
+		System.out.println("getBySession()");
+		for (String userName : usersByName.keySet()) {
+			System.out.println("userName : " + userName + " sessionId : " + usersByName.get(userName).getSession().getId());
+		}
+		System.out.println("===================================================================");
 		return usersBySessionId.get(session.getId());
 	}
 
@@ -74,7 +81,12 @@ public class UserRegistry {
 		final UserSession user = getBySession(session);
 		usersByName.remove(user.getName());
 		usersBySessionId.remove(session.getId());
+		System.out.println("===================================================================");
+		System.out.println("removeBySession()");
+		for (String userName : usersByName.keySet()) {
+			System.out.println("userName : " + userName + " sessionId : " + usersByName.get(userName).getSession().getId());
+		}
+		System.out.println("===================================================================");
 		return user;
 	}
-
 }

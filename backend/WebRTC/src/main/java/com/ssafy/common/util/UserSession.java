@@ -285,6 +285,7 @@ public class UserSession implements Closeable {
 
 	public void sendMessage(JsonObject message) throws IOException {
 		log.debug("USER {}: Sending message {}", name, message);
+		log.info("(User){} (SessionId){} tried to send a message", name, session.getId());
 		synchronized (session) {
 			session.sendMessage(new TextMessage(message.toString()));
 		}

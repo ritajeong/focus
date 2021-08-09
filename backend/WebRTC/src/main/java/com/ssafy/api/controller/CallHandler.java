@@ -144,8 +144,12 @@ public class CallHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		UserSession user = registry.removeBySession(session);
-		roomManager.getRoom(user.getRoomName()).leave(user);
-		log.info("{} is removed from {}", user.getName(), user.getRoomName());
+		Room room = roomManager.getRoom(user.getRoomName());
+		room.leave(user);
+		log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
+		if (room.getParticipants().isEmpty()) {
+			roomManager.removeRoom(room);
+		}
 	}
 
 	private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
@@ -161,9 +165,6 @@ public class CallHandler extends TextWebSocketHandler {
 	private void leaveRoom(UserSession user) throws IOException {
 		final Room room = roomManager.getRoom(user.getRoomName());
 		room.leave(user);
-		if (room.getParticipants().isEmpty()) {
-			roomManager.removeRoom(room);
-		}
 	}
 
 	private void presenterSet(JsonObject params) throws IOException {
