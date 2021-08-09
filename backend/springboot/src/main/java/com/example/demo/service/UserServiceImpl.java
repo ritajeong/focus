@@ -3,6 +3,7 @@ package com.example.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.api.request.LoginReq;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.UserRepository;
 
@@ -13,7 +14,6 @@ import com.example.demo.repository.UserRepository;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
-
 
 	@Override
 	public Users createUser(Users users) {
