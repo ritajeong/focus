@@ -1,7 +1,9 @@
 package com.example.demo.entity;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,11 +22,12 @@ import lombok.Setter;
 public class Rooms_Presentations {
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	 int id;
+	@Column(name="file_id")
+	 int fileId;
 	 String name;
 	 String directory;
+	@Column(name="upload_time", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	Timestamp upload_time;
-	
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")

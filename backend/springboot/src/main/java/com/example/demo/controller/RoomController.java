@@ -33,7 +33,7 @@ public class RoomController {
 	RoomService roomService;
 
 	
-	@PostMapping("/createRoom")
+	@PostMapping("/createroom")
 	@ApiOperation(value = "방생성") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -49,7 +49,7 @@ public class RoomController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
-	@PostMapping("/updateRoom/{roomId}")
+	@PostMapping("/updateroom/{roomId}")
 	@ApiOperation(value = "방업데이트") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -65,7 +65,7 @@ public class RoomController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
-	@PostMapping("/deleteRoom/{roomId}")
+	@PostMapping("/deleteroom/{roomId}")
 	@ApiOperation(value = "방삭제") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
