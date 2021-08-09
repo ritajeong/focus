@@ -191,4 +191,13 @@ public class PresentationManager {
 				keepAspectRatio, imageCenter);
 
 	}
+
+	public void stop() throws IOException {
+		String removeImageId = "testImage" + imageIndex;
+		imageOverlayFilter.removeImage(removeImageId);
+
+		imageIndex = 0;
+		presenter.getOutgoingWebRtcPeer().connect(presenter.getIncomingMedia(presenter.getName()));
+		presenter.setPresenter(false);
+	}
 }

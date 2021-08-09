@@ -112,7 +112,7 @@ public class CallHandler extends TextWebSocketHandler {
 		}
 		case "stop": {
 			log.trace("stop");
-			// presentationManager.stop();
+			presentationManager.stop();
 			break;
 		}
 		case "prev": {
