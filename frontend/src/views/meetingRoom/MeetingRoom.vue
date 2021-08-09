@@ -18,7 +18,7 @@
       <transition name="button-show"
         ><img
           src="@/assets/icons/left.svg"
-          alt=""
+          alt="left side bar(participants videos) toggle button"
           :class="[{ 'button-left-margin': leftSideShow }, 'left-side-toggler']"
           v-if="leftSideShow"
           @click="toggleLeftSide"
@@ -42,7 +42,7 @@
       <transition name="button-show"
         ><img
           src="@/assets/icons/right.svg"
-          alt=""
+          alt="right side bar toggle button"
           :class="[
             { 'button-right-margin': rightSideShow },
             'right-side-toggler',
