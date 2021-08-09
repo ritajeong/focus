@@ -55,7 +55,7 @@ public class UserRegistry {
 
 	public UserSession getByName(String name) {
 		System.out.println("===================================================================");
-		System.out.println("getByName");
+		System.out.println("getByName()");
 		for (String userName : usersByName.keySet()) {
 			System.out.println("userName : " + userName + " sessionId : " + usersByName.get(userName).getSession().getId());
 		}
@@ -83,6 +83,7 @@ public class UserRegistry {
 		usersBySessionId.remove(session.getId());
 		System.out.println("===================================================================");
 		System.out.println("removeBySession()");
+		System.out.println("removed userName : " + user.getName() + " sessionId : " + session.getId());
 		for (String userName : usersByName.keySet()) {
 			System.out.println("userName : " + userName + " sessionId : " + usersByName.get(userName).getSession().getId());
 		}

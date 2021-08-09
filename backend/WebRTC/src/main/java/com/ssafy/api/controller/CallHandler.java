@@ -146,6 +146,7 @@ public class CallHandler extends TextWebSocketHandler {
 		UserSession user = registry.removeBySession(session);
 		Room room = roomManager.getRoom(user.getRoomName());
 		room.leave(user);
+		presentationManager.removePresentation(room, user);
 		log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
 		if (room.getParticipants().isEmpty()) {
 			roomManager.removeRoom(room);
@@ -171,9 +172,10 @@ public class CallHandler extends TextWebSocketHandler {
 		String presenter = params.get("presenter").getAsString();
 		boolean isPresenter = params.get("isPresenter").getAsBoolean();
 		UserSession presenterSession = registry.getByName(presenter);
+		System.out.println("presenterSessionId : " + presenterSession.getSession().getId());
 		Room room = roomManager.getRoom(presenterSession.getRoomName());
 
-		final Presentation presentation = presentationManager.getPresentation(presenter, room, presenterSession);
+		final Presentation presentation = presentationManager.getPresentation(room, presenterSession);
 		presentationManager.setPresenter(isPresenter);
 		registry.register(presentationManager.getPresenter());
 		log.info("[presentationSet] presentation: {}", presentation);
