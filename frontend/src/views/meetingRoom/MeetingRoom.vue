@@ -32,8 +32,11 @@
           @click="toggleLeftSide"
       /></transition>
       <!-- left side bar control buttons -->
+      <!-- Room Title -->
       <h1 class="room-title">Room Title</h1>
+      <!-- Main Video -->
       <MainVideoUnit style="margin-top: 25px" />
+      <!-- Meeting Controller -->
       <MeetingController style="margin-top: 25px" />
       <!-- right side bar control buttons -->
       <transition name="button-show"
