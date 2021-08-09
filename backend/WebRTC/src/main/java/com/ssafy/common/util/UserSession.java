@@ -118,7 +118,7 @@ public class UserSession implements Closeable {
 		this.sendMessage(presenterParams);
 	}
 
-	public boolean getPresenter() {
+	public boolean getPresenter() {		
 		return this.isPresenter;
 	}
 

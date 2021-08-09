@@ -103,10 +103,11 @@ public class CallHandler extends TextWebSocketHandler {
 			for (UserSession audience : registry.getUsersByName().values()) {
 				audience.linkImageOverlayPipeline(presenter, presentationManager.getImageOverlayFilter());
 			}
+			break;
 		}
 		case "start": {
 			log.trace("start");
-			presentationManager.start();
+			presentationManager.start(user);
 			break;
 		}
 		case "stop": {
