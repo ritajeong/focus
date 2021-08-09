@@ -37,7 +37,6 @@ public class RoomServiceImpl implements RoomService {
 		if(room.getStartTime()==null) {
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			ro.setStartTime(timestamp);
-			ro.setEndTime(timestamp);
 		}
 		ro.setUsers(userRepository.findByUserId(room.getUser_id()));
 		roomRepository.save(ro);

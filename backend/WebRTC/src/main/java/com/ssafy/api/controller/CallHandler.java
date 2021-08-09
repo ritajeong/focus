@@ -144,7 +144,13 @@ public class CallHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		UserSession user = registry.removeBySession(session);
-		roomManager.getRoom(user.getRoomName()).leave(user);
+		Room room = roomManager.getRoom(user.getRoomName());
+		room.leave(user);
+		presentationManager.removePresentation(room, user);
+		log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
+		if (room.getParticipants().isEmpty()) {
+			roomManager.removeRoom(room);
+		}
 	}
 
 	private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
@@ -160,18 +166,16 @@ public class CallHandler extends TextWebSocketHandler {
 	private void leaveRoom(UserSession user) throws IOException {
 		final Room room = roomManager.getRoom(user.getRoomName());
 		room.leave(user);
-		if (room.getParticipants().isEmpty()) {
-			roomManager.removeRoom(room);
-		}
 	}
 
 	private void presenterSet(JsonObject params) throws IOException {
 		String presenter = params.get("presenter").getAsString();
 		boolean isPresenter = params.get("isPresenter").getAsBoolean();
 		UserSession presenterSession = registry.getByName(presenter);
+		System.out.println("presenterSessionId : " + presenterSession.getSession().getId());
 		Room room = roomManager.getRoom(presenterSession.getRoomName());
 
-		final Presentation presentation = presentationManager.getPresentation(presenter, room, presenterSession);
+		final Presentation presentation = presentationManager.getPresentation(room, presenterSession);
 		presentationManager.setPresenter(isPresenter);
 		registry.register(presentationManager.getPresenter());
 		log.info("[presentationSet] presentation: {}", presentation);

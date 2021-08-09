@@ -3,28 +3,28 @@ package com.ssafy.common.util;
 import org.kurento.client.MediaPipeline;
 
 public class Presentation {
-    private String presenter;
-    private String[] presentationImageUris;
-    private String roomName;
-    private MediaPipeline pipeline;
+	private String presenterName;
+	private String[] presentationImageUris;
+	private MediaPipeline pipeline;
 
-    public Presentation(){}
-    public Presentation(String presenter, String[] imageUris, String roomName, MediaPipeline pipeline){
-        this.presenter=presenter;
-        this.presentationImageUris=imageUris;
-        this.roomName=roomName;
-        this.pipeline=pipeline;
-    }
+	public Presentation() {
+	}
 
-    public String getPresenterName(){
-        return presenter;
-    }
+	public Presentation(String presenterName, String[] imageUris, String roomName, MediaPipeline pipeline) {
+		this.presenterName = presenterName;
+		this.presentationImageUris = imageUris;
+		this.pipeline = pipeline;
+	}
 
-    public String[] getPresentationImages(){
-        return presentationImageUris;
-    }
+	public String getPresenterName() {
+		return presenterName;
+	}
 
-    public MediaPipeline getPipeline(){
-        return pipeline;
-    }
+	public String[] getPresentationImages() {
+		return presentationImageUris;
+	}
+
+	public MediaPipeline getPipeline() {
+		return pipeline;
+	}
 }
