@@ -136,6 +136,12 @@ public class CallHandler extends TextWebSocketHandler {
 			presentationManager.changeImageLocation(location);
 			break;
 		}
+		case "imageSize":{
+			final float imageSizePercent=jsonMessage.get("imageSize").getAsFloat();
+			log.trace("image size change");
+			presentationManager.changeImageSize(imageSizePercent);
+			break;
+		}
 		default:
 			break;
 		}
