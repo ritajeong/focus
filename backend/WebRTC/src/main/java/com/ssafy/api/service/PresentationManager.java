@@ -334,11 +334,10 @@ public class PresentationManager {
 	public void changeImageSize(float imageSizePercent) {
 		log.info("imageSizePercent: {}, originImageSizePercent: {}", imageSizePercent, originImageSizePercent);
 		float diff = (imageSizePercent / 100) - originImageSizePercent;
-		log.info("[changeImageSize] diff: {}", diff);
 		String imageId = "testImage" + imageIndex;
 		String imageUri = imageUris[imageIndex];
 		float offset = (float) diff;
-		log.info("[changeImageSize] offset: {}", offset);
+
 		imageOverlayFilter.removeImage(imageId);
 		if (offset >= 0) {//사이즈 커짐
 			offsetXPercent = offsetXPercent - widthPercent * offset/2;
@@ -359,8 +358,7 @@ public class PresentationManager {
 		if(offsetYPercent<0){
 			offsetYPercent=0;
 		}
-		log.info("new offset: {}", offset);
-		log.info("[changeImageSize] offsetXPercent: {}, offsetYPercent: {},widthPrecent: {},heightPrecent: {},", offsetXPercent,offsetYPercent,widthPercent,heightPercent);
+	
 		imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPercent, heightPercent, keepAspectRatio, imageCenter);
 
 		originImageSizePercent = imageSizePercent/100;
