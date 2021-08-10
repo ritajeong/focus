@@ -38,11 +38,6 @@ public class UserRegistry {
 	public void register(UserSession user) {
 		usersByName.put(user.getName(), user);
 		usersBySessionId.put(user.getSession().getId(), user);
-//		System.out.println("===================================================================");
-//		for (String userName : usersByName.keySet()) {
-//			System.out.println("userName : " + userName + " is persenster?" + usersByName.get(userName).getPresenter());
-//		}
-//		System.out.println("===================================================================");
 	}
 
 	public ConcurrentHashMap<String, UserSession> getUsersByName() {
@@ -54,22 +49,10 @@ public class UserRegistry {
 	}
 
 	public UserSession getByName(String name) {
-		System.out.println("===================================================================");
-		System.out.println("getByName()");
-		for (String userName : usersByName.keySet()) {
-			System.out.println("userName : " + userName + " sessionId : " + usersByName.get(userName).getSession().getId());
-		}
-		System.out.println("===================================================================");
 		return usersByName.get(name);
 	}
 
 	public UserSession getBySession(WebSocketSession session) {
-		System.out.println("===================================================================");
-		System.out.println("getBySession()");
-		for (String userName : usersByName.keySet()) {
-			System.out.println("userName : " + userName + " sessionId : " + usersByName.get(userName).getSession().getId());
-		}
-		System.out.println("===================================================================");
 		return usersBySessionId.get(session.getId());
 	}
 
@@ -78,16 +61,11 @@ public class UserRegistry {
 	}
 
 	public UserSession removeBySession(WebSocketSession session) {
-		final UserSession user = getBySession(session);
-		usersByName.remove(user.getName());
-		usersBySessionId.remove(session.getId());
-		System.out.println("===================================================================");
-		System.out.println("removeBySession()");
-		System.out.println("removed userName : " + user.getName() + " sessionId : " + session.getId());
-		for (String userName : usersByName.keySet()) {
-			System.out.println("userName : " + userName + " sessionId : " + usersByName.get(userName).getSession().getId());
+		UserSession user = getBySession(session);
+		if (user != null) {
+			usersByName.remove(user.getName());
+			usersBySessionId.remove(session.getId());
 		}
-		System.out.println("===================================================================");
 		return user;
 	}
 }
