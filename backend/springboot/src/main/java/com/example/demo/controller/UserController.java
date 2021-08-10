@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.api.request.LoginReq;
 import com.example.demo.entity.Users;
 import com.example.demo.model.response.BaseResponseBody;
+import com.example.demo.model.response.UserRes;
 import com.example.demo.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -60,13 +61,17 @@ public class UserController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<Users> login(
+	public ResponseEntity<UserRes> login(
 			@RequestBody @ApiParam(value="로그인", required = true) LoginReq loginInfo) {
 		Users user = userService.getUserByEmail(loginInfo.getEmail());
+		UserRes res = new UserRes();
+		res.setEmail(user.getEmail());
+		res.setName(user.getName());
+		res.setUser_id(user.getUserId());
 		if(user==null || !user.getPassword().equals(loginInfo.getPassword()))
-			return new ResponseEntity<Users>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<UserRes>(HttpStatus.NO_CONTENT);
 	  System.out.println(user.getEmail());
-	      return new ResponseEntity<Users>(user,HttpStatus.OK);
+	      return new ResponseEntity<UserRes>(res,HttpStatus.OK);
 	      
 	   }
 	
