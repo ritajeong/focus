@@ -35,7 +35,7 @@
       <!-- Room Title -->
       <h1 class="room-title">Room Title</h1>
       <!-- Main Video -->
-      <MainVideoUnit style="margin-top: 25px" />
+      <MainVideoUnit class="main-video-unit" />
       <!-- Meeting Controller -->
       <MeetingController style="margin-top: 25px" />
       <!-- right side bar control buttons -->
@@ -124,6 +124,12 @@ export default {
   background: none;
   width: auto;
   height: 100%;
+}
+.main-video-unit {
+  margin-top: 25px;
+  position: relative;
+  height: 100%;
+  width: auto;
 }
 .right-side-bar {
   width: 400px;

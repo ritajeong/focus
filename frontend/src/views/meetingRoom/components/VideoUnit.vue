@@ -30,7 +30,7 @@ export default {
 <style scoped>
 .video-insert {
   height: 100%;
-  border-radius: 25px;
+  border-radius: 15px;
   box-shadow: 0px 4px 4px black;
 }
 </style>

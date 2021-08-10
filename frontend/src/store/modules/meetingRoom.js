@@ -10,6 +10,8 @@ export default {
     participants: null,
     serverMessage: null,
     myName: null,
+    nowImageUrl: null,
+    /* videoY: null, */
   }),
   // mutations
   mutations: {

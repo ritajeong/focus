@@ -4,8 +4,8 @@
       class="participant-item d-flex align-items-center justify-content-between"
     >
       <div class="d-flex align-items-center">
-        <img src="@/assets/icons/user.svg" alt="" class="user-icon" />
-        <h4 class="username">username</h4>
+        <!-- <img src="@/assets/icons/user.svg" alt="" class="user-icon" /> -->
+        <h4 class="username ms-5">username</h4>
       </div>
       <img
         src="@/assets/icons/menu.svg"
