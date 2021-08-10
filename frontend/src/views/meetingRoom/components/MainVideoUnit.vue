@@ -1,13 +1,13 @@
 <template>
-  <div class="main-video-container">
+  <div class="main-video-container" id="main-video-container">
     <!-- main video -->
     <!-- example image -->
-    <img
+    <!-- <img
       src="https://images.unsplash.com/photo-1566475955255-404134a79aeb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
       alt=""
       class="video-insert img-fluid"
       id="main-video"
-    />
+    /> -->
     <!-- example image -->
     <!-- example video -->
     <!--     <video
@@ -59,6 +59,14 @@ export default {
     nowImageUrl: function () {
       return this.$store.state.meetingRoom.nowImageUrl;
     },
+    mainVideo() {
+      const participants = this.$store.state.meetingRoom.participants;
+      const mainParticipantName = Object.keys(participants).find(
+        key => key === this.$store.state.meetingRoom.presenter,
+      );
+      const mainParticipant = participants[mainParticipantName];
+      return mainParticipant.getVideoElement();
+    },
     /*     mainVideoInfo: function () {
       return document.getElementById('main-video').getBoundingClientRect();
     },
@@ -70,7 +78,9 @@ export default {
   /*   created() {
     console.log(window.innerWidth);
   }, */
-  updated() {
+  mounted() {
+    this.mainVideo.classList.add('video-insert');
+    document.getElementById('main-video-container').appendChild(this.mainVideo);
     /* console.log(this.mainVideoInfo); */
     // 발표자료의 너비는 영상의
     /* document.getElementById('image-container').style.width =
@@ -101,11 +111,6 @@ export default {
   height: 100%;
   width: auto;
 }
-.video-insert {
-  height: 100%;
-  border-radius: 25px;
-  box-shadow: 0px 4px 4px black;
-}
 /* .image-container {
   position: absolute;
   width: 60%;
@@ -121,5 +126,12 @@ export default {
 }
 .transition-first-enter-active {
   animation: fadeIn 0.3s;
+}
+</style>
+<style>
+.video-insert {
+  height: 100%;
+  border-radius: 25px;
+  box-shadow: 0px 4px 4px black;
 }
 </style>

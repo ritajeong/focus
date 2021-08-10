@@ -36,7 +36,7 @@
               </router-link>
 
               <router-link
-                to="/meetingroom"
+                to="/meetingroomenter"
                 class="btn btn-outline-dark text-dark shadow-none mt-4"
               >
                 MeetingRoom

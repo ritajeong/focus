@@ -1,26 +1,28 @@
 import Participant from './js/participant.js';
 import kurentoUtils from 'kurento-utils';
 import Vue from 'vue';
+import router from '../../router';
 
 export default {
   namespaced: true,
   // state
   state: () => ({
     ws: null,
+    // meetingRoom 에서 그룹콜 중일때만 쓰는 state
     participants: null,
-    serverMessage: null,
     myName: null,
     nowImageUrl: null,
-    /* videoY: null, */
+    manager: null,
+    presenter: null,
   }),
   // mutations
   mutations: {
     WS_INIT(state, url) {
       state.ws = new WebSocket(url);
     },
-    WS_ONMESSAGE(state, parsedMessage) {
+    /*     WS_ONMESSAGE(state, parsedMessage) {
       state.serverMessage = parsedMessage;
-    },
+    }, */
     SET_MY_NAME(state, myName) {
       state.myName = myName;
     },
@@ -33,6 +35,15 @@ export default {
       //state.participants[name] = participant
       // 디버깅
       console.log('participant added', state.participants);
+      // 임시 코드: 매니저, presenter 지정
+      if (Object.keys(state.participants).length === 1) {
+        state.manager = state.myName;
+        state.presenter = state.myName;
+      } else {
+        state.manager = 'mann-1';
+        state.presenter = 'mann-1';
+      }
+      // 임시코드 종료
     },
     DISPOSE_PARTICIPANT(state, participantName) {
       delete state.participants[participantName];
@@ -46,8 +57,47 @@ export default {
       context.state.ws.onmessage = function (message) {
         let parsedMessage = JSON.parse(message.data);
         // console.info('Received message: ' + message.data)
-        context.commit('WS_ONMESSAGE', parsedMessage);
+        /* context.commit('WS_ONMESSAGE', parsedMessage); */
+        /* console.log(parsedMessage); */
+        context.dispatch('onServerMessage', parsedMessage);
       };
+    },
+    // 웹소켓 메시지에 따른 동작
+    onServerMessage(context, message) {
+      /* console.log(message); */
+      switch (message.id) {
+        case 'existingParticipants': {
+          context.dispatch('onExistingParticipants', message);
+          break;
+        }
+        case 'newParticipantArrived': {
+          context.dispatch('onNewParticipant', message);
+          break;
+        }
+        case 'participantLeft': {
+          context.dispatch('onParticipantLeft', message);
+          break;
+        }
+        case 'receiveVideoAnswer': {
+          context.dispatch('receiveVideoResponse', message);
+          break;
+        }
+        case 'iceCandidate': {
+          context.state.participants[message.name].rtcPeer.addIceCandidate(
+            message.candidate,
+            function (error) {
+              if (error) {
+                console.error('Error adding candidate: ' + error);
+                return;
+              }
+            },
+          );
+          break;
+        }
+        default: {
+          console.error('Unrecognized message' + message);
+        }
+      }
     },
     // 웹소켓으로 메시지 발신 action
     sendMessage(context, message) {
@@ -77,6 +127,7 @@ export default {
           },
         },
       };
+
       var options = {
         localVideo: video,
         mediaConstraints: constraints,
@@ -103,10 +154,11 @@ export default {
       context.commit('ADD_PARTICIPANT', { name: myName, participant });
       // state에 방에 있던 participant들 오브젝트 추가
       message.data.forEach(function (sender) {
-        console.log('forEach문 sender: ' + sender);
+        /* console.log('forEach문 sender: ' + sender); */
         context.dispatch('receiveVideo', sender);
       });
       // console.log('onExistingParticipants end')
+      router.push({ name: 'MeetingRoom' });
     },
     // 다른 참가자 participant 비디오 받기
     receiveVideo(context, sender) {

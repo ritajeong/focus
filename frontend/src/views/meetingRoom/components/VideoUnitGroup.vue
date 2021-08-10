@@ -8,10 +8,9 @@
     />
     <VideoUnit
       class="video-container"
-      v-for="videoUrl in videoUrls"
-      :key="videoUrl.id"
-      :videoUrl="videoUrl.url"
-      v-show="first <= videoUrl.id && videoUrl.id <= last"
+      v-for="participant in participants"
+      :key="participant.name"
+      :participant="participant"
     />
     <img
       src="@/assets/icons/down.svg"
@@ -36,12 +35,25 @@ export default {
     return {
       /* 임시 데이터: videoUrls */
       videoUrls: Dummy.getVideoUrls(),
-      first: 1,
-      last: 4,
+      first: 0,
+      last: 3,
     };
   },
   // : computed
-  computed: {},
+  computed: {
+    allParticipants() {
+      return this.$store.state.meetingRoom.participants;
+    },
+    participants() {
+      var participantList = [];
+      Object.keys(this.allParticipants).forEach(key => {
+        if (key !== this.$store.state.meetingRoom.presenter) {
+          participantList.push(this.allParticipants[key]);
+        }
+      });
+      return participantList;
+    },
+  },
   // : lifecycle hook
   mounted() {},
   // : methods

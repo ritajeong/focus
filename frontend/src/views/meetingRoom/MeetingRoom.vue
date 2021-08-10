@@ -89,8 +89,14 @@ export default {
       rightSideShow: true,
     };
   },
+  // : watch
+  watch: {},
   // : computed
-  computed: {},
+  computed: {
+    participants() {
+      return this.$store.state.meetingRoom.participants;
+    },
+  },
   // : lifecycle hook
   mounted() {},
   // : methods
