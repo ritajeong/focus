@@ -6,12 +6,14 @@
       class="up-button"
       @click="onPrevVideos"
     />
+    <!-- VideoUnitGroup 사람 많아질 때 다음으로 넘기는 것(index 이용) 코딩해야함!! -->
     <VideoUnit
       class="video-container"
       v-for="participant in participants"
       :key="participant.name"
       :participant="participant"
     />
+    <!--  -->
     <img
       src="@/assets/icons/down.svg"
       alt=""

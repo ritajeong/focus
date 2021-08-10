@@ -48,6 +48,10 @@ export default {
     DISPOSE_PARTICIPANT(state, participantName) {
       delete state.participants[participantName];
     },
+    // 커스텀 웹소켓 메시지
+    CHANGE_PRESENTATION(state, message) {
+      state.nowImageUrl = message.imageUri;
+    },
   },
   // actions
   actions: {
@@ -80,6 +84,13 @@ export default {
         }
         case 'receiveVideoAnswer': {
           context.dispatch('receiveVideoResponse', message);
+          break;
+        }
+        // 커스텀 웹소켓 메시지 시작
+        case 'changePresentation': {
+          // 디버깅 콘솔
+          console.log(message);
+          context.dispatch('changePresentation', message);
           break;
         }
         case 'iceCandidate': {
@@ -189,7 +200,6 @@ export default {
     },
     // participant 객체에서 삭제 메서드를 사용했을 때
     onParticipantLeft(context, request) {
-      console.log(context.state.myName);
       console.log('Participant' + request.name + 'left');
       var participant = context.state.participants[request.name];
       participant.dispose();
@@ -207,6 +217,10 @@ export default {
           }
         },
       );
+    },
+    // 커스텀 웹소켓 메시지 by 동우님
+    changePresentation(context, message) {
+      context.commit('CHANGE_PRESENTATION', message);
     },
   },
   getters: {},

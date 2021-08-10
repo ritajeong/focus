@@ -51,9 +51,21 @@ export default {
   // : watch
   watch: {
     now: function () {
-      // 발표자의 현재 이미지 url state에 저장: 이미지 변경 시
+      // 발표자의 현재 이미지 url state에 저장: 이미지 변경 시 -> actions / mutation으로 분리해야함
       this.$store.state.meetingRoom.nowImageUrl = this.slideUrls[this.now].url;
-      console.log(this.$store.state.meetingRoom.nowImageUrl);
+      // 현재 본인이 발표자라면 웹소켓 메시지 보내기
+      if (
+        this.$store.state.meetingRoom.presenter ===
+        this.$store.state.meetingRoom.myName
+      ) {
+        var message = {
+          id: 'changePresentation',
+          imageUri: this.slideUrls[this.now].url,
+          location: '1',
+          size: '2',
+        };
+        this.$store.dispatch('meetingRoom/sendMessage', message);
+      }
     },
   },
   // : lifecycle hook

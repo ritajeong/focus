@@ -27,9 +27,6 @@ export default {
   },
   // : lifecycle hook
   mounted() {
-    console.log(this.participant);
-    console.log(this.video);
-    console.log(this.containerId);
     this.video.classList.add('video-insert');
     document.getElementById(this.containerId).appendChild(this.video);
   },
