@@ -37,7 +37,7 @@
                 ></textarea>
               </div>
               <div class="row">
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                   <div class="form-check form-switch mb-4">
                     <input
                       class="form-check-input"
@@ -52,10 +52,10 @@
                       >.</label
                     >
                   </div>
-                </div>
+                </div> -->
                 <div class="col-md-12">
                   <button type="submit" class="btn bg-gradient-dark w-100">
-                    Send Message
+                    Create Room
                   </button>
                 </div>
               </div>
