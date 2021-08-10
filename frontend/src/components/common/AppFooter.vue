@@ -1,61 +1,63 @@
 <template>
-  <div>
-    <footer id="footer">
-      <div class="footer-top">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-6">
-              <h3>Focus</h3>
-              <p>
-                Et aut eum quis fuga eos sunt ipsa nihil. Labore corporis magni
-                eligendi fuga maxime saepe commodi placeat.
-              </p>
-            </div>
+  <footer class="footer pt-3">
+    <div class="container-fluid">
+      <div class="row align-items-center justify-content-lg-between">
+        <div class="col-lg-6 mb-lg-0 mb-4">
+          <div class="copyright text-center text-sm text-muted text-lg-start">
+            made with <i class="fa fa-heart"></i> by
+            <a
+              href="https://www.creative-tim.com"
+              class="font-weight-bold"
+              target="_blank"
+              >Creative Tim</a
+            >
+            for a better web.
           </div>
-
-          <div class="row footer-newsletter justify-content-center">
-            <div class="col-lg-6">
-              <form action="" method="post">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter your Email"
-                /><input type="submit" value="Subscribe" />
-              </form>
-            </div>
-          </div>
-
-          <div class="social-links">
-            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-            <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-          </div>
+        </div>
+        <div class="col-lg-6">
+          <ul
+            class="nav nav-footer justify-content-center justify-content-lg-end"
+          >
+            <li class="nav-item">
+              <a
+                href="https://www.creative-tim.com"
+                class="nav-link text-muted"
+                target="_blank"
+                >Creative Tim</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                href="https://www.creative-tim.com/presentation"
+                class="nav-link text-muted"
+                target="_blank"
+                >About Us</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                href="https://creative-tim.com/blog"
+                class="nav-link text-muted"
+                target="_blank"
+                >Blog</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                href="https://www.creative-tim.com/license"
+                class="nav-link pe-0 text-muted"
+                target="_blank"
+                >License</a
+              >
+            </li>
+          </ul>
         </div>
       </div>
-
-      <div class="container footer-bottom clearfix">
-        <div class="copyright">
-          &copy; Copyright <strong><span>Focus</span></strong
-          >. All Rights Reserved
-        </div>
-        <div class="credits">
-          <!-- All the links in the footer should remain intact. -->
-          <!-- You can delete the links only if you purchased the pro version. -->
-          <!-- Licensing information: https://bootstrapmade.com/license/ -->
-          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/Focus-free-bootstrap-one-page-template/ -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-      </div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 </template>
 
 <script>
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "bootstrap/dist/js/bootstrap.min.js";
-
 export default {
   name: 'AppFooter',
 };

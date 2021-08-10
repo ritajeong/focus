@@ -20,12 +20,12 @@ var participants = {};
 var name;
 
 window.onbeforeunload = function() {
-	ws.close();
+	// ws.close();
 };
 
 ws.onmessage = function(message) {
 	var parsedMessage = JSON.parse(message.data);
-	console.info('Received message: ' + message.data);
+	// console.info('Received message: ' + message.data);
 
 	switch (parsedMessage.id) {
 	case 'existingParticipants':
@@ -144,7 +144,7 @@ function leaveRoom() {
 	document.getElementById('join').style.display = 'block';
 	document.getElementById('room').style.display = 'none';
 
-	ws.close();
+	//ws.close();
 }
 
 function receiveVideo(sender) {
@@ -178,6 +178,6 @@ function onParticipantLeft(request) {
 
 function sendMessage(message) {
 	var jsonMessage = JSON.stringify(message);
-	console.log('Sending message: ' + jsonMessage);
+	// console.log('Sending message: ' + jsonMessage);
 	ws.send(jsonMessage);
 }

@@ -1,16 +1,16 @@
+// this.offerToReceiveVideo = function(error, offerSdp, wp){
+//     if (error) return console.error ("sdp offer error")
+//     console.log('Invoking SDP offer callback function');
+//     var msg =  {
+//         id : "receiveVideoFrom",
+//         sender : name,
+//         sdpOffer : offerSdp
+//     };
+//     sendMessage(msg);
+// }
+
 var rangeSlider;
 var outputRangeSlider;
-
-this.offerToReceiveVideo = function(error, offerSdp, wp){
-    if (error) return console.error ("sdp offer error")
-    console.log('Invoking SDP offer callback function');
-    var msg =  {
-        id : "receiveVideoFrom",
-        sender : name,
-        sdpOffer : offerSdp
-    };
-    sendMessage(msg);
-}
 
 function presenterSet(isPresenter){
     var presenter = document.getElementById('presenter').value;

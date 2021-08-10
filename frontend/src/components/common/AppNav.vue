@@ -1,50 +1,101 @@
 <template>
-  <div>
-    <header id="header" class="fixed-top d-flex align-items-center">
-      <div class="container d-flex align-items-center justify-content-between">
-        <div class="logo">
-          <h1><router-link to="/"> FOCUS </router-link></h1>
-          <!-- Uncomment below if you prefer to use an image logo -->
-          <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-        </div>
+  <!-- Navbar Dark -->
+  <nav
+    class="navbar navbar-expand-lg navbar-dark bg-gradient-dark z-index-3 py-3"
+  >
+    <div class="container">
+      <router-link
+        to="/"
+        class="navbar-brand text-white"
+        rel="tooltip"
+        title="Designed and Coded by Creative Tim"
+        data-placement="bottom"
+        target="_blank"
+      >
+        FOCUS
+      </router-link>
+      <!-- <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navigation"
+        aria-controls="navigation"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      > 
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
 
-        <nav id="navbar" class="navbar">
-          <ul>
-            <li class="nav-link scrollto">
-              <router-link to="/dashboard">DashBoard</router-link>
-            </li>
-            <li class="nav-link scrollto">
-              <router-link to="/meetingroom">MeetingRoom</router-link>
-            </li>
-            <li class="nav-link scrollto">
-              <router-link to="/setting">Seeting</router-link>
-            </li>
-            <li class="dropdown">
-              <router-link to="/mypage"><span>MyPage</span></router-link>
-              <i class="bi bi-chevron-down"></i>
-              <ul>
-                <li>
-                  <router-link to="/mypage/presentation"
-                    >MyPresentation</router-link
-                  >
-                </li>
-                <li><router-link to="/mypage/note">MyNote</router-link></li>
-              </ul>
-            </li>
-          </ul>
-          <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav>
-        <!-- .navbar -->
+      <div
+        class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0"
+        id="navigation"
+      >
+        <ul class="navbar-nav navbar-nav-hover mx-auto">
+          <li class="nav-item mx-2">
+            <router-link
+              to="/dashboard"
+              class="
+                nav-link
+                ps-2
+                d-flex
+                justify-content-between
+                cursor-pointer
+                align-items-center
+              "
+              >DashBoard</router-link
+            >
+          </li>
+
+          <li class="nav-item mx-2">
+            <router-link
+              to="/meetingroom"
+              class="
+                nav-link
+                ps-2
+                d-flex
+                justify-content-between
+                cursor-pointer
+                align-items-center
+              "
+              >MeetingRoom</router-link
+            >
+          </li>
+          <li class="nav-item mx-2">
+            <router-link
+              to="/setting"
+              class="
+                nav-link
+                ps-2
+                d-flex
+                justify-content-between
+                cursor-pointer
+                align-items-center
+              "
+              >Seeting</router-link
+            >
+          </li>
+          <li class="nav-item mx-2">
+            <router-link
+              to="/mypage"
+              class="
+                nav-link
+                ps-2
+                d-flex
+                justify-content-between
+                cursor-pointer
+                align-items-center
+              "
+              >Mypage</router-link
+            >
+          </li>
+        </ul>
       </div>
-    </header>
-    <!-- End Header -->
-  </div>
+    </div>
+  </nav>
+  <!-- End Navbar -->
 </template>
 
 <script>
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "bootstrap/dist/js/bootstrap.min.js";
-
 export default {
   name: 'AppNav',
 };

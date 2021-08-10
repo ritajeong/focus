@@ -147,11 +147,19 @@ public class CallHandler extends TextWebSocketHandler {
 		}
 	}
 
-	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		UserSession user = registry.removeBySession(session);
-		roomManager.getRoom(user.getRoomName()).leave(user);
-	}
+//	@Override
+//	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+////		UserSession user = registry.removeBySession(session);
+////		if (user != null) {
+////			Room room = roomManager.getRoom(user.getRoomName());
+////			room.leave(user);
+////			presentationManager.removePresentation(room, user);
+////			log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
+////			if (room.getParticipants().isEmpty()) {
+////				roomManager.removeRoom(room);
+////			}
+////		}
+//	}
 
 	private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
 		final String roomName = params.get("room").getAsString();
@@ -166,6 +174,9 @@ public class CallHandler extends TextWebSocketHandler {
 	private void leaveRoom(UserSession user) throws IOException {
 		final Room room = roomManager.getRoom(user.getRoomName());
 		room.leave(user);
+
+		presentationManager.removePresentation(room, user);
+		log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
 		if (room.getParticipants().isEmpty()) {
 			roomManager.removeRoom(room);
 		}
@@ -177,7 +188,7 @@ public class CallHandler extends TextWebSocketHandler {
 		UserSession presenterSession = registry.getByName(presenter);
 		Room room = roomManager.getRoom(presenterSession.getRoomName());
 
-		final Presentation presentation = presentationManager.getPresentation(presenter, room, presenterSession);
+		final Presentation presentation = presentationManager.getPresentation(room, presenterSession);
 		presentationManager.setPresenter(isPresenter);
 		registry.register(presentationManager.getPresenter());
 		log.info("[presentationSet] presentation: {}", presentation);

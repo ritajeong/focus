@@ -63,6 +63,7 @@ public class UserSession implements Closeable {
 		this.name = name;
 		this.roomName = roomName;
 		this.session = session;
+		System.out.println("SessionId : " + session.getId());
 		this.outgoingMedia = new WebRtcEndpoint.Builder(pipeline).build();
 
 		// 생성자에서 outgoingMedia를 incomingMedia에 포함
@@ -110,7 +111,7 @@ public class UserSession implements Closeable {
 	public void setPresenter(boolean isPresenter) throws IOException {
 		log.info("USER {} is now a presenter of room {}", this.name, this.roomName);
 		this.isPresenter = isPresenter;
-		
+
 		JsonObject presenterParams = new JsonObject();
 		presenterParams.addProperty("id", "startPresentation");
 		presenterParams.addProperty("presenter", this.getName());
@@ -118,7 +119,7 @@ public class UserSession implements Closeable {
 		this.sendMessage(presenterParams);
 	}
 
-	public boolean getPresenter() {		
+	public boolean getPresenter() {
 		return this.isPresenter;
 	}
 
@@ -179,7 +180,8 @@ public class UserSession implements Closeable {
 	 */
 	public void linkImageOverlayPipeline(UserSession sender, ImageOverlayFilter imageOverlayFilter) {
 		WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
-		log.info("[linkImageOverlayPipeline] sender: {} ImageOverlayPipeline connect to {}", sender.getName(), this.getName());
+		log.info("[linkImageOverlayPipeline] sender: {} ImageOverlayPipeline connect to {}", sender.getName(),
+				this.getName());
 		sender.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
 		imageOverlayFilter.connect(incoming);
 
