@@ -9,6 +9,9 @@
 //     sendMessage(msg);
 // }
 
+var rangeSlider;
+var outputRangeSlider;
+
 function presenterSet(isPresenter){
     var presenter = document.getElementById('presenter').value;
     console.log("presenter 지정 presenter: ", presenter)
@@ -84,6 +87,16 @@ function moveTop(){
     var message={
         id:'moveImage',
         location:'top'
+    }
+    sendMessage(message);
+}
+
+function imageSize(){
+    rangeSlider=document.getElementById("range-image-size");
+    document.getElementById("range-image-size-value").innerHTML=rangeSlider.value;
+    var message={
+        id:'imageSize',
+        imageSize: rangeSlider.value
     }
     sendMessage(message);
 }

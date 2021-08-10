@@ -86,6 +86,11 @@ public class CallHandler extends TextWebSocketHandler {
 			room.setPresentation(presentationImageUri, presentationLocation, presentationSize);
 			break;
 		}
+//		case "stop": {
+//			log.trace("stop");
+//			presentationManager.stop();
+//			break;
+//		}
 //		case "presenterSet": {
 //		log.trace("presenterSet");
 //		presenterSet(jsonMessage);
@@ -128,6 +133,12 @@ public class CallHandler extends TextWebSocketHandler {
 //			final String location = jsonMessage.get("location").getAsString();
 //			log.trace("move image");
 //			presentationManager.changeImageLocation(location);
+//			break;
+//		}
+//		case "imageSize":{
+//			final float imageSizePercent=jsonMessage.get("imageSize").getAsFloat();
+//			log.trace("image size change");
+//			presentationManager.changeImageSize(imageSizePercent);
 //			break;
 //		}
 		default:

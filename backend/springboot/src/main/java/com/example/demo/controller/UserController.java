@@ -60,15 +60,17 @@ public class UserController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<? extends BaseResponseBody> login(
+	public ResponseEntity<Users> login(
 			@RequestBody @ApiParam(value="로그인", required = true) LoginReq loginInfo) {
 		Users user = userService.getUserByEmail(loginInfo.getEmail());
+		if(user==null || !user.getPassword().equals(loginInfo.getPassword()))
+			return new ResponseEntity<Users>(HttpStatus.NO_CONTENT);
 	  System.out.println(user.getEmail());
-	      return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+	      return new ResponseEntity<Users>(user,HttpStatus.OK);
 	      
 	   }
 	
-	@GetMapping("/{email}")
+	@GetMapping("/check/{email}")
 	@ApiOperation(value = "유저 존재 확인", notes = "존재하는 회원 확인용")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -87,4 +89,22 @@ public class UserController {
 		return ResponseEntity.status(409).body(BaseResponseBody.of(409, "존재하지 않는 이메일 입니다."));
 	}
 	
+	@GetMapping("/add/{email}")
+	@ApiOperation(value = "이메일 중복 검사", notes = "존재하는 회원 확인용")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> addUser(@PathVariable("email") String email){
+
+		Users user = userService.getUserByEmail(email);
+
+		if(user != null){
+			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "존재하는 이메일 입니다."));
+		}
+		return ResponseEntity.status(201).body(BaseResponseBody.of(201, "존재하지 않는 이메일 입니다."));
+	}
 }

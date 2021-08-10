@@ -85,6 +85,7 @@ $RECYCLE.BIN
 # End of httpswww.toptal.comdevelopersgitignoreapiwindows,java,vue,vuejs
 *.iml
 *.xml
+!pom.xml
 
 ### Eclipse ###
 .metadata

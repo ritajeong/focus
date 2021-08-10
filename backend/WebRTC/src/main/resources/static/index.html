@@ -74,6 +74,9 @@
                                 <img src="img/top.jpg" width="150">
                             </label>
                         </div>
+                        <label for="range-image-size" class="form-label">이미지 퍼센트 조정</label>
+                        <input type="range" class="form-range" min="0" max="100" value="60" step="1" id="range-image-size" onchange="imageSize(); return false;">
+                        <span id="range-image-size-value">60</span>%
                     </div>
 
                     <div class="col">

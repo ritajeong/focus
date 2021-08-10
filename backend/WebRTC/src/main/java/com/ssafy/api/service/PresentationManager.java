@@ -38,6 +38,8 @@ public class PresentationManager {
 	private float originwidthPercent = 0.64f;
 	private float originheightPercent = 0.56f;
 
+	private float originImageSizePercent=0.6f;
+
 	private float offsetXPercent = originOffsetXPercent;
 	private float offsetYPercent = originOffsetYPercent;
 	private float widthPercent = originwidthPercent;
@@ -312,5 +314,51 @@ public class PresentationManager {
 		imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPercent, heightPercent,
 				keepAspectRatio, imageCenter);
 
+	}
+
+//	public void stop() throws IOException {
+//		String removeImageId = "testImage" + imageIndex;
+//		imageOverlayFilter.removeImage(removeImageId);
+//
+//		imageIndex = 0;
+//		presenter.getOutgoingWebRtcPeer().connect(presenter.getIncomingMedia(presenter.getName()));
+//		presenter.setPresenter(false);
+//	}
+
+	public void changeImageSize(float imageSizePercent) {
+		log.info("imageSizePercent: {}, originImageSizePercent: {}", imageSizePercent, originImageSizePercent);
+		float diff = (imageSizePercent / 100) - originImageSizePercent;
+		String imageId = "testImage" + imageIndex;
+		String imageUri = imageUris[imageIndex];
+		float offset = (float) diff;
+
+		imageOverlayFilter.removeImage(imageId);
+		if (offset >= 0) {//사이즈 커짐
+			offsetXPercent = offsetXPercent - widthPercent * offset/2;
+			offsetYPercent = offsetYPercent - heightPercent * offset/2;
+			widthPercent = widthPercent * (1 + offset);
+			heightPercent = heightPercent * (1 + offset);
+
+		} else {//사이즈 작아짐
+			offset =Math.abs(offset);
+			offsetXPercent = offsetXPercent + widthPercent * offset/2;
+			offsetYPercent = offsetYPercent + heightPercent * offset/2;
+			widthPercent = widthPercent * (1 - offset);
+			heightPercent = heightPercent * (1 - offset);
+		}
+		if(offsetXPercent<0){
+			offsetXPercent=0;
+		}
+		if(offsetYPercent<0){
+			offsetYPercent=0;
+		}
+	
+		imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPercent, heightPercent, keepAspectRatio, imageCenter);
+
+		originImageSizePercent = imageSizePercent/100;
+		originOffsetYPercent = offsetYPercent;
+		originOffsetXPercent = offsetXPercent;
+		originheightPercent = heightPercent;
+		originwidthPercent = widthPercent;
 	}
 }
