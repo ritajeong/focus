@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import VueRouter from 'vue-router';
 
 import IntroPage from '@/views/intro/IntroPage.vue';
 import IntroContent from '@/views/intro/IntroContent.vue';
@@ -22,9 +22,9 @@ import MyInfo from '@/views/mypage/MyInfo.vue';
 import MyPresentation from '@/views/mypage/MyPresentation.vue';
 import MyNote from '@/views/mypage/MyNote.vue';
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
-export default new Router({
+export default new VueRouter({
   // mode: 'history',
   routes: [
     {

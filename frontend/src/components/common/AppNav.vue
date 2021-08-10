@@ -88,6 +88,22 @@
               >Mypage</router-link
             >
           </li>
+          <li class="nav-item mx-2">
+            <!-- <p>{{ $store.state.login.username }}님 안녕하세요</p> -->
+            <router-link
+              to="/"
+              class="
+                nav-link
+                ps-2
+                d-flex
+                justify-content-between
+                cursor-pointer
+                align-items-center
+              "
+              @click.native="userLogout()"
+              >Logout</router-link
+            ><!--ㅎㅇ-->
+          </li>
         </ul>
       </div>
     </div>
@@ -96,7 +112,25 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import VueAlertify from 'vue-alertify';
+Vue.use(VueAlertify);
+
 export default {
   name: 'AppNav',
+  computed: {
+    isUserLogin() {
+      return this.$store.getters.isLogin;
+    },
+  },
+
+  methods: {
+    userLogout() {
+      //router 홈으로, isLogin ''로
+      this.$alertify.success('안녕히 가세요');
+      this.$store.commit('SET_LOGOUT');
+      this.$router.push('/');
+    },
+  },
 };
 </script>

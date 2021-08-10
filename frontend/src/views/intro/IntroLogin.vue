@@ -25,19 +25,20 @@
                         class="form-control form-control-lg"
                         placeholder="Email"
                         aria-label="Email"
-                        aria-describedby="email-addon"
+                        v-model="useremail"
                       />
                     </div>
                     <div class="mb-3">
                       <input
-                        type="email"
+                        type="password"
                         class="form-control form-control-lg"
                         placeholder="Password"
                         aria-label="Password"
-                        aria-describedby="password-addon"
+                        v-model="userpwd"
                       />
                     </div>
-                    <div class="form-check form-switch">
+                    <!-- ㅎㅇ 아이디 기억-->
+                    <!-- <div class="form-check form-switch">
                       <input
                         class="form-check-input"
                         type="checkbox"
@@ -46,7 +47,7 @@
                       <label class="form-check-label" for="rememberMe"
                         >Remember me</label
                       >
-                    </div>
+                    </div> -->
                     <div class="text-center">
                       <button
                         type="button"
@@ -58,6 +59,7 @@
                           mt-4
                           mb-0
                         "
+                        @click.prevent="submitForm()"
                       >
                         Sign in
                       </button>
@@ -68,6 +70,7 @@
                   <p class="mb-4 text-sm mx-auto">
                     Don't have an account?
                     <router-link
+                      v:bind:disabled="!isUseremailValid || password"
                       to="signup"
                       class="text-dark text-gradient font-weight-bold"
                       >Sign Up</router-link
@@ -131,7 +134,50 @@
   </div>
 </template>
 <script>
+import Vue from 'vue';
+import { loginUser } from '@/api/users.js';
+import VueAlertify from 'vue-alertify';
+import { validateEmail } from '@/common/validation.js';
+
+Vue.use(VueAlertify);
+
 export default {
   name: 'IntroLogin',
+  data() {
+    return {
+      useremail: '',
+      userpwd: '',
+      logMessage: '',
+    };
+  },
+  computed: {
+    isUseremailValid() {
+      return validateEmail(this.useremail);
+    },
+  },
+  methods: {
+    async submitForm() {
+      try {
+        console.log('submitForm()');
+        const userData = {
+          name: this.username, //ㅇㅇ api요청할 때 name도 돌려주세요
+          email: this.useremail,
+          password: this.userpwd,
+        };
+        await loginUser(userData);
+        this.$store.commit('SET_LOGIN', userData);
+        this.$router.push('/dashboard');
+
+        // this.initForm();
+      } catch (error) {
+        console.log(error.response.data);
+        this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
+      }
+    },
+    initForm() {
+      this.useremail = '';
+      this.userpwd = '';
+    },
+  },
 };
 </script>

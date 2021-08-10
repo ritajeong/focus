@@ -17,8 +17,11 @@
     "core-js": "^3.6.5",
     "kurento-utils": "^6.16.0",
     "lodash": "^4.17.21",
+    "path": "^0.12.7",
+    "request": "^2.88.2",
     "soft-ui-design-system": "^1.0.4",
     "vue": "^2.6.11",
+    "vue-alertify": "^1.1.0",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
   },
