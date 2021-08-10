@@ -341,17 +341,17 @@ public class PresentationManager {
 		log.info("[changeImageSize] offset: {}", offset);
 		imageOverlayFilter.removeImage(imageId);
 		if (offset >= 0) {//사이즈 커짐
-			offsetXPercent = offsetXPercent - widthPrecent * offset/2;
-			offsetYPercent = offsetYPercent - heightPrecent * offset/2;
-			widthPrecent = widthPrecent * (1 + offset);
-			heightPrecent = heightPrecent * (1 + offset);
+			offsetXPercent = offsetXPercent - widthPercent * offset/2;
+			offsetYPercent = offsetYPercent - heightPercent * offset/2;
+			widthPercent = widthPercent * (1 + offset);
+			heightPercent = heightPercent * (1 + offset);
 
 		} else {//사이즈 작아짐
 			offset =Math.abs(offset);
-			offsetXPercent = offsetXPercent + widthPrecent * offset/2;
-			offsetYPercent = offsetYPercent + heightPrecent * offset/2;
-			widthPrecent = widthPrecent * (1 - offset);
-			heightPrecent = heightPrecent * (1 - offset);
+			offsetXPercent = offsetXPercent + widthPercent * offset/2;
+			offsetYPercent = offsetYPercent + heightPercent * offset/2;
+			widthPercent = widthPercent * (1 - offset);
+			heightPercent = heightPercent * (1 - offset);
 		}
 		if(offsetXPercent<0){
 			offsetXPercent=0;
@@ -360,14 +360,13 @@ public class PresentationManager {
 			offsetYPercent=0;
 		}
 		log.info("new offset: {}", offset);
-		log.info("[changeImageSize] offsetXPercent: {}, offsetYPercent: {},widthPrecent: {},heightPrecent: {},", offsetXPercent,offsetYPercent,widthPrecent,heightPrecent);
-		imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPrecent, heightPrecent, keepAspectRatio, imageCenter);
+		log.info("[changeImageSize] offsetXPercent: {}, offsetYPercent: {},widthPrecent: {},heightPrecent: {},", offsetXPercent,offsetYPercent,widthPercent,heightPercent);
+		imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPercent, heightPercent, keepAspectRatio, imageCenter);
 
 		originImageSizePercent = imageSizePercent/100;
 		originOffsetYPercent = offsetYPercent;
 		originOffsetXPercent = offsetXPercent;
-		originHeightPrecent = heightPrecent;
-		originWidthPrecent = widthPrecent;
-
+		originheightPercent = heightPercent;
+		originwidthPercent = widthPercent;
 	}
 }
