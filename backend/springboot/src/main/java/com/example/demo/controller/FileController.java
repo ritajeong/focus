@@ -23,7 +23,9 @@ import io.swagger.annotations.ApiParam;
 public class FileController {
 	@Autowired
 	private FileService fileservice;
-	  @PostMapping("/board")
+	
+	
+	@PostMapping("/board")
 	    public ResponseEntity<?> create(
 	    		@ModelAttribute @ApiParam(value="파일 저장", required = true) FileReq registerInfo
 	    		)throws Exception {
