@@ -19,7 +19,7 @@ public class FileHandler {
 
 		int Room_id = filereq.getRoom_id();
 		int user_id = filereq.getUser_id();
-	        String path = "C:\\Users\\multicampus\\Pictures\\Saved Pictures\\"+Room_id+"\\"+user_id;
+	        String path = "C:\\Users\\multicampus\\Pictures\\"+Room_id+"\\"+user_id;
 	        File file = new File(path);
 	        // 저장할 위치의 디렉토리가 존지하지 않을 경우
 	        if(!file.exists()){

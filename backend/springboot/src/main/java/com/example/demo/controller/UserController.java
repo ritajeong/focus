@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.api.request.LoginReq;
+import com.example.demo.api.request.UserUpdateReq;
+import com.example.demo.entity.Rooms;
 import com.example.demo.entity.Users;
 import com.example.demo.model.response.BaseResponseBody;
 import com.example.demo.model.response.UserRes;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -69,19 +72,52 @@ public class UserController {
 		res.setName(user.getName());
 		res.setUser_id(user.getUserId());
 		if(user==null || !user.getPassword().equals(loginInfo.getPassword()))
-			return new ResponseEntity<UserRes>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<UserRes>(HttpStatus.NOT_FOUND);
 	  System.out.println(user.getEmail());
 	      return new ResponseEntity<UserRes>(res,HttpStatus.OK);
 	      
 	   }
+	@PostMapping("/updateuser")
+	@ApiOperation(value = "업데이트.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public ResponseEntity<? extends BaseResponseBody> updateroom(
+			@RequestBody @ApiParam(value="수정", required = true) UserUpdateReq registerInfo) {
+		Users user = userService.update(registerInfo);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	   }
 	
-	@GetMapping("/check/{email}")
-	@ApiOperation(value = "유저 존재 확인", notes = "존재하는 회원 확인용")
+	@PostMapping("/deleteuser/{userId}")
+	@ApiOperation(value = "사용자삭제") 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public ResponseEntity<? extends BaseResponseBody> deleteUser(@PathVariable("roomId") int userId) {
+		
+		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
+		Users user=userService.getUserByuserId(userId);
+		userService.deleteRoom(user);
+		
+		if(user == null){
+			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "fail"));
+		}
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "성공"));
+	}
+	
+	
+	@GetMapping("/add/{email}")
+	@ApiOperation(value = "참가자 추가", notes = "존재하는 회원 확인용")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> checkUser(@PathVariable("email") String email){
@@ -91,11 +127,11 @@ public class UserController {
 		if(user != null){
 			return ResponseEntity.status(201).body(BaseResponseBody.of(201, "존재하는 이메일 입니다."));
 		}
-		return ResponseEntity.status(409).body(BaseResponseBody.of(409, "존재하지 않는 이메일 입니다."));
+		return ResponseEntity.status(404).body(BaseResponseBody.of(404, "존재하지 않는 이메일 입니다."));
 	}
 	
-	@GetMapping("/add/{email}")
-	@ApiOperation(value = "이메일 중복 검사", notes = "존재하는 회원 확인용")
+	@GetMapping("/check/{email}")
+	@ApiOperation(value = "회원가입할때 이메일 체크", notes = "존재하는 회원 확인용")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),

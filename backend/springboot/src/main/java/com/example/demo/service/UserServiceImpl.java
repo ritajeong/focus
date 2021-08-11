@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.api.request.LoginReq;
+import com.example.demo.api.request.UserUpdateReq;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.UserRepository;
 
@@ -29,6 +30,25 @@ public class UserServiceImpl implements UserService {
 	public Users getUserByEmail(String email) {
 		Users user = userRepository.findByEmail(email);
 		return user;
+	}
+
+	@Override
+	public Users update(UserUpdateReq registerInfo) {
+		Users user = userRepository.findByUserId(registerInfo.getUser_id());
+		user.setName(registerInfo.getName());
+		user.setPassword(registerInfo.getPassword());
+		userRepository.save(user);
+		return user;
+	}
+
+	@Override
+	public Users getUserByuserId(int userId) {
+		return userRepository.findByUserId(userId);
+	}
+
+	@Override
+	public void deleteRoom(Users user) {
+		userRepository.delete(user);
 	}
 
 	

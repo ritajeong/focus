@@ -1,7 +1,10 @@
 package com.example.demo.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +31,12 @@ public class Rooms{
 	Timestamp startTime;
 	@Column(name="endTime")
 	Timestamp endTime;
+	
+	 @OneToMany(mappedBy = "rooms",cascade = CascadeType.ALL, orphanRemoval = true)
+	    private List<Participants> participant = new ArrayList<>();
+	 
+	 @OneToMany(mappedBy = "rooms",cascade = CascadeType.ALL, orphanRemoval = true)
+	    private List<Rooms_Presentations> presentation = new ArrayList<>();
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")

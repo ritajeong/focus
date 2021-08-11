@@ -7,13 +7,14 @@ module.exports = {
     '../backend/springboot/src/main/resources/static',
   ), //빌드파일을 올릴 곳(디폴트(dist)에서 스프링 부트 static폴더로 )
   devServer: {
-    port:3000, //개발하는 동안 프런트엔드 페이지를 띄우는 포트
+    port: 3000, //개발하는 동안 프런트엔드 페이지를 띄우는 포트
+    proxy: {
+      '/api/*': {
+        target: 'http://localhost:8446', // /api 요청을 할때 백엔드 호출
+      },
+    },
   },
-  proxy: {
-    '/api/*' : {
-    target: 'http://localhost:8446' // /api 요청을 할때 백엔드 호출
-    }
-  }
+
   // chainWebpack: (config) => {
   //   config.module.rules.delete("eslint");
   // },
