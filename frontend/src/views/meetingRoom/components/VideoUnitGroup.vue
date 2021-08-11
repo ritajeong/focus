@@ -4,6 +4,7 @@
       src="@/assets/icons/up.svg"
       alt=""
       class="up-button"
+      v-if="first > 0"
       @click="onPrevVideos"
     />
     <!-- 참가자가 한 명 뿐일 때 -->
@@ -26,6 +27,7 @@
       src="@/assets/icons/down.svg"
       alt=""
       class="down-button"
+      v-if="participants !== null && last < participants.length - 1"
       @click="onNextVideos"
     />
   </div>
@@ -74,20 +76,13 @@ export default {
   methods: {
     // 0번 비디오 밑으로는 내려가지 않음
     onPrevVideos: function () {
-      if (this.first <= 0) {
-        return;
-      }
       this.first -= 1;
       this.last -= 1;
     },
     // 마지막 참가지 비디오 이상으로는 올라가지 않음
     onNextVideos: function () {
-      if (this.allParticipants !== null) {
-        if (this.last < Object.keys(this.allParticipants).length) {
-          this.first += 1;
-          this.last += 1;
-        }
-      }
+      this.first += 1;
+      this.last += 1;
     },
   },
 };
