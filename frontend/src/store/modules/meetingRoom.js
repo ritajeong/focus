@@ -182,7 +182,7 @@ export default {
       //디버깅 콘솔
       console.log('onExistingParticipant', message);
       context.dispatch('changePresenter', message);
-      context.dispatch('chagnePresentation', message);
+      context.dispatch('changePresentation', message);
       // console.log('onExistingParticipants end')
       router.push({ name: 'MeetingRoom' });
     },
