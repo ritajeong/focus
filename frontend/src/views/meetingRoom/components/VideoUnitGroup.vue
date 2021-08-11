@@ -6,6 +6,13 @@
       class="up-button"
       @click="onPrevVideos"
     />
+    <!-- 참가자가 한 명 뿐일 때 -->
+    <div
+      v-if="participants === null || participants.length === 0"
+      class="video-container"
+    >
+      <img src="@/assets/icons/empty.svg" alt="" class="video-insert" />
+    </div>
     <!-- VideoUnitGroup 사람 많아질 때 다음으로 넘기는 것(index 이용) 코딩해야함!! -->
     <VideoUnit
       class="video-container"
@@ -47,13 +54,17 @@ export default {
       return this.$store.state.meetingRoom.participants;
     },
     participants() {
-      var participantList = [];
-      Object.keys(this.allParticipants).forEach(key => {
-        if (key !== this.$store.state.meetingRoom.presenter) {
-          participantList.push(this.allParticipants[key]);
-        }
-      });
-      return participantList;
+      if (this.allParticipants) {
+        var participantList = [];
+        Object.keys(this.allParticipants).forEach(key => {
+          if (key !== this.$store.state.meetingRoom.presenter) {
+            participantList.push(this.allParticipants[key]);
+          }
+        });
+        return participantList;
+      } else {
+        return null;
+      }
     },
   },
   // : lifecycle hook

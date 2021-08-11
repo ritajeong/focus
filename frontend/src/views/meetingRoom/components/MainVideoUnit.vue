@@ -21,7 +21,7 @@
     <!-- main video -->
     <!-- presentation image -->
     <!-- <div id="image-container" class="image-container"> -->
-    <transition name="transition-first">
+    <transition name="transition-first" v-if="nowImageUrl !== null">
       <img
         :src="this.nowImageUrl"
         :key="this.nowImageUrl"
@@ -42,7 +42,9 @@ export default {
   name: 'MainVideoUnit',
   components: {},
   // : props
-  props: {},
+  props: {
+    mainParticipant: Object,
+  },
   // : data
   data() {
     return {};
@@ -60,12 +62,7 @@ export default {
       return this.$store.state.meetingRoom.nowImageUrl;
     },
     mainVideo() {
-      const participants = this.$store.state.meetingRoom.participants;
-      const mainParticipantName = Object.keys(participants).find(
-        key => key === this.$store.state.meetingRoom.presenter,
-      );
-      const mainParticipant = participants[mainParticipantName];
-      return mainParticipant.getVideoElement();
+      return this.mainParticipant.getVideoElement();
     },
     /*     mainVideoInfo: function () {
       return document.getElementById('main-video').getBoundingClientRect();

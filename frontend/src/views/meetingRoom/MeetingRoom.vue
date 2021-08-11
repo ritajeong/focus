@@ -35,7 +35,11 @@
       <!-- Room Title -->
       <h1 class="room-title">Room Title</h1>
       <!-- Main Video -->
-      <MainVideoUnit class="main-video-unit" />
+      <MainVideoUnit
+        class="main-video-unit"
+        :mainParticipant="mainParticipant"
+        :key="mainParticipant.name"
+      />
       <!-- Meeting Controller -->
       <MeetingController style="margin-top: 25px" />
       <!-- right side bar control buttons -->
@@ -95,6 +99,12 @@ export default {
   computed: {
     participants() {
       return this.$store.state.meetingRoom.participants;
+    },
+    mainParticipant() {
+      const mainParticipantName = Object.keys(this.participants).find(
+        key => key === this.$store.state.meetingRoom.presenter,
+      );
+      return this.participants[mainParticipantName];
     },
   },
   // : lifecycle hook
