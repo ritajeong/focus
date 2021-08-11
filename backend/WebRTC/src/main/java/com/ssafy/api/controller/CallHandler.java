@@ -1,30 +1,7 @@
-/*
- * (C) Copyright 2014 Kurento (http://kurento.org/)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
 package com.ssafy.api.controller;
 
 import java.io.IOException;
 
-import com.ssafy.api.service.PresentationManager;
-import com.ssafy.api.service.RoomManager;
-import com.ssafy.common.util.Presentation;
-import com.ssafy.common.util.Room;
-import com.ssafy.common.util.UserRegistry;
-import com.ssafy.common.util.UserSession;
 import org.kurento.client.IceCandidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +14,11 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.ssafy.api.service.RoomManager;
+import com.ssafy.common.util.Room;
+import com.ssafy.common.util.UserRegistry;
+import com.ssafy.common.util.UserSession;
 
-/**
- * 
- * @author Ivan Gracia (izanmail@gmail.com)
- * @since 4.3.1
- */
 public class CallHandler extends TextWebSocketHandler {
 
 	private static final Logger log = LoggerFactory.getLogger(CallHandler.class);
@@ -54,9 +30,6 @@ public class CallHandler extends TextWebSocketHandler {
 
 	@Autowired
 	private UserRegistry registry;
-
-	@Autowired
-	private PresentationManager presentationManager;
 
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -80,10 +53,11 @@ public class CallHandler extends TextWebSocketHandler {
 			final String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
 			user.receiveVideoFrom(sender, sdpOffer);
 			break;
-		case "leaveRoom":
+		case "leaveRoom": {
 			leaveRoom(user);
 			break;
-		case "onIceCandidate":
+		}
+		case "onIceCandidate": {
 			JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
 
 			if (user != null) {
@@ -92,50 +66,81 @@ public class CallHandler extends TextWebSocketHandler {
 				user.addCandidate(cand, jsonMessage.get("name").getAsString());
 			}
 			break;
-		case "presenterSet": {
-			log.trace("presenterSet");
-			presenterSet(jsonMessage);
+		}
+		case "setPresenter": {
+			log.trace("setPresenter");
+			setPresenter(jsonMessage);
 			break;
 		}
-		case "startPresentation": {
-			final String presenterName = jsonMessage.get("presenter").getAsString();
-			final UserSession presenter = registry.getByName(presenterName);
-			for (UserSession audience : registry.getUsersByName().values()) {
-				audience.linkImageOverlayPipeline(presenter, presentationManager.getImageOverlayFilter());
+		case "changePresentation": {
+			log.trace("changePresentation");
+			UserSession userSession = registry.getBySession(session);
+			Room room = roomManager.getRoom(userSession.getRoomName(), userSession.getName());
+			for (UserSession participant : room.getParticipants()) {
+				participant.sendMessage(jsonMessage);
 			}
+
+			String presentationImageUri = jsonMessage.get("imageUri").getAsString();
+			String presentationLocation = jsonMessage.get("location").getAsString();
+			String presentationSize = jsonMessage.get("size").getAsString();
+			room.setPresentation(presentationImageUri, presentationLocation, presentationSize);
 			break;
 		}
-		case "start": {
-			log.trace("start");
-			presentationManager.start(user);
-			break;
-		}
-		case "stop": {
-			log.trace("stop");
-			// presentationManager.stop();
-			break;
-		}
-		case "prev": {
-			log.trace("prev");
-			presentationManager.prev();
-			break;
-		}
-		case "next": {
-			log.trace("next");
-			presentationManager.next();
-			break;
-		}
-		case "full": {
-			log.trace("full toggle");
-			presentationManager.full();
-			break;
-		}
-		case "moveImage": {
-			final String location = jsonMessage.get("location").getAsString();
-			log.trace("move image");
-			presentationManager.changeImageLocation(location);
-			break;
-		}
+//		case "stop": {
+//			log.trace("stop");
+//			presentationManager.stop();
+//			break;
+//		}
+//		case "presenterSet": {
+//		log.trace("presenterSet");
+//		presenterSet(jsonMessage);
+//		break;
+//	}
+//		case "startPresentation": {
+//			final String presenterName = jsonMessage.get("presenter").getAsString();
+//			final UserSession presenter = registry.getByName(presenterName);
+//			for (UserSession audience : registry.getUsersByName().values()) {
+//				audience.linkImageOverlayPipeline(presenter, presentationManager.getImageOverlayFilter());
+//			}
+//			break;
+//		}
+//		case "start": {
+//			log.trace("start");
+//			presentationManager.start(user);
+//			break;
+//		}
+//		case "stop": {
+//			log.trace("stop");
+//			// presentationManager.stop();
+//			break;
+//		}
+//		case "prev": {
+//			log.trace("prev");
+//			presentationManager.prev();
+//			break;
+//		}
+//		case "next": {
+//			log.trace("next");
+//			presentationManager.next();
+//			break;
+//		}
+//		case "full": {
+//			log.trace("full toggle");
+//			presentationManager.full();
+//			break;
+//		}
+//		case "moveImage": {
+//			final String location = jsonMessage.get("location").getAsString();
+//			log.trace("move image");
+//			presentationManager.changeImageLocation(location);
+//			break;
+//		}
+//		case "imageSize":{
+//			final float imageSizePercent=jsonMessage.get("imageSize").getAsFloat();
+//			log.trace("image size change");
+//			presentationManager.changeImageSize(imageSizePercent);
+//			break;
+//		}
 		default:
 			break;
 		}
@@ -144,12 +149,14 @@ public class CallHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		UserSession user = registry.removeBySession(session);
-		Room room = roomManager.getRoom(user.getRoomName());
-		room.leave(user);
-		presentationManager.removePresentation(room, user);
-		log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
-		if (room.getParticipants().isEmpty()) {
-			roomManager.removeRoom(room);
+		if (user != null) {
+			Room room = roomManager.getRoom(user.getRoomName(), user.getName());
+			room.leave(user);
+//			presentationManager.removePresentation(room, user);
+			log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
+			if (room.getParticipants().isEmpty()) {
+				roomManager.removeRoom(room);
+			}
 		}
 	}
 
@@ -158,26 +165,36 @@ public class CallHandler extends TextWebSocketHandler {
 		final String name = params.get("name").getAsString();
 		log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
 
-		Room room = roomManager.getRoom(roomName);
+		Room room = roomManager.getRoom(roomName, name);
 		final UserSession user = room.join(name, session);
 		registry.register(user);
 	}
 
 	private void leaveRoom(UserSession user) throws IOException {
-		final Room room = roomManager.getRoom(user.getRoomName());
+		final Room room = roomManager.getRoom(user.getRoomName(), user.getName());
 		room.leave(user);
+		registry.removeBySession(user.getSession());
+		log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
+		if (room.getParticipants().isEmpty()) {
+			roomManager.removeRoom(room);
+		}
 	}
 
-	private void presenterSet(JsonObject params) throws IOException {
-		String presenter = params.get("presenter").getAsString();
-		boolean isPresenter = params.get("isPresenter").getAsBoolean();
-		UserSession presenterSession = registry.getByName(presenter);
-		System.out.println("presenterSessionId : " + presenterSession.getSession().getId());
-		Room room = roomManager.getRoom(presenterSession.getRoomName());
+//	private void presenterSet(JsonObject params) throws IOException {
+//		String presenter = params.get("presenter").getAsString();
+////		boolean isPresenter = params.get("isPresenter").getAsBoolean();
+//		UserSession presenterSession = registry.getByName(presenter);
+//		Room room = roomManager.getRoom(presenterSession.getRoomName(), presenterSession.getName());
+//
+//		final Presentation presentation = presentationManager.getPresentation(room, presenterSession);
+//		presentationManager.setPresenter();
+////		registry.register(presentationManager.getPresenter());
+//		log.info("[presentationSet] presentation: {}", presentation);
+//	}
 
-		final Presentation presentation = presentationManager.getPresentation(room, presenterSession);
-		presentationManager.setPresenter(isPresenter);
-		registry.register(presentationManager.getPresenter());
-		log.info("[presentationSet] presentation: {}", presentation);
+	private void setPresenter(JsonObject params) throws IOException {
+		String presenterName = params.get("presenter").getAsString();
+		UserSession presenter = registry.getByName(presenterName);
+		roomManager.setPresenter(presenter.getRoomName(), presenterName);
 	}
 }

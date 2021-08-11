@@ -38,6 +38,8 @@ public class PresentationManager {
 	private float originwidthPercent = 0.64f;
 	private float originheightPercent = 0.56f;
 
+	private float originImageSizePercent=0.6f;
+
 	private float offsetXPercent = originOffsetXPercent;
 	private float offsetYPercent = originOffsetYPercent;
 	private float widthPercent = originwidthPercent;
@@ -53,10 +55,10 @@ public class PresentationManager {
 
 		MediaPipeline pipeline = presenter.getPipeline();
 		if (presentation == null) {
-			presentation = new Presentation(presenter.getName(), imageUris, room.getName(), pipeline);
+//			presentation = new Presentation(presenter.getName(), imageUris, room.getName(), pipeline);
 			presentations.put(key, presentation);
 			this.presenter = presenter;
-			imageOverlayFilter = new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
+//			imageOverlayFilter = new ImageOverlayFilter.Builder(presentation.getPipeline()).build();
 		}
 		return presentation;
 	}
@@ -66,8 +68,8 @@ public class PresentationManager {
 		presentations.remove(key);
 	}
 
-	public void setPresenter(boolean isPresenter) throws IOException {
-		presenter.setPresenter(isPresenter);
+	public void setPresenter() throws IOException {
+		presenter.setPresenter();
 	}
 
 	public UserSession getPresenter() {
@@ -120,12 +122,6 @@ public class PresentationManager {
 	}
 
 	public void start(UserSession user) throws IOException {
-//		JsonObject presenterParams = new JsonObject();
-//		presenterParams.addProperty("id", "startPresentation");
-//		presenterParams.addProperty("presenter", user.getName());
-//
-//		user.sendMessage(presenterParams);
-
 		imageIndex = 0;
 		String imageId = "testImage" + imageIndex;
 		String imageUri = imageUris[imageIndex];
@@ -153,145 +149,145 @@ public class PresentationManager {
 			log.info("[prev] 맨 처음 사진입니다.");
 		}
 	}
-
+	
 	public void next() {
 		if (imageIndex < imageUris.length - 1) {
-			smallOut();
+			String removeImageId = "testImage" + imageIndex;
+
+			imageIndex++;
+			String addImageId = "testImage" + imageIndex;
+			String addImageUri = imageUris[imageIndex];
+			imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPercent,
+					heightPercent, keepAspectRatio, imageCenter);
+			imageOverlayFilter.removeImage(removeImageId);
+
 		} else {
 			log.info("[next] 마지막 사진입니다.");
 		}
 	}
-
-	private void smallOut() {
-		String removeImageId = "testImage" + imageIndex;
-		String removeImageUri = imageUris[imageIndex];
-
-		imageIndex++;
-		String addImageId = "testImage" + imageIndex;
-		String addImageUri = imageUris[imageIndex];
-		int offset = 5;
-		float floatOffset = 1.0f / offset;
-		for (int i = 1; i <= offset; i++) {
-			if (i == 1) {
-				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri,
-						offsetXPercent + widthPercent * (floatOffset * i / 2),
-						offsetYPercent + heightPercent * (floatOffset * i / 2), widthPercent * (1 - floatOffset * i),
-						heightPercent * (1 - floatOffset * i), keepAspectRatio, imageCenter);
-				imageOverlayFilter.removeImage(removeImageId);
-			} else if (i == offset) {
-				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
-			} else {
-				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri,
-						offsetXPercent + widthPercent * (floatOffset * i / 2),
-						offsetYPercent + heightPercent * (floatOffset * i / 2), widthPercent * (1 - floatOffset * i),
-						heightPercent * (1 - floatOffset * i), keepAspectRatio, imageCenter);
-				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
-			}
-		}
-		for (int i = offset; i >= 1; i--) {
-			if (i == offset) {
-				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri,
-						offsetXPercent + widthPercent * (floatOffset * i / 2),
-						offsetYPercent + heightPercent * (floatOffset * i / 2), widthPercent * (1 - floatOffset * i),
-						heightPercent * (1 - floatOffset * i), keepAspectRatio, imageCenter);
-			} else if (i == 1) {
-				imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPercent,
-						heightPercent, keepAspectRatio, imageCenter);
-				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
-			} else {
-				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri,
-						offsetXPercent + widthPercent * (floatOffset * i / 2),
-						offsetYPercent + heightPercent * (floatOffset * i / 2), widthPercent * (1 - floatOffset * i),
-						heightPercent * (1 - floatOffset * i), keepAspectRatio, imageCenter);
-				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
-			}
-		}
-	}
-
-	private void moveDown() {
-		String removeImageId = "testImage" + imageIndex;
-		String removeImageUri = imageUris[imageIndex];
-
-		imageIndex++;
-		String addImageId = "testImage" + imageIndex;
-		String addImageUri = imageUris[imageIndex];
-		int offset = 5;
-		float floatOffset = 1.0f / offset;
-		for (int i = 1; i <= offset; i++) {
-			if (i == 1) {
-				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri, offsetXPercent,
-						offsetYPercent + floatOffset * i, widthPercent, heightPercent, keepAspectRatio, imageCenter);
-				imageOverlayFilter.removeImage(removeImageId);
-				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri, offsetXPercent,
-						offsetYPercent - (1 - floatOffset * i), widthPercent, heightPercent, keepAspectRatio,
-						imageCenter);
-			} else if (i == offset) {
-				imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent,
-						offsetYPercent - (1 - floatOffset * i), widthPercent, heightPercent, keepAspectRatio,
-						imageCenter);
-				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
-				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
-			} else {
-				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri, offsetXPercent,
-						offsetYPercent + floatOffset * i, widthPercent, heightPercent, keepAspectRatio, imageCenter);
-				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
-				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri, offsetXPercent,
-						offsetYPercent - (1 - floatOffset * i), widthPercent, heightPercent, keepAspectRatio,
-						imageCenter);
-				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
-			}
-		}
-	}
-
-	private void moveRight() {
-		String removeImageId = "testImage" + imageIndex;
-		String removeImageUri = imageUris[imageIndex];
-
-		imageIndex++;
-		String addImageId = "testImage" + imageIndex;
-		String addImageUri = imageUris[imageIndex];
-		int offset = 10;
-		float floatOffset = 1.0f / offset;
-		for (int i = 1; i <= offset; i++) {
-			if (i == 1) {
-				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri,
-						offsetXPercent + floatOffset * i, offsetYPercent, widthPercent, heightPercent, keepAspectRatio,
-						imageCenter);
-				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri,
-						offsetXPercent - (1 - floatOffset * i), offsetYPercent, widthPercent, heightPercent,
-						keepAspectRatio, imageCenter);
-				imageOverlayFilter.removeImage(removeImageId);
-			} else if (i == 10) {
-				imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent - (1 - floatOffset * i),
-						offsetYPercent, widthPercent, heightPercent, keepAspectRatio, imageCenter);
-				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
-				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
-			} else {
-				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri,
-						offsetXPercent + floatOffset * i, offsetYPercent, widthPercent, heightPercent, keepAspectRatio,
-						imageCenter);
-				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri,
-						offsetXPercent - (1 - floatOffset * i), offsetYPercent, widthPercent, heightPercent,
-						keepAspectRatio, imageCenter);
-				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
-				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
-			}
-		}
-	}
-
+	
 //	public void next() {
 //		if (imageIndex < imageUris.length - 1) {
-//			String removeImageId = "testImage" + imageIndex;
-//
-//			imageIndex++;
-//			String addImageId = "testImage" + imageIndex;
-//			String addImageUri = imageUris[imageIndex];
-//			imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPercent,
-//					heightPercent, keepAspectRatio, imageCenter);
-//			imageOverlayFilter.removeImage(removeImageId);
-//
+//			smallOut();
 //		} else {
 //			log.info("[next] 마지막 사진입니다.");
+//		}
+//	}
+//
+//	private void smallOut() {
+//		String removeImageId = "testImage" + imageIndex;
+//		String removeImageUri = imageUris[imageIndex];
+//
+//		imageIndex++;
+//		String addImageId = "testImage" + imageIndex;
+//		String addImageUri = imageUris[imageIndex];
+//		int offset = 5;
+//		float floatOffset = 1.0f / offset;
+//		for (int i = 1; i <= offset; i++) {
+//			if (i == 1) {
+//				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri,
+//						offsetXPercent + widthPercent * (floatOffset * i / 2),
+//						offsetYPercent + heightPercent * (floatOffset * i / 2), widthPercent * (1 - floatOffset * i),
+//						heightPercent * (1 - floatOffset * i), keepAspectRatio, imageCenter);
+//				imageOverlayFilter.removeImage(removeImageId);
+//			} else if (i == offset) {
+//				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
+//			} else {
+//				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri,
+//						offsetXPercent + widthPercent * (floatOffset * i / 2),
+//						offsetYPercent + heightPercent * (floatOffset * i / 2), widthPercent * (1 - floatOffset * i),
+//						heightPercent * (1 - floatOffset * i), keepAspectRatio, imageCenter);
+//				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
+//			}
+//		}
+//		for (int i = offset; i >= 1; i--) {
+//			if (i == offset) {
+//				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri,
+//						offsetXPercent + widthPercent * (floatOffset * i / 2),
+//						offsetYPercent + heightPercent * (floatOffset * i / 2), widthPercent * (1 - floatOffset * i),
+//						heightPercent * (1 - floatOffset * i), keepAspectRatio, imageCenter);
+//			} else if (i == 1) {
+//				imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent, offsetYPercent, widthPercent,
+//						heightPercent, keepAspectRatio, imageCenter);
+//				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
+//			} else {
+//				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri,
+//						offsetXPercent + widthPercent * (floatOffset * i / 2),
+//						offsetYPercent + heightPercent * (floatOffset * i / 2), widthPercent * (1 - floatOffset * i),
+//						heightPercent * (1 - floatOffset * i), keepAspectRatio, imageCenter);
+//				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
+//			}
+//		}
+//	}
+//
+//	private void moveDown() {
+//		String removeImageId = "testImage" + imageIndex;
+//		String removeImageUri = imageUris[imageIndex];
+//
+//		imageIndex++;
+//		String addImageId = "testImage" + imageIndex;
+//		String addImageUri = imageUris[imageIndex];
+//		int offset = 5;
+//		float floatOffset = 1.0f / offset;
+//		for (int i = 1; i <= offset; i++) {
+//			if (i == 1) {
+//				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri, offsetXPercent,
+//						offsetYPercent + floatOffset * i, widthPercent, heightPercent, keepAspectRatio, imageCenter);
+//				imageOverlayFilter.removeImage(removeImageId);
+//				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri, offsetXPercent,
+//						offsetYPercent - (1 - floatOffset * i), widthPercent, heightPercent, keepAspectRatio,
+//						imageCenter);
+//			} else if (i == offset) {
+//				imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent,
+//						offsetYPercent - (1 - floatOffset * i), widthPercent, heightPercent, keepAspectRatio,
+//						imageCenter);
+//				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
+//				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
+//			} else {
+//				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri, offsetXPercent,
+//						offsetYPercent + floatOffset * i, widthPercent, heightPercent, keepAspectRatio, imageCenter);
+//				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
+//				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri, offsetXPercent,
+//						offsetYPercent - (1 - floatOffset * i), widthPercent, heightPercent, keepAspectRatio,
+//						imageCenter);
+//				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
+//			}
+//		}
+//	}
+//
+//	private void moveRight() {
+//		String removeImageId = "testImage" + imageIndex;
+//		String removeImageUri = imageUris[imageIndex];
+//
+//		imageIndex++;
+//		String addImageId = "testImage" + imageIndex;
+//		String addImageUri = imageUris[imageIndex];
+//		int offset = 10;
+//		float floatOffset = 1.0f / offset;
+//		for (int i = 1; i <= offset; i++) {
+//			if (i == 1) {
+//				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri,
+//						offsetXPercent + floatOffset * i, offsetYPercent, widthPercent, heightPercent, keepAspectRatio,
+//						imageCenter);
+//				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri,
+//						offsetXPercent - (1 - floatOffset * i), offsetYPercent, widthPercent, heightPercent,
+//						keepAspectRatio, imageCenter);
+//				imageOverlayFilter.removeImage(removeImageId);
+//			} else if (i == 10) {
+//				imageOverlayFilter.addImage(addImageId, addImageUri, offsetXPercent - (1 - floatOffset * i),
+//						offsetYPercent, widthPercent, heightPercent, keepAspectRatio, imageCenter);
+//				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
+//				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
+//			} else {
+//				imageOverlayFilter.addImage("removeAnimationImage" + i, removeImageUri,
+//						offsetXPercent + floatOffset * i, offsetYPercent, widthPercent, heightPercent, keepAspectRatio,
+//						imageCenter);
+//				imageOverlayFilter.addImage("addAnimationImage" + i, addImageUri,
+//						offsetXPercent - (1 - floatOffset * i), offsetYPercent, widthPercent, heightPercent,
+//						keepAspectRatio, imageCenter);
+//				imageOverlayFilter.removeImage("removeAnimationImage" + (i - 1));
+//				imageOverlayFilter.removeImage("addAnimationImage" + (i - 1));
+//			}
 //		}
 //	}
 
@@ -318,5 +314,51 @@ public class PresentationManager {
 		imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPercent, heightPercent,
 				keepAspectRatio, imageCenter);
 
+	}
+
+//	public void stop() throws IOException {
+//		String removeImageId = "testImage" + imageIndex;
+//		imageOverlayFilter.removeImage(removeImageId);
+//
+//		imageIndex = 0;
+//		presenter.getOutgoingWebRtcPeer().connect(presenter.getIncomingMedia(presenter.getName()));
+//		presenter.setPresenter(false);
+//	}
+
+	public void changeImageSize(float imageSizePercent) {
+		log.info("imageSizePercent: {}, originImageSizePercent: {}", imageSizePercent, originImageSizePercent);
+		float diff = (imageSizePercent / 100) - originImageSizePercent;
+		String imageId = "testImage" + imageIndex;
+		String imageUri = imageUris[imageIndex];
+		float offset = (float) diff;
+
+		imageOverlayFilter.removeImage(imageId);
+		if (offset >= 0) {//사이즈 커짐
+			offsetXPercent = offsetXPercent - widthPercent * offset/2;
+			offsetYPercent = offsetYPercent - heightPercent * offset/2;
+			widthPercent = widthPercent * (1 + offset);
+			heightPercent = heightPercent * (1 + offset);
+
+		} else {//사이즈 작아짐
+			offset =Math.abs(offset);
+			offsetXPercent = offsetXPercent + widthPercent * offset/2;
+			offsetYPercent = offsetYPercent + heightPercent * offset/2;
+			widthPercent = widthPercent * (1 - offset);
+			heightPercent = heightPercent * (1 - offset);
+		}
+		if(offsetXPercent<0){
+			offsetXPercent=0;
+		}
+		if(offsetYPercent<0){
+			offsetYPercent=0;
+		}
+	
+		imageOverlayFilter.addImage(imageId, imageUri, offsetXPercent, offsetYPercent, widthPercent, heightPercent, keepAspectRatio, imageCenter);
+
+		originImageSizePercent = imageSizePercent/100;
+		originOffsetYPercent = offsetYPercent;
+		originOffsetXPercent = offsetXPercent;
+		originheightPercent = heightPercent;
+		originwidthPercent = widthPercent;
 	}
 }
