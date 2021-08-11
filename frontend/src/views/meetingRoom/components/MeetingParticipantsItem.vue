@@ -34,7 +34,9 @@
       >
         <!-- popup menu items -->
         <div class="popup-item popup-item-start"><h4>Menu</h4></div>
-        <div class="popup-item"><h4>Menu</h4></div>
+        <div class="popup-item" @click="setPresenter">
+          <h4>발표자 지정</h4>
+        </div>
         <div class="popup-item popup-item-end"><h4>Menu</h4></div>
         <!-- popup menu items -->
       </div>
@@ -73,6 +75,13 @@ export default {
   methods: {
     togglePopup: function () {
       this.showPopup = !this.showPopup;
+    },
+    setPresenter: function () {
+      const message = {
+        id: 'setPresenter',
+        presenter: this.participant.name,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
     },
   },
 };

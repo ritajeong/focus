@@ -34,14 +34,14 @@ export default {
       Vue.set(state.participants, name, participant);
       //state.participants[name] = participant
       // 디버깅
-      console.log('participant added', state.participants);
+      /* console.log('participant added', state.participants); */
       // 임시 코드: 매니저, presenter 지정
       if (Object.keys(state.participants).length === 1) {
         state.manager = state.myName;
-        state.presenter = state.myName;
+        /* state.presenter = state.myName; */
       } else {
         state.manager = 'mann-1';
-        state.presenter = 'mann-1';
+        /* state.presenter = 'mann-1'; */
       }
       // 임시코드 종료
     },
@@ -51,6 +51,12 @@ export default {
     // 커스텀 웹소켓 메시지
     CHANGE_PRESENTATION(state, message) {
       state.nowImageUrl = message.imageUri;
+    },
+    // 발표자 변경, 발표자료 null 로 설정
+    CHANGE_PRESENTER(state, message) {
+      /* console.log('CHANGE_PRESENTER', message); */
+      state.presenter = message.presenter;
+      state.nowImageUrl = null;
     },
   },
   // actions
@@ -68,7 +74,7 @@ export default {
     },
     // 웹소켓 메시지에 따른 동작
     onServerMessage(context, message) {
-      /* console.log(message); */
+      /* console.log(message.id); */
       switch (message.id) {
         case 'existingParticipants': {
           context.dispatch('onExistingParticipants', message);
@@ -87,8 +93,14 @@ export default {
           break;
         }
         // 커스텀 웹소켓 메시지 시작
+        // 발표자료 변경 정보 수신 시
         case 'changePresentation': {
           context.dispatch('changePresentation', message);
+          break;
+        }
+        // 발표자 변경 정보 수신 시
+        case 'changePresenter': {
+          context.dispatch('changePresenter', message);
           break;
         }
         case 'iceCandidate': {
@@ -166,6 +178,11 @@ export default {
         /* console.log('forEach문 sender: ' + sender); */
         context.dispatch('receiveVideo', sender);
       });
+      // presenter 설정, presentation 설정
+      //디버깅 콘솔
+      console.log('onExistingParticipant', message);
+      context.dispatch('changePresenter', message);
+      context.dispatch('chagnePresentation', message);
       // console.log('onExistingParticipants end')
       router.push({ name: 'MeetingRoom' });
     },
@@ -219,6 +236,9 @@ export default {
     // 커스텀 웹소켓 메시지 by 동우님
     changePresentation(context, message) {
       context.commit('CHANGE_PRESENTATION', message);
+    },
+    changePresenter(context, message) {
+      context.commit('CHANGE_PRESENTER', message);
     },
   },
   getters: {},
