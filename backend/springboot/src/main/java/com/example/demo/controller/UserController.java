@@ -64,47 +64,46 @@ public class UserController {
 			@RequestBody @ApiParam(value="로그인", required = true) LoginReq loginInfo) {
 		Users user = userService.getUserByEmail(loginInfo.getEmail());
 		if(user==null || !user.getPassword().equals(loginInfo.getPassword()))
-			return new ResponseEntity<Users>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Users>(HttpStatus.NOT_FOUND);
 	  System.out.println(user.getEmail());
 	      return new ResponseEntity<Users>(user,HttpStatus.OK);
 	      
 	   }
 	
-	@GetMapping("/check/{email}")
-	@ApiOperation(value = "유저 존재 확인", notes = "존재하는 회원 확인용")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<? extends BaseResponseBody> checkUser(@PathVariable("email") String email){
-
-		Users user = userService.getUserByEmail(email);
-
-		if(user != null){
-			return ResponseEntity.status(201).body(BaseResponseBody.of(201, "존재하는 이메일 입니다."));
-		}
-		return ResponseEntity.status(409).body(BaseResponseBody.of(409, "존재하지 않는 이메일 입니다."));
-	}
+		 @GetMapping("/check/{email}")
+		 @ApiOperation(value = "회원가입할때 이메일 체크", notes = "존재하는 회원 확인용")
+		 @ApiResponses({
+				 @ApiResponse(code = 200, message = "성공"),
+				 @ApiResponse(code = 401, message = "인증 실패"),
+				 @ApiResponse(code = 404, message = "사용자 없음"),
+				 @ApiResponse(code = 409, message = "이미 존재하는 유저"),
+				 @ApiResponse(code = 500, message = "서버 오류")
+		 })
+		 public ResponseEntity<? extends BaseResponseBody> addUser(@PathVariable("email") String email){
+		 Users user = userService.getUserByEmail(email);
+		
+		 if(user != null){
+				 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "존재하는 이메일 입니다."));
+		 }
+		 return ResponseEntity.status(201).body(BaseResponseBody.of(201, "존재하지 않는 이메일 입니다."));
+		 }
 	
 	@GetMapping("/add/{email}")
-	@ApiOperation(value = "이메일 중복 검사", notes = "존재하는 회원 확인용")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<? extends BaseResponseBody> addUser(@PathVariable("email") String email){
+ @ApiOperation(value = "참가자 추가", notes = "존재하는 회원 확인용")
+ @ApiResponses({
+     @ApiResponse(code = 200, message = "성공"),
+     @ApiResponse(code = 401, message = "인증 실패"),
+     @ApiResponse(code = 404, message = "사용자 없음"),
+     @ApiResponse(code = 500, message = "서버 오류")
+ })
+ public ResponseEntity<? extends BaseResponseBody> checkUser(@PathVariable("email") String email){
+ Users user = userService.getUserByEmail(email);
 
-		Users user = userService.getUserByEmail(email);
+ if(user != null){
+     return ResponseEntity.status(201).body(BaseResponseBody.of(201, "존재하는 이메일 입니다."));
+ }
+ return ResponseEntity.status(404).body(BaseResponseBody.of(404, "존재하지 않는 이메일 입니다."));
+ }
 
-		if(user != null){
-			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "존재하는 이메일 입니다."));
-		}
-		return ResponseEntity.status(201).body(BaseResponseBody.of(201, "존재하지 않는 이메일 입니다."));
-	}
+	
 }

@@ -17,8 +17,7 @@ function loginUser(userData) {
 }
 
 function checkUser(input) {
-  //ㅇㅇ 아이디 중복확인 수정후 다시 작업
-  return instance.get(input);
+  return instance.get('check/' + input);
 }
 function addUser(input) {
   return instance.get('add/' + input);
