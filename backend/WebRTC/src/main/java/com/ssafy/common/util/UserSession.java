@@ -1,20 +1,3 @@
-/*
- * (C) Copyright 2014 Kurento (http://kurento.org/)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
 package com.ssafy.common.util;
 
 import java.io.Closeable;
@@ -37,11 +20,6 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.google.gson.JsonObject;
 
-/**
- *
- * @author Ivan Gracia (izanmail@gmail.com)
- * @since 4.3.1
- */
 public class UserSession implements Closeable {
 
 	private static final Logger log = LoggerFactory.getLogger(UserSession.class);
@@ -55,8 +33,6 @@ public class UserSession implements Closeable {
 	private final String roomName;
 	private final WebRtcEndpoint outgoingMedia;
 	private final ConcurrentMap<String, WebRtcEndpoint> incomingMedia = new ConcurrentHashMap<>();
-
-	private boolean isPresenter = false;
 
 	public UserSession(final String name, String roomName, final WebSocketSession session, MediaPipeline pipeline) {
 		this.pipeline = pipeline;
@@ -98,28 +74,16 @@ public class UserSession implements Closeable {
 		return session;
 	}
 
-	/**
-	 * The room to which the user is currently attending.
-	 *
-	 * @return The room
-	 */
 	public String getRoomName() {
 		return this.roomName;
 	}
 
-	public void setPresenter(boolean isPresenter) throws IOException {
-		log.info("USER {} is now a presenter of room {}", this.name, this.roomName);
-		this.isPresenter = isPresenter;
-		
+	public void setPresenter() throws IOException {
 		JsonObject presenterParams = new JsonObject();
 		presenterParams.addProperty("id", "startPresentation");
 		presenterParams.addProperty("presenter", this.getName());
 
 		this.sendMessage(presenterParams);
-	}
-
-	public boolean getPresenter() {		
-		return this.isPresenter;
 	}
 
 	public WebRtcEndpoint getIncomingMedia(String name) {
@@ -164,14 +128,8 @@ public class UserSession implements Closeable {
 			this.getEndpointForUser(sender).gatherCandidates();
 		}
 
-		// Pipeline 연결
-		if (sender.isPresenter) {
-			log.info("[receiveVideoFrom] sender: {} is presenter ", sender.getName());
-		} else {
-			log.info("[receiveVideoFrom] sender: {} is not presenter", sender.getName());
-			WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
-			sender.getOutgoingWebRtcPeer().connect(incoming);
-		}
+		WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
+		sender.getOutgoingWebRtcPeer().connect(incoming);
 	}
 
 	/*
@@ -179,7 +137,8 @@ public class UserSession implements Closeable {
 	 */
 	public void linkImageOverlayPipeline(UserSession sender, ImageOverlayFilter imageOverlayFilter) {
 		WebRtcEndpoint incoming = incomingMedia.get(sender.getName());
-		log.info("[linkImageOverlayPipeline] sender: {} ImageOverlayPipeline connect to {}", sender.getName(), this.getName());
+		log.info("[linkImageOverlayPipeline] sender: {} ImageOverlayPipeline connect to {}", sender.getName(),
+				this.getName());
 		sender.getOutgoingWebRtcPeer().connect(imageOverlayFilter);
 		imageOverlayFilter.connect(incoming);
 
@@ -301,11 +260,6 @@ public class UserSession implements Closeable {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -321,11 +275,6 @@ public class UserSession implements Closeable {
 		return eq;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int result = 1;
