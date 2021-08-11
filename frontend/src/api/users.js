@@ -20,5 +20,8 @@ function checkUser(input) {
   //ㅇㅇ 아이디 중복확인 수정후 다시 작업
   return instance.get(input);
 }
-
-export { registerUser, loginUser, checkUser };
+function addUser(input) {
+  //ㅇㅇ 아이디 중복확인 수정후 다시 작업
+  return instance.get('add/' + input);
+}
+export { registerUser, loginUser, checkUser, addUser };

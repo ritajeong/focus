@@ -10,49 +10,21 @@
                 <div class="col-md-6">
                   <label>Room name</label>
                   <div class="input-group mb-4">
-                    <input class="form-control" type="text" />
+                    <input
+                      class="form-control"
+                      type="text"
+                      placeholder="멋진 이름을 지어주세요."
+                    />
                   </div>
                 </div>
                 <div class="col-md-6 ps-2">
                   <label>Start Time</label>
-                  <div class="input-group">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="ex) 20210901 2240"
-                    />
-                    <input
-                      type="text"
-                      id="datePicker"
-                      class="form-control"
-                      value="2019-06-27"
-                    />
-                    <div class="input-group">
-                      <span class="input-group-text">
-                        <svg
-                          class="icon icon-xs"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </span>
-                      <input
-                        data-datepicker=""
-                        class="form-control"
-                        id="birthday"
-                        type="text"
-                        placeholder="dd/mm/yyyy"
-                        required
-                      />
-                    </div>
-                    <!-- time picker -->
-                    <!--npm install --save luxon vue-datetime weekstart-->
+                  <div>
+                    <date-picker
+                      v-model="date"
+                      type="datetime"
+                      format="YYYY-MM-DD hh:mm A"
+                    ></date-picker>
                   </div>
                 </div>
               </div>
@@ -62,36 +34,82 @@
                   type="text"
                   class="form-control"
                   rows="1"
-                  placeholder="방을 소개해주세요!"
+                  placeholder="방을 소개해주세요."
                 ></textarea>
               </div>
+
               <div class="form-group mb-4">
                 <label>Member List</label>
-                <textarea
-                  name="message"
-                  class="form-control"
-                  id="message"
-                  rows="4"
-                  placeholder="ex) "
-                ></textarea>
+                <div class="row">
+                  <div class="col-md-5">
+                    <input
+                      class="form-control"
+                      type="text"
+                      placeholder="참가자를 검색하세요."
+                    />
+                  </div>
+                  <div class="col-md-5">
+                    <select
+                      name="role"
+                      id="role"
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option value="100">Presenter</option>
+                      <option value="000">Normal</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="submit" class="btn bg-gradient-primary">
+                      Add
+                    </button>
+                  </div>
+                </div>
               </div>
               <div class="row">
-                <!-- <div class="col-md-12">
-                  <div class="form-check form-switch mb-4">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="flexSwitchCheckDefault"
-                      checked=""
-                    />
-                    <label class="form-check-label" for="flexSwitchCheckDefault"
-                      >I agree to the
-                      <a href="javascript:;" class="text-dark"
-                        ><u>Terms and Conditions</u></a
-                      >.</label
-                    >
-                  </div>
-                </div> -->
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Num</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Role</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>Mark@com</td>
+                      <td>Presenter</td>
+                      <td>
+                        <button
+                          class="btn bg-gradient-danger"
+                          type="button"
+                          id="btn-delete"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                      <td>Jacob@com</td>
+                      <td>Normal</td>
+                      <td>
+                        <button
+                          class="btn bg-gradient-danger"
+                          type="button"
+                          id="btn-delete"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
                 <div class="col-md-12">
                   <button type="submit" class="btn bg-gradient-dark w-100">
                     Create Room
@@ -107,8 +125,18 @@
 </template>
 
 <script>
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+
 export default {
   name: 'RoomCreate',
-  components: {},
+  components: { DatePicker },
+  data() {
+    return {
+      date: {
+        //YYYY-MM-DD hh:mm A
+      },
+    };
+  },
 };
 </script>
