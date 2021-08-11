@@ -19,7 +19,7 @@
                   <p class="mb-0">Enter your infomation to sign up</p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
+                  <form role="form" @submit.prevent="submitForm()">
                     <div class="mb-3">
                       <input
                         required="required"
@@ -28,11 +28,8 @@
                         placeholder="Email"
                         aria-label="Email"
                         aria-describedby="email-addon"
-                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                         v-model="useremail"
                       />
-
-                      <!--ㅎㅇ 후순위 : 아이디 중복확인 추가(/users/check/{email})-->
                       <!--ㅎㅇ 후순위 : validation check-->
                     </div>
                     <div class="mb-3">
@@ -87,7 +84,7 @@
                     </div> -->
                     <div class="text-center">
                       <button
-                        type="button"
+                        type="submit"
                         class="
                           btn btn-lg
                           bg-gradient-dark
@@ -96,7 +93,6 @@
                           mt-4
                           mb-0
                         "
-                        @click.prevent="submitForm()"
                       >
                         Sign Up
                       </button>
@@ -213,6 +209,12 @@ export default {
       const { data } = await checkUser(this.useremail);
       return data.statusCode === 201 ? true : false;
     },
+
+    // async inviteMember() { //@inviteMember
+    //   console.log('checkEmail()');
+    //   const { data } = await checkUser(this.useremail);
+    //   return data.statusCode === 201 ? true : false;
+    // },
 
     async registerInfo() {
       const userData = {

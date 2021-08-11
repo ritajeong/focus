@@ -64,7 +64,7 @@ public class UserController {
 			@RequestBody @ApiParam(value="로그인", required = true) LoginReq loginInfo) {
 		Users user = userService.getUserByEmail(loginInfo.getEmail());
 		if(user==null || !user.getPassword().equals(loginInfo.getPassword()))
-			return new ResponseEntity<Users>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Users>(HttpStatus.NOT_FOUND);
 	  System.out.println(user.getEmail());
 	      return new ResponseEntity<Users>(user,HttpStatus.OK);
 	      

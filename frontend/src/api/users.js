@@ -20,4 +20,8 @@ function checkUser(input) {
   return instance.get('check/' + input);
 }
 
+// function addUser(input) {
+//   return instance.get('add/' + input);
+// }
+
 export { registerUser, loginUser, checkUser };

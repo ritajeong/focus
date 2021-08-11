@@ -71,7 +71,7 @@
                 cursor-pointer
                 align-items-center
               "
-              >Seeting</router-link
+              >Setting</router-link
             >
           </li>
           <li class="nav-item mx-2">
@@ -117,11 +117,7 @@ Vue.use(VueAlertify);
 
 export default {
   name: 'AppNav',
-  computed: {
-    isUserLogin() {
-      return this.$store.getters.isLogin;
-    },
-  },
+  computed: {},
 
   methods: {
     userLogout() {

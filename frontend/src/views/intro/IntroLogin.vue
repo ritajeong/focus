@@ -18,7 +18,7 @@
                   <p class="mb-0">Enter your email and password to sign in</p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
+                  <form role="form" @submit.prevent="submitForm()">
                     <div class="mb-3">
                       <input
                         type="email"
@@ -50,7 +50,7 @@
                     </div> -->
                     <div class="text-center">
                       <button
-                        type="button"
+                        type="submit"
                         class="
                           btn btn-lg
                           bg-gradient-dark
@@ -59,7 +59,6 @@
                           mt-4
                           mb-0
                         "
-                        @click.prevent="submitForm()"
                       >
                         Sign in
                       </button>
@@ -167,6 +166,7 @@ export default {
 
         const userInfo = {
           email: this.useremail,
+          password: this.userpwd,
           name: data.name,
           isLogin: true,
         };
