@@ -9,12 +9,12 @@ export default {
   }),
   mutations: {
     SET_LOGIN(state, payload) {
-      state.login.isLogin = payload.isLogin;
+      state.login.isLogin = true;
       state.login.username = payload.name;
       state.login.useremail = payload.email;
     },
     SET_LOGOUT(state) {
-      state.login.isLogin = '';
+      state.login.isLogin = false;
       state.login.username = '';
       state.login.useremail = '';
     },
@@ -22,7 +22,7 @@ export default {
   actions: {},
   getters: {
     isLogin(state) {
-      return state.login.isLogin !== '';
+      return state.login.isLogin;
     },
   },
 };

@@ -32,7 +32,7 @@
                         v-model="useremail"
                       />
 
-                      <!--ㅎㅇ 후순위 : 아이디 중복확인 추가(/users/{email})-->
+                      <!--ㅎㅇ 후순위 : 아이디 중복확인 추가(/users/check/{email})-->
                       <!--ㅎㅇ 후순위 : validation check-->
                     </div>
                     <div class="mb-3">
@@ -180,61 +180,49 @@ export default {
   name: 'IntroSignup',
   data() {
     return {
+      useremail: '',
       username: '',
       userpwd: '',
       userpwdcheck: '',
-      useremail: '',
-      isPwdSame: 'false',
     };
   },
-  created: {
+  computed: {
     checkPwd() {
-      return (this.isPwdSame =
-        this.userpwd === this.userpwdcheck ? true : false);
+      return this.userpwd === this.userpwdcheck;
     },
   },
   methods: {
-    async submitForm() {
+    submitForm() {
       console.log('submitForm()');
-      if (this.checkEmail() !== 409) {
-        //ㅇㅇ api오류 . 아이디 중복확인과 멤버 초대가 상충함 -> 해결하고 validation check 작업하기
-        this.$alertify.error('이미 가입된 이메일입니다.');
-        return;
-      }
-
       if (!this.checkPwd) {
         this.$alertify.error('비밀번호확인이 틀렸습니다.');
         return;
       }
 
-      const userData = {
-        name: this.username,
-        email: this.useremail,
-      };
-      // const response = registerUser(userData);
-      const { data } = await registerUser(userData);
-      console.log(data.name);
-      this.initForm();
+      if (!this.checkEmail()) {
+        this.$alertify.error('이미 가입된 이메일입니다.');
+        return;
+      }
+
+      this.registerInfo();
+      this.$router.push('/', () => {});
     },
+
     async checkEmail() {
       console.log('checkEmail()');
       const { data } = await checkUser(this.useremail);
-      console.log(data);
-      return data.statusCode;
+      return data.statusCode === 201 ? true : false;
     },
-    initForm() {
-      this.username = '';
-      this.userpwd = '';
-      this.useremail = '';
+
+    async registerInfo() {
+      const userData = {
+        email: this.useremail,
+        name: this.username,
+        password: this.userpwd,
+      };
+      const { data } = await registerUser(userData);
+      console.log(data);
     },
   },
 };
-/*
-{
-  "email": "string",
-  "name": "string",
-  "password": "string",
-  "userId": 0
-}
-*/
 </script>

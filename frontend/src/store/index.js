@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import meetingRoom from './modules/meetingRoom.js';
-import user from './modules/users.js';
+import users from './modules/users.js';
 
 Vue.use(Vuex);
 
@@ -12,7 +12,7 @@ const store = new Vuex.Store({
   getters: {},
   modules: {
     meetingRoom,
-    user,
+    users,
   },
 });
 

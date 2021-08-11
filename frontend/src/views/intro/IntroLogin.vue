@@ -160,18 +160,24 @@ export default {
       try {
         console.log('submitForm()');
         const userData = {
-          name: this.username, //ㅇㅇ api요청할 때 name도 돌려주세요
           email: this.useremail,
           password: this.userpwd,
         };
-        await loginUser(userData);
-        this.$store.commit('SET_LOGIN', userData);
-        this.$router.push('/dashboard');
+        const { data } = await loginUser(userData);
 
-        // this.initForm();
+        const userInfo = {
+          email: this.useremail,
+          name: data.name,
+          isLogin: true,
+        };
+        this.$store.commit('users/SET_LOGIN', userInfo);
+
+        this.$router.push('/dashboard');
+        console.log(data);
       } catch (error) {
         console.log(error.response.data);
         this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
+        this.initForm();
       }
     },
     initForm() {
