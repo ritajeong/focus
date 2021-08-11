@@ -72,7 +72,6 @@ export default {
   mounted() {
     // 발표자의 현재 이미지 url state에 저장: 발표 시작 시
     this.$store.state.meetingRoom.nowImageUrl = this.slideUrls[this.now].url;
-    console.log(this.$store.state.meetingRoom.nowImageUrl);
   },
   // : methods
   methods: {

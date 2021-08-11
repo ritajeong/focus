@@ -88,8 +88,6 @@ export default {
         }
         // 커스텀 웹소켓 메시지 시작
         case 'changePresentation': {
-          // 디버깅 콘솔
-          console.log(message);
           context.dispatch('changePresentation', message);
           break;
         }

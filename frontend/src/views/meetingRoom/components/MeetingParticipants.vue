@@ -1,10 +1,10 @@
 <template>
   <div class="d-flex flex-column">
-    <MeetingParticipantsItem />
-    <MeetingParticipantsItem />
-    <MeetingParticipantsItem />
-    <MeetingParticipantsItem />
-    <MeetingParticipantsItem />
+    <MeetingParticipantsItem
+      v-for="participant in participants"
+      :participant="participant"
+      :key="participant.name"
+    />
   </div>
 </template>
 
@@ -21,7 +21,11 @@ export default {
     return {};
   },
   // : computed
-  computed: {},
+  computed: {
+    participants() {
+      return this.$store.state.meetingRoom.participants;
+    },
+  },
   // : lifecycle hook
   mounted() {},
   // : methods
