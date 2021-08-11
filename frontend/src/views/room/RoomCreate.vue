@@ -46,6 +46,7 @@
                       class="form-control"
                       type="text"
                       placeholder="참가자를 검색하세요."
+                      v-model="member"
                     />
                   </div>
                   <div class="col-md-5">
@@ -54,13 +55,18 @@
                       id="role"
                       class="form-select"
                       aria-label="Default select example"
+                      v-model="role"
                     >
                       <option value="100">Presenter</option>
                       <option value="000">Normal</option>
                     </select>
                   </div>
                   <div class="col-md-2">
-                    <button type="submit" class="btn bg-gradient-primary">
+                    <button
+                      type="submit"
+                      class="btn bg-gradient-primary"
+                      @click="addMember"
+                    >
                       Add
                     </button>
                   </div>
@@ -80,24 +86,16 @@
                   <tbody>
                     <tr>
                       <th scope="row">1</th>
-                      <td>Mark</td>
-                      <td>Mark@com</td>
-                      <td>Presenter</td>
-                      <td>
-                        <button
-                          class="btn bg-gradient-danger"
-                          type="button"
-                          id="btn-delete"
-                        >
-                          Delete
-                        </button>
-                      </td>
+                      <td>{{ user.username }}</td>
+                      <td>{{ user.useremail }}</td>
+                      <td>Owner</td>
+                      <td></td>
                     </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Jacob@com</td>
-                      <td>Normal</td>
+                    <tr v-for="(member, index) in members" :key="index">
+                      <th scope="row">{{ index }}</th>
+                      <td>{{ member.name }}</td>
+                      <td>{{ member.email }}</td>
+                      <td>{{ member.role }}</td>
                       <td>
                         <button
                           class="btn bg-gradient-danger"
@@ -130,12 +128,38 @@ import 'vue2-datepicker/index.css';
 
 export default {
   name: 'RoomCreate',
+  computed: {
+    getMembers() {
+      return this.members;
+    },
+  },
+  methods: {
+    addMember() {
+      let msg = '';
+      let err = false;
+      if (!this.member) {
+        msg = '사용자를 입력해주세요';
+        err = true;
+      }
+
+      if (err) {
+        alert(msg);
+      }
+    },
+  },
   components: { DatePicker },
   data() {
     return {
-      date: {
-        //YYYY-MM-DD hh:mm A
-      },
+      //YYYY-MM-DD hh:mm A
+      user: this.$store.state.users.login,
+      date: '',
+      members: [
+        {
+          name: '',
+          email: '',
+          role: '',
+        },
+      ],
     };
   },
 };
