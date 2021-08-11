@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <router-link to="/dashboard/tutorial"> tutorial </router-link> -->
     <AppCard />
   </div>
 </template>
