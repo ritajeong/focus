@@ -16,9 +16,10 @@
     <!-- VideoUnitGroup 사람 많아질 때 다음으로 넘기는 것(index 이용) 코딩해야함!! -->
     <VideoUnit
       class="video-container"
-      v-for="participant in participants"
-      :key="participant.name"
+      v-for="(participant, index) in participants"
+      :key="index"
       :participant="participant"
+      v-show="index >= first && index <= last"
     />
     <!--  -->
     <img
@@ -71,13 +72,22 @@ export default {
   mounted() {},
   // : methods
   methods: {
+    // 0번 비디오 밑으로는 내려가지 않음
     onPrevVideos: function () {
+      if (this.first <= 0) {
+        return;
+      }
       this.first -= 1;
       this.last -= 1;
     },
+    // 마지막 참가지 비디오 이상으로는 올라가지 않음
     onNextVideos: function () {
-      this.first += 1;
-      this.last += 1;
+      if (this.allParticipants !== null) {
+        if (this.last < Object.keys(this.allParticipants).length) {
+          this.first += 1;
+          this.last += 1;
+        }
+      }
     },
   },
 };
