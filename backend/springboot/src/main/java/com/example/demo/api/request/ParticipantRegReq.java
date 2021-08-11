@@ -15,5 +15,12 @@ public class ParticipantRegReq {
 	List<String> person;
 	@ApiModelProperty
 	int roon_id;
-	
+
+	@Override
+	public String toString() {
+		return "ParticipantRegReq{" +
+				"person=" + person +
+				", roon_id=" + roon_id +
+				'}';
+	}
 }

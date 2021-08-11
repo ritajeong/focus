@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,4 +33,16 @@ public class Rooms{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	Users users;
+
+	@Override
+	public String toString() {
+		return "Rooms{" +
+				"roomId=" + roomId +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", startTime=" + startTime +
+				", endTime=" + endTime +
+				", users=" + users +
+				'}';
+	}
 }

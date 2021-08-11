@@ -1,6 +1,7 @@
 package com.example.demo.model.response;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import io.swagger.annotations.ApiModel;
@@ -18,12 +19,12 @@ public class RoomGetRes {
 	@ApiModelProperty
 	String description;
 	@ApiModelProperty
-	Timestamp startTime;
+	LocalDateTime startTime;
 	@ApiModelProperty
 	int user_id;
 	@ApiModelProperty
 	int room_id;
-	public RoomGetRes(String name, String description, Timestamp startTime, int user_id, int room_id) {
+	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id) {
 		super();
 		this.name = name;
 		this.description=description;

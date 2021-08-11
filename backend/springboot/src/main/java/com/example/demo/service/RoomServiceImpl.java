@@ -1,9 +1,13 @@
 package com.example.demo.service;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.controller.RoomController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +34,29 @@ public class RoomServiceImpl implements RoomService {
 	@Autowired
 	PartRepository parRepository;
 
+	private final Logger log = LoggerFactory.getLogger(RoomServiceImpl.class);
+
 	@Override
-	public RoomRegisterPostReq createRoom(RoomRegisterPostReq room) {
-		Rooms ro = new Rooms();
-		ro.setName(room.getName());
-		if(room.getStartTime()==null) {
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			ro.setStartTime(timestamp);
+	public Rooms createRoom(RoomRegisterPostReq roomInfo) {
+		log.info("[createRoom] room post req: {}", roomInfo);
+		Rooms room = new Rooms();
+		room.setName(roomInfo.getName());
+		if(roomInfo.getStartTime()==null) {
+			LocalDateTime datetime = LocalDateTime.now();
+			room.setStartTime(Timestamp.valueOf(datetime));
+		}else{
+			room.setStartTime(Timestamp.valueOf(roomInfo.getStartTime()));
 		}
-		ro.setUsers(userRepository.findByUserId(room.getUser_id()));
-		roomRepository.save(ro);
-		Rooms inroom = roomRepository.findByRoomId(ro.getRoomId());
-		saveParticipants(room.getPerson(),inroom);
+		room.setDescription(roomInfo.getDescription());
+		room.setUsers(userRepository.findByUserId(roomInfo.getUser_id()));
+		log.info("[createRoom] set users : {}", room);
+
+		roomRepository.save(room);
+		log.info("[createRoom] save room complete");
+		//Rooms inroom = roomRepository.findByRoomId(room.getRoomId());
+
+		saveParticipants(roomInfo.getPerson(),room);
+		log.info("[createRoom] save participants complete");
 		return room;
 	}
 
@@ -92,20 +107,20 @@ public class RoomServiceImpl implements RoomService {
 		List<RoomGetRes> roomres = new ArrayList();
 		
 		for (Rooms r:room) {
-			roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime(), r.getUsers().getUserId(), r.getRoomId()));
+			roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getRoomId()));
 		}
 		return roomres;
 	}
 
 	@Override
-	public RoomUpdatePostReq updateRoom(RoomUpdatePostReq room) {
+	public Rooms updateRoom(RoomUpdatePostReq room) {
 		Rooms upro = getRoom(room.getRoom_id());
-		upro.setStartTime(room.getStartTime());
+		upro.setStartTime(Timestamp.valueOf(room.getStartTime()));
 		upro.setName(room.getName());
 		parRepository.deleteAllByRooms_RoomId(room.getRoom_id());
 		saveParticipants(room.getPerson(), upro);
 		roomRepository.save(upro);
-		return room;
+		return upro;
 	}
 
 	

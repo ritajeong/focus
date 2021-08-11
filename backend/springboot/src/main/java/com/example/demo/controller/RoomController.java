@@ -2,6 +2,9 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +35,11 @@ public class RoomController {
 	@Autowired
 	RoomService roomService;
 
-	
+	private final Logger log = LoggerFactory.getLogger(RoomController.class);
+
 	@PostMapping("/createroom")
-	@ApiOperation(value = "방생성") 
+	@ApiOperation(value = "방생성")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "인증 실패"),
@@ -43,9 +48,10 @@ public class RoomController {
     })
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value="방정보", required = true) RoomRegisterPostReq registerInfo) {
-		System.out.println(registerInfo.getUser_id());
-		RoomRegisterPostReq room = roomService.createRoom(registerInfo);
-		
+		System.out.println("[createroom] register: registerInfo: "+registerInfo);
+		log.info("[register] room register info: {}", registerInfo);
+		Rooms room = roomService.createRoom(registerInfo);
+		log.info("[register] room : {}", room);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
@@ -60,7 +66,7 @@ public class RoomController {
 	public ResponseEntity<? extends BaseResponseBody> update(
 			@RequestBody @ApiParam(value="방업데이트", required = true) RoomUpdatePostReq registerInfo) {
 		System.out.println(registerInfo.getUser_id());
-		RoomUpdatePostReq room = roomService.updateRoom(registerInfo);
+		Rooms room = roomService.updateRoom(registerInfo);
 		
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -109,7 +115,7 @@ public class RoomController {
 	})
 	public ResponseEntity<RoomGetRes> showRoomone(@PathVariable("roomId") int roomId) {
 		Rooms room = roomService.getRoom(roomId);
-		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime(), room.getUsers().getUserId(), room.getRoomId());
+		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime().toLocalDateTime(), room.getUsers().getUserId(), room.getRoomId());
 		return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);
 	}
 }

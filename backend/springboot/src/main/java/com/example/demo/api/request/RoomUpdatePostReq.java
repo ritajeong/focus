@@ -1,6 +1,7 @@
 package com.example.demo.api.request;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import io.swagger.annotations.ApiModel;
@@ -20,7 +21,7 @@ public class RoomUpdatePostReq {
 	@ApiModelProperty
 	String description;
 	@ApiModelProperty
-	Timestamp startTime;
+	LocalDateTime startTime;
 	@ApiModelProperty
 	int user_id;
 	@ApiModelProperty

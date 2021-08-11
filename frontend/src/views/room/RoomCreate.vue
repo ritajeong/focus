@@ -11,6 +11,7 @@
                   <label>Room name</label>
                   <div class="input-group mb-4">
                     <input
+                      v-model="name"
                       class="form-control"
                       type="text"
                       placeholder="멋진 이름을 지어주세요."
@@ -21,7 +22,7 @@
                   <label>Start Time</label>
                   <div>
                     <date-picker
-                      v-model="date"
+                      v-model="datetime"
                       type="datetime"
                       format="YYYY-MM-DD hh:mm A"
                     ></date-picker>
@@ -31,6 +32,7 @@
               <div class="form-group mb-4">
                 <label>Room Description</label>
                 <textarea
+                  v-model="description"
                   type="text"
                   class="form-control"
                   rows="1"
@@ -46,7 +48,7 @@
                       class="form-control"
                       type="text"
                       placeholder="참가자를 검색하세요."
-                      v-model="member"
+                      v-model="member_account"
                     />
                   </div>
                   <div class="col-md-5">
@@ -55,7 +57,7 @@
                       id="role"
                       class="form-select"
                       aria-label="Default select example"
-                      v-model="role"
+                      v-model="menber_role"
                     >
                       <option value="100">Presenter</option>
                       <option value="000">Normal</option>
@@ -109,7 +111,11 @@
                   </tbody>
                 </table>
                 <div class="col-md-12">
-                  <button type="submit" class="btn bg-gradient-dark w-100">
+                  <button
+                    type="submit"
+                    class="btn bg-gradient-dark w-100"
+                    @click="createHandler"
+                  >
                     Create Room
                   </button>
                 </div>
@@ -128,25 +134,6 @@ import 'vue2-datepicker/index.css';
 
 export default {
   name: 'RoomCreate',
-  computed: {
-    getMembers() {
-      return this.members;
-    },
-  },
-  methods: {
-    addMember() {
-      let msg = '';
-      let err = false;
-      if (!this.member) {
-        msg = '사용자를 입력해주세요';
-        err = true;
-      }
-
-      if (err) {
-        alert(msg);
-      }
-    },
-  },
   components: { DatePicker },
   data() {
     return {
@@ -161,6 +148,40 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    addMember() {
+      let msg = '';
+      let err = false;
+      if (!this.member) {
+        msg = '사용자를 입력해주세요';
+        err = true;
+      }
+
+      if (err) {
+        alert(msg);
+      }
+    },
+    createHandler() {
+      let msg = '';
+      let err = false;
+
+      if (!this.name) {
+        msg = '방 이름을 입력해주세요';
+        err = true;
+      } else if (!this.datetime) {
+        msg = '날짜를 입력해주세요';
+        err = true;
+      } else if (!this.description) {
+        msg = '날짜를 입력해주세요';
+        err = true;
+      }
+    },
+  },
+  computed: {
+    getMembers() {
+      return this.members;
+    },
   },
 };
 </script>
