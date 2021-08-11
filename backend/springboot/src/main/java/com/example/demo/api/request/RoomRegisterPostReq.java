@@ -16,6 +16,8 @@ public class RoomRegisterPostReq {
 	@ApiModelProperty
 	String name;
 	@ApiModelProperty
+	String description;
+	@ApiModelProperty
 	Timestamp startTime;
 	@ApiModelProperty
 	int user_id;

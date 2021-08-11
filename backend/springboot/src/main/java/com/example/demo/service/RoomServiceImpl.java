@@ -92,7 +92,7 @@ public class RoomServiceImpl implements RoomService {
 		List<RoomGetRes> roomres = new ArrayList();
 		
 		for (Rooms r:room) {
-			roomres.add(new RoomGetRes(r.getName(), r.getStartTime(), r.getUsers().getUserId(), r.getRoomId()));
+			roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime(), r.getUsers().getUserId(), r.getRoomId()));
 		}
 		return roomres;
 	}

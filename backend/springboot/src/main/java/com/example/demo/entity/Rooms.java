@@ -23,6 +23,7 @@ public class Rooms{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	int roomId;
 	String name;
+	String description;
 	@Column(name="startTime", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	Timestamp startTime;
 	@Column(name="endTime")

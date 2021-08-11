@@ -109,8 +109,7 @@ public class RoomController {
 	})
 	public ResponseEntity<RoomGetRes> showRoomone(@PathVariable("roomId") int roomId) {
 		Rooms room = roomService.getRoom(roomId);
-		RoomGetRes roomget = new RoomGetRes(room.getName(), room.getStartTime(), room.getUsers().getUserId(), room.getRoomId());
+		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime(), room.getUsers().getUserId(), room.getRoomId());
 		return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);
-
 	}
 }

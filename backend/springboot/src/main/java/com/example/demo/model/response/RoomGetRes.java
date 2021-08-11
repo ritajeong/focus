@@ -16,14 +16,17 @@ public class RoomGetRes {
 	@ApiModelProperty
 	String name;
 	@ApiModelProperty
+	String description;
+	@ApiModelProperty
 	Timestamp startTime;
 	@ApiModelProperty
 	int user_id;
 	@ApiModelProperty
 	int room_id;
-	public RoomGetRes(String name, Timestamp startTime, int user_id, int room_id) {
+	public RoomGetRes(String name, String description, Timestamp startTime, int user_id, int room_id) {
 		super();
 		this.name = name;
+		this.description=description;
 		this.startTime = startTime;
 		this.user_id = user_id;
 		this.room_id = room_id;

@@ -18,6 +18,8 @@ public class RoomUpdatePostReq {
 	@ApiModelProperty
 	String name;
 	@ApiModelProperty
+	String description;
+	@ApiModelProperty
 	Timestamp startTime;
 	@ApiModelProperty
 	int user_id;

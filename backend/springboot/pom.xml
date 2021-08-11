@@ -44,38 +44,45 @@
    <groupId>org.springframework.boot</groupId>
    <artifactId>spring-boot-starter-security</artifactId>
    </dependency>
-  <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <!--버전을 넣지 않으면 동작하지 않는다. -->
-            <version>2.9.2</version> 
-        </dependency>
+  <!-- swagger --> 
+  <dependency> 
+  <groupId>io.springfox</groupId> 
+  <artifactId>springfox-swagger-ui</artifactId> 
+  <version>2.9.2</version> 
+  </dependency> 
+  <dependency> 
+  <groupId>io.springfox</groupId> 
+  <artifactId>springfox-swagger2</artifactId>
+   <version>2.9.2</version> 
+   <!-- solved NumberFormatException in swagger2 --> 
+   <exclusions> 
+   <exclusion>
+    <groupId>io.swagger</groupId>
+     <artifactId>swagger-annotations</artifactId> 
+     </exclusion>
+      <exclusion>
+       <groupId>io.swagger</groupId>
+        <artifactId>swagger-models</artifactId>
+	  </exclusion>
+   </exclusions>
+           </dependency> <!-- solved NumberFormatException in swagger2 -->
+            <dependency> 
+            <groupId>io.swagger</groupId>
+             <artifactId>swagger-annotations</artifactId>
+              <version>1.5.21</version>
+               </dependency> 
+               <dependency>
+                <groupId>io.swagger</groupId>
+                 <artifactId>swagger-models</artifactId> 
+                 <version>1.5.21</version>
+                  </dependency>
 
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <!--버전을 넣지 않으면 동작하지 않는다. -->
-            <version>2.9.2</version>
-        </dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-
-		<!--Jackson Databind-->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.12.3</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>2.12.3</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
