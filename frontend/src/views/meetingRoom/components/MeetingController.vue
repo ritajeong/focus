@@ -16,7 +16,7 @@
     >
       발표 중지
     </button>
-    <button class="controller-button mx-3">나가기</button>
+    <button class="controller-button mx-3" @click="leaveRoom">나가기</button>
   </div>
 </template>
 
@@ -70,6 +70,13 @@ export default {
         presenter: this.manager,
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
+    },
+    leaveRoom: function () {
+      const message = {
+        id: 'leaveRoom',
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
+      this.$store.dispatch('meetingRoom/leaveRoom');
     },
   },
 };

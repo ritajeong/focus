@@ -46,7 +46,9 @@ export default {
       // 임시코드 종료
     },
     DISPOSE_PARTICIPANT(state, participantName) {
-      delete state.participants[participantName];
+      // 객체 변경 감지를 위한 삭제법
+      Vue.delete(state.participants, participantName);
+      /* delete state.participants[participantName]; */
     },
     // 커스텀 웹소켓 메시지
     CHANGE_PRESENTATION(state, message) {
@@ -57,6 +59,14 @@ export default {
       /* console.log('CHANGE_PRESENTER', message); */
       state.presenter = message.presenter;
       state.nowImageUrl = null;
+    },
+    /* leave room: 추후 image size, location 추가 */
+    LEAVE_ROOM(state) {
+      state.participants = null;
+      state.myName = null;
+      state.nowImageUrl = null;
+      state.manager = null;
+      state.presenter = null;
     },
   },
   // actions
@@ -222,6 +232,10 @@ export default {
     // participant.dispose에서 오는 요청
     disposeParticipant(context, participantName) {
       context.commit('DISPOSE_PARTICIPANT', participantName);
+    },
+    leaveRoom(context) {
+      context.commit('LEAVE_ROOM');
+      router.push({ path: '/dashboard' });
     },
     receiveVideoResponse(context, result) {
       context.state.participants[result.name].rtcPeer.processAnswer(
