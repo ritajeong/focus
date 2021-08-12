@@ -48,7 +48,7 @@
                       class="form-control"
                       type="text"
                       placeholder="참가자를 검색하세요."
-                      v-model="participant_account"
+                      v-model="participantAccount"
                     />
                   </div>
                   <div class="col-md-5">
@@ -128,9 +128,14 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import { createRoom } from '@/api/rooms.js';
+import { findUser } from '@/api/users.js';
+import VueAlertify from 'vue-alertify';
+Vue.use(VueAlertify);
+
 export default {
   name: 'RoomCreate',
   components: { DatePicker },
@@ -148,7 +153,8 @@ export default {
           code_name: 'Owner',
         },
       ],
-      participant_account: '',
+      participantName: '',
+      participantAccount: '',
       roleSelected: '',
     };
   },
@@ -165,26 +171,45 @@ export default {
     // },
     addParticipant() {
       let msg = '';
-      let err = false;
-      if (!this.participant_account) {
+      if (!this.participantAccount) {
         msg = '사용자를 입력해주세요';
-        err = true;
+        this.$alertify.error(msg);
+        return;
       }
 
-      if (err) {
-        alert(msg);
-      } else {
-        let participantName = '';
-        console.log(`참가자 이메일 검색: ${this.participant_account}`);
-        console.log('selected role: ', this.roleSelected.name);
-        this.participants.push({
-          name: participantName,
-          email: this.participant_account,
-          code_id: this.roleSelected.split('-')[0],
-          code_name: this.roleSelected.split('-')[1],
-        });
-        console.log(`참가자 추가: ${this.participants}`);
+      try {
+        this.getUsername().then(
+          console.log('getUsername() success in addParticipant()'),
+        );
+      } catch {
+        console.log('catch');
       }
+
+      console.log(
+        'getUsername() success in addParticipant() : this.participantName = ' +
+          this.participantName,
+      );
+      // if (!this.getUsername().then()) {
+      //   msg = '사용자가 없습니다.';
+      //   console.log('addParticipant() 사용자 없음' + this.participantName);
+      //   this.$alertify.error(msg);
+      //   return;
+      // } else {
+      //   console.log('addParticipant() 사용자 있음 : ' + this.participantName);
+      // }
+      console.log(
+        'addParticipant() 사용자 있음 : if문 밖, : this.participantName =  ' +
+          this.participantName,
+      );
+      console.log('참가자 이메일 검색: ' + this.participantAccount);
+      console.log('selected role: ' + this.roleSelected);
+      this.participants.push({
+        name: this.participantName,
+        email: this.participantAccount,
+        code_id: this.roleSelected.split('-')[0],
+        code_name: this.roleSelected.split('-')[1],
+      });
+      console.log('참가자 추가: ' + this.participants);
     },
     deleteParticipant(participant) {
       this.participants.forEach((index, element) => {
@@ -198,7 +223,7 @@ export default {
       let msg = '';
       let err = false;
 
-      if (!this.name) {
+      if (!this.roomName) {
         msg = '방 이름을 입력해주세요';
         err = true;
       } else if (!this.datetime) {
@@ -223,7 +248,7 @@ export default {
           name: this.roomName,
           description: this.description,
           startTime: this.datetime,
-          email: `${this.$store.state.users.login.useremail}`,
+          email: this.$store.state.users.login.useremail,
           person: this.participants,
         };
 
@@ -239,6 +264,14 @@ export default {
             alert('error! catch');
           });
       }
+    },
+
+    async getUsername() {
+      console.log('getUsrename() start'); //1
+      this.participantName = await findUser(this.participantAccount);
+      console.log(
+        'getUsrename() end : this.participantName = ' + this.participantName,
+      );
     },
   },
 };
