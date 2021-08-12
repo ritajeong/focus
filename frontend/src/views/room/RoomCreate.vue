@@ -229,6 +229,9 @@ export default {
             if (status != 200) {
               alert('오류 발생');
               return;
+            } else {
+              this.$alertify.success('방이 생성됐습니다.');
+              this.$router.push('/dashboard');
             }
           })
           .catch(() => {
