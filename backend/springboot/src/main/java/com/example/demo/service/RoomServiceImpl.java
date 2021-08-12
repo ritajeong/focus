@@ -20,7 +20,7 @@ import com.example.demo.repository.PartRepository;
 import com.example.demo.repository.RoomRepository;
 import com.example.demo.repository.UserRepository;
 
-@Service("roomSeRoomRegisterPostReqrvice")
+@Service("roomSerice")
 
 public class RoomServiceImpl implements RoomService {
 	@Autowired
@@ -113,7 +113,7 @@ public class RoomServiceImpl implements RoomService {
 		upro.setStartTime(Timestamp.valueOf(room.getStartTime()));
 		upro.setName(room.getName());
 		parRepository.deleteAllByRooms_RoomId(room.getRoom_id());
-		saveParticipants(room.getPerson(), upro);
+		saveParticipants(room.getParticipants(), upro);
 		roomRepository.save(upro);
 		return upro;
 	}

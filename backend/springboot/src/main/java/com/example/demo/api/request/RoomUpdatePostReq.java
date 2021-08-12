@@ -27,5 +27,5 @@ public class RoomUpdatePostReq {
 	@ApiModelProperty
 	int user_id;
 	@ApiModelProperty
-	List<ParticipantRegisterReq> person;
+	List<ParticipantRegisterReq> participants;
 }

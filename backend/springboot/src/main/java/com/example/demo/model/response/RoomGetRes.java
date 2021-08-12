@@ -1,6 +1,5 @@
 package com.example.demo.model.response;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,6 +23,9 @@ public class RoomGetRes {
 	int user_id;
 	@ApiModelProperty
 	int room_id;
+	@ApiModelProperty(name="참가자 목록")
+	List<ParticipantGetRes> participants;
+
 	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id) {
 		super();
 		this.name = name;

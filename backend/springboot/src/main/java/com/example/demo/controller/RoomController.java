@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import com.example.demo.model.response.ParticipantGetRes;
+import com.example.demo.service.ParticipantService;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,9 @@ import io.swagger.annotations.ApiResponses;
 public class RoomController {
 	@Autowired
 	RoomService roomService;
+
+	@Autowired
+	ParticipantService participantService;
 
 	private final Logger log = LoggerFactory.getLogger(RoomController.class);
 
@@ -100,7 +105,12 @@ public class RoomController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<List<RoomGetRes>> showRooms(){
-		return new ResponseEntity<List<RoomGetRes>>(roomService.findAll(), HttpStatus.OK);
+
+		List<RoomGetRes> rooms=roomService.findAll();
+		for(RoomGetRes item: rooms){
+			item.setParticipants(participantService.getParticipantByRoomId(item.getRoom_id()));
+		}
+		return new ResponseEntity<List<RoomGetRes>>(rooms, HttpStatus.OK);
 
 	}
 	
@@ -115,7 +125,10 @@ public class RoomController {
 	})
 	public ResponseEntity<RoomGetRes> showRoomone(@PathVariable("roomId") int roomId) {
 		Rooms room = roomService.getRoom(roomId);
+		List<ParticipantGetRes> participants=participantService.getParticipantByRoomId(roomId);
 		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime().toLocalDateTime(), room.getUsers().getUserId(), room.getRoomId());
+		roomget.setParticipants(participants);
+
 		return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);
 	}
 }
