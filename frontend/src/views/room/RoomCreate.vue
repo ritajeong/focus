@@ -93,7 +93,7 @@
                       <th scope="row">{{ index + 1 }}</th>
                       <td>{{ participant.name }}</td>
                       <td>{{ participant.email }}</td>
-                      <td>{{ participant.code_name }}</td>
+                      <td>{{ participant.codeName }}</td>
                       <td>
                         <div v-if="index > 0">
                           <button
@@ -111,7 +111,7 @@
                 </table>
                 <div class="col-md-12">
                   <button
-                    type="submit"
+                    type="button"
                     class="btn bg-gradient-dark w-100"
                     @click="createHandler"
                   >
@@ -149,11 +149,11 @@ export default {
         {
           name: this.$store.state.users.login.username,
           email: this.$store.state.users.login.useremail,
-          code_id: '001',
-          code_name: 'Owner',
+          codeId: '001',
+          codeName: 'Owner',
         },
       ],
-      participantName: '',
+      participant: '',
       participantAccount: '',
       roleSelected: '',
     };
@@ -172,39 +172,19 @@ export default {
         return;
       }
 
-      try {
-        this.getUsername().then(
-          console.log('getUsername() success in addParticipant()'),
-        );
-      } catch {
-        console.log('catch');
-      }
-
-      console.log(
-        'getUsername() success in addParticipant() : this.participantName = ' +
-          this.participantName,
-      );
-      // if (!this.getUsername().then()) {
-      //   msg = '사용자가 없습니다.';
-      //   console.log('addParticipant() 사용자 없음' + this.participantName);
-      //   this.$alertify.error(msg);
-      //   return;
-      // } else {
-      //   console.log('addParticipant() 사용자 있음 : ' + this.participantName);
-      // }
-      console.log(
-        'addParticipant() 사용자 있음 : if문 밖, : this.participantName =  ' +
-          this.participantName,
-      );
       console.log('참가자 이메일 검색: ' + this.participantAccount);
       console.log('selected role: ' + this.roleSelected);
-      this.participants.push({
-        name: this.participantName,
-        email: this.participantAccount,
-        code_id: this.roleSelected.split('-')[0],
-        code_name: this.roleSelected.split('-')[1],
+
+      this.getUsername().then(() => {
+        console.log('getUsername() success in addParticipant()');
+
+        this.participants.push({
+          name: this.participant.data.name,
+          email: this.participantAccount,
+          codeId: this.roleSelected.split('-')[0],
+          codeName: this.roleSelected.split('-')[1],
+        });
       });
-      console.log('참가자 추가: ' + this.participants);
     },
     deleteParticipant(email) {
       console.log('delete participant', email);
@@ -231,13 +211,6 @@ export default {
         err = true;
       }
 
-      //방장 추가
-      this.participants.add({
-        name: this.user.username,
-        email: this.user.useremail,
-        code: '001',
-      });
-
       if (err) {
         alert(msg);
       } else {
@@ -246,8 +219,9 @@ export default {
           description: this.description,
           startTime: this.datetime,
           email: this.$store.state.users.login.useremail,
-          person: this.participants,
+          participants: this.participants,
         };
+        console.log('[createHandler] roomData: ', roomData);
 
         createRoom(roomData)
           .then(({ status }) => {
@@ -264,11 +238,12 @@ export default {
     },
 
     async getUsername() {
-      console.log('getUsrename() start'); //1
-      this.participantName = await findUser(this.participantAccount);
+      this.participant = await findUser(this.participantAccount);
       console.log(
-        'getUsrename() end : this.participantName = ' + this.participantName,
+        'getUsrename() this.participant.data.name',
+        this.participant.data.name,
       );
+      console.log('getUsrename() this.participant', this.participant);
     },
   },
 };

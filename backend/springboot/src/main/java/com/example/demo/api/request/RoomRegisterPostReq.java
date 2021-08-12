@@ -25,7 +25,7 @@ public class RoomRegisterPostReq {
 	@ApiModelProperty(name="방장 이메일", example = "master@master.com")
 	String email;
 	@ApiModelProperty(name="참가자 목록")
-	List<ParticipantRegisterReq> person;
+	List<ParticipantRegisterReq> participants;
 
 	@Override
 	public String toString() {
@@ -34,7 +34,7 @@ public class RoomRegisterPostReq {
 				", description='" + description + '\'' +
 				", startTime=" + startTime +
 				", email=" + email +
-				", person=" + person +
+				", participants=" + participants +
 				'}';
 	}
 }

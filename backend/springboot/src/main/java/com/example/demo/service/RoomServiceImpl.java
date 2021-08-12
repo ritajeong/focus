@@ -56,7 +56,7 @@ public class RoomServiceImpl implements RoomService {
 		log.info("[createRoom] save room complete");
 		//Rooms inroom = roomRepository.findByRoomId(room.getRoomId());
 
-		saveParticipants(roomInfo.getPerson(),room);
+		saveParticipants(roomInfo.getParticipants(),room);
 		log.info("[createRoom] save participants complete");
 		return room;
 	}
@@ -76,7 +76,7 @@ public class RoomServiceImpl implements RoomService {
 			participant.setCode(code);
 			participant.setGroupcode(group_code);
 
-			participant.setUsers(userRepository.findByEmail(person.get(i).getUserEmail()));
+			participant.setUsers(userRepository.findByEmail(person.get(i).getEmail()));
 			participant.setRooms(room);
 
 			parRepository.save(participant);

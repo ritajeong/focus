@@ -13,9 +13,9 @@ import lombok.Setter;
 @ApiModel("ParticipantsRegRequest")
 public class ParticipantRegisterReq {
 	@ApiModelProperty(name="참가자 이름", example = "관리자")
-	String userName;
+	String name;
 	@ApiModelProperty(name="참가자 이메일", example = "master@master.com")
-	String userEmail;
+	String email;
 
 //	@ApiModelProperty(name="그룹 코드")
 //	String group_code;
@@ -27,10 +27,10 @@ public class ParticipantRegisterReq {
 	@Override
 	public String toString() {
 		return "ParticipantRegisterReq{" +
-				"userName='" + userName + '\'' +
-				", userEmail=" + userEmail +
-				", code_id='" + codeId + '\'' +
-				", code_name='" + codeName + '\'' +
+				"name='" + name + '\'' +
+				", email='" + email + '\'' +
+				", codeId='" + codeId + '\'' +
+				", codeName='" + codeName + '\'' +
 				'}';
 	}
 }
