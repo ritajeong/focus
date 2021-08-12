@@ -8,7 +8,14 @@
       <div v-if="myAudioEnabled">음소거</div>
       <div v-else>음소거 해제</div>
     </button>
-    <button class="controller-button mx-3">발표 중지</button>
+    <!-- 발표중지: 매니저이고, 다른 사람이 발표자일 때 보임 -->
+    <button
+      class="controller-button mx-3"
+      v-if="myName === manager && myName !== presenter"
+      @click="stopPresentation"
+    >
+      발표 중지
+    </button>
     <button class="controller-button mx-3">나가기</button>
   </div>
 </template>
@@ -35,6 +42,15 @@ export default {
         this.$store.state.meetingRoom.myName
       ];
     },
+    myName() {
+      return this.$store.state.meetingRoom.myName;
+    },
+    manager() {
+      return this.$store.state.meetingRoom.manager;
+    },
+    presenter() {
+      return this.$store.state.meetingRoom.presenter;
+    },
   },
   // : lifecycle hook
   mounted() {},
@@ -47,6 +63,13 @@ export default {
     toggleAudio: function () {
       this.myParticipantObject.rtcPeer.audioEnabled = !this.myAudioEnabled;
       this.myAudioEnabled = !this.myAudioEnabled;
+    },
+    stopPresentation: function () {
+      const message = {
+        id: 'setPresenter',
+        presenter: this.manager,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
     },
   },
 };
