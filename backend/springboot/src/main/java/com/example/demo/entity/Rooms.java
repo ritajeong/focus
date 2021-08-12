@@ -36,7 +36,7 @@ public class Rooms{
 	    private List<Participants> participant = new ArrayList<>();
 	 
 	 @OneToMany(mappedBy = "rooms",cascade = CascadeType.ALL, orphanRemoval = true)
-	    private List<Rooms_Presentations> presentation = new ArrayList<>();
+	    private List<RoomsPresentations> presentation = new ArrayList<>();
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")

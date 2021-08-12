@@ -19,7 +19,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Rooms_Presentations {
+public class RoomsPresentations {
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="group_id")

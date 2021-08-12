@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.api.request.FileReq;
+import com.example.demo.api.request.ShowFileReq;
 import com.example.demo.entity.Presentations;
 import com.example.demo.entity.Rooms;
 import com.example.demo.model.response.BaseResponseBody;
 import com.example.demo.model.response.FileRes;
+import com.example.demo.model.response.FiledetailRes;
 import com.example.demo.model.response.RoomGetRes;
 import com.example.demo.service.FileService;
 
@@ -45,7 +47,7 @@ public class FileController {
 			return  ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));	
 	    }
 	
-	@GetMapping("/{roomId}")
+	@GetMapping("/room/{roomId}")
 	@ApiOperation(value = "하나방 파일보기")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -56,7 +58,20 @@ public class FileController {
 	})
 	public ResponseEntity<List<FileRes>> showRooms(@PathVariable("roomId") int roomId){
 		
-		return new ResponseEntity<List<FileRes>>(fileservice.findbygroupid(roomId),HttpStatus.OK);
+		return new ResponseEntity<List<FileRes>>(fileservice.findbyroomid(roomId),HttpStatus.OK);
+
+	}
+	@GetMapping("/detail")
+	@ApiOperation(value = "하나방 자세히 보기")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<FiledetailRes>> showRoomdetail(@ModelAttribute @ApiParam(value="파일 저장", required = true) ShowFileReq filereq){
+		return new ResponseEntity<List<FiledetailRes>>(fileservice.findbygroupid(filereq),HttpStatus.OK);
 
 	}
 	
