@@ -25,6 +25,7 @@
                       v-model="datetime"
                       type="datetime"
                       format="YYYY-MM-DD hh:mm A"
+                      :not-before="disabledBefore"
                     ></date-picker>
                   </div>
                 </div>
@@ -47,7 +48,7 @@
                     <input
                       class="form-control"
                       type="text"
-                      placeholder="참가자를 검색하세요."
+                      placeholder="이메일을 검색하세요."
                       v-model="participantAccount"
                     />
                   </div>
@@ -156,6 +157,7 @@ export default {
       participant: '',
       participantAccount: '',
       roleSelected: '',
+      disabledBefore: new Date(2021, 8, 20),
     };
   },
   computed: {
@@ -212,7 +214,7 @@ export default {
       }
 
       if (err) {
-        alert(msg);
+        this.$alertify.error(msg);
       } else {
         let roomData = {
           name: this.roomName,
@@ -227,7 +229,7 @@ export default {
           .then(({ status }) => {
             console.log(status);
             if (status != 200) {
-              alert('오류 발생');
+              this.$alertify.error('오류 발생');
               return;
             } else {
               this.$alertify.success('방이 생성됐습니다.');
@@ -235,18 +237,22 @@ export default {
             }
           })
           .catch(() => {
-            alert('error! catch');
+            this.$alertify.error('error! catch');
           });
       }
     },
 
     async getUsername() {
-      this.participant = await findUser(this.participantAccount);
-      console.log(
-        'getUsrename() this.participant.data.name',
-        this.participant.data.name,
-      );
-      console.log('getUsrename() this.participant', this.participant);
+      try {
+        this.participant = await findUser(this.participantAccount);
+        console.log(
+          'getUsrename() this.participant.data.name',
+          this.participant.data.name,
+        );
+        console.log('getUsrename() this.participant', this.participant);
+      } catch (err) {
+        this.$alertify.error('사용자 게정이 없습니다.');
+      }
     },
   },
 };
