@@ -136,7 +136,6 @@
 import Vue from 'vue';
 import { loginUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
-import { validateEmail } from '@/common/validation.js';
 
 Vue.use(VueAlertify);
 
@@ -144,27 +143,27 @@ export default {
   name: 'IntroLogin',
   data() {
     return {
+      userid: '',
       useremail: '',
       userpwd: '',
       logMessage: '',
     };
   },
-  computed: {
-    isUseremailValid() {
-      return validateEmail(this.useremail);
-    },
-  },
+  computed: {},
   methods: {
     async submitForm() {
       try {
         console.log('submitForm()');
         const userData = {
+          //보낼때
           email: this.useremail,
           password: this.userpwd,
         };
         const { data } = await loginUser(userData);
 
         const userInfo = {
+          //받을때
+          id: this.userid,
           email: this.useremail,
           password: this.userpwd,
           name: data.name,
