@@ -54,11 +54,8 @@ public class FileServiceImpl implements FileService{
         	fil.setName(Integer.toString(cnt+1));
         	fil.setOriginal(multipartFile.getOriginalFilename());
         	fil.setRoomspresentations(pr);
-//    		pr.setDirectory(pat.get(cnt));
-//    		pr.setName(multipartFile.getName());
     		cnt++;
     		fileRepository.save(fil);
-//    		File file = new File(pat.get(cnt));
         }
 		return filereq;
 	}
@@ -87,11 +84,16 @@ public class FileServiceImpl implements FileService{
 		}
 		return res;
 	}
-	
-//	@Override
-//	public Rooms_Presentations getFile(int id) {
-//		Rooms_Presentations rp = fileRepository.getById(id);
-//		return rp;
-//	}
+	@Override
+	public void delete(FileReq registerInfo) {
+		int group = filegroupRepository.findBygroupid(registerInfo.getRoom_id(), registerInfo.getUser_id());
+		RoomsPresentations pr = filegroupRepository.getById(group);
+		filegroupRepository.delete(pr);
+	}
+	@Override
+	public FileReq update(FileReq registerInfo) throws Exception {
+		delete(registerInfo);
+		return saveFile(registerInfo);
+	}
 	
 }
