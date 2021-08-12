@@ -1,9 +1,15 @@
 <template>
   <div class="d-flex controller">
-    <button class="controller-button mx-3">버튼1</button>
-    <button class="controller-button mx-3">버튼2</button>
-    <button class="controller-button mx-3">버튼3</button>
-    <button class="controller-button-disabled mx-3">버튼4</button>
+    <button class="controller-button mx-3" @click="toggleVideo">
+      <div v-if="myVideoEnabled">비디오 중지</div>
+      <div v-else>비디오 시작</div>
+    </button>
+    <button class="controller-button mx-3" @click="toggleAudio">
+      <div v-if="myAudioEnabled">음소거</div>
+      <div v-else>음소거 해제</div>
+    </button>
+    <button class="controller-button mx-3">발표 중지</button>
+    <button class="controller-button mx-3">나가기</button>
   </div>
 </template>
 
@@ -17,14 +23,32 @@ export default {
   props: {},
   // : data
   data() {
-    return {};
+    return {
+      myVideoEnabled: true,
+      myAudioEnabled: false,
+    };
   },
   // : computed
-  computed: {},
+  computed: {
+    myParticipantObject() {
+      return this.$store.state.meetingRoom.participants[
+        this.$store.state.meetingRoom.myName
+      ];
+    },
+  },
   // : lifecycle hook
   mounted() {},
   // : methods
-  methods: {},
+  methods: {
+    toggleVideo: function () {
+      this.myParticipantObject.rtcPeer.videoEnabled = !this.myVideoEnabled;
+      this.myVideoEnabled = !this.myVideoEnabled;
+    },
+    toggleAudio: function () {
+      this.myParticipantObject.rtcPeer.audioEnabled = !this.myAudioEnabled;
+      this.myAudioEnabled = !this.myAudioEnabled;
+    },
+  },
 };
 </script>
 

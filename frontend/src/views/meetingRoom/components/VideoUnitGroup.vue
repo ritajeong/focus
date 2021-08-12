@@ -18,7 +18,7 @@
     <VideoUnit
       class="video-container"
       v-for="(participant, index) in participants"
-      :key="index"
+      :key="participant.name"
       :participant="participant"
       v-show="index >= first && index <= last"
     />
@@ -35,7 +35,6 @@
 
 <script>
 import VideoUnit from './VideoUnit.vue';
-import Dummy from './Dummy.js';
 
 export default {
   name: 'VideoUnitGroup',
@@ -45,8 +44,6 @@ export default {
   // : data
   data() {
     return {
-      /* 임시 데이터: videoUrls */
-      videoUrls: Dummy.getVideoUrls(),
       first: 0,
       last: 3,
     };

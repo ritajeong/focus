@@ -141,11 +141,9 @@ export default {
       var constraints = {
         audio: true,
         video: {
-          mandatory: {
-            maxWidth: 320,
-            maxFrameRate: 15,
-            minFrameRate: 15,
-          },
+          width: 320,
+          height: 240,
+          framerate: 15,
         },
       };
 
@@ -164,15 +162,17 @@ export default {
             console.log(participant, video);
             return console.error(error);
           }
-          // this -> kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly
+          // this -> kurentoUtils.WebRtcPeer.WebRtcPeerSendonly
           // generateOffer:
           this.generateOffer(participant.offerToReceiveVideo.bind(participant));
+          this.audioEnabled = false;
         },
       );
 
       // state에 user participant 오브젝트 추가
       const myName = context.state.myName;
       context.commit('ADD_PARTICIPANT', { name: myName, participant });
+
       // state에 방에 있던 participant들 오브젝트 추가
       message.data.forEach(function (sender) {
         /* console.log('forEach문 sender: ' + sender); */
