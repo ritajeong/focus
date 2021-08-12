@@ -187,8 +187,11 @@ export default {
       }
     },
     deleteParticipant(participant) {
+      console.log('delete participant', participant);
       this.participants.forEach((index, element) => {
+        console.log('delete element', element);
         if (element.email == participant.email) {
+          console.log('same element', element.email);
           this.participants.splice(index);
         }
       });

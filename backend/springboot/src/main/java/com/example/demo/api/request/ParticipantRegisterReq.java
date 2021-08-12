@@ -12,22 +12,25 @@ import lombok.Setter;
 @Setter
 @ApiModel("ParticipantsRegRequest")
 public class ParticipantRegisterReq {
-	@ApiModelProperty
-	Users user;
-	@ApiModelProperty(name="방 아이디")
-	int roon_id;
-	@ApiModelProperty(name="그룹 코드")
-	String group_code;
+	@ApiModelProperty(name="참가자 이름", example = "관리자")
+	String userName;
+	@ApiModelProperty(name="참가자 이메일", example = "master@master.com")
+	String userEmail;
+
+//	@ApiModelProperty(name="그룹 코드")
+//	String group_code;
 	@ApiModelProperty(name="역할 코드", example = "001")
-	String code;
+	String codeId;
+	@ApiModelProperty(name="역할 코드 이름", example = "방장")
+	String codeName;
 
 	@Override
 	public String toString() {
 		return "ParticipantRegisterReq{" +
-				"user=" + user +
-				", roon_id=" + roon_id +
-				", group_code='" + group_code + '\'' +
-				", code='" + code + '\'' +
+				"userName='" + userName + '\'' +
+				", userEmail=" + userEmail +
+				", code_id='" + codeId + '\'' +
+				", code_name='" + codeName + '\'' +
 				'}';
 	}
 }
