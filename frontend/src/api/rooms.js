@@ -15,5 +15,8 @@ function registerUser(userData) {
 function loginUser(userData) {
   return instance.post('login', userData);
 }
+function createRoom(roomData) {
+  return instance.post('createroom', roomData);
+}
 
-export { registerUser, loginUser };
+export { registerUser, loginUser, createRoom };

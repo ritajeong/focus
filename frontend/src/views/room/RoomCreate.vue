@@ -11,7 +11,7 @@
                   <label>Room name</label>
                   <div class="input-group mb-4">
                     <input
-                      v-model="name"
+                      v-model="roomName"
                       class="form-control"
                       type="text"
                       placeholder="멋진 이름을 지어주세요."
@@ -41,14 +41,14 @@
               </div>
 
               <div class="form-group mb-4">
-                <label>Member List</label>
+                <label>Participant List</label>
                 <div class="row">
                   <div class="col-md-5">
                     <input
                       class="form-control"
                       type="text"
                       placeholder="참가자를 검색하세요."
-                      v-model="member_account"
+                      v-model="participant_account"
                     />
                   </div>
                   <div class="col-md-5">
@@ -57,17 +57,17 @@
                       id="role"
                       class="form-select"
                       aria-label="Default select example"
-                      v-model="menber_role"
+                      v-model="participant_role"
                     >
                       <option value="100">Presenter</option>
-                      <option value="000">Normal</option>
+                      <option value="000">Viewer</option>
                     </select>
                   </div>
                   <div class="col-md-2">
                     <button
                       type="submit"
                       class="btn bg-gradient-primary"
-                      @click="addMember"
+                      @click="addParticipant"
                     >
                       Add
                     </button>
@@ -93,16 +93,20 @@
                       <td>Owner</td>
                       <td></td>
                     </tr>
-                    <tr v-for="(member, index) in members" :key="index">
+                    <tr
+                      v-for="(participant, index) in getParticipants"
+                      :key="index"
+                    >
                       <th scope="row">{{ index }}</th>
-                      <td>{{ member.name }}</td>
-                      <td>{{ member.email }}</td>
-                      <td>{{ member.role }}</td>
+                      <td>{{ participant.name }}</td>
+                      <td>{{ participant.email }}</td>
+                      <td>{{ participant.role }}</td>
                       <td>
                         <button
                           class="btn bg-gradient-danger"
                           type="button"
                           id="btn-delete"
+                          @click="deleteParticipant(participant)"
                         >
                           Delete
                         </button>
@@ -131,37 +135,59 @@
 <script>
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
-
+import { createRoom } from '@/api/rooms.js';
 export default {
   name: 'RoomCreate',
   components: { DatePicker },
   data() {
     return {
-      //YYYY-MM-DD hh:mm A
       user: this.$store.state.users.login,
-      date: '',
-      members: [
+      datetime: '',
+      roomName: '',
+      description: '',
+      participants: [
         {
           name: '',
           email: '',
           role: '',
         },
       ],
+      participant_account: '',
+      participant_role: '',
     };
   },
+  computed: {
+    getParticipants() {
+      return this.participants;
+    },
+  },
   methods: {
-    addMember() {
+    addParticipant() {
       let msg = '';
       let err = false;
-      if (!this.member) {
+      if (!this.participant_account) {
         msg = '사용자를 입력해주세요';
         err = true;
       }
 
       if (err) {
         alert(msg);
+      } else {
+        this.participants.add({
+          name: this.participant_account.name,
+          email: this.participant_account.email,
+          role: this.participant_role.value,
+        });
       }
     },
+    deleteParticipant(participant) {
+      this.participants.array.forEach((index, element) => {
+        if (element.email == participant.email) {
+          this.participants.splice(index);
+        }
+      });
+    },
+
     createHandler() {
       let msg = '';
       let err = false;
@@ -173,14 +199,40 @@ export default {
         msg = '날짜를 입력해주세요';
         err = true;
       } else if (!this.description) {
-        msg = '날짜를 입력해주세요';
+        msg = '방 설명을 입력해주세요';
         err = true;
       }
-    },
-  },
-  computed: {
-    getMembers() {
-      return this.members;
+
+      //방장 추가
+      this.participants.add({
+        name: this.user.username,
+        email: this.user.useremail,
+        role: '001',
+      });
+
+      if (err) {
+        alert(msg);
+      } else {
+        let roomData = {
+          name: this.roomName,
+          description: this.description,
+          startTime: this.datetime,
+          email: `${this.$store.state.users.login.useremail}`,
+          person: this.participants,
+        };
+
+        createRoom(roomData)
+          .then(({ status }) => {
+            console.log(status);
+            if (status != 200) {
+              alert('오류 발생');
+              return;
+            }
+          })
+          .catch(() => {
+            alert('error! catch');
+          });
+      }
     },
   },
 };

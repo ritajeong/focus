@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Rooms;
+import com.example.demo.model.response.RoomGetRes;
+import com.example.demo.model.response.UserGetRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,6 +90,7 @@ public class UserController {
 		 }
 		 return ResponseEntity.status(201).body(BaseResponseBody.of(201, "존재하지 않는 이메일 입니다."));
 		 }
+
 	
 	@GetMapping("/add/{email}")
  @ApiOperation(value = "참가자 추가", notes = "존재하는 회원 확인용")
@@ -104,6 +108,21 @@ public class UserController {
  }
  return ResponseEntity.status(404).body(BaseResponseBody.of(404, "존재하지 않는 이메일 입니다."));
  }
+
+	@GetMapping("/{email}")
+	@ApiOperation(value = "이메일로 사용자 정보 가져오기")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<UserGetRes> getUserByEmail(@PathVariable("email") String email) {
+		Users user = userService.getUserByEmail(email);
+		UserGetRes userGetRes = new UserGetRes(user.getUserId(), user.getEmail(), user.getName());
+		return new ResponseEntity<UserGetRes>(userGetRes,HttpStatus.OK);
+	}
 
 	
 }

@@ -27,7 +27,7 @@ public class Rooms{
 	String description;
 	@Column(name="startTime", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	Timestamp startTime;
-	@Column(name="endTime")
+	@Column(name="endTime", columnDefinition="TIMESTAMP")
 	Timestamp endTime;
 	
 	@ManyToOne(fetch=FetchType.LAZY)

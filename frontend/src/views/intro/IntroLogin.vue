@@ -165,6 +165,7 @@ export default {
         const { data } = await loginUser(userData);
 
         const userInfo = {
+          id: this.userId,
           email: this.useremail,
           password: this.userpwd,
           name: data.name,

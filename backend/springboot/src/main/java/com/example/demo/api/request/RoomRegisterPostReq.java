@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.demo.entity.Participants;
+import com.example.demo.entity.Users;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -14,16 +16,16 @@ import lombok.Setter;
 @ApiModel("RoomRegisterPostRequest")
 
 public class RoomRegisterPostReq {
-	@ApiModelProperty
+	@ApiModelProperty(name="방 이름", example = "ssafy_room")
 	String name;
-	@ApiModelProperty
+	@ApiModelProperty(name="방 설명", example = "ssafy_room_description")
 	String description;
-	@ApiModelProperty
+	@ApiModelProperty(name="시작 시간")
 	LocalDateTime startTime;
-	@ApiModelProperty
-	int user_id;
-	@ApiModelProperty
-	List<String> person;
+	@ApiModelProperty(name="방장 이메일", example = "master@master.com")
+	String email;
+	@ApiModelProperty(name="참가자 목록")
+	List<ParticipantRegisterReq> person;
 
 	@Override
 	public String toString() {
@@ -31,7 +33,7 @@ public class RoomRegisterPostReq {
 				"name='" + name + '\'' +
 				", description='" + description + '\'' +
 				", startTime=" + startTime +
-				", user_id=" + user_id +
+				", email=" + email +
 				", person=" + person +
 				'}';
 	}

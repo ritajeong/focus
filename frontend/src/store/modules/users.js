@@ -4,6 +4,7 @@ export default {
     test: 'test',
     login: {
       isLogin: false,
+      userId: '',
       useremail: '',
       username: '',
       userpwd: '',
@@ -12,6 +13,7 @@ export default {
   mutations: {
     SET_LOGIN(state, payload) {
       state.login.isLogin = true;
+      state.login.userId = payload.userId;
       state.login.username = payload.name;
       state.login.useremail = payload.email;
       state.login.userpwd = payload.password;

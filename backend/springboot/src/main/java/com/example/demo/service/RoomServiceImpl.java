@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.api.request.ParticipantRegisterReq;
 import com.example.demo.controller.RoomController;
+import com.example.demo.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.api.request.RoomRegisterPostReq;
 import com.example.demo.api.request.RoomUpdatePostReq;
-import com.example.demo.entity.Code;
-import com.example.demo.entity.Group_Code;
-import com.example.demo.entity.Participants;
-import com.example.demo.entity.Rooms;
 import com.example.demo.model.response.RoomGetRes;
 import com.example.demo.repository.PartRepository;
 import com.example.demo.repository.RoomRepository;
@@ -40,6 +38,7 @@ public class RoomServiceImpl implements RoomService {
 	public Rooms createRoom(RoomRegisterPostReq roomInfo) {
 		log.info("[createRoom] room post req: {}", roomInfo);
 		Rooms room = new Rooms();
+
 		room.setName(roomInfo.getName());
 		if(roomInfo.getStartTime()==null) {
 			LocalDateTime datetime = LocalDateTime.now();
@@ -48,7 +47,8 @@ public class RoomServiceImpl implements RoomService {
 			room.setStartTime(Timestamp.valueOf(roomInfo.getStartTime()));
 		}
 		room.setDescription(roomInfo.getDescription());
-		room.setUsers(userRepository.findByUserId(roomInfo.getUser_id()));
+		Users user=userRepository.findByEmail(roomInfo.getEmail());
+		room.setUsers(user);
 		log.info("[createRoom] set users : {}", room);
 
 		roomRepository.save(room);
@@ -60,33 +60,27 @@ public class RoomServiceImpl implements RoomService {
 		return room;
 	}
 
-	private void saveParticipants(List<String> ro, Rooms inroom) {
-		Group_Code co = new Group_Code();		
-		co.setGroupCode("00");
-		Participants head = new Participants();
-		Code he = new Code();
-		he.setCodeId("001");
-		head.setUsers(userRepository.findByUserId(inroom.getUsers().getUserId()));
-		head.setCode(he);
-		head.setGroupcode(co);
-		head.setRooms(inroom);
-		parRepository.save(head);
+	private void saveParticipants(List<ParticipantRegisterReq> person, Rooms room) {
+		Group_Code group_code = new Group_Code();
+		group_code.setGroupCode("00");
+		Participants participant;
+		Code code;
 
-		for (int i = 0; i < ro.size(); i++) {
-			String personcode=ro.get(i);
-			String person=personcode.substring(0,personcode.length()-3);
-			String code = personcode.substring(personcode.length()-3,personcode.length());
-			System.out.println(code);
-			Code gc = new Code();
-			gc.setCodeId(code);
-			Participants par = new Participants();
-			par.setCode(gc);
-			System.out.println(par.getCode());
-			par.setUsers(userRepository.findByEmail(person));
-			par.setGroupcode(co);
-			par.setRooms(inroom);
-			parRepository.save(par);
+		int size=person.size();
+		for(int i=0;i<size;i++){
+			code=new Code();
+			code.setCodeId(person.get(i).getCode());
+
+			participant = new Participants();
+			participant.setCode(code);
+			participant.setGroupcode(group_code);
+
+			participant.setUsers(userRepository.findByEmail(person.get(i).getUser().getEmail()));
+			participant.setRooms(room);
+
+			parRepository.save(participant);
 		}
+
 	}
 
 	@Override //방삭제
