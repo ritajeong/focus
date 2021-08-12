@@ -1,10 +1,11 @@
 <template>
   <div>
+    <!--now-->
     <div class="row mx-0">
       <div class="col-12">
         <div class="card m-5">
-          <div class="card-header pb-0">
-            <h4 class="mb-1">
+          <div class="card-header pb-0 ps-5">
+            <h4 class="mb-1 ps-3">
               Now <i class="fas fa-chevron-down"></i
               ><i class="fas fa-chevron-up"></i>
             </h4>
@@ -46,7 +47,11 @@
                       "
                     >
                       <h2 class="text-white"><i class="fas fa-plus"></i></h2>
-                      <h4 class="text-white">new</h4>
+                      <h4>
+                        <router-link to="/dashboard/create" class="text-white"
+                          >new</router-link
+                        >
+                      </h4>
                     </div>
                   </div>
                 </div>
@@ -129,12 +134,13 @@
         </div>
       </div>
     </div>
-
+    <!--now-->
+    <!--future-->
     <div class="row mx-0">
       <div class="col-12">
         <div class="card m-5">
-          <div class="card-header pb-0">
-            <h4 class="mb-1">
+          <div class="card-header pb-0 ps-5">
+            <h4 class="mb-1 ps-3">
               Future <i class="fas fa-chevron-down"></i
               ><i class="fas fa-chevron-up"></i>
             </h4>
@@ -220,12 +226,13 @@
         </div>
       </div>
     </div>
-
+    <!--future-->
+    <!--history-->
     <div class="row mx-0">
       <div class="col-12">
         <div class="card m-5">
-          <div class="card-header pb-0">
-            <h4 class="mb-1">
+          <div class="card-header pb-0 ps-5">
+            <h4 class="mb-1 ps-3">
               History <i class="fas fa-chevron-down"></i
               ><i class="fas fa-chevron-up"></i>
             </h4>
@@ -342,7 +349,7 @@ export default {
 </script>
 <style scoped>
 .background-wrap {
-  background-image: url('../../assets/img/curved-images/curved-14.jpg');
+  background-image: url('../../assets/img/curved-images/curved14.jpg');
   /*img-fluid shadow border-radius-xl*/
   max-width: 100%;
   height: auto;
