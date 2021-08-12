@@ -24,8 +24,10 @@
                     <date-picker
                       v-model="datetime"
                       type="datetime"
-                      format="YYYY-MM-DD hh:mm A"
-                      :not-before="disabledBefore"
+                      format="YYYY-MM-DD hh:mm"
+                      :placeholder="nowDateTime"
+                      :disabled-date="disabledBeforeDate"
+                      :disabled-time="disabledBeforeTime"
                     ></date-picker>
                   </div>
                 </div>
@@ -135,6 +137,7 @@ import 'vue2-datepicker/index.css';
 import { createRoom } from '@/api/rooms.js';
 import { findUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
+import moment from 'moment';
 Vue.use(VueAlertify);
 
 export default {
@@ -157,7 +160,7 @@ export default {
       participant: '',
       participantAccount: '',
       roleSelected: '',
-      disabledBefore: new Date(2021, 8, 20),
+      nowDateTime: moment(new Date()).format('YYYY-MM-DD hh:mm'),
     };
   },
   computed: {
@@ -253,6 +256,27 @@ export default {
       } catch (err) {
         this.$alertify.error('사용자 게정이 없습니다.');
       }
+    },
+
+    disabledBeforeDate(date) {
+      return (
+        date <
+        moment(
+          `${new Date().getDate()}-${
+            new Date().getMonth() + 1
+          }-${new Date().getFullYear()}`,
+          'DD-MM-YYYY',
+        )
+      );
+    },
+    disabledBeforeTime(time) {
+      return (
+        time <
+        moment(
+          `${new Date().getHours() - 1}:${new Date().getMinutes()}`,
+          'hh:mm',
+        )
+      );
     },
   },
 };
