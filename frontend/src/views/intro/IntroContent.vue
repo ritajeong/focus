@@ -15,7 +15,7 @@
             ms-n6
           "
           style="
-            background-image: url(../../assets/img/curved-images/curved-11.jpg);
+            background-image: url(../../assets/img/curved-images/curved.jpg);
           "
         ></div>
       </div>
