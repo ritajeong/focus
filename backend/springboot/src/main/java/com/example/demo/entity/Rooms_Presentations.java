@@ -24,7 +24,8 @@ public class Rooms_Presentations {
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="group_id")
 	int groupId;
-	int size;
+	@Column(name="file_size")
+	int fileSize;
 	 
 	@Column(name="upload_time", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	Timestamp upload_time;

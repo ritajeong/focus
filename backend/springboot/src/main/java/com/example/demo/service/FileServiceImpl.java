@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.api.request.FileReq;
 import com.example.demo.entity.Presentations;
 import com.example.demo.entity.Rooms_Presentations;
+import com.example.demo.model.response.FileRes;
+import com.example.demo.repository.FileGroupRepository;
 import com.example.demo.repository.FileRepository;
 import com.example.demo.repository.GroupfileRepository;
 import com.example.demo.repository.RoomRepository;
@@ -19,6 +22,8 @@ import com.example.demo.repository.UserRepository;
 public class FileServiceImpl implements FileService{
 	@Autowired
 	FileRepository fileRepository;
+	@Autowired
+	FileGroupRepository filegroupRepository;
 	@Autowired
 	RoomRepository roomRepository;
 	
@@ -37,7 +42,7 @@ public class FileServiceImpl implements FileService{
 		}
 		pr.setRooms(roomRepository.findByRoomId(filereq.getRoom_id()));
 		pr.setUsers(userRepository.findByUserId(filereq.getUser_id()));
-		pr.setSize(filereq.getFiles().size());
+		pr.setFileSize(filereq.getFiles().size());
 		groupRepository.save(pr);
 		int cnt=0;
 		List<String>pat=FileHandler.parseFileInfo(filereq);
@@ -55,7 +60,21 @@ public class FileServiceImpl implements FileService{
         }
 		return filereq;
 	}
-
+	@Override
+	public List<FileRes> findbygroupid(int roomId) {
+		List<Rooms_Presentations> rp = filegroupRepository.findByrooms_RoomId(roomId);
+		List<FileRes> fr = new ArrayList<FileRes>();
+		for (int i = 0; i < rp.size(); i++) {
+			Rooms_Presentations room = rp.get(i);
+			FileRes file = new FileRes(room.getUsers().getUserId(), room.getFileSize());
+			fr.add(file);
+			
+		}
+		return fr;
+		
+	
+	}
+	
 //	@Override
 //	public Rooms_Presentations getFile(int id) {
 //		Rooms_Presentations rp = fileRepository.getById(id);
