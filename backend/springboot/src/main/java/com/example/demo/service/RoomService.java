@@ -9,11 +9,11 @@ import com.example.demo.model.response.RoomGetRes;
 
 
 public interface RoomService {
-	RoomRegisterPostReq createRoom(RoomRegisterPostReq room);
+	Rooms createRoom(RoomRegisterPostReq room);
 	void deleteRoom(int roomId);
 	Rooms getRoom(int roomId);
 	//void deleteParticipants(String );
 	List<RoomGetRes> findAll();
-	RoomUpdatePostReq updateRoom (RoomUpdatePostReq room);
+	Rooms updateRoom (RoomUpdatePostReq room);
 
 }

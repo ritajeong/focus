@@ -162,8 +162,12 @@ export default {
         const { data } = await loginUser(userData);
 
         const userInfo = {
+<<<<<<< HEAD
           //받을때
           id: this.userid,
+=======
+          id: this.userId,
+>>>>>>> 53bb2f66a032ac4cfff7a5e73bd87625204242a1
           email: this.useremail,
           password: this.userpwd,
           name: data.name,
