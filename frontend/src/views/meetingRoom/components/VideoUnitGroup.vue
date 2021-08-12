@@ -14,7 +14,7 @@
     >
       <img src="@/assets/icons/empty.svg" alt="" class="video-insert" />
     </div>
-    <!-- VideoUnitGroup 사람 많아질 때 다음으로 넘기는 것(index 이용) 코딩해야함!! -->
+    <!-- 객체 v-for 시 index를 key로 주면 발표자 변경 시 비디오 렌더링 문제 발생, key를 name으로 변경 -->
     <VideoUnit
       class="video-container"
       v-for="(participant, index) in participants"
