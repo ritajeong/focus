@@ -100,7 +100,7 @@
                             class="btn bg-gradient-danger"
                             type="button"
                             id="btn-delete"
-                            @click="deleteParticipant(participant)"
+                            @click="deleteParticipant(participant.email)"
                           >
                             Delete
                           </button>
@@ -158,11 +158,6 @@ export default {
     },
   },
   methods: {
-    // participant_role(event) {
-    //   console.log(`participant_role event:`, event);
-    //   this.code_id = event.target.value;
-    //   this.code_name = event.target.name;
-    // },
     addParticipant() {
       let msg = '';
       let err = false;
@@ -186,12 +181,11 @@ export default {
         console.log(`참가자 추가: ${this.participants}`);
       }
     },
-    deleteParticipant(participant) {
-      console.log('delete participant', participant);
-      this.participants.forEach((index, element) => {
-        console.log('delete element', element);
-        if (element.email == participant.email) {
-          console.log('same element', element.email);
+    deleteParticipant(email) {
+      console.log('delete participant', email);
+
+      this.participants.forEach((element, index) => {
+        if (element.email == email) {
           this.participants.splice(index);
         }
       });
@@ -216,7 +210,7 @@ export default {
       this.participants.add({
         name: this.user.username,
         email: this.user.useremail,
-        role: '001',
+        code: '001',
       });
 
       if (err) {
