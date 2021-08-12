@@ -39,6 +39,7 @@ public class Users {
 	 @OneToMany(mappedBy = "users",cascade = CascadeType.ALL, orphanRemoval = true)
 	    private List<Rooms_Presentations> presentation = new ArrayList<>();
 
+
 	@Override
 	public String toString() {
 		return "Users{" +

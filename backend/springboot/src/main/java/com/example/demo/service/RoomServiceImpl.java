@@ -70,13 +70,13 @@ public class RoomServiceImpl implements RoomService {
 		int size=person.size();
 		for(int i=0;i<size;i++){
 			code=new Code();
-			code.setCodeId(person.get(i).getCode());
+			code.setCodeId(person.get(i).getCodeId());
 
 			participant = new Participants();
 			participant.setCode(code);
 			participant.setGroupcode(group_code);
 
-			participant.setUsers(userRepository.findByEmail(person.get(i).getUser().getEmail()));
+			participant.setUsers(userRepository.findByEmail(person.get(i).getUserEmail()));
 			participant.setRooms(room);
 
 			parRepository.save(participant);
