@@ -30,6 +30,10 @@
         id="presentation-image"
       />
     </transition>
+
+    <div class="overlay">
+      <span>{{ mainParticipantName }}</span>
+    </div>
   </div>
   <!-- presentation image -->
   <!-- </div> -->
@@ -37,6 +41,7 @@
 
 <script>
 // import "./template.scss";
+import _ from 'lodash';
 
 export default {
   name: 'MainVideoUnit',
@@ -63,6 +68,9 @@ export default {
     },
     mainVideo() {
       return this.mainParticipant.getVideoElement();
+    },
+    mainParticipantName() {
+      return _.split(this.mainParticipant.name, '-')[0];
     },
     /*     mainVideoInfo: function () {
       return document.getElementById('main-video').getBoundingClientRect();
@@ -123,6 +131,26 @@ export default {
 }
 .transition-first-enter-active {
   animation: fadeIn 0.3s;
+}
+.overlay {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  width: 20%;
+  height: 7%;
+  transition: 0.3s ease;
+  opacity: 0;
+  color: white;
+  font-size: 1.5rem;
+  line-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-video-container:hover .overlay {
+  opacity: 1;
 }
 </style>
 <style>
