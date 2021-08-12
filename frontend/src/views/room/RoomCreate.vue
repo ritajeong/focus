@@ -57,15 +57,15 @@
                       id="role"
                       class="form-select"
                       aria-label="Default select example"
-                      v-model="participant_role"
+                      v-model="roleSelected"
                     >
-                      <option value="100">Presenter</option>
-                      <option value="000">Viewer</option>
+                      <option value="100-Presenter">Presenter</option>
+                      <option value="000-Viewer">Viewer</option>
                     </select>
                   </div>
                   <div class="col-md-2">
                     <button
-                      type="submit"
+                      type="button"
                       class="btn bg-gradient-primary"
                       @click="addParticipant"
                     >
@@ -86,30 +86,25 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>{{ user.username }}</td>
-                      <td>{{ user.useremail }}</td>
-                      <td>Owner</td>
-                      <td></td>
-                    </tr>
                     <tr
                       v-for="(participant, index) in getParticipants"
                       :key="index"
                     >
-                      <th scope="row">{{ index }}</th>
+                      <th scope="row">{{ index + 1 }}</th>
                       <td>{{ participant.name }}</td>
                       <td>{{ participant.email }}</td>
-                      <td>{{ participant.role }}</td>
+                      <td>{{ participant.code_name }}</td>
                       <td>
-                        <button
-                          class="btn bg-gradient-danger"
-                          type="button"
-                          id="btn-delete"
-                          @click="deleteParticipant(participant)"
-                        >
-                          Delete
-                        </button>
+                        <div v-if="index > 0">
+                          <button
+                            class="btn bg-gradient-danger"
+                            type="button"
+                            id="btn-delete"
+                            @click="deleteParticipant(participant)"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -147,13 +142,14 @@ export default {
       description: '',
       participants: [
         {
-          name: '',
-          email: '',
-          role: '',
+          name: this.$store.state.users.login.username,
+          email: this.$store.state.users.login.useremail,
+          code_id: '001',
+          code_name: 'Owner',
         },
       ],
       participant_account: '',
-      participant_role: '',
+      roleSelected: '',
     };
   },
   computed: {
@@ -162,6 +158,11 @@ export default {
     },
   },
   methods: {
+    // participant_role(event) {
+    //   console.log(`participant_role event:`, event);
+    //   this.code_id = event.target.value;
+    //   this.code_name = event.target.name;
+    // },
     addParticipant() {
       let msg = '';
       let err = false;
@@ -173,15 +174,20 @@ export default {
       if (err) {
         alert(msg);
       } else {
-        this.participants.add({
-          name: this.participant_account.name,
-          email: this.participant_account.email,
-          role: this.participant_role.value,
+        let participantName = '';
+        console.log(`참가자 이메일 검색: ${this.participant_account}`);
+        console.log('selected role: ', this.roleSelected.name);
+        this.participants.push({
+          name: participantName,
+          email: this.participant_account,
+          code_id: this.roleSelected.split('-')[0],
+          code_name: this.roleSelected.split('-')[1],
         });
+        console.log(`참가자 추가: ${this.participants}`);
       }
     },
     deleteParticipant(participant) {
-      this.participants.array.forEach((index, element) => {
+      this.participants.forEach((index, element) => {
         if (element.email == participant.email) {
           this.participants.splice(index);
         }

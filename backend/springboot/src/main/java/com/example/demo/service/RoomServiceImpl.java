@@ -33,6 +33,7 @@ public class RoomServiceImpl implements RoomService {
 	PartRepository parRepository;
 
 	private final Logger log = LoggerFactory.getLogger(RoomServiceImpl.class);
+	private final String groupCodeRole="00";
 
 	@Override
 	public Rooms createRoom(RoomRegisterPostReq roomInfo) {
@@ -62,7 +63,7 @@ public class RoomServiceImpl implements RoomService {
 
 	private void saveParticipants(List<ParticipantRegisterReq> person, Rooms room) {
 		Group_Code group_code = new Group_Code();
-		group_code.setGroupCode("00");
+		group_code.setGroupCode(groupCodeRole);
 		Participants participant;
 		Code code;
 
