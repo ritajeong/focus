@@ -164,8 +164,8 @@ public class UserController {
         return new ResponseEntity<UserGetRes>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/")
-    @ApiOperation(value = "모든 사용자 정보 가져오기")
+    @GetMapping("/search/{keyword}")
+    @ApiOperation(value = "이메일로 검색된 사용자 정보 가져오기")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
@@ -173,9 +173,9 @@ public class UserController {
             @ApiResponse(code = 409, message = "이미 존재하는 유저"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<UserGetRes>> getAllUser() {
+    public ResponseEntity<List<UserGetRes>> getUserByKeyword(@PathVariable("keyword") String keyword) {
 
-        List<UserGetRes> userGetRes=userService.getAllUser();
+        List<UserGetRes> userGetRes=userService.getUserByKeyword(keyword);
         return new ResponseEntity<List<UserGetRes>>(userGetRes,HttpStatus.OK);
     }
 }

@@ -52,6 +52,7 @@
                       type="text"
                       placeholder="이메일을 검색하세요."
                       v-model="participantAccount"
+                      @keyup="inputChanged"
                     />
                   </div>
                   <div class="col-md-5">
@@ -138,6 +139,7 @@ import { createRoom } from '@/api/rooms.js';
 import { findUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
 import moment from 'moment';
+import { mapGetters } from 'vuex';
 Vue.use(VueAlertify);
 
 export default {
@@ -167,6 +169,7 @@ export default {
     getParticipants() {
       return this.participants;
     },
+    ...mapGetters(['users']),
   },
   methods: {
     addParticipant() {
@@ -277,6 +280,9 @@ export default {
           'hh:mm',
         )
       );
+    },
+    inputChanged() {
+      this.$store.dispatch('GET_ALL_USERS', this.participantAccount);
     },
   },
 };

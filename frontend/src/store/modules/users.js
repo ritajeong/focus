@@ -1,3 +1,4 @@
+import { searchUsers } from '@/api/users.js';
 export default {
   namespaced: true,
   state: () => ({
@@ -9,6 +10,7 @@ export default {
       username: '',
       userpwd: '',
     },
+    users: [], // 전체 사용자
   }),
   mutations: {
     SET_LOGIN(state, payload) {
@@ -25,14 +27,31 @@ export default {
       state.login.useremail = '';
       state.login.userpwd = '';
     },
+    SET_ALL_USERS(state, payload) {
+      state.users = payload;
+    },
   },
-  actions: {},
+  actions: {
+    GET_ALL_USERS(context, payload) {
+      console.log('[actions] get all users');
+      searchUsers(payload)
+        .then(({ data }) => {
+          context.commit('SET_ALL_USERS', data);
+        })
+        .catch(err => {
+          console.log('get all users actions err ', err);
+        });
+    },
+  },
   getters: {
     isLogin(state) {
       return state.login.isLogin;
     },
     userInfo(state) {
       return state.login;
+    },
+    users(state) {
+      return state.users;
     },
   },
 };

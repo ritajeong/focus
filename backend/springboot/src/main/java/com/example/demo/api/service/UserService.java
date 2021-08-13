@@ -15,5 +15,5 @@ public interface UserService {
 	Users update(UserUpdateReq registerInfo);
 	Users getUserByuserId(int userId);
 	void deleteRoom(Users user);
-    List<UserGetRes> getAllUser();
+	List<UserGetRes> getUserByKeyword(String keyword);
 }

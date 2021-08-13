@@ -24,8 +24,11 @@ function addUser(input) {
   return instance.get('add/' + input);
 }
 
-function findUser(input) {
-  return instance.get(input);
+function findUser(email) {
+  return instance.get(email);
+}
+function searchUsers(input) {
+  return instance.get('search/' + input);
 }
 
-export { registerUser, loginUser, checkUser, addUser, findUser };
+export { registerUser, loginUser, checkUser, addUser, findUser, searchUsers };
