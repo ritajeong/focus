@@ -1,14 +1,29 @@
 <template>
   <div>
     <!-- prev -->
-    <PresentationSlideItem :slideUrl="slideUrls[prev].url" />
+    <PresentationSlideItem v-if="prev >= 0" :slideUrl="slideUrls[prev].url" />
+    <img
+      v-else
+      src="@/assets/presentationTemplates/first-slide.png"
+      alt=""
+      class="template-insert"
+    />
     <!-- now -->
     <div style="position: relative">
       <PresentationSlideItem :slideUrl="slideUrls[now].url" />
       <div class="overlay"><span>Now</span></div>
     </div>
     <!-- next -->
-    <PresentationSlideItem :slideUrl="slideUrls[next].url" />
+    <PresentationSlideItem
+      v-if="next < slideUrls.length"
+      :slideUrl="slideUrls[next].url"
+    />
+    <img
+      v-else
+      src="@/assets/presentationTemplates/last-slide.png"
+      alt=""
+      class="template-insert"
+    />
     <div class="d-flex justify-content-around align-items-center">
       <img
         src="@/assets/icons/prev.svg"
@@ -41,9 +56,9 @@ export default {
       /* 임시 데이터 */
       slideUrls: Dummy.getSlideUrls(),
       /* 임시로 data에 저장, 실 서비스에서는 state로 관리해야 함 나갔다 들어와도 그대로여야 하니까 */
-      prev: 0,
-      now: 1,
-      next: 2,
+      prev: -1,
+      now: 0,
+      next: 1,
     };
   },
   // : computed
@@ -83,14 +98,18 @@ export default {
   // : methods
   methods: {
     progressPrev: function () {
-      this.prev -= 1;
-      this.now -= 1;
-      this.next -= 1;
+      if (this.now > 0) {
+        this.prev -= 1;
+        this.now -= 1;
+        this.next -= 1;
+      }
     },
     progressNext: function () {
-      this.prev += 1;
-      this.now += 1;
-      this.next += 1;
+      if (this.now < this.slideUrls.length - 1) {
+        this.prev += 1;
+        this.now += 1;
+        this.next += 1;
+      }
     },
   },
 };
@@ -98,6 +117,13 @@ export default {
 <style scoped>
 .progress-button {
   cursor: pointer;
+}
+.template-insert {
+  border-radius: 25px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  margin-bottom: 20px;
+  height: auto;
 }
 .overlay {
   position: absolute;
