@@ -11,8 +11,9 @@
         <h4 class="text-white">Room Name</h4>
         <p class="mb-2 text-sm">Room Id</p>
         <p class="mb-4 text-sm">Room Description</p>
+        <router-link to="" class="content text-white"> JOIN ROOM </router-link>
         <router-link to="/dashboard/info" class="content text-white">
-          JOIN ROOM
+          ROOM INFO
         </router-link>
       </div>
     </div>
