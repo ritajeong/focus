@@ -1,8 +1,8 @@
 <template>
   <div>
-    <RoomGroup />
-    <RoomGroup />
-    <RoomGroup />
+    <RoomGroup v-bind:title="now" />
+    <RoomGroup v-bind:title="future" />
+    <RoomGroup v-bind:title="history" />
   </div>
 </template>
 
@@ -15,6 +15,14 @@ Vue.use(VueAlertify);
 
 export default {
   name: 'RoomDashboard',
+
   components: { RoomGroup },
+  data() {
+    return {
+      now: 'Now',
+      future: 'Future',
+      history: 'History',
+    };
+  },
 };
 </script>
