@@ -13,8 +13,8 @@
         <div class="card-body px-4 ps-5 pe-9">
           <div class="row">
             <RoomNew />
-            <RoomCard />
-            <RoomCard />
+            <RoomNow />
+            <RoomNow />
             <RoomLast />
           </div>
         </div>
@@ -27,7 +27,7 @@
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
 import RoomNew from '@/views/room/components/RoomNew';
-import RoomCard from '@/views/room/components/RoomCard';
+import RoomNow from '@/views/room/components/RoomNow';
 import RoomLast from '@/views/room/components/RoomLast';
 
 Vue.use(VueAlertify);
@@ -39,7 +39,7 @@ export default {
   },
   components: {
     RoomNew,
-    RoomCard,
+    RoomNow,
     RoomLast,
   },
 };
