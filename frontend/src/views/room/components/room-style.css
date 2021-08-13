@@ -32,3 +32,22 @@
 .content span:nth-child(2) {
   font-size: 20px;
 }
+
+.card-new-parrent {
+  position: relative;
+}
+.card-new {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+
+.card-last-parrent {
+  position: relative;
+}
+.card-last {
+  position: absolute;
+  top: 50px;
+  right: -100px;
+}

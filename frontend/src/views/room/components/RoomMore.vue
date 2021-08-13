@@ -8,10 +8,4 @@
 </template>
 <style>
 @import './room-style.css';
-
-.card-last {
-  position: absolute;
-  top: 70px;
-  right: -80px;
-}
 </style>

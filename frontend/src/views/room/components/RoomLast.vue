@@ -33,8 +33,4 @@ export default {
 </script>
 <style>
 @import './room-style.css';
-
-.card-last-parrent {
-  position: relative;
-}
 </style>
