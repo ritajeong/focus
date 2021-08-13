@@ -55,7 +55,7 @@ export default {
     // 커스텀 웹소켓 메시지
     CHANGE_PRESENTATION(state, message) {
       // 디버깅 콘솔
-      console.log('CHANGE_PRESENTATION', message);
+      /* console.log('CHANGE_PRESENTATION', message); */
       state.nowImageUrl = message.imageUri;
       state.size = message.size;
       state.location = message.location;
