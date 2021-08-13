@@ -19,6 +19,8 @@ export default {
   mutations: {
     WS_INIT(state, url) {
       state.ws = new WebSocket(url);
+      console.log(state.ws);
+      return false;
     },
     /*     WS_ONMESSAGE(state, parsedMessage) {
       state.serverMessage = parsedMessage;
@@ -70,11 +72,13 @@ export default {
         /* context.commit('WS_ONMESSAGE', parsedMessage); */
         /* console.log(parsedMessage); */
         context.dispatch('onServerMessage', parsedMessage);
+        return false;
       };
+      return false;
     },
     // 웹소켓 메시지에 따른 동작
     onServerMessage(context, message) {
-      /* console.log(message.id); */
+      console.log(message);
       switch (message.id) {
         case 'existingParticipants': {
           context.dispatch('onExistingParticipants', message);
@@ -123,7 +127,7 @@ export default {
     // 웹소켓으로 메시지 발신 action
     sendMessage(context, message) {
       var jsonMessage = JSON.stringify(message);
-      // console.log('Sending message: ' + jsonMessage)
+      console.log('Sending message: ' + jsonMessage);
       context.state.ws.send(jsonMessage);
     },
     // user 이름 설정 action
