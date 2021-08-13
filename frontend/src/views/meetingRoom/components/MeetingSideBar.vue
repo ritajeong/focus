@@ -34,7 +34,7 @@
     <!-- access alert -->
     <transition name="fade">
       <div v-if="alertShow" class="access-alert">
-        <h5>발표자만 사용할 수 있습니다.</h5>
+        <h5 class="mb-0">발표자만 사용할 수 있습니다.</h5>
       </div>
     </transition>
   </div>
@@ -127,8 +127,9 @@ export default {
 .access-alert {
   position: absolute;
   left: 50%;
-  top: 10%;
-  width: 80%;
+  top: 7%;
+  width: 75%;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.774);
   color: black;
   display: flex;
