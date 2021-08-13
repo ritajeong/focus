@@ -4,7 +4,11 @@
       <img
         src="@/assets/presentationTemplates/presentation-right.jpg"
         alt=""
-        class="template-insert img-fluid"
+        :class="[
+          { 'insert-border': presentationLocation === 'right' },
+          'template-insert',
+          'img-fluid',
+        ]"
       />
       <div @click="selectRight" class="overlay">
         <span v-if="presentationLocation === 'right'">selected</span>
@@ -15,7 +19,11 @@
       <img
         src="@/assets/presentationTemplates/presentation-left.jpg"
         alt=""
-        class="template-insert img-fluid"
+        :class="[
+          { 'insert-border': presentationLocation === 'left' },
+          'template-insert',
+          'img-fluid',
+        ]"
       />
       <div @click="selectLeft" class="overlay">
         <span v-if="presentationLocation === 'left'">selected</span>
@@ -26,7 +34,11 @@
       <img
         src="@/assets/presentationTemplates/presentation-top.jpg"
         alt=""
-        class="template-insert img-fluid"
+        :class="[
+          { 'insert-border': presentationLocation === 'top' },
+          'template-insert',
+          'img-fluid',
+        ]"
       />
       <div @click="selectTop" class="overlay">
         <span v-if="presentationLocation === 'top'">selected</span>
@@ -141,6 +153,9 @@ export default {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: 240px;
   height: 180px;
+}
+.insert-border {
+  border: 0.4rem solid;
 }
 .overlay {
   position: absolute;
