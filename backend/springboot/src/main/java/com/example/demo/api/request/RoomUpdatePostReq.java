@@ -1,11 +1,8 @@
 package com.example.demo.api.request;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.example.demo.entity.Participants;
-import com.example.demo.entity.Users;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -27,5 +24,5 @@ public class RoomUpdatePostReq {
 	@ApiModelProperty
 	int user_id;
 	@ApiModelProperty
-	List<ParticipantRegisterReq> person;
+	List<ParticipantRegisterReq> participants;
 }

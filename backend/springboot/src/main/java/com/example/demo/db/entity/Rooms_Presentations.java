@@ -1,0 +1,36 @@
+package com.example.demo.db.entity;
+
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+public class Rooms_Presentations {
+	 @Id
+	 @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="group_id")
+	int groupId;
+	int size;
+	 
+	@Column(name="upload_time", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	Timestamp upload_time;
+	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	Users users;
+	
+	@ManyToOne
+	@JoinColumn(name="room_id")
+	Rooms rooms;
+}
