@@ -1,5 +1,4 @@
 package com.example.demo.config;
-import com.example.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.example.demo.api.service.*;
 
 /**
  * 인증(authentication) 와 인가(authorization) 처리를 위한 스프링 시큐리티 설정 정의.
