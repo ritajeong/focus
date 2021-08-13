@@ -24,10 +24,10 @@ import com.example.demo.db.repository.UserRepository;
 public class RoomServiceImpl implements RoomService {
 	@Autowired
 	RoomRepository roomRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	PartRepository parRepository;
 
@@ -99,7 +99,7 @@ public class RoomServiceImpl implements RoomService {
 	public List<RoomGetRes> findAll() {
 		List<Rooms>room=roomRepository.findAll();
 		List<RoomGetRes> roomres = new ArrayList();
-		
+
 		for (Rooms r:room) {
 			roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getRoomId()));
 		}
@@ -117,5 +117,5 @@ public class RoomServiceImpl implements RoomService {
 		return upro;
 	}
 
-	
+
 }
