@@ -14,6 +14,8 @@ export default {
     nowImageUrl: null,
     manager: null,
     presenter: null,
+    size: null,
+    location: null,
   }),
   // mutations
   mutations: {
@@ -52,21 +54,30 @@ export default {
     },
     // 커스텀 웹소켓 메시지
     CHANGE_PRESENTATION(state, message) {
+      // 디버깅 콘솔
+      console.log('CHANGE_PRESENTATION', message);
       state.nowImageUrl = message.imageUri;
+      state.size = message.size;
+      state.location = message.location;
     },
     // 발표자 변경, 발표자료 null 로 설정
     CHANGE_PRESENTER(state, message) {
       /* console.log('CHANGE_PRESENTER', message); */
       state.presenter = message.presenter;
       state.nowImageUrl = null;
+      state.size = null;
+      state.location = null;
     },
     /* leave room: 추후 image size, location 추가 */
     LEAVE_ROOM(state) {
+      state.ws = null;
       state.participants = null;
       state.myName = null;
       state.nowImageUrl = null;
       state.manager = null;
       state.presenter = null;
+      state.size = null;
+      state.location = null;
     },
   },
   // actions

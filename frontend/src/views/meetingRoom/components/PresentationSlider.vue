@@ -47,7 +47,14 @@ export default {
     };
   },
   // : computed
-  computed: {},
+  computed: {
+    presentationSize() {
+      return this.$store.state.meetingRoom.size;
+    },
+    presentationLocation() {
+      return this.$store.state.meetingRoom.location;
+    },
+  },
   // : watch
   watch: {
     now: function () {
@@ -61,8 +68,8 @@ export default {
         var message = {
           id: 'changePresentation',
           imageUri: this.slideUrls[this.now].url,
-          location: '1',
-          size: '2',
+          location: this.presentationLocation,
+          size: this.presentationSize,
         };
         this.$store.dispatch('meetingRoom/sendMessage', message);
       }
