@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -8,53 +8,25 @@
 		<version>2.5.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.ssafy</groupId>
 	<artifactId>WebRtc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>WebRtc</name>
 	<description>Demo project for Spring Boot</description>
-	
+
 	<properties>
 		<demo.port>8443</demo.port>
 		<start-class>com.ssafy.webrtc.GroupCallApp</start-class>
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
-		<!-- JPA -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
 
-		  <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-        </dependency>
-<dependency> <groupId>org.bgee.log4jdbc-log4j2</groupId> <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId> <version>1.16</version> </dependency>
-
-       <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-    </dependency>
-		
-
-	<dependency>
-		<groupId>mysql</groupId>
-		<artifactId>mysql-connector-java</artifactId>
-	</dependency>
-
- <!--  -->
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-		
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -67,48 +39,47 @@
 
 		<!-- WebJars -->
 		<dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>webjars-locator</artifactId>
-		    <version>0.40</version>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator</artifactId>
+			<version>0.40</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>jquery</artifactId>
-		    <version>3.3.1</version>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.3.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>bootstrap</artifactId>
-		    <version>4.6.0</version>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.6.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>demo-console</artifactId>
-		    <version>1.5.1</version>
-		</dependency>
-		<dependency>		
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>ekko-lightbox</artifactId>
-		    <version>4.0.2</version>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>demo-console</artifactId>
+			<version>1.5.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>webrtc-adapter</artifactId>
-		    <version>7.4.0</version>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>ekko-lightbox</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>webrtc-adapter</artifactId>
+			<version>7.4.0</version>
 		</dependency>
 
 		<!-- Kurento -->
 		<dependency>
-		    <groupId>org.kurento</groupId>
-		    <artifactId>kurento-client</artifactId>
-		    <version>6.15.0</version>
+			<groupId>org.kurento</groupId>
+			<artifactId>kurento-client</artifactId>
+			<version>6.15.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.kurento</groupId>
-		    <artifactId>kurento-utils-js</artifactId>
-		    <version>6.15.0</version>
+			<groupId>org.kurento</groupId>
+			<artifactId>kurento-utils-js</artifactId>
+			<version>6.15.0</version>
 		</dependency>
-		
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -121,13 +92,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.16</version>
-			<scope>provided</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -135,14 +99,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-<!--					<excludes>-->
-<!--						<exclude>-->
-<!--							<groupId>org.projectlombok</groupId>-->
-<!--							<artifactId>lombok</artifactId>-->
-<!--						</exclude>-->
-<!--					</excludes>-->
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -183,8 +139,8 @@
 								<configuration>
 									<tasks>
 										<copy
-											file="${project.build.directory}/target/${project.artifactId}-${project.version}-bin.zip"
-											tofile="${project.build.directory}/target/${project.artifactId}-${project.version}.zip" />
+												file="${project.build.directory}/target/${project.artifactId}-${project.version}-bin.zip"
+												tofile="${project.build.directory}/target/${project.artifactId}-${project.version}.zip" />
 									</tasks>
 								</configuration>
 							</execution>

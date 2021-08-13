@@ -22,24 +22,36 @@
                       <input
                         type="email"
                         class="form-control"
-                        value="test@test.com"
+                        :value="$store.state.users.login.useremail"
                       />
                     </div>
                   </div>
                   <div class="mb-4">
                     <label>Name</label>
                     <div class="input-group">
-                      <input type="email" class="form-control" value="test" />
+                      <input
+                        type="email"
+                        class="form-control"
+                        :value="$store.state.users.login.username"
+                      />
                     </div>
                   </div>
                   <div class="mb-4">
                     <label>Password</label>
-                    <div class="input-group">
-                      <input
-                        type="password"
-                        class="form-control"
-                        value="test"
-                      />
+                    <div>
+                      <div class="input-group">
+                        <input
+                          type="password"
+                          class="form-control"
+                          placeholder="현재 비밀번호를 입력하세요"
+                        />
+                        <!-- <button
+                          type="button"
+                          class="btn bg-gradient-dark w-100 text-center"
+                        >
+                          change
+                        </button> -->
+                      </div>
                     </div>
                   </div>
                   <div class="mb-4">
@@ -48,7 +60,7 @@
                       <input
                         type="password"
                         class="form-control"
-                        value="test"
+                        :value="$store.state.users.login.userpwd"
                       />
                     </div>
                   </div>
@@ -62,12 +74,16 @@
                     ></textarea>
                   </div>
                   <div class="row">
-                    <div class="col-md-12">
-                      <button type="submit" class="btn bg-gradient-dark w-100">
+                    <div class="col-md-12 text-center">
+                      <button
+                        type="submit"
+                        class="btn bg-gradient-dark w-100 text-center"
+                      >
                         Modify
                       </button>
-                      <button type="submit" class="btn bg-gradient-dark w-100">
-                        Withdrawal
+                      <br />
+                      <button type="submit" class="btn btn-outline-danger w-20">
+                        Withdraw
                       </button>
                     </div>
                   </div>
@@ -84,5 +100,12 @@
 export default {
   name: 'MyInfo',
   components: {},
+  data() {
+    return {
+      useremail: this.$store.state.users.login.useremail,
+      username: this.$store.state.users.login.username,
+      userpwd: this.$store.state.users.login.userpwd,
+    };
+  },
 };
 </script>

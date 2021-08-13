@@ -1,3 +1,4 @@
+
 package com.example.demo.api.service;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import com.example.demo.db.entity.RoomsPresentations;
 
 public interface FileService {
 	FileReq saveFile(FileReq filereq) throws Exception;
-//	Rooms_Presentations	getFile(int id);
+	//    Rooms_Presentations    getFile(int id);
 	List<FileRes> findbyroomid(int roomId);
 	List<FiledetailRes> findbygroupid(ShowFileReq filereq);
 	FileReq update(FileReq registerInfo) throws Exception;

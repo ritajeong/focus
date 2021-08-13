@@ -71,7 +71,7 @@
                 cursor-pointer
                 align-items-center
               "
-              >Seeting</router-link
+              >Setting</router-link
             >
           </li>
           <li class="nav-item mx-2">
@@ -89,7 +89,6 @@
             >
           </li>
           <li class="nav-item mx-2">
-            <!-- <p>{{ $store.state.login.username }}님 안녕하세요</p> -->
             <router-link
               to="/"
               class="
@@ -102,7 +101,7 @@
               "
               @click.native="userLogout()"
               >Logout</router-link
-            ><!--ㅎㅇ-->
+            >
           </li>
         </ul>
       </div>
@@ -118,18 +117,13 @@ Vue.use(VueAlertify);
 
 export default {
   name: 'AppNav',
-  computed: {
-    isUserLogin() {
-      return this.$store.getters.isLogin;
-    },
-  },
+  computed: {},
 
   methods: {
     userLogout() {
-      //router 홈으로, isLogin ''로
       this.$alertify.success('안녕히 가세요');
-      this.$store.commit('SET_LOGOUT');
-      this.$router.push('/');
+      this.$store.commit('users/SET_LOGOUT');
+      this.$router.push('/', () => {});
     },
   },
 };

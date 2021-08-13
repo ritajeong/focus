@@ -1,6 +1,8 @@
 package com.example.demo.db.repository;
 
 
+import com.example.demo.db.entity.Rooms;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;

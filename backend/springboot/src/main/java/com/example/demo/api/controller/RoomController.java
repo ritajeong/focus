@@ -2,6 +2,11 @@ package com.example.demo.api.controller;
 
 import java.util.List;
 
+import com.example.demo.api.response.ParticipantGetRes;
+import com.example.demo.api.service.ParticipantService;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.api.request.RoomRegisterPostReq;
 import com.example.demo.api.request.RoomUpdatePostReq;
+import com.example.demo.db.entity.Rooms;
 import com.example.demo.api.response.BaseResponseBody;
 import com.example.demo.api.response.RoomGetRes;
 import com.example.demo.api.service.RoomService;
-import com.example.demo.db.entity.Rooms;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,9 +37,14 @@ public class RoomController {
 	@Autowired
 	RoomService roomService;
 
-	
+	@Autowired
+	ParticipantService participantService;
+
+	private final Logger log = LoggerFactory.getLogger(RoomController.class);
+
 	@PostMapping("/createroom")
-	@ApiOperation(value = "방생성") 
+	@ApiOperation(value = "방생성")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm A", timezone="Asia/Seoul")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "인증 실패"),
@@ -43,9 +53,10 @@ public class RoomController {
     })
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value="방정보", required = true) RoomRegisterPostReq registerInfo) {
-		System.out.println(registerInfo.getUser_id());
-		RoomRegisterPostReq room = roomService.createRoom(registerInfo);
-		
+		System.out.println("[createroom] register: registerInfo: "+registerInfo);
+		log.info("[register] room register info: {}", registerInfo);
+		Rooms room = roomService.createRoom(registerInfo);
+		log.info("[register] room : {}", room);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
@@ -60,7 +71,7 @@ public class RoomController {
 	public ResponseEntity<? extends BaseResponseBody> update(
 			@RequestBody @ApiParam(value="방업데이트", required = true) RoomUpdatePostReq registerInfo) {
 		System.out.println(registerInfo.getUser_id());
-		RoomUpdatePostReq room = roomService.updateRoom(registerInfo);
+		Rooms room = roomService.updateRoom(registerInfo);
 		
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -94,7 +105,12 @@ public class RoomController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<List<RoomGetRes>> showRooms(){
-		return new ResponseEntity<List<RoomGetRes>>(roomService.findAll(), HttpStatus.OK);
+
+		List<RoomGetRes> rooms=roomService.findAll();
+		for(RoomGetRes item: rooms){
+			item.setParticipants(participantService.getParticipantByRoomId(item.getRoom_id()));
+		}
+		return new ResponseEntity<List<RoomGetRes>>(rooms, HttpStatus.OK);
 
 	}
 	
@@ -109,8 +125,10 @@ public class RoomController {
 	})
 	public ResponseEntity<RoomGetRes> showRoomone(@PathVariable("roomId") int roomId) {
 		Rooms room = roomService.getRoom(roomId);
-		RoomGetRes roomget = new RoomGetRes(room.getName(), room.getStartTime(), room.getUsers().getUserId(), room.getRoomId());
-		return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);
+		List<ParticipantGetRes> participants=participantService.getParticipantByRoomId(roomId);
+		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime().toLocalDateTime(), room.getUsers().getUserId(), room.getRoomId());
+		roomget.setParticipants(participants);
 
+		return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);
 	}
 }

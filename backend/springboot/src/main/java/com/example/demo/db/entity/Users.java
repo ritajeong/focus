@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import lombok.Getter;
@@ -39,4 +38,14 @@ public class Users {
 	 @OneToMany(mappedBy = "users",cascade = CascadeType.ALL, orphanRemoval = true)
 	    private List<RoomsPresentations> presentation = new ArrayList<>();
 
+
+	@Override
+	public String toString() {
+		return "Users{" +
+				"userId=" + userId +
+				", email='" + email + '\'' +
+				", name='" + name + '\'' +
+				", password='" + password + '\'' +
+				'}';
+	}
 }

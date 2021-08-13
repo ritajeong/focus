@@ -1,30 +1,49 @@
 package com.ssafy.common.util;
 
-import org.kurento.client.MediaPipeline;
-
 public class Presentation {
 	private String presenterName;
-	private String[] presentationImageUris;
-	private MediaPipeline pipeline;
+	private String presentationImageUri;
+	private String presentationLocation;
+	private String presentationSize;
 
-	public Presentation() {
-	}
-
-	public Presentation(String presenterName, String[] imageUris, String roomName, MediaPipeline pipeline) {
+	public Presentation(String presenterName, String presentationImageUri, String presentationLocation,
+			String presentationSize) {
 		this.presenterName = presenterName;
-		this.presentationImageUris = imageUris;
-		this.pipeline = pipeline;
+		this.presentationImageUri = presentationImageUri;
+		this.presentationLocation = presentationLocation;
+		this.presentationSize = presentationSize;
 	}
 
 	public String getPresenterName() {
 		return presenterName;
 	}
 
-	public String[] getPresentationImages() {
-		return presentationImageUris;
+	public void setPresenterName(String presenterName) {
+		this.presenterName = presenterName;
 	}
 
-	public MediaPipeline getPipeline() {
-		return pipeline;
+	public String getPresentationImageUri() {
+		return presentationImageUri;
 	}
+
+	public void setPresentationImageUri(String presentationImageUri) {
+		this.presentationImageUri = presentationImageUri;
+	}
+
+	public String getPresentationLocation() {
+		return presentationLocation;
+	}
+
+	public void setPresentationLocation(String presentationLocation) {
+		this.presentationLocation = presentationLocation;
+	}
+
+	public String getPresentationSize() {
+		return presentationSize;
+	}
+
+	public void setPresentationSize(String presentationSize) {
+		this.presentationSize = presentationSize;
+	}
+
 }

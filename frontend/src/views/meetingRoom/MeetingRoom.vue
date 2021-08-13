@@ -18,7 +18,7 @@
       <transition name="button-show"
         ><img
           src="@/assets/icons/left.svg"
-          alt=""
+          alt="left side bar(participants videos) toggle button"
           :class="[{ 'button-left-margin': leftSideShow }, 'left-side-toggler']"
           v-if="leftSideShow"
           @click="toggleLeftSide"
@@ -32,14 +32,21 @@
           @click="toggleLeftSide"
       /></transition>
       <!-- left side bar control buttons -->
+      <!-- Room Title -->
       <h1 class="room-title">Room Title</h1>
-      <MainVideoUnit class="mt-4" />
-      <MeetingController class="mt-4" />
+      <!-- Main Video -->
+      <MainVideoUnit
+        class="main-video-unit"
+        :mainParticipant="mainParticipant"
+        :key="mainParticipant.name"
+      />
+      <!-- Meeting Controller -->
+      <MeetingController style="margin-top: 25px" />
       <!-- right side bar control buttons -->
       <transition name="button-show"
         ><img
           src="@/assets/icons/right.svg"
-          alt=""
+          alt="right side bar toggle button"
           :class="[
             { 'button-right-margin': rightSideShow },
             'right-side-toggler',
@@ -86,8 +93,20 @@ export default {
       rightSideShow: true,
     };
   },
+  // : watch
+  watch: {},
   // : computed
-  computed: {},
+  computed: {
+    participants() {
+      return this.$store.state.meetingRoom.participants;
+    },
+    mainParticipant() {
+      const mainParticipantName = Object.keys(this.participants).find(
+        key => key === this.$store.state.meetingRoom.presenter,
+      );
+      return this.participants[mainParticipantName];
+    },
+  },
   // : lifecycle hook
   mounted() {},
   // : methods
@@ -121,6 +140,12 @@ export default {
   background: none;
   width: auto;
   height: 100%;
+}
+.main-video-unit {
+  margin-top: 25px;
+  position: relative;
+  height: 100%;
+  width: auto;
 }
 .right-side-bar {
   width: 400px;

@@ -2,19 +2,25 @@
   <div class="d-flex flex-column justify-content-center align-items-center">
     <div class="template-container">
       <img
-        src="@/assets/presentationTemplates/presentation-left.jpg"
-        alt=""
-        class="template-insert img-fluid"
-      />
-      <div class="overlay"><span>Presentation On Left</span></div>
-    </div>
-    <div class="template-container">
-      <img
         src="@/assets/presentationTemplates/presentation-right.jpg"
         alt=""
         class="template-insert img-fluid"
       />
-      <div class="overlay"><span>Presentation On Right</span></div>
+      <div @click="selectRight" class="overlay">
+        <span v-if="presentationLocation === 'right'">selected</span>
+        <span v-else>Presentation On Right</span>
+      </div>
+    </div>
+    <div class="template-container">
+      <img
+        src="@/assets/presentationTemplates/presentation-left.jpg"
+        alt=""
+        class="template-insert img-fluid"
+      />
+      <div @click="selectLeft" class="overlay">
+        <span v-if="presentationLocation === 'left'">selected</span>
+        <span v-else>Presentation On Left</span>
+      </div>
     </div>
     <div class="template-container">
       <img
@@ -22,10 +28,20 @@
         alt=""
         class="template-insert img-fluid"
       />
-      <div class="overlay"><span>Presentation On Top</span></div>
+      <div @click="selectTop" class="overlay">
+        <span v-if="presentationLocation === 'top'">selected</span>
+        <span v-else>Presentation On Top</span>
+      </div>
     </div>
     <div class="size-controller">
-      <input type="range" class="range-select" min="0" max="5" step="1" />
+      <input
+        type="range"
+        class="range-select"
+        min="0"
+        max="4"
+        step="1"
+        v-model="selectedSize"
+      />
       <h2 class="text-center">size</h2>
     </div>
   </div>
@@ -41,14 +57,74 @@ export default {
   props: {},
   // : data
   data() {
-    return {};
+    return {
+      selectedSize: null,
+      selectedLocation: null,
+    };
   },
   // : computed
-  computed: {},
+  computed: {
+    presentationUrl() {
+      return this.$store.state.meetingRoom.nowImageUrl;
+    },
+    presentationSize() {
+      return this.$store.state.meetingRoom.size;
+    },
+    presentationLocation() {
+      return this.$store.state.meetingRoom.location;
+    },
+  },
+  // : watch
+  watch: {
+    selectedSize: function () {
+      const message = {
+        id: 'changePresentation',
+        imageUri: this.presentationUrl,
+        location: this.presentationLocation,
+        size: this.selectedSize,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
+    },
+  },
   // : lifecycle hook
-  mounted() {},
+  mounted() {
+    // 매번 들어 올때, location, size를 state에 설정된 값으로 설정
+    this.selectedSize = this.presentationSize;
+    this.selectedLocation = this.presentationLocation;
+  },
   // : methods
-  methods: {},
+  methods: {
+    selectRight: function () {
+      this.selectedLocation = 'right';
+      const message = {
+        id: 'changePresentation',
+        imageUri: this.presentationUrl,
+        location: this.selectedLocation,
+        size: this.presentationSize,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
+    },
+    selectLeft: function () {
+      this.selectedLocation = 'left';
+      const message = {
+        id: 'changePresentation',
+        imageUri: this.presentationUrl,
+        location: this.selectedLocation,
+        size: this.presentationSize,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
+    },
+    selectTop: function () {
+      this.selectedLocation = 'top';
+      const message = {
+        id: 'changePresentation',
+        imageUri: this.presentationUrl,
+        location: this.selectedLocation,
+        size: this.presentationSize,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
+    },
+  },
 };
 </script>
 

@@ -63,8 +63,8 @@
       <exclusion>
        <groupId>io.swagger</groupId>
         <artifactId>swagger-models</artifactId>
-         </exclusion>
-          </exclusions>
+	  </exclusion>
+   </exclusions>
            </dependency> <!-- solved NumberFormatException in swagger2 -->
             <dependency> 
             <groupId>io.swagger</groupId>

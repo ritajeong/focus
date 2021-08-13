@@ -27,10 +27,10 @@ public class FileServiceImpl implements FileService{
 	FileGroupRepository filegroupRepository;
 	@Autowired
 	RoomRepository roomRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	FileGroupRepository groupRepository;
 	@Override
@@ -47,15 +47,15 @@ public class FileServiceImpl implements FileService{
 		groupRepository.save(pr);
 		int cnt=0;
 		List<String>pat=FileHandler.parseFileInfo(filereq);
-        for(MultipartFile multipartFile : filereq.getFiles()) {
-    		Presentations fil = new Presentations();
-        	fil.setDirectory(pat.get(cnt));
-        	fil.setName(Integer.toString(cnt+1));
-        	fil.setOriginal(multipartFile.getOriginalFilename());
-        	fil.setRoomspresentations(pr);
-    		cnt++;
-    		fileRepository.save(fil);
-        }
+		for(MultipartFile multipartFile : filereq.getFiles()) {
+			Presentations fil = new Presentations();
+			fil.setDirectory(pat.get(cnt));
+			fil.setName(Integer.toString(cnt+1));
+			fil.setOriginal(multipartFile.getOriginalFilename());
+			fil.setRoomspresentations(pr);
+			cnt++;
+			fileRepository.save(fil);
+		}
 		return filereq;
 	}
 	@Override
@@ -66,7 +66,7 @@ public class FileServiceImpl implements FileService{
 			RoomsPresentations room = rp.get(i);
 			FileRes file = new FileRes(room.getUsers().getUserId(), room.getFileSize());
 			fr.add(file);
-			
+
 		}
 		return fr;
 	}
@@ -94,6 +94,6 @@ public class FileServiceImpl implements FileService{
 		delete(registerInfo);
 		return saveFile(registerInfo);
 	}
-	  
-	
+
+
 }

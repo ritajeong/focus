@@ -8,12 +8,8 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-function registerUser(userData) {
-  return instance.post('register', userData);
+function createRoom(roomData) {
+  return instance.post('createroom', roomData);
 }
 
-function loginUser(userData) {
-  return instance.post('login', userData);
-}
-
-export { registerUser, loginUser };
+export { createRoom };

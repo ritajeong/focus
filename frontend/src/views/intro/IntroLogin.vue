@@ -18,7 +18,7 @@
                   <p class="mb-0">Enter your email and password to sign in</p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
+                  <form role="form" @submit.prevent="submitForm()">
                     <div class="mb-3">
                       <input
                         type="email"
@@ -50,7 +50,7 @@
                     </div> -->
                     <div class="text-center">
                       <button
-                        type="button"
+                        type="submit"
                         class="
                           btn btn-lg
                           bg-gradient-dark
@@ -59,7 +59,6 @@
                           mt-4
                           mb-0
                         "
-                        @click.prevent="submitForm()"
                       >
                         Sign in
                       </button>
@@ -137,7 +136,6 @@
 import Vue from 'vue';
 import { loginUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
-import { validateEmail } from '@/common/validation.js';
 
 Vue.use(VueAlertify);
 
@@ -145,33 +143,40 @@ export default {
   name: 'IntroLogin',
   data() {
     return {
+      userid: '',
       useremail: '',
       userpwd: '',
       logMessage: '',
     };
   },
-  computed: {
-    isUseremailValid() {
-      return validateEmail(this.useremail);
-    },
-  },
+  computed: {},
   methods: {
     async submitForm() {
       try {
         console.log('submitForm()');
         const userData = {
-          name: this.username, //ㅇㅇ api요청할 때 name도 돌려주세요
+          //보낼때
           email: this.useremail,
           password: this.userpwd,
         };
-        await loginUser(userData);
-        this.$store.commit('SET_LOGIN', userData);
-        this.$router.push('/dashboard');
+        const { data } = await loginUser(userData);
 
-        // this.initForm();
+        const userInfo = {
+          //받을때
+          id: this.userid,
+          email: this.useremail,
+          password: this.userpwd,
+          name: data.name,
+          isLogin: true,
+        };
+        this.$store.commit('users/SET_LOGIN', userInfo);
+
+        this.$router.push('/dashboard');
+        console.log(data);
       } catch (error) {
         console.log(error.response.data);
         this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
+        this.initForm();
       }
     },
     initForm() {
