@@ -1,19 +1,17 @@
 <template>
   <!--카드 유닛-->
   <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 px-3">
-    <div
-      class="
-        card card-background
-        move-on-hover
-        background-wrap
-        card-new-parrent
-      "
-      style="
-        background-image: url('../../assets/img/curved-images/curved9.jpg');
-      "
-    >
+    <router-link to="/dashboard/create">
       <div
-        class="card-body content text-white align-center justify-content-center"
+        class="
+          card card-background
+          move-on-hover
+          background-wrap
+          card-new-parrent
+        "
+        style="
+          background-image: url('../../assets/img/curved-images/curved9.jpg');
+        "
       >
         <div
           class="
@@ -21,20 +19,26 @@
             content
             text-white
             align-center
-            text-center
             justify-content-center
-            card-new
           "
         >
-          <h2 class="text-white"><i class="fas fa-plus"></i></h2>
-          <h4>
-            <router-link to="/dashboard/create" class="text-white"
-              >new</router-link
-            >
-          </h4>
+          <div
+            class="
+              card-body
+              content
+              text-white
+              align-center
+              text-center
+              justify-content-center
+              card-new
+            "
+          >
+            <h2 class="text-white"><i class="fas fa-plus"></i></h2>
+            <h4 class="text-white">new</h4>
+          </div>
         </div>
       </div>
-    </div>
+    </router-link>
   </div>
   <!--카드 유닛-->
 </template>

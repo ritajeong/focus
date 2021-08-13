@@ -1,16 +1,16 @@
 <template>
-  <!-- Modal -->
   <div
     class="modal fade"
     id="exampleModalMessage"
     tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalMessageTitle"
+    aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">FOCUS</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{ roomName }}</h5>
           <button
             type="button"
             class="btn-close"
@@ -23,42 +23,48 @@
         <div class="modal-body">
           <form>
             <div class="form-group">
-              <label for="recipient-name" class="col-form-label"
-                >Room Name:</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                value="방 이름"
-                id="room-name"
-                readonly
-              />
-            </div>
-            <div class="form-group">
               <label for="message-text" class="col-form-label"
-                >Room Description:</label
+                >Room Description:
+                <p>{{ roomDescription }}</p></label
               >
-
-              <input
-                type="text"
-                class="form-control"
-                value="방 설명"
-                id="room-description"
-                readonly
-              />
-            </div>
-            <div class="form-group">
-              <label for="message-text" class="col-form-label">My Name:</label>
-              <input
-                type="text"
-                class="form-control"
-                value="내 이름"
-                id="room-description"
-                readonly
-              />
             </div>
           </form>
-          <video width="500" height="500" id="video" autoplay="true"></video>
+          <video width="100%" id="video" autoplay="true"></video>
+          <i class="bi bi-mic-fill"></i>
+          <button
+            type="button"
+            class="btn"
+            :class="{
+              'bg-gradient-warning': isMicOn,
+              'bg-gradient-secondary': !isMicOn,
+            }"
+            @click="micOnOff"
+          >
+            <span
+              class="fas"
+              :class="{
+                'fa-microphone': isMicOn,
+                'fa-microphone-slash': !isMicOn,
+              }"
+            ></span>
+          </button>
+          <button
+            type="button"
+            class="btn"
+            :class="{
+              'bg-gradient-warning': isVideoOn,
+              'bg-gradient-secondary': !isVideoOn,
+            }"
+            @click="videoOnOff"
+          >
+            <span
+              class="fas fa-video"
+              :class="{
+                'fa-video': isVideoOn,
+                'fa-video-slash': !isVideoOn,
+              }"
+            ></span>
+          </button>
         </div>
         <div class="modal-footer">
           <button
@@ -68,7 +74,14 @@
           >
             Close
           </button>
-          <button type="button" class="btn bg-gradient-primary">Join</button>
+          <button
+            type="button"
+            class="btn bg-gradient-primary"
+            @click="join"
+            data-bs-dismiss="modal"
+          >
+            Join
+          </button>
         </div>
       </div>
     </div>
@@ -81,10 +94,54 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      roomName: 'testest',
+      userName: 'mann',
+      userId: '1',
+      roomDescription: '방 설명',
+      isMicOn: true,
+      isVideoOn: true,
+    };
   },
   computed: {},
-  mounted() {},
-  methods: {},
+  mounted() {
+    const url = 'wss://' + location.host + '/groupcall';
+    this.$store.dispatch('meetingRoom/wsInit', url);
+  },
+  methods: {
+    micOnOff: function () {
+      if (this.isMicOn) {
+        this.isMicOn = false;
+      } else {
+        this.isMicOn = true;
+      }
+      console.log('mic state: ', this.isMicOn);
+    },
+    videoOnOff: function () {
+      if (this.isVideoOn) {
+        this.isVideoOn = false;
+      } else {
+        this.isVideoOn = true;
+      }
+      console.log('video state: ', this.isVideoOn);
+    },
+    join: function () {
+      const roomId = '';
+      const myNameId = this.userName + '-' + this.userId;
+      const roomNameId = this.roomName + '-' + roomId;
+      const message = {
+        id: 'joinRoom',
+        name: myNameId,
+        room: roomNameId,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
+      this.$store.dispatch('meetingRoom/setMyName', myNameId);
+    },
+  },
 };
 </script>
+<style scoped>
+.btn {
+  margin: 4px;
+}
+</style>
