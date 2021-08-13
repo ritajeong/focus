@@ -24,5 +24,9 @@ export default {
       history: 'History',
     };
   },
+  created() {
+    this.$store.dispatch('rooms/fetchRooms');
+    this.$store.dispatch('rooms/fetchRoom', '1');
+  }, //axios
 };
 </script>

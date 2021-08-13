@@ -1,5 +1,5 @@
 <template>
-  <!-- RoomLast일 경우 카드 최상위 부모에 card-last-parrent 클래스 추가-->
+  <!-- ㅎㅇ 마지막 원소일 경우 최상위 부모에 card-last-parrent 클래스 추가하고 RoomMore v-if-->
   <!-- RoomMore 에 card-last-->
   <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 px-3 card-last-parrent">
     <div
