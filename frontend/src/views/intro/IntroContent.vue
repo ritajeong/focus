@@ -37,7 +37,7 @@
               <!--ㅎㅇ isLogin===true?none:show, 테스트 후 meetingroom, dashboard 버튼 삭제-->
 
               <router-link
-                to="/meetingroom"
+                to="/meetingroomenter"
                 class="btn btn-outline-dark text-dark shadow-none mt-4"
               >
                 MeetingRoom
