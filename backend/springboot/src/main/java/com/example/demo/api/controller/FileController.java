@@ -57,10 +57,9 @@ public class FileController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<List<FileRes>> showRooms(@PathVariable("roomId") int roomId){
-		
 		return new ResponseEntity<List<FileRes>>(fileservice.findbyroomid(roomId),HttpStatus.OK);
-
 	}
+	
 	@GetMapping("/detail")
 	@ApiOperation(value = "하나방 자세히 보기")
 	@ApiResponses({

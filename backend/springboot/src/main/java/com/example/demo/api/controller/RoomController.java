@@ -95,6 +95,7 @@ public class RoomController {
 		}
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "성공"));
 	}
+	
 	@GetMapping("/")
 	@ApiOperation(value = "전체 방 보기")
 	@ApiResponses({
@@ -126,7 +127,7 @@ public class RoomController {
 	public ResponseEntity<RoomGetRes> showRoomone(@PathVariable("roomId") int roomId) {
 		Rooms room = roomService.getRoom(roomId);
 		List<ParticipantGetRes> participants=participantService.getParticipantByRoomId(roomId);
-		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime().toLocalDateTime(), room.getUsers().getUserId(), room.getRoomId());
+		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime().toLocalDateTime(),room.getEndTime().toLocalDateTime() ,room.getUsers().getUserId(), room.getRoomId());
 		roomget.setParticipants(participants);
 
 		return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);

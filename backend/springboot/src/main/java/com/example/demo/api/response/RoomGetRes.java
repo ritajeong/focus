@@ -20,17 +20,20 @@ public class RoomGetRes {
 	@ApiModelProperty
 	LocalDateTime startTime;
 	@ApiModelProperty
+	LocalDateTime endTime;
+	@ApiModelProperty
 	int user_id;
 	@ApiModelProperty
 	int room_id;
 	@ApiModelProperty(name="참가자 목록")
 	List<ParticipantGetRes> participants;
 
-	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id) {
+	public RoomGetRes(String name, String description, LocalDateTime startTime,LocalDateTime endTime, int user_id, int room_id) {
 		super();
 		this.name = name;
 		this.description=description;
 		this.startTime = startTime;
+		this.endTime = endTime;
 		this.user_id = user_id;
 		this.room_id = room_id;
 	}
