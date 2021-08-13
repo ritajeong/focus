@@ -88,12 +88,6 @@ const router = new VueRouter({
       path: '/meetingroom',
       name: 'MeetingRoom',
       component: MeetingRoom,
-      children: [
-        // {
-        //   path: '/meetingroom/',
-        //   component:
-        // }
-      ],
     },
     {
       path: '/mypage',
