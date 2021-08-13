@@ -11,6 +11,7 @@
 /backend/WebRTC/.mvn/
 /backend/WebRTC/src/main/resources/application.properties
 /backend/springboot/src/main/resources/static/
+/backend/webrtc/src/main/resources/static/
 
 ### Java ###
 # Compiled class file
