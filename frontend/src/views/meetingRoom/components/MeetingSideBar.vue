@@ -31,6 +31,12 @@
       class="presentation-controller"
     />
     <!-- SideBar Items -->
+    <!-- access alert -->
+    <transition name="fade">
+      <div v-if="alertShow" class="access-alert">
+        <h5 class="mb-0">발표자만 사용할 수 있습니다.</h5>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -47,10 +53,18 @@ export default {
   data() {
     return {
       participantShow: true,
+      alertShow: false,
     };
   },
   // : computed
-  computed: {},
+  computed: {
+    myName() {
+      return this.$store.state.meetingRoom.myName;
+    },
+    presenter() {
+      return this.$store.state.meetingRoom.presenter;
+    },
+  },
   // : lifecycle hook
   mounted() {},
   // : methods
@@ -59,7 +73,18 @@ export default {
       this.participantShow = true;
     },
     selectPresentationMenu: function () {
-      this.participantShow = false;
+      if (this.myName === this.presenter) {
+        this.participantShow = false;
+      } else {
+        this.activateAlert();
+      }
+    },
+    activateAlert: function () {
+      this.alertShow = true;
+      setTimeout(this.inactivateAlert, 2000);
+    },
+    inactivateAlert: function () {
+      this.alertShow = false;
     },
   },
 };
@@ -98,5 +123,27 @@ export default {
 }
 .presentation-controller {
   margin: 50px 25px 0;
+}
+.access-alert {
+  position: absolute;
+  left: 50%;
+  top: 7%;
+  width: 75%;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.774);
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%);
+  transition: 0.5s;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -14,6 +14,8 @@ export default {
     nowImageUrl: null,
     manager: null,
     presenter: null,
+    size: null,
+    location: null,
   }),
   // mutations
   mutations: {
@@ -48,17 +50,36 @@ export default {
       // 임시코드 종료
     },
     DISPOSE_PARTICIPANT(state, participantName) {
-      delete state.participants[participantName];
+      // 객체 변경 감지를 위한 삭제법
+      Vue.delete(state.participants, participantName);
+      /* delete state.participants[participantName]; */
     },
     // 커스텀 웹소켓 메시지
     CHANGE_PRESENTATION(state, message) {
+      // 디버깅 콘솔
+      /* console.log('CHANGE_PRESENTATION', message); */
       state.nowImageUrl = message.imageUri;
+      state.size = message.size;
+      state.location = message.location;
     },
     // 발표자 변경, 발표자료 null 로 설정
     CHANGE_PRESENTER(state, message) {
       /* console.log('CHANGE_PRESENTER', message); */
       state.presenter = message.presenter;
       state.nowImageUrl = null;
+      state.size = null;
+      state.location = null;
+    },
+    /* leave room: 추후 image size, location 추가 */
+    LEAVE_ROOM(state) {
+      state.ws = null;
+      state.participants = null;
+      state.myName = null;
+      state.nowImageUrl = null;
+      state.manager = null;
+      state.presenter = null;
+      state.size = null;
+      state.location = null;
     },
   },
   // actions
@@ -145,11 +166,9 @@ export default {
       var constraints = {
         audio: true,
         video: {
-          mandatory: {
-            maxWidth: 320,
-            maxFrameRate: 15,
-            minFrameRate: 15,
-          },
+          width: 320,
+          height: 240,
+          framerate: 15,
         },
       };
 
@@ -168,15 +187,17 @@ export default {
             console.log(participant, video);
             return console.error(error);
           }
-          // this -> kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly
+          // this -> kurentoUtils.WebRtcPeer.WebRtcPeerSendonly
           // generateOffer:
           this.generateOffer(participant.offerToReceiveVideo.bind(participant));
+          this.audioEnabled = false;
         },
       );
 
       // state에 user participant 오브젝트 추가
       const myName = context.state.myName;
       context.commit('ADD_PARTICIPANT', { name: myName, participant });
+
       // state에 방에 있던 participant들 오브젝트 추가
       message.data.forEach(function (sender) {
         /* console.log('forEach문 sender: ' + sender); */
@@ -186,7 +207,7 @@ export default {
       //디버깅 콘솔
       console.log('onExistingParticipant', message);
       context.dispatch('changePresenter', message);
-      context.dispatch('chagnePresentation', message);
+      context.dispatch('changePresentation', message);
       // console.log('onExistingParticipants end')
       router.push({ name: 'MeetingRoom' });
     },
@@ -226,6 +247,10 @@ export default {
     // participant.dispose에서 오는 요청
     disposeParticipant(context, participantName) {
       context.commit('DISPOSE_PARTICIPANT', participantName);
+    },
+    leaveRoom(context) {
+      context.commit('LEAVE_ROOM');
+      router.push({ path: '/dashboard' });
     },
     receiveVideoResponse(context, result) {
       context.state.participants[result.name].rtcPeer.processAnswer(

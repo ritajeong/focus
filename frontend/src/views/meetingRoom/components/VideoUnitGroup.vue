@@ -4,6 +4,7 @@
       src="@/assets/icons/up.svg"
       alt=""
       class="up-button"
+      v-if="first > 0"
       @click="onPrevVideos"
     />
     <!-- 참가자가 한 명 뿐일 때 -->
@@ -13,18 +14,20 @@
     >
       <img src="@/assets/icons/empty.svg" alt="" class="video-insert" />
     </div>
-    <!-- VideoUnitGroup 사람 많아질 때 다음으로 넘기는 것(index 이용) 코딩해야함!! -->
+    <!-- 객체 v-for 시 index를 key로 주면 발표자 변경 시 비디오 렌더링 문제 발생, key를 name으로 변경 -->
     <VideoUnit
       class="video-container"
-      v-for="participant in participants"
+      v-for="(participant, index) in participants"
       :key="participant.name"
       :participant="participant"
+      v-show="index >= first && index <= last"
     />
     <!--  -->
     <img
       src="@/assets/icons/down.svg"
       alt=""
       class="down-button"
+      v-if="participants !== null && last < participants.length - 1"
       @click="onNextVideos"
     />
   </div>
@@ -32,7 +35,6 @@
 
 <script>
 import VideoUnit from './VideoUnit.vue';
-import Dummy from './Dummy.js';
 
 export default {
   name: 'VideoUnitGroup',
@@ -42,8 +44,6 @@ export default {
   // : data
   data() {
     return {
-      /* 임시 데이터: videoUrls */
-      videoUrls: Dummy.getVideoUrls(),
       first: 0,
       last: 3,
     };
@@ -71,10 +71,12 @@ export default {
   mounted() {},
   // : methods
   methods: {
+    // 0번 비디오 밑으로는 내려가지 않음
     onPrevVideos: function () {
       this.first -= 1;
       this.last -= 1;
     },
+    // 마지막 참가지 비디오 이상으로는 올라가지 않음
     onNextVideos: function () {
       this.first += 1;
       this.last += 1;
