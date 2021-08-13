@@ -4,7 +4,7 @@
     <div
       class="card card-background move-on-hover background-wrap"
       style="
-        background-image: url('../../assets/img/curved-images/curved14.jpg');
+        background-image: url('../../assets/img/curved-images/curved10.jpg');
       "
     >
       <div class="card-body content text-white">
@@ -26,7 +26,7 @@ import VueAlertify from 'vue-alertify';
 Vue.use(VueAlertify);
 
 export default {
-  name: 'RoomCard',
+  name: 'RoomNow',
   data() {
     return {};
   },

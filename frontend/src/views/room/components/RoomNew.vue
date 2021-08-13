@@ -53,4 +53,12 @@ export default {
 </script>
 <style>
 @import './room-style.css';
+.card-new-parrent {
+  position: relative;
+}
+.card-new {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
 </style>

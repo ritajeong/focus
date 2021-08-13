@@ -1,4 +1,6 @@
 <template>
+  <!-- RoomLast일 경우 카드 최상위 부모에 card-last-parrent 클래스 추가-->
+  <!-- RoomMore 에 card-last-->
   <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 px-3 card-last-parrent">
     <div class="card card-background move-on-hover background-wrap">
       <div class="card-body content text-white">
@@ -10,17 +12,14 @@
         </router-link>
       </div>
     </div>
-    <div class="card-last text-center">
-      <a href="#"
-        ><h2><i class="fas fa-plus"></i></h2>
-        <h4>more</h4></a
-      >
-    </div>
+    <!--more분리-->
+    <RoomMore />
   </div>
 </template>
 <script>
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
+import RoomMore from '@/views/room/components/RoomMore';
 
 Vue.use(VueAlertify);
 
@@ -29,9 +28,13 @@ export default {
   data() {
     return {};
   },
-  components: {},
+  components: { RoomMore },
 };
 </script>
 <style>
 @import './room-style.css';
+
+.card-last-parrent {
+  position: relative;
+}
 </style>
