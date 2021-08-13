@@ -10,11 +10,7 @@
         <h4 class="text-white">Room Name</h4>
         <p class="mb-2 text-sm">Room Id</p>
         <p class="mb-2 text-sm">Room Description</p>
-        <p
-          class="mb-2"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModalMessage"
-        >
+        <p class="mb-2" data-bs-toggle="modal" data-bs-target="#RoomReadyModal">
           JOIN ROOM
         </p>
         <router-link to="/dashboard/info" class="content text-white">

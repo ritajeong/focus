@@ -18,7 +18,7 @@
                   <p class="mb-0">Enter your email and password to sign in</p>
                 </div>
                 <div class="card-body">
-                  <form role="form" @submit.prevent="submitForm()">
+                  <form role="form" class="mb-4" @submit.prevent="submitForm()">
                     <div class="mb-3">
                       <input
                         type="email"
@@ -64,18 +64,28 @@
                       </button>
                     </div>
                   </form>
+                  <div class="card-footer text-left pt-0 px-lg-2 px-1">
+                    <p class="mb-2 text-sm mx-auto">
+                      Don't have an account?
+                      <router-link
+                        v:bind:disabled="!isUseremailValid || password"
+                        to="signup"
+                        class="text-dark text-gradient font-weight-bold"
+                        >Sign Up</router-link
+                      >
+                    </p>
+                    <p class="mb-2 text-sm mx-auto">
+                      Did you forget password?
+                      <router-link
+                        v:bind:disabled="!isUseremailValid || password"
+                        to=""
+                        class="text-dark text-gradient font-weight-bold"
+                        >Find password</router-link
+                      >
+                    </p>
+                  </div>
                 </div>
-                <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                  <p class="mb-4 text-sm mx-auto">
-                    Don't have an account?
-                    <router-link
-                      v:bind:disabled="!isUseremailValid || password"
-                      to="signup"
-                      class="text-dark text-gradient font-weight-bold"
-                      >Sign Up</router-link
-                    >
-                  </p>
-                </div>
+                <div class="card-footer text-left pt-0 px-lg-2 px-1"></div>
               </div>
             </div>
             <div
