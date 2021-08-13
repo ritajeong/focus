@@ -1,7 +1,5 @@
 package com.ssafy.common.util;
 
-import org.kurento.client.MediaPipeline;
-
 public class Presentation {
 	private String presenterName;
 	private String presentationImageUri;

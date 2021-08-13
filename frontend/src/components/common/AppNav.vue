@@ -71,7 +71,7 @@
                 cursor-pointer
                 align-items-center
               "
-              >Seeting</router-link
+              >Setting</router-link
             >
           </li>
           <li class="nav-item mx-2">
@@ -88,6 +88,21 @@
               >Mypage</router-link
             >
           </li>
+          <li class="nav-item mx-2">
+            <router-link
+              to="/"
+              class="
+                nav-link
+                ps-2
+                d-flex
+                justify-content-between
+                cursor-pointer
+                align-items-center
+              "
+              @click.native="userLogout()"
+              >Logout</router-link
+            >
+          </li>
         </ul>
       </div>
     </div>
@@ -96,7 +111,20 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import VueAlertify from 'vue-alertify';
+Vue.use(VueAlertify);
+
 export default {
   name: 'AppNav',
+  computed: {},
+
+  methods: {
+    userLogout() {
+      this.$alertify.success('안녕히 가세요');
+      this.$store.commit('users/SET_LOGOUT');
+      this.$router.push('/', () => {});
+    },
+  },
 };
 </script>

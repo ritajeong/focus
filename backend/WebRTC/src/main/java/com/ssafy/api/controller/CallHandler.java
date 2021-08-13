@@ -152,7 +152,6 @@ public class CallHandler extends TextWebSocketHandler {
 		if (user != null) {
 			Room room = roomManager.getRoom(user.getRoomName(), user.getName());
 			room.leave(user);
-//			presentationManager.removePresentation(room, user);
 			log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
 			if (room.getParticipants().isEmpty()) {
 				roomManager.removeRoom(room);
@@ -179,19 +178,7 @@ public class CallHandler extends TextWebSocketHandler {
 			roomManager.removeRoom(room);
 		}
 	}
-
-//	private void presenterSet(JsonObject params) throws IOException {
-//		String presenter = params.get("presenter").getAsString();
-////		boolean isPresenter = params.get("isPresenter").getAsBoolean();
-//		UserSession presenterSession = registry.getByName(presenter);
-//		Room room = roomManager.getRoom(presenterSession.getRoomName(), presenterSession.getName());
-//
-//		final Presentation presentation = presentationManager.getPresentation(room, presenterSession);
-//		presentationManager.setPresenter();
-////		registry.register(presentationManager.getPresenter());
-//		log.info("[presentationSet] presentation: {}", presentation);
-//	}
-
+	
 	private void setPresenter(JsonObject params) throws IOException {
 		String presenterName = params.get("presenter").getAsString();
 		UserSession presenter = registry.getByName(presenterName);

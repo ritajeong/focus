@@ -11,6 +11,7 @@
 
 <script>
 import PresentationContentItem from './PresentationContentItem.vue';
+import Dummy from './Dummy.js';
 
 export default {
   name: 'PresentationContentSelector',
@@ -19,12 +20,23 @@ export default {
   props: {},
   // : data
   data() {
-    return {};
+    return {
+      slideUrls: Dummy.getSlideUrls(),
+    };
   },
   // : computed
   computed: {},
   // : lifecycle hook
-  mounted() {},
+  mounted() {
+    // 임시
+    const message = {
+      id: 'changePresentation',
+      imageUri: this.slideUrls[0].url,
+      location: 'right',
+      size: '2',
+    };
+    this.$store.dispatch('meetingRoom/sendMessage', message);
+  },
   // : methods
   methods: {},
 };

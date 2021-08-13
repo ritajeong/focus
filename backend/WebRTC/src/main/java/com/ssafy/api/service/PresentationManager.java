@@ -14,7 +14,7 @@ import com.ssafy.common.util.Room;
 import com.ssafy.common.util.UserSession;
 
 public class PresentationManager {
-	private final Logger log = LoggerFactory.getLogger(RoomManager.class);
+	private final Logger log = LoggerFactory.getLogger(PresentationManager.class);
 
 	/*
 	 * key: [방 이름]-[발표자 이름] value: 발표자료, pipeline , 등등
