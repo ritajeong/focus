@@ -44,6 +44,7 @@
           <button
             type="button"
             class="btn bg-gradient-danger"
+            @click="withdraw"
             data-bs-dismiss="modal"
           >
             Yes
@@ -55,12 +56,32 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import VueAlertify from 'vue-alertify';
+import { deleteUser } from '@/api/users.js';
+Vue.use(VueAlertify);
 export default {
   name: 'WithdrawModal',
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      // userId: '',
+    };
+  },
+  methods: {
+    withdraw() {
+      const userId = this.$store.state.users.login.userid;
+      deleteUser(userId).then(({ status }) => {
+        console.log(status);
+        if (status != 200) {
+          this.$alertify.error('탈퇴에 실패했습니다.');
+        } else {
+          this.$alertify.success('탈퇴 성공했습니다.');
+          this.$router.push('/dashboard');
+        }
+      });
+    },
   },
 };
 </script>

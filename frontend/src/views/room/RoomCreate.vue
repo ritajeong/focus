@@ -236,7 +236,7 @@ export default {
           .then(({ status }) => {
             console.log(status);
             if (status != 200) {
-              this.$alertify.error('오류 발생');
+              this.$alertify.error('방 생성 실패했습니다.');
               return;
             } else {
               this.$alertify.success('방이 생성됐습니다.');

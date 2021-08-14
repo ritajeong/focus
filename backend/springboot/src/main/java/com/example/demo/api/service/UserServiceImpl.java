@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteRoom(Users user) {
+	public void deleteUser(Users user) {
 		userRepository.delete(user);
 	}
 

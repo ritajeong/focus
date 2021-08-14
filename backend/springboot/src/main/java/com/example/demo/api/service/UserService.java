@@ -14,7 +14,7 @@ public interface UserService {
 	Users getUserByEmail(String email);
 	void updateName(Users updateInfo);
 	Users getUserByuserId(int userId);
-	void deleteRoom(Users user);
+	void deleteUser(Users user);
 	List<UserGetRes> getUserByKeyword(String keyword);
 
 	void updatePassword(Users updateInfo);

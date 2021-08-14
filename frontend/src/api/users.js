@@ -37,6 +37,10 @@ function updateUserPwd(userData) {
   return instance.put('update/password', userData);
 }
 
+function deleteUser(userId) {
+  return instance.delete('delete/' + userId);
+}
+
 export {
   registerUser,
   loginUser,
@@ -46,4 +50,5 @@ export {
   searchUsers,
   updateUserName,
   updateUserPwd,
+  deleteUser,
 };
