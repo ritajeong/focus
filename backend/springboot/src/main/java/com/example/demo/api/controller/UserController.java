@@ -103,13 +103,19 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> updatePassword(
 			@RequestBody @ApiParam(value="수정", required = true) UserUpdatePwdReq updateInfo) {
-		Users user=userService.getUserByuserId(updateInfo.getUser_id());
-		if(user==null || !user.getPassword().equals(updateInfo.getCurrentPassword()) ){
-			log.info("user: {},  updateInfo: {}", user, updateInfo);
-			log.info("user.getPassword(): {}, updateInfo.getCurrentPassword(): {}",user.getPassword(), updateInfo.getCurrentPassword());
-			return ResponseEntity.status(404).body(BaseResponseBody.of(404, "update password fail: 사용자가 없습니다."));
+		Users user=null;
+		if(updateInfo.getEmail()!=null){//이메일로 비밀번호 변경
+			user=userService.getUserByEmail(updateInfo.getEmail());
+			if(user==null || !user.getEmail().equals(updateInfo.getEmail())){
+				return ResponseEntity.status(404).body(BaseResponseBody.of(404, "update password fail: 사용자가 없습니다."));
+			}
+		}else if(updateInfo.getCurrentPassword()!=null){//현재 비밀번호로 비밀번호 변경
+			user=userService.getUserByuserId(updateInfo.getUser_id());
+			if(user==null|| !user.getPassword().equals(updateInfo.getCurrentPassword())){
+				return ResponseEntity.status(404).body(BaseResponseBody.of(404, "update password fail: 사용자가 없습니다."));
+			}
+			user.setPassword(updateInfo.getNewPassword());
 		}
-		user.setPassword(updateInfo.getNewPassword());
 		log.info("[updatePassword] user: {}", user);
 		userService.updatePassword(user);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));

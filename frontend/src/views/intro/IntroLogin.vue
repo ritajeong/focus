@@ -77,10 +77,11 @@
                     <p class="mb-2 text-sm mx-auto">
                       Did you forget password?
                       <router-link
-                        v:bind:disabled="!isUseremailValid || password"
                         to=""
                         class="text-dark text-gradient font-weight-bold"
-                        >Find password</router-link
+                        data-bs-toggle="modal"
+                        data-bs-target="#ModalChangePasswordByEmail"
+                        >Change password</router-link
                       >
                     </p>
                   </div>
@@ -139,6 +140,7 @@
           </div>
         </div>
       </div>
+      <ChangePwdByEmailModal></ChangePwdByEmailModal>
     </section>
   </div>
 </template>
@@ -146,11 +148,12 @@
 import Vue from 'vue';
 import { loginUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
-
+import ChangePwdByEmailModal from './components/ChangePwdByEmailModal.vue';
 Vue.use(VueAlertify);
 
 export default {
   name: 'IntroLogin',
+  components: { ChangePwdByEmailModal },
   data() {
     return {
       useremail: '',
