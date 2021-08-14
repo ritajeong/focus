@@ -1,7 +1,7 @@
 <template>
   <!-- ㅎㅇ 마지막 원소일 경우 최상위 부모에 card-last-parrent 클래스 추가하고 RoomMore v-if-->
   <!-- RoomMore 에 card-last-->
-  <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 px-3 card-last-parrent">
+  <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 p-3 card-last-parrent">
     <div
       v-bind:style="backgroundImg"
       class="card card-background move-on-hover background-wrap"
@@ -36,7 +36,7 @@ export default {
     };
   },
   created() {
-    console.log('RoomCard : ' + this.titleImg);
+    // console.log('RoomCard : ' + this.titleImg);
     if (this.titleImg === 'Now')
       this.backgroundImg =
         "background-image: url('../../assets/img/curved-images/curved10.jpg');";
