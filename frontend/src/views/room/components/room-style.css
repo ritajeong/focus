@@ -17,6 +17,7 @@
 
 .content {
   display: flex;
+  position:relative;
   flex-direction: column;
 }
 
@@ -42,12 +43,37 @@
   right: 0px;
 }
 
-
 .card-last-parrent {
   position: relative;
 }
 .card-last {
   position: absolute;
-  top: 80px;
-  right: -100px;
+  bottom:80px;
+  right: 65px;
+}
+
+.card-info {
+  position: absolute;
+  bottom: 23px;
+  right: -40px;
+}
+.card-info a{
+  float: right
+}
+.card-info i{
+  color : white;
+  font-size: 2rem;
+}
+
+
+.card-join {
+  position: absolute;
+  cursor: pointer;
+  float: right;
+  top: 23px;
+  right: -40px;
+}
+
+.card-pt-3{
+  padding-top: 30px;
 }

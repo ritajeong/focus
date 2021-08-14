@@ -5,27 +5,41 @@
       v-bind:style="backgroundImg"
       class="card card-background move-on-hover background-wrap"
     >
-      <div class="card-body content text-white">
-        <h4 class="text-white">{{ roomInfo.name }}</h4>
+      <div class="card-body content text-white ps-0">
+        <span style="display: inline-block">
+          <h4 class="text-white" style="cursor: pointer; float: left">
+            {{ roomInfo.name }}
+          </h4>
+          <p
+            v-if="isNow"
+            class="mb-2 card-join"
+            data-bs-toggle="modal"
+            data-bs-target="#RoomReadyModal"
+          >
+            <i
+              class="fas fa-sign-in-alt"
+              style="color: #ffffff; font-size: 2rem"
+            ></i>
+          </p>
+        </span>
+        <span v-if="!isHistory"><br /></span>
         <!-- <p class="mb-2 text-sm">Room Id</p> -->
-        <p class="mb-2 text-sm">{{ roomInfo.description }}</p>
+        <p class="mb-2 text-sm" :class="{ cardPt5: isNow }">
+          {{ roomInfo.description }}
+        </p>
+
         <p class="mb-2 text-sm">시작 : {{ roomInfo.startTime }}</p>
 
         <p class="mb-4 text-sm" v-if="isHistory">
           종료 : {{ roomInfo.endTime }}
         </p>
-        <p
-          v-if="isNow"
-          class="mb-2"
-          data-bs-toggle="modal"
-          data-bs-target="#RoomReadyModal"
-          style="cursor: pointer"
-        >
-          JOIN ROOM
-        </p>
-        <router-link to="/dashboard/info" class="content text-white">
-          Roon Info
-        </router-link>
+
+        <span class="card-info">
+          <router-link to="/dashboard/info" class="content text-white">
+            <i class="fas fa-info-circle"></i>
+          </router-link>
+        </span>
+
         <!-- ㅎㅇ방 번호로 api요청, Room Info->아이콘으로 교체 -->
       </div>
     </div>

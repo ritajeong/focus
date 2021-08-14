@@ -39,6 +39,12 @@
             <!-- <RoomLast v-bind:titleImg="titleImg" /> -->
             <!-- more아이콘-->
           </div>
+          <div class="card-last text-center">
+            <a href="#"
+              ><h2><i class="fas fa-plus"></i></h2>
+              <h4>more</h4></a
+            >
+          </div>
         </div>
       </div>
     </div>
