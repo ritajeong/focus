@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface ParticipantRegistory extends JpaRepository<Participants, Integer> {
     @Transactional
-    List<Participants> findByrooms_roomId(int room_id);;
-
+    List<Participants> findByrooms_roomId(int room_id);
+    @Transactional
+    List<Participants> findByusers_userId(int user_id);
+    
 }

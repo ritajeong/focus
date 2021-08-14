@@ -16,6 +16,7 @@ import com.example.demo.api.request.RoomRegisterPostReq;
 import com.example.demo.api.request.RoomUpdatePostReq;
 import com.example.demo.api.response.RoomGetRes;
 import com.example.demo.db.repository.PartRepository;
+import com.example.demo.db.repository.ParticipantRegistory;
 import com.example.demo.db.repository.RoomRepository;
 import com.example.demo.db.repository.UserRepository;
 
@@ -30,6 +31,9 @@ public class RoomServiceImpl implements RoomService {
 
 	@Autowired
 	PartRepository parRepository;
+	
+	@Autowired
+	ParticipantRegistory partiRepository;
 
 	private final Logger log = LoggerFactory.getLogger(RoomServiceImpl.class);
 	private final String groupCodeRole="00";
@@ -116,6 +120,19 @@ public class RoomServiceImpl implements RoomService {
 		roomRepository.save(upro);
 		return upro;
 	}
+
+	@Override
+	public List<RoomGetRes> findbyuser(int userId) {
+		List<RoomGetRes> roomres = new ArrayList();
+		List<Participants>pa = partiRepository.findByusers_userId(userId);
+		for(Participants party : pa) {
+			Rooms r = party.getRooms();
+			roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getRoomId()));
+		}
+		return roomres;
+	}
+
+	
 
 
 }
