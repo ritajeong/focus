@@ -28,13 +28,14 @@
             <!-- 리스트없으면 공란 ? 또는 안내말 쓰기, more버튼 없어야함-->
             <!-- v-for -->
             <RoomCard
-              v-bind:titleImg="titleImg"
-              v-bind:idx="idx"
+              :titleImg="titleImg"
+              :idx="idx"
               v-for="(room, idx) in showRooms"
               :key="idx"
               v-show="idx <= showIdx"
+              :class="{ cardLastParrnet: isLast }"
             />
-
+            <h2 v-if="isLengthZero">방이 없습니다.</h2>
             <!-- <RoomLast v-bind:titleImg="titleImg" /> -->
             <!-- more아이콘-->
           </div>
@@ -68,29 +69,33 @@ export default {
       isNow: false,
       isFuture: false,
       isHistory: false,
-      showIdx: 4,
+      showIdx: 3,
       showRooms: [],
+      isLast: false,
+      length: 0,
     };
   },
   created() {
     if (this.title === 'Now') {
       this.isNow = true;
       this.showRooms = this.$store.state.rooms.now;
+      this.length = this.$store.state.rooms.now.length;
     } else if (this.title === 'Future') {
       this.isFuture = true;
       this.showRooms = this.$store.state.rooms.future;
+      this.length = this.$store.state.rooms.future.length;
     } else {
       this.isHistory = true;
       this.showRooms = this.$store.state.rooms.history;
+      this.length = this.$store.state.rooms.history.length;
     }
-    if (this.isNow) this.showIdx = 3;
+    if (this.isNow) this.showIdx = 2;
   },
   computed: {
-    // showRooms() {
-    //   if (this.isNow) return this.$store.state.rooms.now;
-    //   else if (this.isFuture) return this.$store.state.rooms.future;
-    //   else return this.$store.state.rooms.history;
-    // },
+    isLengthZero() {
+      if (this.length === 0) return true;
+      else return false;
+    },
   },
   methods: {
     showToggle() {
