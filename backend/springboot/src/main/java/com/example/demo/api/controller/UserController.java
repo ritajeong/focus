@@ -2,6 +2,8 @@ package com.example.demo.api.controller;
 
 import com.example.demo.api.request.UserUpdatePwdReq;
 import com.example.demo.api.response.UserGetRes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,8 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+
+	private final Logger log = LoggerFactory.getLogger(RoomController.class);
 	
 	@PostMapping("/register")
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
@@ -100,10 +104,13 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> updatePassword(
 			@RequestBody @ApiParam(value="수정", required = true) UserUpdatePwdReq updateInfo) {
 		Users user=userService.getUserByuserId(updateInfo.getUser_id());
-		if(user==null){
-			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "update password fail: 사용자가 없습니다."));
+		if(user==null || !user.getPassword().equals(updateInfo.getCurrentPassword()) ){
+			log.info("user: {},  updateInfo: {}", user, updateInfo);
+			log.info("user.getPassword(): {}, updateInfo.getCurrentPassword(): {}",user.getPassword(), updateInfo.getCurrentPassword());
+			return ResponseEntity.status(404).body(BaseResponseBody.of(404, "update password fail: 사용자가 없습니다."));
 		}
-		user.setPassword(updateInfo.getPassword());
+		user.setPassword(updateInfo.getNewPassword());
+		log.info("[updatePassword] user: {}", user);
 		userService.updatePassword(user);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}

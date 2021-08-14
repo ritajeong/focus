@@ -12,5 +12,16 @@ public class UserUpdatePwdReq {
 	@ApiModelProperty
 	int user_id;
 	@ApiModelProperty
-	String password;
+	String currentPassword;
+	@ApiModelProperty
+	String newPassword;
+
+	@Override
+	public String toString() {
+		return "UserUpdatePwdReq{" +
+				"user_id=" + user_id +
+				", currentPassword='" + currentPassword + '\'' +
+				", newPassword='" + newPassword + '\'' +
+				'}';
+	}
 }
