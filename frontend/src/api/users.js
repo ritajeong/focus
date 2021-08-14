@@ -16,16 +16,12 @@ function loginUser(userData) {
   return instance.post('login', userData);
 }
 
-function checkUser(input) {
-  return instance.get('check/' + input);
-}
-
-function addUser(input) {
-  return instance.get('add/' + input);
-}
-
 function findUser(email) {
   return instance.get(email);
+}
+
+function checkUser(email) {
+  return instance.get('check/' + email);
 }
 function searchUsers(input) {
   return instance.get('search/' + input);
@@ -44,9 +40,8 @@ function deleteUser(userId) {
 export {
   registerUser,
   loginUser,
-  checkUser,
-  addUser,
   findUser,
+  checkUser,
   searchUsers,
   updateUserName,
   updateUserPwd,

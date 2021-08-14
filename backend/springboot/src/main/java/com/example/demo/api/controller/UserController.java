@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.api.request.LoginReq;
 import com.example.demo.api.request.UserUpdateNameReq;
 import com.example.demo.api.response.BaseResponseBody;
-import com.example.demo.api.response.UserRes;
 import com.example.demo.api.service.UserService;
 import com.example.demo.db.entity.Users;
 
@@ -62,17 +61,17 @@ public class UserController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<UserRes> login(
+	public ResponseEntity<UserGetRes> login(
 			@RequestBody @ApiParam(value="로그인", required = true) LoginReq loginInfo) {
 		Users user = userService.getUserByEmail(loginInfo.getEmail());
-		UserRes res = new UserRes();
+		UserGetRes res = new UserGetRes();
 		res.setEmail(user.getEmail());
 		res.setName(user.getName());
-		res.setUser_id(user.getUserId());
+		res.setUserId(user.getUserId());
 		if(user==null || !user.getPassword().equals(loginInfo.getPassword()))
-			return new ResponseEntity<UserRes>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<UserGetRes>(HttpStatus.NOT_FOUND);
 	  System.out.println(user.getEmail());
-	      return new ResponseEntity<UserRes>(res,HttpStatus.OK);
+	      return new ResponseEntity<UserGetRes>(res,HttpStatus.OK);
 	      
 	   }
 	@PutMapping("/update/name")
@@ -141,45 +140,47 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/add/{email}")
-	@ApiOperation(value = "참가자 추가", notes = "존재하는 회원 확인용")
+	@GetMapping("/{email}")
+	@ApiOperation(value = "이메일로 사용자 검색", notes = "계정이 존재하면 true")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> checkUser(@PathVariable("email") String email){
-
-		Users user = userService.getUserByEmail(email);
-
-		if(user != null){
-			return ResponseEntity.status(201).body(BaseResponseBody.of(201, "존재하는 이메일 입니다."));
+	public ResponseEntity<UserGetRes> getUserByEmail(@PathVariable("email") String email){
+		Users user=userService.getUserByEmail(email);
+		UserGetRes userGetRes=null;
+		if(user!=null){
+			userGetRes=new UserGetRes(user.getUserId(), user.getEmail(), user.getName());
+			return new ResponseEntity<UserGetRes>(userGetRes,HttpStatus.OK);
+		}else{
+			return new ResponseEntity<UserGetRes>(userGetRes,HttpStatus.NOT_FOUND);
 		}
-		return ResponseEntity.status(404).body(BaseResponseBody.of(404, "존재하지 않는 이메일 입니다."));
 	}
-	
-	@GetMapping("/check/{email}")
-	@ApiOperation(value = "회원가입할때 이메일 체크", notes = "존재하는 회원 확인용")
+
+	@GetMapping("check/{email}")
+	@ApiOperation(value = "회원가입 - 이메일로 사용자 검색", notes = "회원가입 시 사용됨 - 계정이 없어야 true")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> addUser(@PathVariable("email") String email){
-
-		Users user = userService.getUserByEmail(email);
-
-		if(user != null){
-			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "존재하는 이메일 입니다."));
+	public ResponseEntity<? extends BaseResponseBody> checkUserByEmail(@PathVariable("email") String email){
+		Users user=userService.getUserByEmail(email);
+		if(user!=null){
+			log.info("사용자 계정이 존재함 user: {}",user );
+			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "사용자 계정이 존재합니다."));
+		}else{
+			log.info("사용자 계정이 없음 user: {}",user );
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "사용자 계정이 없습니다."));
 		}
-		return ResponseEntity.status(201).body(BaseResponseBody.of(201, "존재하지 않는 이메일 입니다."));
 	}
+
 
 	@GetMapping("/search/{keyword}")
-	@ApiOperation(value = "이메일로 검색된 사용자 정보 가져오기")
+	@ApiOperation(value = "이메일 중 일부 키워드로 검색된 사용자 정보 가져오기")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -190,7 +191,12 @@ public class UserController {
 	public ResponseEntity<List<UserGetRes>> getUserByKeyword(@PathVariable("keyword") String keyword) {
 
 		List<UserGetRes> userGetRes=userService.getUserByKeyword(keyword);
-		return new ResponseEntity<List<UserGetRes>>(userGetRes,HttpStatus.OK);
+		if(userGetRes!=null){
+			return new ResponseEntity<List<UserGetRes>>(userGetRes,HttpStatus.OK);
+		}else{
+			return new ResponseEntity<List<UserGetRes>>(userGetRes,HttpStatus.NOT_FOUND);
+		}
+
 	}
 
 }

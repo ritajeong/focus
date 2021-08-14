@@ -15,11 +15,20 @@ public class UserGetRes {
     String email;
     @ApiModelProperty
     String name;
-
+public UserGetRes(){}
 
     public UserGetRes(int userId, String email, String name) {
         this.userId = userId;
         this.email = email;
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "UserGetRes{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
