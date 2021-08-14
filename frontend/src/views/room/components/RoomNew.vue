@@ -40,7 +40,7 @@
           </div></router-link
         >
       </div>
-    </router-link>
+    </div>
   </div>
   <!--카드 유닛-->
 </template>
