@@ -143,7 +143,12 @@ public class RoomController {
 	public ResponseEntity<RoomGetRes> showRoomone(@PathVariable("roomId") int roomId) {
 		Rooms room = roomService.getRoom(roomId);
 		List<ParticipantGetRes> participants=participantService.getParticipantByRoomId(roomId);
-		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime().toLocalDateTime(), room.getUsers().getUserId(), room.getRoomId());
+		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime().toLocalDateTime(),room.getUsers().getUserId(), room.getRoomId());
+		if(room.getEndTime()==null){
+			roomget.setEndTime(null);
+		}else{
+			roomget.setEndTime(room.getEndTime().toLocalDateTime());
+		}
 		roomget.setParticipants(participants);
 
 		return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);

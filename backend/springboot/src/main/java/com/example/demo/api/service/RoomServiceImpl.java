@@ -20,6 +20,11 @@ import com.example.demo.db.repository.ParticipantRegistory;
 import com.example.demo.db.repository.RoomRepository;
 import com.example.demo.db.repository.UserRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 @Service("roomSerice")
 
 public class RoomServiceImpl implements RoomService {
@@ -34,6 +39,10 @@ public class RoomServiceImpl implements RoomService {
 	
 	@Autowired
 	ParticipantRegistory partiRepository;
+
+	@PersistenceContext(unitName = "default")
+	private EntityManager entityManager;
+
 
 	private final Logger log = LoggerFactory.getLogger(RoomServiceImpl.class);
 	private final String groupCodeRole="00";
@@ -103,9 +112,15 @@ public class RoomServiceImpl implements RoomService {
 	public List<RoomGetRes> findAll() {
 		List<Rooms>room=roomRepository.findAll();
 		List<RoomGetRes> roomres = new ArrayList();
-
+		RoomGetRes roomGetRes;
 		for (Rooms r:room) {
-			roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getRoomId()));
+			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(),r.getUsers().getUserId(), r.getRoomId());
+			if(r.getEndTime()==null){
+				roomGetRes.setEndTime(null);
+			}else{
+				roomGetRes.setEndTime(r.getEndTime().toLocalDateTime());
+			}
+			roomres.add(roomGetRes);
 		}
 		return roomres;
 	}
@@ -125,14 +140,19 @@ public class RoomServiceImpl implements RoomService {
 	public List<RoomGetRes> findbyuser(int userId) {
 		List<RoomGetRes> roomres = new ArrayList();
 		List<Participants>pa = partiRepository.findByusers_userId(userId);
+		log.info("[findbyuser] userId: {}, pa:{}", userId, pa);
+		RoomGetRes roomGetRes;
 		for(Participants party : pa) {
 			Rooms r = party.getRooms();
-			roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getRoomId()));
+			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getRoomId());
+			log.info("[findbyuser] r:{}", r);
+			if(r.getEndTime()==null){
+				roomGetRes.setEndTime(null);
+			}else{
+				roomGetRes.setEndTime(r.getEndTime().toLocalDateTime());
+			}
+			roomres.add(roomGetRes);
 		}
 		return roomres;
 	}
-
-	
-
-
 }

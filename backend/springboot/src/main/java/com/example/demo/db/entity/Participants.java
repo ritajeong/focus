@@ -33,5 +33,15 @@ public class Participants {
 	@ManyToOne
 	@JoinColumn(name="room_id")
 	Rooms rooms;
-	
+
+	@Override
+	public String toString() {
+		return "Participants{" +
+				"id=" + id +
+				", code=" + code +
+				", groupcode=" + groupcode +
+				", users=" + users +
+				", rooms=" + rooms +
+				'}';
+	}
 }
