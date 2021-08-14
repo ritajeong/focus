@@ -63,7 +63,13 @@
           >
             Cancel
           </button>
-          <button type="button" class="btn bg-gradient-danger">Change</button>
+          <button
+            type="button"
+            class="btn bg-gradient-danger"
+            data-bs-dismiss="modal"
+          >
+            Change
+          </button>
         </div>
       </div>
     </div>

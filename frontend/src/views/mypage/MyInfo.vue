@@ -15,7 +15,7 @@
                   <input
                     type="email"
                     class="form-control"
-                    :value="$store.state.users.login.useremail"
+                    :value="useremail"
                     readonly
                   />
                 </div>
@@ -27,11 +27,15 @@
                     <input
                       type="name"
                       class="form-control"
-                      :value="$store.state.users.login.username"
+                      v-model="username"
                     />
                   </div>
 
-                  <button type="button" class="btn bg-gradient-dark col-3">
+                  <button
+                    type="button"
+                    class="btn bg-gradient-dark col-3"
+                    @click="modifyName"
+                  >
                     Modify
                   </button>
                 </div>
@@ -51,7 +55,7 @@
                     type="button"
                     class="btn bg-gradient-danger w-100"
                     data-bs-toggle="modal"
-                    data-bs-target="#ModalWithdraw"
+                    data-bs-target="#modal-notification"
                   >
                     Withdrow
                   </button>
@@ -76,8 +80,10 @@ export default {
     return {
       useremail: this.$store.state.users.login.useremail,
       username: this.$store.state.users.login.username,
-      userpwd: this.$store.state.users.login.userpwd,
     };
+  },
+  methods: {
+    modifyName() {},
   },
 };
 </script>

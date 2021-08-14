@@ -1,10 +1,10 @@
 <template>
   <div
     class="modal fade"
-    id="ModalWithdraw"
+    id="modal-notification"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="ModalWithdraw"
+    aria-labelledby="modal-notification"
     aria-hidden="true"
   >
     <div
@@ -13,7 +13,7 @@
     >
       <div class="modal-content">
         <div class="modal-header">
-          <h6 class="modal-title" id="ModalWithdraw">
+          <h6 class="modal-title" id="modal-notification">
             Your attention is required
           </h6>
           <button
@@ -41,7 +41,13 @@
           >
             No
           </button>
-          <button type="button" class="btn bg-gradient-danger">Yes</button>
+          <button
+            type="button"
+            class="btn bg-gradient-danger"
+            data-bs-dismiss="modal"
+          >
+            Yes
+          </button>
         </div>
       </div>
     </div>

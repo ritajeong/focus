@@ -4,7 +4,7 @@ import com.example.demo.api.response.UserGetRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.api.request.UserUpdateReq;
+import com.example.demo.api.request.UserUpdateNameReq;
 import com.example.demo.db.entity.Users;
 import com.example.demo.db.repository.UserRepository;
 
@@ -36,12 +36,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Users update(UserUpdateReq registerInfo) {
-		Users user = userRepository.findByUserId(registerInfo.getUser_id());
-		user.setName(registerInfo.getName());
-		user.setPassword(registerInfo.getPassword());
-		userRepository.save(user);
-		return user;
+	public void updateName(Users updateInfo) {
+		userRepository.save(updateInfo);
+
+	}
+	@Override
+	public void updatePassword(Users updateInfo) {
+		userRepository.save(updateInfo);
+
 	}
 
 	@Override

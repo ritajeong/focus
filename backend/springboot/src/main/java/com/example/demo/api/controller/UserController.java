@@ -1,27 +1,18 @@
 package com.example.demo.api.controller;
 
+import com.example.demo.api.request.UserUpdatePwdReq;
 import com.example.demo.api.response.UserGetRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.api.request.LoginReq;
-import com.example.demo.api.request.UserUpdateReq;
+import com.example.demo.api.request.UserUpdateNameReq;
 import com.example.demo.api.response.BaseResponseBody;
 import com.example.demo.api.response.UserRes;
 import com.example.demo.api.service.UserService;
-import com.example.demo.db.entity.Rooms;
 import com.example.demo.db.entity.Users;
-import com.example.demo.db.repository.UserRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -80,21 +71,44 @@ public class UserController {
 	      return new ResponseEntity<UserRes>(res,HttpStatus.OK);
 	      
 	   }
-	@PostMapping("/updateuser")
-	@ApiOperation(value = "업데이트.")
+	@PutMapping("/update/name")
+	@ApiOperation(value = "이름 변경")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "인증 실패"),
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<? extends BaseResponseBody> updateroom(
-			@RequestBody @ApiParam(value="수정", required = true) UserUpdateReq registerInfo) {
-		Users user = userService.update(registerInfo);
+	public ResponseEntity<? extends BaseResponseBody> updateName(
+			@RequestBody @ApiParam(value="수정", required = true) UserUpdateNameReq updateInfo) {
+		Users user=userService.getUserByuserId(updateInfo.getUser_id());
+		if(user==null){
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "update Name fail: 사용자가 없습니다."));
+		}
+		user.setName(updateInfo.getName());
+		userService.updatePassword(user);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	   }
+	@PutMapping("/update/password")
+	@ApiOperation(value = "비밀번호 변경")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> updatePassword(
+			@RequestBody @ApiParam(value="수정", required = true) UserUpdatePwdReq updateInfo) {
+		Users user=userService.getUserByuserId(updateInfo.getUser_id());
+		if(user==null){
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "update password fail: 사용자가 없습니다."));
+		}
+		user.setPassword(updateInfo.getPassword());
+		userService.updatePassword(user);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
 	
-	@PostMapping("/deleteuser/{userId}")
+	@DeleteMapping("/delete/{userId}")
 	@ApiOperation(value = "사용자삭제") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
