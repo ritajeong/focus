@@ -214,9 +214,6 @@ export default {
       if (!this.roomName) {
         msg = '방 이름을 입력해주세요';
         err = true;
-      } else if (!this.datetime) {
-        msg = '날짜를 입력해주세요';
-        err = true;
       } else if (!this.description) {
         msg = '방 설명을 입력해주세요';
         err = true;

@@ -2,6 +2,7 @@ package com.example.demo.db.repository;
 
 import com.example.demo.db.entity.Participants;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -12,5 +13,6 @@ public interface ParticipantRegistory extends JpaRepository<Participants, Intege
     List<Participants> findByrooms_roomId(int room_id);
     @Transactional
     List<Participants> findByusers_userId(int user_id);
-    
+    @Transactional
+    void deleteAllByRooms_RoomId(int roomId);
 }
