@@ -55,7 +55,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserGetRes> getAllUser() {
+	public List<UserGetRes> getUserByKeyword(String keyword) {
+		//TODO query dsl로 key워드 검색 하기
 		List<Users>users=userRepository.findAll();
 		List<UserGetRes> userGetRes = new ArrayList();
 		for (Users item:users) {
@@ -63,6 +64,5 @@ public class UserServiceImpl implements UserService {
 		}
 		return userGetRes;
 	}
-
 
 }

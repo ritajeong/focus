@@ -13,6 +13,7 @@ import RoomInfo from '@/views/room/RoomInfo';
 import RoomModify from '@/views/room/RoomModify';
 import RoomTutorial from '@/views/room/RoomTutorial';
 
+import MeetingRoomEnter from '@/views/meetingRoomEnter/MeetingRoomEnter.vue';
 import MeetingRoom from '@/views/meetingRoom/MeetingRoom.vue';
 
 import MySetting from '@/views/mypage/MySetting.vue';
@@ -24,7 +25,7 @@ import MyNote from '@/views/mypage/MyNote.vue';
 
 Vue.use(VueRouter);
 
-export default new VueRouter({
+const router = new VueRouter({
   // mode: 'history',
   routes: [
     {
@@ -76,10 +77,23 @@ export default new VueRouter({
         },
       ],
     },
+    /* 임시 주소 - 미팅룸 입장 */
+    {
+      path: '/meetingroomenter',
+      name: 'MeetingRoomEnter',
+      component: MeetingRoomEnter,
+    },
+    /* 임시 주소 - 미팅룸 입장 */
     {
       path: '/meetingroom',
       name: 'MeetingRoom',
       component: MeetingRoom,
+      children: [
+        // {
+        //   path: '/meetingroom/',
+        //   component:
+        // }
+      ],
     },
     {
       path: '/mypage',
@@ -101,3 +115,5 @@ export default new VueRouter({
     },
   ],
 });
+
+export default router;

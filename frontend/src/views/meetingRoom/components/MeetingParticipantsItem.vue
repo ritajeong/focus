@@ -4,13 +4,19 @@
       class="participant-item d-flex align-items-center justify-content-between"
     >
       <div class="d-flex align-items-center">
-        <img src="@/assets/icons/user.svg" alt="" class="user-icon" />
-        <h3 class="username">username</h3>
+        <!-- <img src="@/assets/icons/user.svg" alt="" class="user-icon" /> -->
+        <h4 class="username ms-5">{{ participantName }}</h4>
       </div>
+      <!-- 사용자가 매니저인 경우만 표시 -->
       <img
         src="@/assets/icons/menu.svg"
         alt=""
         class="menu-icon"
+        v-if="
+          this.$store.state.meetingRoom.manager &&
+          this.$store.state.meetingRoom.myName ===
+            this.$store.state.meetingRoom.manager
+        "
         @click="togglePopup"
       />
     </div>
@@ -28,7 +34,9 @@
       >
         <!-- popup menu items -->
         <div class="popup-item popup-item-start"><h4>Menu</h4></div>
-        <div class="popup-item"><h4>Menu</h4></div>
+        <div class="popup-item" @click="setPresenter">
+          <h4>발표자 지정</h4>
+        </div>
         <div class="popup-item popup-item-end"><h4>Menu</h4></div>
         <!-- popup menu items -->
       </div>
@@ -39,12 +47,15 @@
 
 <script>
 // import "./template.scss";
+import _ from 'lodash';
 
 export default {
   name: 'MeetingParticipantsItem',
   components: {},
   // : props
-  props: {},
+  props: {
+    participant: Object,
+  },
   // : data
   data() {
     return {
@@ -52,13 +63,25 @@ export default {
     };
   },
   // : computed
-  computed: {},
+  computed: {
+    participantName() {
+      const nameOnServer = this.participant.name;
+      return _.split(nameOnServer, '-')[0];
+    },
+  },
   // : lifecycle hook
   mounted() {},
   // : methods
   methods: {
     togglePopup: function () {
       this.showPopup = !this.showPopup;
+    },
+    setPresenter: function () {
+      const message = {
+        id: 'setPresenter',
+        presenter: this.participant.name,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
     },
   },
 };

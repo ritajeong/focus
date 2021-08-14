@@ -24,5 +24,5 @@ public class Presentations {
 	 
 	 @ManyToOne
 	@JoinColumn(name="group_id")
-	Rooms_Presentations rp;
+	 RoomsPresentations roomspresentations;
 }

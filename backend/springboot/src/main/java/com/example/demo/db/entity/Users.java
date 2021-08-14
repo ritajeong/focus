@@ -36,7 +36,7 @@ public class Users {
 	    private List<Rooms> rooms = new ArrayList<>();
 	 
 	 @OneToMany(mappedBy = "users",cascade = CascadeType.ALL, orphanRemoval = true)
-	    private List<Rooms_Presentations> presentation = new ArrayList<>();
+	    private List<RoomsPresentations> presentation = new ArrayList<>();
 
 
 	@Override

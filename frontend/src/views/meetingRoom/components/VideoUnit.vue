@@ -1,38 +1,75 @@
 <template>
-  <div>
-    <img
-      src="https://images.unsplash.com/photo-1566475955255-404134a79aeb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
-      alt=""
-      class="video-insert img-fluid"
-    />
+  <div :id="containerId" class="video-unit-container">
+    <div class="overlay">
+      <span>{{ participantName }}</span>
+    </div>
   </div>
 </template>
 
 <script>
 // import "./template.scss";
+import _ from 'lodash';
 
 export default {
   name: 'VideoUnit',
   components: {},
   // : props
-  props: {},
+  props: {
+    participant: Object,
+  },
   // : data
   data() {
     return {};
   },
   // : computed
-  computed: {},
+  computed: {
+    video() {
+      return this.participant.getVideoElement();
+    },
+    containerId() {
+      return 'video-' + this.participant.name + '-container';
+    },
+    participantName() {
+      return _.split(this.participant.name, '-')[0];
+    },
+  },
   // : lifecycle hook
-  mounted() {},
+  mounted() {
+    this.video.classList.add('video-insert');
+    document.getElementById(this.containerId).appendChild(this.video);
+  },
   // : methods
   methods: {},
 };
 </script>
 
 <style scoped>
+.video-unit-container {
+  position: relative;
+}
 .video-insert {
   height: 100%;
-  border-radius: 25px;
+  border-radius: 15px;
   box-shadow: 0px 4px 4px black;
+}
+.overlay {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  width: 50%;
+  height: 20%;
+  transition: 0.3s ease;
+  opacity: 0;
+  color: white;
+  font-size: 1rem;
+  line-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.video-unit-container:hover .overlay {
+  opacity: 1;
 }
 </style>

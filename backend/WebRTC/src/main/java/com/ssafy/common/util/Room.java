@@ -147,6 +147,9 @@ public class Room implements Closeable {
 		existingParticipantsMsg.addProperty("id", "existingParticipants");
 		existingParticipantsMsg.add("data", participantsArray);
 		existingParticipantsMsg.addProperty("presenter", presentation.getPresenterName());
+		existingParticipantsMsg.addProperty("imageUri", presentation.getPresentationImageUri());
+		existingParticipantsMsg.addProperty("location", presentation.getPresentationLocation());
+		existingParticipantsMsg.addProperty("size", presentation.getPresentationSize());
 		log.debug("PARTICIPANT {}: sending a list of {} participants", user.getName(), participantsArray.size());
 		user.sendMessage(existingParticipantsMsg);
 	}
