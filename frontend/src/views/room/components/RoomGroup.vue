@@ -35,7 +35,7 @@
               v-show="idx <= showIdx"
               :class="{ cardLastParrnet: isLast }"
             />
-            <h2 v-if="isLengthZero">방이 없습니다.</h2>
+            <!-- <h2 v-if="isLengthZero">방이 없습니다.</h2> -->
             <!-- <RoomLast v-bind:titleImg="titleImg" /> -->
             <!-- more아이콘-->
           </div>

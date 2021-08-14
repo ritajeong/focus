@@ -9,9 +9,11 @@
         <h4 class="text-white">{{ roomInfo.name }}</h4>
         <!-- <p class="mb-2 text-sm">Room Id</p> -->
         <p class="mb-2 text-sm">{{ roomInfo.description }}</p>
-        <p class="mb-2 text-sm">{{ roomInfo.startTime }}</p>
+        <p class="mb-2 text-sm">시작 : {{ roomInfo.startTime }}</p>
 
-        <!-- <p class="mb-4 text-sm" v-if="isHistory">{{ roomInfo.endTime }}</p> -->
+        <p class="mb-4 text-sm" v-if="isHistory">
+          종료 : {{ roomInfo.endTime }}
+        </p>
         <p
           v-if="isNow"
           class="mb-2"
