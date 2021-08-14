@@ -153,7 +153,6 @@ export default {
   name: 'IntroLogin',
   data() {
     return {
-      userid: '',
       useremail: '',
       userpwd: '',
       logMessage: '',
@@ -169,20 +168,18 @@ export default {
           email: this.useremail,
           password: this.userpwd,
         };
-        const { data } = await loginUser(userData);
+        await loginUser(userData).then(({ data }) => {
+          const userInfo = {
+            //받을때
+            id: data.user_id,
+            email: data.email,
+            name: data.name,
+            isLogin: true,
+          };
+          this.$store.commit('users/SET_LOGIN', userInfo);
 
-        const userInfo = {
-          //받을때
-          id: this.userid,
-          email: this.useremail,
-          password: this.userpwd,
-          name: data.name,
-          isLogin: true,
-        };
-        this.$store.commit('users/SET_LOGIN', userInfo);
-
-        this.$router.push('/dashboard');
-        console.log(data);
+          this.$router.push('/dashboard');
+        });
       } catch (error) {
         console.log(error.response.data);
         this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');

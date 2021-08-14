@@ -14,6 +14,7 @@ export default {
   }),
   mutations: {
     SET_LOGIN(state, payload) {
+      console.log('login: ', payload);
       state.login.isLogin = true;
       state.login.userid = payload.id;
       state.login.username = payload.name;

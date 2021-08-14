@@ -30,5 +30,20 @@ function findUser(email) {
 function searchUsers(input) {
   return instance.get('search/' + input);
 }
+function updateUserName(userData) {
+  return instance.put('update/name', userData);
+}
+function updateUserPwd(userData) {
+  return instance.put('update/password', userData);
+}
 
-export { registerUser, loginUser, checkUser, addUser, findUser, searchUsers };
+export {
+  registerUser,
+  loginUser,
+  checkUser,
+  addUser,
+  findUser,
+  searchUsers,
+  updateUserName,
+  updateUserPwd,
+};

@@ -221,6 +221,7 @@ export default {
 
       if (err) {
         this.$alertify.error(msg);
+        return;
       } else {
         let roomData = {
           name: this.roomName,

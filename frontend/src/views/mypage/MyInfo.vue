@@ -71,8 +71,13 @@
   </div>
 </template>
 <script>
+import Vue from 'vue';
 import ChangePasswordModal from './components/ChangePasswordModal.vue';
 import WithdrawModal from './components/WithdrawModal.vue';
+import { updateUserName } from '@/api/users.js';
+import VueAlertify from 'vue-alertify';
+Vue.use(VueAlertify);
+
 export default {
   name: 'MyInfo',
   components: { ChangePasswordModal, WithdrawModal },
@@ -83,7 +88,33 @@ export default {
     };
   },
   methods: {
-    modifyName() {},
+    modifyName() {
+      let message = '';
+      if (!this.username) {
+        message = '변경할 이름을 입력하세요';
+        this.$alertify.error(message);
+        return;
+      }
+      let userData = {
+        user_id: this.$store.state.users.login.userid,
+        name: this.username,
+      };
+      console.log('update name userData', userData);
+      updateUserName(userData)
+        .then(({ status }) => {
+          console.log(status);
+          if (status != 200) {
+            this.$alertify.error('이름 변경중 오류가 발생했습니다.');
+            return;
+          } else {
+            this.$alertify.success('이름이 변경됐습니다.');
+            this.$router.push('/dashboard');
+          }
+        })
+        .catch(() => {
+          this.$alertify.error('이름 변경 시도가 실패했습니다.');
+        });
+    },
   },
 };
 </script>
