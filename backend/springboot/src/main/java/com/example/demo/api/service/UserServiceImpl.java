@@ -1,10 +1,10 @@
 package com.example.demo.api.service;
 
+import com.example.demo.api.request.UserRegisterReq;
 import com.example.demo.api.response.UserGetRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.api.request.UserUpdateNameReq;
 import com.example.demo.db.entity.Users;
 import com.example.demo.db.repository.UserRepository;
 
@@ -20,13 +20,12 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepository;
 
 	@Override
-	public Users createUser(Users users) {
+	public void createUser(UserRegisterReq users) {
 		Users user = new Users();
 		user.setEmail(users.getEmail());
 		user.setName(users.getName());
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		user.setPassword(users.getPassword());
-		return userRepository.save(user);
 	}
 
 	@Override
