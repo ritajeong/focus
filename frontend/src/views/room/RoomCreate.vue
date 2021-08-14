@@ -184,14 +184,17 @@ export default {
       console.log('selected role: ' + this.roleSelected);
 
       this.getUsername().then(() => {
-        console.log('getUsername() success in addParticipant()');
-
-        this.participants.push({
-          name: this.participant.data.name,
-          email: this.participantAccount,
-          codeId: this.roleSelected.split('-')[0],
-          codeName: this.roleSelected.split('-')[1],
-        });
+        if (!this.participants) {
+          this.$alertify.error('사용자 게정이 없습니다.');
+        } else {
+          this.participants.push({
+            name: this.participant.data.name,
+            email: this.participantAccount,
+            codeId: this.roleSelected.split('-')[0],
+            codeName: this.roleSelected.split('-')[1],
+          });
+          console.log('getUsername() success in addParticipant()');
+        }
       });
     },
     deleteParticipant(email) {
@@ -221,6 +224,7 @@ export default {
 
       if (err) {
         this.$alertify.error(msg);
+        return;
       } else {
         let roomData = {
           name: this.roomName,
@@ -235,7 +239,7 @@ export default {
           .then(({ status }) => {
             console.log(status);
             if (status != 200) {
-              this.$alertify.error('오류 발생');
+              this.$alertify.error('방 생성 실패했습니다.');
               return;
             } else {
               this.$alertify.success('방이 생성됐습니다.');
@@ -251,13 +255,8 @@ export default {
     async getUsername() {
       try {
         this.participant = await findUser(this.participantAccount);
-        console.log(
-          'getUsrename() this.participant.data.name',
-          this.participant.data.name,
-        );
-        console.log('getUsrename() this.participant', this.participant);
       } catch (err) {
-        this.$alertify.error('사용자 게정이 없습니다.');
+        this.$alertify.error('사용자 확인이 실패했습니다..', err);
       }
     },
 

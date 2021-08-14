@@ -1,6 +1,6 @@
 package com.example.demo.api.service;
 
-import com.example.demo.api.request.UserUpdateReq;
+import com.example.demo.api.request.UserUpdateNameReq;
 import com.example.demo.db.entity.Users;
 import com.example.demo.api.response.UserGetRes;
 
@@ -12,8 +12,10 @@ import java.util.List;
 public interface UserService {
 	Users createUser(Users users);
 	Users getUserByEmail(String email);
-	Users update(UserUpdateReq registerInfo);
+	void updateName(Users updateInfo);
 	Users getUserByuserId(int userId);
-	void deleteRoom(Users user);
+	void deleteUser(Users user);
 	List<UserGetRes> getUserByKeyword(String keyword);
+
+	void updatePassword(Users updateInfo);
 }

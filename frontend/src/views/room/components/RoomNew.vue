@@ -13,7 +13,15 @@
       "
     >
       <div
-        class="card-body content text-white align-center justify-content-center"
+        class="
+          card card-background
+          move-on-hover
+          background-wrap
+          card-new-parrent
+        "
+        style="
+          background-image: url('../../assets/img/curved-images/curved9.jpg');
+        "
       >
         <router-link to="/dashboard/create" class="text-white">
           <div
@@ -32,7 +40,7 @@
           </div></router-link
         >
       </div>
-    </div>
+    </router-link>
   </div>
   <!--카드 유닛-->
 </template>
