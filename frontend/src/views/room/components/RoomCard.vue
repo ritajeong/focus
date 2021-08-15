@@ -25,13 +25,28 @@
         <span v-if="!isHistory"><br /></span>
         <!-- <p class="mb-2 text-sm">Room Id</p> -->
         <p class="mb-2 text-sm" :class="{ cardPt5: isNow }">
-          {{ roomInfo.description }}
+          {{
+            roomInfo.description.length > 30
+              ? roomInfo.description.slice(0, 29)
+              : roomInfo.description
+          }}
         </p>
 
-        <p class="mb-2 text-sm">시작 : {{ roomInfo.startTime }}</p>
+        <p class="mb-2 text-sm">
+          시작 :
+          {{
+            roomInfo.startTime
+              .slice(0, 16)
+              .replace(/\-/g, '.')
+              .replace('T', ' ')
+          }}
+        </p>
 
         <p class="mb-4 text-sm" v-if="isHistory">
-          종료 : {{ roomInfo.endTime }}
+          종료 :
+          {{
+            roomInfo.endTime.slice(0, 16).replace(/\-/g, '.').replace('T', ' ')
+          }}
         </p>
 
         <span class="card-info">
@@ -100,6 +115,7 @@ export default {
     },
   },
   mounted() {},
+  methods: {},
 };
 </script>
 <style>
