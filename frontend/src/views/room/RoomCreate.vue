@@ -24,7 +24,7 @@
                     <date-picker
                       v-model="datetime"
                       type="datetime"
-                      format="YYYY-MM-DD hh:mm"
+                      format="YYYY-MM-DD HH:mm"
                       :placeholder="nowDateTime"
                       :disabled-date="disabledBeforeDate"
                       :disabled-time="disabledBeforeTime"
@@ -155,14 +155,16 @@ export default {
         {
           name: this.$store.state.users.login.username,
           email: this.$store.state.users.login.useremail,
-          codeId: '001',
-          codeName: 'Owner',
+          codeId: {
+            codeId: '001',
+            codeName: 'Owner',
+          },
         },
       ],
       participant: '',
       participantAccount: '',
       roleSelected: '',
-      nowDateTime: moment(new Date()).format('YYYY-MM-DD hh:mm'),
+      nowDateTime: moment(new Date()).format('YYYY-MM-DD HH:mm'),
     };
   },
   computed: {
@@ -190,8 +192,10 @@ export default {
           this.participants.push({
             name: this.participant.data.name,
             email: this.participantAccount,
-            codeId: this.roleSelected.split('-')[0],
-            codeName: this.roleSelected.split('-')[1],
+            codeId: {
+              codeId: this.roleSelected.split('-')[0],
+              codeName: this.roleSelected.split('-')[1],
+            },
           });
           console.log('getUsername() success in addParticipant()');
         }
@@ -273,7 +277,7 @@ export default {
         time <
         moment(
           `${new Date().getHours() - 1}:${new Date().getMinutes()}`,
-          'hh:mm',
+          'HH:mm',
         )
       );
     },

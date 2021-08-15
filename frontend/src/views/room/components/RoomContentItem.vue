@@ -11,7 +11,7 @@
                 class="form-control"
                 type="text"
                 placeholder="멋진 이름을 지어주세요."
-                :readonly="isOwner"
+                :readonly="!isOwner"
               />
             </div>
           </div>
@@ -19,13 +19,13 @@
             <label>Start Time</label>
             <div>
               <date-picker
-                readonly
                 v-model="datetime"
                 type="datetime"
-                format="YYYY-MM-DD hh:mm"
                 :placeholder="datetime"
+                format="YYYY-MM-DD HH:mm"
                 :disabled-date="disabledBeforeDate"
                 :disabled-time="disabledBeforeTime"
+                :editable="isOwner"
               ></date-picker>
             </div>
           </div>
@@ -38,11 +38,11 @@
             class="form-control"
             rows="1"
             placeholder="방을 소개해주세요."
-            :readonly="isOwner"
+            :readonly="!isOwner"
           ></textarea>
         </div>
 
-        <div class="form-group mb-4">
+        <div class="form-group mb-4" v-if="isOwner">
           <label>Participant List</label>
           <div class="row">
             <div class="col-md-5">
@@ -77,7 +77,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="mb-4 row">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -109,6 +109,15 @@
               </tr>
             </tbody>
           </table>
+          <div class="col-md-12" v-if="isOwner">
+            <button
+              type="button"
+              class="btn bg-gradient-dark w-100"
+              @click="updateHandler"
+            >
+              Update Room
+            </button>
+          </div>
         </div>
       </div>
     </form>
@@ -119,6 +128,7 @@
 import Vue from 'vue';
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
+import { updateRoom } from '@/api/rooms.js';
 import { findUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
 import moment from 'moment';
@@ -131,31 +141,30 @@ export default {
   data() {
     return {
       user: this.$store.state.users.login,
-      datetime: moment(this.$store.state.rooms.room.startTime).format(
-        'YYYY-MM-DD hh:mm',
-      ),
+      datetime: this.$store.state.rooms.room.startTime,
       roomName: this.$store.state.rooms.room.name,
       description: this.$store.state.rooms.room.description,
       participants: this.$store.state.rooms.room.participants,
       participant: '',
       participantAccount: '',
       roleSelected: '',
-      nowDateTime: moment(new Date()).format('YYYY-MM-DD hh:mm'),
-      isOwner: function () {
-        if (
-          this.$store.state.rooms.room.user_id == this.$store.users.login.userId
-        ) {
-          return true;
-        }
-        return false;
-      },
+      nowDateTime: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+      isOwner: false,
     };
   },
+  created() {
+    if (
+      this.$store.state.rooms.room.user_id ==
+      this.$store.state.users.login.userid
+    ) {
+      this.isOwner = true;
+    }
+  },
   computed: {
+    ...mapGetters(['users', 'room']),
     getParticipants() {
       return this.participants;
     },
-    ...mapGetters(['users', 'room']),
   },
   methods: {
     addParticipant() {
@@ -176,8 +185,10 @@ export default {
           this.participants.push({
             name: this.participant.data.name,
             email: this.participantAccount,
-            codeId: this.roleSelected.split('-')[0],
-            codeName: this.roleSelected.split('-')[1],
+            codeId: {
+              codeId: this.roleSelected.split('-')[0],
+              codeName: this.roleSelected.split('-')[1],
+            },
           });
           console.log('getUsername() success in addParticipant()');
         }
@@ -191,6 +202,48 @@ export default {
           this.participants.splice(index);
         }
       });
+    },
+
+    updateHandler() {
+      let msg = '';
+      let err = false;
+      if (!this.roomName) {
+        msg = '방 이름을 입력해주세요';
+        err = true;
+      } else if (!this.description) {
+        msg = '방 설명을 입력해주세요';
+        err = true;
+      }
+
+      if (err) {
+        this.$alertify.error(msg);
+        return;
+      } else {
+        let roomData = {
+          user_id: this.user.userid,
+          room_id: this.$store.state.rooms.room.room_id,
+          name: this.roomName,
+          description: this.description,
+          startTime: this.datetime,
+          participants: this.participants,
+        };
+        console.log('[updateHandler] roomData: ', roomData);
+
+        updateRoom(roomData)
+          .then(({ status }) => {
+            console.log(status);
+            if (status != 200) {
+              this.$alertify.error('방 정보 수정중 실패했습니다.');
+              return;
+            } else {
+              this.$alertify.success('방 정보가 수정됐습니다.');
+              this.$router.push('/dashboard/info');
+            }
+          })
+          .catch(() => {
+            this.$alertify.error('방 정보 수정 실패했습니다.');
+          });
+      }
     },
 
     async getUsername() {
@@ -217,7 +270,7 @@ export default {
         time <
         moment(
           `${new Date().getHours() - 1}:${new Date().getMinutes()}`,
-          'hh:mm',
+          'HH:mm',
         )
       );
     },

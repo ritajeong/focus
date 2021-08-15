@@ -22,7 +22,7 @@ public class RoomRegisterPostReq {
 	@ApiModelProperty(name="방장 이메일", example = "master@master.com")
 	String email;
 	@ApiModelProperty(name="참가자 목록")
-	List<ParticipantRegisterReq> participants;
+	List<ParticipantReq> participants;
 
 	@Override
 	public String toString() {

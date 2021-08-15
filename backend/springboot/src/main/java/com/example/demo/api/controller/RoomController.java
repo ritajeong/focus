@@ -10,15 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.api.request.RoomRegisterPostReq;
-import com.example.demo.api.request.RoomUpdatePostReq;
+import com.example.demo.api.request.RoomUpdateReq;
 import com.example.demo.db.entity.Rooms;
 import com.example.demo.api.response.BaseResponseBody;
 import com.example.demo.api.response.RoomGetRes;
@@ -42,7 +37,7 @@ public class RoomController {
 
 	private final Logger log = LoggerFactory.getLogger(RoomController.class);
 
-	@PostMapping("/createroom")
+	@PostMapping("/create")
 	@ApiOperation(value = "방생성")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm A", timezone="Asia/Seoul")
     @ApiResponses({
@@ -53,14 +48,19 @@ public class RoomController {
     })
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value="방정보", required = true) RoomRegisterPostReq registerInfo) {
-		System.out.println("[createroom] register: registerInfo: "+registerInfo);
-		log.info("[register] room register info: {}", registerInfo);
-		Rooms room = roomService.createRoom(registerInfo);
-		log.info("[register] room : {}", room);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		try{
+			System.out.println("[createroom] register: registerInfo: "+registerInfo);
+			log.info("[register] room register info: {}", registerInfo);
+			Rooms room = roomService.createRoom(registerInfo);
+			log.info("[register] room : {}", room);
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return ResponseEntity.status(500).body(BaseResponseBody.of(500, "fail"));
 	}
 	
-	@PostMapping("/updateroom/{roomId}")
+	@PutMapping("/update/{roomId}")
 	@ApiOperation(value = "방업데이트") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -69,14 +69,19 @@ public class RoomController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<? extends BaseResponseBody> update(
-			@RequestBody @ApiParam(value="방업데이트", required = true) RoomUpdatePostReq registerInfo) {
-		System.out.println(registerInfo.getUser_id());
-		Rooms room = roomService.updateRoom(registerInfo);
-		
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+			@RequestBody @ApiParam(value="방업데이트", required = true) RoomUpdateReq roomInfo) {
+		try{
+			log.info("[update] roomUpdateReq: {}", roomInfo);
+			Rooms room = roomService.updateRoom(roomInfo);
+			log.info("[update] room: {}", room);
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return ResponseEntity.status(500).body(BaseResponseBody.of(500, "fail"));
 	}
 	
-	@PostMapping("/deleteroom/{roomId}")
+	@DeleteMapping("/delete/{roomId}")
 	@ApiOperation(value = "방삭제") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
