@@ -10,6 +10,7 @@
 /backend/WebRTC/.gradle/
 /backend/WebRTC/.mvn/
 /backend/WebRTC/src/main/resources/application.properties
+/backend/WebRTC/src/main/resources/static/*.*
 
 
 ### Java ###
