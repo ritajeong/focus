@@ -174,7 +174,7 @@ export default {
         await loginUser(userData).then(({ data }) => {
           const userInfo = {
             //받을때
-            id: data.user_id,
+            id: data.userId,
             email: data.email,
             name: data.name,
             isLogin: true,

@@ -37,5 +37,10 @@ export default {
       commit('SET_ROOM', roomInfo);
     },
   },
-  getters: {},
+  getters: {
+    room(state) {
+      console.log('getters room');
+      return state.room;
+    },
+  },
 };

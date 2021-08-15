@@ -24,13 +24,7 @@
         >
           JOIN ROOM
         </p>
-        <router-link
-          @click="setRoomInfo"
-          to="/dashboard/info"
-          class="content text-white"
-        >
-          Room Info
-        </router-link>
+        <button @click="setAndGoToRoomInfo" type="button">Room Info</button>
         <!-- ㅎㅇ방 번호로 api요청, Room Info->아이콘으로 교체 -->
       </div>
     </div>
@@ -66,6 +60,11 @@ export default {
       console.log('setRoomInfo click');
       this.$store.dispatch('rooms/setRoom', this.roomInfo);
     },
+    setAndGoToRoomInfo() {
+      console.log('setAndGoToRoomInfo click');
+      this.$store.dispatch('rooms/setRoom', this.roomInfo);
+      this.$router.push('/dashboard/info');
+    },
   },
   created() {
     this.isNow = this.titleImg === 'Now' ? true : false;
@@ -88,7 +87,6 @@ export default {
         "background-image: url('../../assets/img/curved-images/curved.jpg');";
       this.length = this.$store.state.rooms.history.length;
     }
-
     if (this.length - 1 === this.idx) {
       this.isLast = true;
       console.log('Im last');
