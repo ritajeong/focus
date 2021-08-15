@@ -127,6 +127,7 @@
             </button>
           </div>
         </div>
+        <UploadDialog />
       </div>
     </form>
     <RoomDeleteModal
@@ -145,11 +146,12 @@ import VueAlertify from 'vue-alertify';
 import moment from 'moment';
 import { mapGetters } from 'vuex';
 import RoomDeleteModal from './RoomDeleteModal.vue';
+import UploadDialog from './UploadDialog';
 Vue.use(VueAlertify);
 
 export default {
   name: 'RoomContent',
-  components: { DatePicker, RoomDeleteModal },
+  components: { DatePicker, RoomDeleteModal, UploadDialog },
   data() {
     return {
       user: this.$store.state.users.login,

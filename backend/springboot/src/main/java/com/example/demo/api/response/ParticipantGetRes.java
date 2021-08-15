@@ -13,6 +13,7 @@ import lombok.Setter;
 public class ParticipantGetRes {
     @ApiModelProperty(name="참가자 이름")
     String name;
+    
     @ApiModelProperty(name="참가자 이메일")
     String email;
 
