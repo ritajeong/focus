@@ -11,5 +11,18 @@ const instance = axios.create({
 function downloadFile(filereq) {
   return instance.post('down', filereq);
 }
+function showRooms(input) {
+  return instance.get('room/' + input);
+}
+function showRoomdetail(ShowFileReq) {
+  return instance.get('detail', ShowFileReq);
+}
+function deletefile(FileReq) {
+  return instance.post('deletefile', FileReq);
+}
 
-export { downloadFile };
+function updatefile(FileReq) {
+  return instance.post('updatefile', FileReq);
+}
+
+export { downloadFile, showRooms, showRoomdetail, deletefile, updatefile };
