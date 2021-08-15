@@ -42,7 +42,6 @@
         v-model="files"
         ref="img"
         @input="onDrop()"
-        style="display: none"
       >
       </FileUpload>
 
@@ -53,7 +52,7 @@
             <v-btn class="ma-2" style="padding: 0px" color="info">
               <label for="file" style="padding: 0px 8px"
                 ><v-icon style="margin-right: 5px">add_circle</v-icon>Select
-                Files</label
+                File</label
               >
             </v-btn>
           </div>
@@ -62,14 +61,12 @@
     </template>
   </div>
 </template>
-
 <script>
-import FileUpload from 'vue-upload-component';
 import { downloadFile } from '@/api/file.js';
 
 export default {
   components: {
-    FileUpload,
+    // FileUpload,
   },
   data: () => ({
     files: [],
@@ -116,10 +113,49 @@ export default {
           this.$alertify.error('error! catch');
         });
     },
+    // uploadStart() {
+    //   const formData = new FormData();
+
+    //   formData.append('user_id', '2');
+    //   formData.append('room_id', '1');
+    //   formData.append('size', '0');
+    //   console.log(formData);
+    //   for (let i = 0; i < this.files.length; i++) {
+    //     formData.append('files', this.files[i]);
+    //     console.log(this.files[i]);
+    //   }
+    //   axios
+    //     .post('http://localhost:8446/board/down', formData, {
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //       },
+    //     })
+    //     .then(res => {
+    //       console.log('111111111');
+    //       console.log(res);
+    //     })
+    //     .catch(e => {
+    //       console.log('2222222222');
+    //       console.log(e);
+    //     });
+    // downloadFile(formData)
+    //   .then(({ status }) => {
+    //     console.log(status);
+    //     if (status != 200) {
+    //       this.$alertify.error('방 정보 수정을 실패했습니다.');
+    //       return;
+    //     } else {
+    //       this.$alertify.success('방 정보가 수정됐습니다.');
+    //       this.$router.push('/dashboard');
+    //     }
+    //   })
+    //   .catch(() => {
+    //     this.$alertify.error('error! catch');
+    //   });
+    // },
   },
 };
 </script>
-
 <style>
 .example-drag .drop-active {
   top: 0;

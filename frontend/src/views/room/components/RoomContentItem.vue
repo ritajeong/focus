@@ -19,6 +19,7 @@
             <label>Start Time</label>
             <div>
               <date-picker
+                readonly
                 v-model="datetime"
                 type="datetime"
                 format="YYYY-MM-DD hh:mm"
@@ -37,6 +38,7 @@
             class="form-control"
             rows="1"
             placeholder="방을 소개해주세요."
+            :readonly="isOwner"
           ></textarea>
         </div>
 
@@ -93,7 +95,7 @@
                 <td>{{ participant.email }}</td>
                 <td>{{ participant.codeId.codeName }}</td>
                 <td>
-                  <div v-if="index > 0">
+                  <div v-if="index > 0 && isOwner">
                     <button
                       class="btn bg-gradient-danger"
                       type="button"
@@ -108,6 +110,7 @@
             </tbody>
           </table>
         </div>
+        <UploadDialog />
       </div>
       <fileupload></fileupload>
     </form>
@@ -122,13 +125,13 @@ import { findUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
 import moment from 'moment';
 import { mapGetters } from 'vuex';
-import fileupload from './FilePage.vue';
+import UploadDialog from './UploadDialog.vue';
 
 Vue.use(VueAlertify);
 
 export default {
   name: 'RoomContentItem',
-  components: { DatePicker, fileupload },
+  components: { DatePicker, UploadDialog },
   data() {
     return {
       user: this.$store.state.users.login,

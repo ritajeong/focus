@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire">
+    <!-- Page.vue - Dialog를 열기위한 버튼 영역 -->
     <v-container fluid class="pa-0">
       <v-row align="center">
         <v-col cols="12" sm="12" md="12">
@@ -14,13 +15,14 @@
         </v-col>
       </v-row>
     </v-container>
+    <!-- Page.vue - Dialog 영역 -->
     <v-dialog v-model="dialog" persistent max-width="900px">
       <v-card>
         <v-card-title>
           <template>
-            <v-icon style="margin-right: 10px" large color="#41B883"
-              >cloud_upload</v-icon
-            >
+            <v-icon style="margin-right: 10px" large color="#41B883">
+              cloud_upload
+            </v-icon>
             <span class="headline" large>파일 업로드</span>
           </template>
           <v-spacer></v-spacer>

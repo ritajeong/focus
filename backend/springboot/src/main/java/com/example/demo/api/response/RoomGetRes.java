@@ -28,23 +28,23 @@ public class RoomGetRes {
     @ApiModelProperty(name="참가자 목록")
     List<ParticipantGetRes> participants;
 
-    public RoomGetRes(){}
-    public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id, List<ParticipantGetRes> participants) {
-        this.name = name;
-        this.description = description;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.user_id = user_id;
-        this.room_id = room_id;
-        this.participants = participants;
-    }
-    public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id) {
-        this.name = name;
-        this.description = description;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.user_id = user_id;
-        this.room_id = room_id;
+	public RoomGetRes(){}
+	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id, List<ParticipantGetRes> participants) {
+		this.name = name;
+		this.description = description;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.user_id = user_id;
+		this.room_id = room_id;
+		this.participants = participants;
+	}
+	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id) {
+		this.name = name;
+		this.description = description;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.user_id = user_id;
+		this.room_id = room_id;
 
     }
 

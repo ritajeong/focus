@@ -35,7 +35,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	private final Logger log = LoggerFactory.getLogger(RoomController.class);
+	private final Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	@PostMapping("/register")
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 

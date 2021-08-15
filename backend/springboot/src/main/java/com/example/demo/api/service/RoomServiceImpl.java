@@ -108,22 +108,23 @@ public class RoomServiceImpl implements RoomService {
 		return room;
 	}
 
-	 @Override
-	    public List<RoomGetRes> findAll() {
-	        List<Rooms>room=roomRepository.findAll();
-	        List<RoomGetRes> roomres = new ArrayList();
-	        RoomGetRes roomGetRes;
-	        for (Rooms r:room) {
-	            roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(),r.getUsers().getUserId(), r.getRoomId());
-	            if(r.getEndTime()==null){
-	                roomGetRes.setEndTime(null);
-	            }else{
-	                roomGetRes.setEndTime(r.getEndTime().toLocalDateTime());
-	            }
-	            roomres.add(roomGetRes);
-	        }
-	        return roomres;
-	    }
+
+	@Override
+	public List<RoomGetRes> findAll() {
+		List<Rooms>room=roomRepository.findAll();
+		List<RoomGetRes> roomres = new ArrayList();
+		RoomGetRes roomGetRes;
+		for (Rooms r:room) {
+			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(),r.getUsers().getUserId(), r.getRoomId());
+			if(r.getEndTime()==null){
+				roomGetRes.setEndTime(null);
+			}else{
+				roomGetRes.setEndTime(r.getEndTime().toLocalDateTime());
+			}
+			roomres.add(roomGetRes);
+		}
+		return roomres;
+	}
 
 	@Override
 	public Rooms updateRoom(RoomUpdatePostReq room) {
