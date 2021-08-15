@@ -92,13 +92,13 @@
 export default {
   name: 'RoomReadyModal',
   components: {},
-  props: {},
+  props: { roomInfo: Object },
   data() {
     return {
-      roomName: 'testest',
-      userName: 'mann',
-      userId: '1',
-      roomDescription: '방 설명',
+      roomName: this.roomInfo.name,
+      userName: this.$store.state.users.login.username,
+      userId: this.$store.state.users.login.userid,
+      roomDescription: this.roomInfo.description,
       isMicOn: true,
       isVideoOn: true,
     };

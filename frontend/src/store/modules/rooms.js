@@ -6,14 +6,7 @@ export default {
     now: [],
     future: [],
     history: [],
-    room: {
-      name: 'room1',
-      description: 'description1',
-      startTime: '2021-08-13T14:00:00',
-      endTime: '2021-08-13T16:00:00',
-      user_id: 1,
-      room_id: 1,
-    },
+    room: {},
   }),
   mutations: {
     SET_ROOMS(state, payload) {
@@ -39,6 +32,9 @@ export default {
     },
     async fetchRoom({ commit }, roomId) {
       commit('SET_ROOM', await getRoom(roomId));
+    },
+    setRoom({ commit }, roomInfo) {
+      commit('SET_ROOM', roomInfo);
     },
   },
   getters: {},

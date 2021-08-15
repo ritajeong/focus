@@ -20,7 +20,12 @@
                   <div class="col-md-6">
                     <label>Room name</label>
                     <div class="input-group mb-4">
-                      <input class="form-control" placeholder="" type="text" />
+                      <input
+                        class="form-control"
+                        placeholder=""
+                        type="text"
+                        readonly
+                      />
                     </div>
                   </div>
                   <div class="col-md-6 ps-2">
@@ -30,6 +35,7 @@
                         type="text"
                         class="form-control"
                         placeholder="ex) 20210901 2240"
+                        readonly
                       />
                       <!-- time picker -->
                       <!--npm install --save luxon vue-datetime weekstart-->
@@ -44,6 +50,7 @@
                     id="message"
                     rows="4"
                     placeholder="ex) "
+                    readonly
                   ></textarea>
                 </div>
                 <div class="row">
@@ -76,6 +83,11 @@
 <script>
 export default {
   name: 'RoomInfo',
+  data() {
+    return {
+      //roomName: this.$store.state.room.name,
+    };
+  },
   components: {},
 };
 </script>

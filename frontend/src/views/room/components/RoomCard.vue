@@ -19,18 +19,23 @@
           class="mb-2"
           data-bs-toggle="modal"
           data-bs-target="#RoomReadyModal"
+          @click="setRoomInfo"
           style="cursor: pointer"
         >
           JOIN ROOM
         </p>
-        <router-link to="/dashboard/info" class="content text-white">
-          Roon Info
+        <router-link
+          @click="setRoomInfo"
+          to="/dashboard/info"
+          class="content text-white"
+        >
+          Room Info
         </router-link>
         <!-- ㅎㅇ방 번호로 api요청, Room Info->아이콘으로 교체 -->
       </div>
     </div>
     <!-- Modal -->
-    <RoomReadyModal></RoomReadyModal>
+    <RoomReadyModal v-bind:roomInfo="this.roomInfo"></RoomReadyModal>
   </div>
   <!--카드 유닛-->
 </template>
@@ -43,7 +48,7 @@ Vue.use(VueAlertify);
 export default {
   name: 'RoomCard',
   components: { RoomReadyModal },
-  props: ['titleImg', 'idx'], //titleImg에 따라 backgroudn 변경
+  props: ['titleImg', 'idx'], //titleImg에 따라 background 변경
   data() {
     return {
       isNow: false,
@@ -55,6 +60,12 @@ export default {
       roomInfo: {},
       length: 0,
     };
+  },
+  methods: {
+    setRoomInfo() {
+      console.log('setRoomInfo click');
+      this.$store.dispatch('rooms/setRoom', this.roomInfo);
+    },
   },
   created() {
     this.isNow = this.titleImg === 'Now' ? true : false;
