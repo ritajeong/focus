@@ -20,8 +20,8 @@ function deleteRoom(roomId) {
   return instance.delete('delete/' + roomId);
 }
 
-function getRooms() {
-  return instance.get();
+function getRooms(userid) {
+  return instance.get('user/' + userid);
 }
 
 function getRoom(roomId) {

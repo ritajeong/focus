@@ -25,8 +25,10 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch('rooms/fetchRooms');
-    //this.$store.dispatch('rooms/fetchRoom', '1');
+    this.$store.dispatch(
+      'rooms/fetchRooms',
+      this.$store.state.users.login.userid,
+    );
   }, //axios
 };
 </script>

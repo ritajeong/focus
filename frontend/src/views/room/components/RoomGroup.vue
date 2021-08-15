@@ -4,7 +4,7 @@
     <div class="col-12">
       <div class="card m-5">
         <div class="card-header pb-0 ps-5">
-          <!--props값에 따라 헤더 출력 [Now, Future, History]-->
+          <!--props값에 따라 title 출력 [Now, Future, History]-->
           <h4 class="mb-1 ps-3">
             {{ title
             }}<i
@@ -19,25 +19,25 @@
             ></i>
           </h4>
         </div>
-        <!-- icon 클릭하면 하단의 카드목록을 접고 닫기 v-show(v-if X) 혹은 css checked-->
         <!--카드목록-->
         <div class="card-body ps-5 pe-10" v-show="isToggle">
           <div class="row">
             <RoomNew v-show="isNow" />
-            <!-- 공통 : 마지막 원소 cardgroup.length-1자리에 RoomLast-->
-            <!-- 리스트없으면 공란 ? 또는 안내말 쓰기, more버튼 없어야함-->
-            <!-- v-for -->
             <RoomCard
               :titleImg="titleImg"
               :idx="idx"
               v-for="(room, idx) in showRooms"
               :key="idx"
               v-show="idx <= showIdx"
-              :class="{ cardLastParrnet: isLast }"
             />
-            <!-- <h2 v-if="isLengthZero">방이 없습니다.</h2> -->
-            <!-- <RoomLast v-bind:titleImg="titleImg" /> -->
-            <!-- more아이콘-->
+            <h2 v-if="lengthRooms === 0">방이 없습니다.</h2>
+          </div>
+          <!-- more-->
+          <div class="card-last text-center" @click.stop="moreCard">
+            <a href="#"
+              ><h2><i class="fas fa-plus"></i></h2>
+              <h4>more</h4></a
+            >
           </div>
         </div>
       </div>
@@ -49,9 +49,8 @@
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
 import RoomCard from '@/views/room/components/RoomCard';
-// import RoomLast from '@/views/room/components/RoomLast';
 import RoomNew from '@/views/room/components/RoomNew';
-
+import { mapGetters } from 'vuex';
 Vue.use(VueAlertify);
 
 export default {
@@ -59,7 +58,6 @@ export default {
   props: ['title'],
   components: {
     RoomCard,
-    // RoomLast,
     RoomNew,
   },
   data() {
@@ -70,24 +68,15 @@ export default {
       isFuture: false,
       isHistory: false,
       showIdx: 3,
-      showRooms: [],
-      isLast: false,
-      length: 0,
     };
   },
   created() {
     if (this.title === 'Now') {
       this.isNow = true;
-      this.showRooms = this.$store.state.rooms.now;
-      this.length = this.$store.state.rooms.now.length;
     } else if (this.title === 'Future') {
       this.isFuture = true;
-      this.showRooms = this.$store.state.rooms.future;
-      this.length = this.$store.state.rooms.future.length;
     } else {
       this.isHistory = true;
-      this.showRooms = this.$store.state.rooms.history;
-      this.length = this.$store.state.rooms.history.length;
     }
     if (this.isNow) this.showIdx = 2;
   },
@@ -96,10 +85,42 @@ export default {
       if (this.length === 0) return true;
       else return false;
     },
+    ...mapGetters({
+      arrayNow: 'rooms/arrayNow',
+      arrayFuture: 'rooms/arrayFuture',
+      arrayHistory: 'rooms/arrayHistory',
+      lengthNow: 'rooms/lengthNow',
+      lengthFuture: 'rooms/lengthFuture',
+      lengthHistory: 'rooms/lengthHistory',
+    }),
+    showRooms() {
+      if (this.isNow) {
+        return this.arrayNow;
+      } else if (this.isFuture) {
+        return this.arrayFuture;
+      } else {
+        return this.arrayHistory;
+      }
+    },
+    lengthRooms() {
+      if (this.isNow) {
+        return this.lengthNow;
+      } else if (this.isFuture) {
+        return this.lengthFuture;
+      } else {
+        return this.lengthHistory;
+      }
+    },
+  },
+  mounted() {
+    // console.log(this.isNow + ' ' + this.showRooms);
   },
   methods: {
     showToggle() {
       this.isToggle = this.isToggle === true ? false : true;
+    },
+    moreCard() {
+      this.showIdx += 4;
     },
   },
 };
