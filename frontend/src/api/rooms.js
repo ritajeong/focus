@@ -12,8 +12,8 @@ function createRoom(roomData) {
   return instance.post('createroom', roomData);
 }
 
-function getRooms() {
-  return instance.get();
+function getRooms(userid) {
+  return instance.get('user/' + userid);
 }
 
 function getRoom(roomId) {

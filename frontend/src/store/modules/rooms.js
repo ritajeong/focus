@@ -12,15 +12,19 @@ export default {
     SET_ROOMS(state, payload) {
       state.rooms = payload;
       let now = new Date().toISOString().slice(0, 19);
+      console.log(now);
       state.now = [];
       state.future = [];
       state.history = [];
       for (let data of payload.data) {
         if (data.startTime > now) {
+          console.log(data.room_id + ' ' + data.name + ' ' + data.startTime);
           state.future.push(data);
         } else if (data.endTime < now) {
+          console.log(data.room_id + ' ' + data.name + ' ' + data.endTime);
           state.history.push(data);
         } else {
+          console.log(data.room_id + ' ' + data.name + ' ' + data.startTime);
           state.now.push(data);
         }
       }
@@ -30,8 +34,8 @@ export default {
     },
   },
   actions: {
-    async fetchRooms({ commit }) {
-      commit('SET_ROOMS', await getRooms());
+    async fetchRooms({ commit }, userid) {
+      commit('SET_ROOMS', await getRooms(userid));
     },
     async fetchRoom({ commit }, roomId) {
       commit('SET_ROOM', await getRoom(roomId));

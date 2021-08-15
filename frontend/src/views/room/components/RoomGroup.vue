@@ -29,7 +29,6 @@
               v-for="(room, idx) in showRooms"
               :key="idx"
               v-show="idx <= showIdx"
-              :class="{ cardLastParrnet: isLast }"
             />
             <h2 v-if="lengthRooms === 0">방이 없습니다.</h2>
           </div>
@@ -114,7 +113,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.isNow + ' ' + this.showRooms);
+    // console.log(this.isNow + ' ' + this.showRooms);
   },
   methods: {
     showToggle() {
