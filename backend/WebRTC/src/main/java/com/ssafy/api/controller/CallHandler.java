@@ -86,61 +86,6 @@ public class CallHandler extends TextWebSocketHandler {
 			room.setPresentation(presentationImageUri, presentationLocation, presentationSize);
 			break;
 		}
-//		case "stop": {
-//			log.trace("stop");
-//			presentationManager.stop();
-//			break;
-//		}
-//		case "presenterSet": {
-//		log.trace("presenterSet");
-//		presenterSet(jsonMessage);
-//		break;
-//	}
-//		case "startPresentation": {
-//			final String presenterName = jsonMessage.get("presenter").getAsString();
-//			final UserSession presenter = registry.getByName(presenterName);
-//			for (UserSession audience : registry.getUsersByName().values()) {
-//				audience.linkImageOverlayPipeline(presenter, presentationManager.getImageOverlayFilter());
-//			}
-//			break;
-//		}
-//		case "start": {
-//			log.trace("start");
-//			presentationManager.start(user);
-//			break;
-//		}
-//		case "stop": {
-//			log.trace("stop");
-//			// presentationManager.stop();
-//			break;
-//		}
-//		case "prev": {
-//			log.trace("prev");
-//			presentationManager.prev();
-//			break;
-//		}
-//		case "next": {
-//			log.trace("next");
-//			presentationManager.next();
-//			break;
-//		}
-//		case "full": {
-//			log.trace("full toggle");
-//			presentationManager.full();
-//			break;
-//		}
-//		case "moveImage": {
-//			final String location = jsonMessage.get("location").getAsString();
-//			log.trace("move image");
-//			presentationManager.changeImageLocation(location);
-//			break;
-//		}
-//		case "imageSize":{
-//			final float imageSizePercent=jsonMessage.get("imageSize").getAsFloat();
-//			log.trace("image size change");
-//			presentationManager.changeImageSize(imageSizePercent);
-//			break;
-//		}
 		default:
 			break;
 		}

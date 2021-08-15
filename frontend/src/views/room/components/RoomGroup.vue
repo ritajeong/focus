@@ -23,7 +23,7 @@
         <!--카드목록-->
         <div class="card-body ps-5 pe-10" v-show="isToggle">
           <div class="row">
-            <RoomNew v-show="isNow" />
+            <!-- <RoomNew v-show="isNow" /> -->
             <!-- 공통 : 마지막 원소 cardgroup.length-1자리에 RoomLast-->
             <!-- 리스트없으면 공란 ? 또는 안내말 쓰기, more버튼 없어야함-->
             <!-- v-for -->
@@ -50,7 +50,6 @@ import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
 import RoomCard from '@/views/room/components/RoomCard';
 // import RoomLast from '@/views/room/components/RoomLast';
-import RoomNew from '@/views/room/components/RoomNew';
 
 Vue.use(VueAlertify);
 
@@ -60,7 +59,6 @@ export default {
   components: {
     RoomCard,
     // RoomLast,
-    RoomNew,
   },
   data() {
     return {

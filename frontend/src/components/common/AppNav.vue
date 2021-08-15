@@ -10,7 +10,6 @@
         rel="tooltip"
         title="Designed and Coded by Creative Tim"
         data-placement="bottom"
-        target="_blank"
       >
         FOCUS
       </router-link>
