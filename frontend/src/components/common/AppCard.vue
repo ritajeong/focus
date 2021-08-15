@@ -11,7 +11,7 @@
             </h4>
           </div>
           <!--카드목록-->
-          <div class="card-body px-4 ps-5 pe-9">
+          <div class="card-body px-4 ps-5 pe-9 card-last-parrent">
             <div class="row">
               <!--카드 유닛-->
               <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 px-3">
@@ -100,9 +100,7 @@
                 </div>
               </div>
               <!--카드 유닛-->
-              <div
-                class="col-xl-3 col-md-6 mb-xl-0 mb-4 px-3 card-last-parrent"
-              >
+              <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 px-3">
                 <div
                   class="card card-background move-on-hover background-wrap"
                   style="
@@ -389,7 +387,7 @@ export default {
 .card-last {
   position: absolute;
   top: 70px;
-  right: -80px;
+  right: 50px;
 }
 .card-new-parrent {
   position: relative;

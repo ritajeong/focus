@@ -8,11 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("UserUpdateRequest")
-public class UserUpdateReq {
+public class UserUpdateNameReq {
 	@ApiModelProperty
 	int user_id;
-	@ApiModelProperty
-	String password;
 	@ApiModelProperty
 	String name;
 }

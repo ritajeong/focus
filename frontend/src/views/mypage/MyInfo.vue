@@ -1,111 +1,119 @@
 <template>
   <div>
-    <template>
-      <section>
-        <div class="container py-4">
-          <div class="row">
-            <div
-              class="col-lg-6 mx-auto d-flex justify-content-center flex-column"
-            >
-              <h3 class="text-center">My Page</h3>
-              <p class="text-center">내 정보 조회 및 수정, 탈퇴</p>
-              <form
-                role="form"
-                id="contact-form"
-                method="post"
-                autocomplete="off"
-              >
-                <div class="card-body">
-                  <div class="mb-4">
-                    <label>Email</label>
-                    <div class="input-group">
-                      <input
-                        type="email"
-                        class="form-control"
-                        :value="$store.state.users.login.useremail"
-                      />
-                    </div>
-                  </div>
-                  <div class="mb-4">
-                    <label>Name</label>
-                    <div class="input-group">
-                      <input
-                        type="email"
-                        class="form-control"
-                        :value="$store.state.users.login.username"
-                      />
-                    </div>
-                  </div>
-                  <div class="mb-4">
-                    <label>Password</label>
-                    <div>
-                      <div class="input-group">
-                        <input
-                          type="password"
-                          class="form-control"
-                          placeholder="현재 비밀번호를 입력하세요"
-                        />
-                        <!-- <button
-                          type="button"
-                          class="btn bg-gradient-dark w-100 text-center"
-                        >
-                          change
-                        </button> -->
-                      </div>
-                    </div>
-                  </div>
-                  <div class="mb-4">
-                    <label>Password Confirm</label>
-                    <div class="input-group">
-                      <input
-                        type="password"
-                        class="form-control"
-                        :value="$store.state.users.login.userpwd"
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group mb-4">
-                    <label>Presentation List</label>
-                    <textarea
-                      name="message"
-                      class="form-control"
-                      id="message"
-                      rows="4"
-                    ></textarea>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-center">
-                      <button
-                        type="submit"
-                        class="btn bg-gradient-dark w-100 text-center"
-                      >
-                        Modify
-                      </button>
-                      <br />
-                      <button type="submit" class="btn btn-outline-danger w-20">
-                        Withdraw
-                      </button>
-                    </div>
-                  </div>
+    <section>
+      <div class="container py-4">
+        <div class="row">
+          <div
+            class="col-lg-6 mx-auto d-flex justify-content-center flex-column"
+          >
+            <h3 class="text-center">My Page</h3>
+
+            <div class="card-body">
+              <div class="mb-4">
+                <label>Email</label>
+                <div class="input-group">
+                  <input
+                    type="email"
+                    class="form-control"
+                    :value="useremail"
+                    readonly
+                  />
                 </div>
-              </form>
+              </div>
+              <div class="mb-9">
+                <label>Name</label>
+                <div class="input-group row">
+                  <div class="col-9">
+                    <input
+                      type="name"
+                      class="form-control"
+                      v-model="username"
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    class="btn bg-gradient-dark col-3"
+                    @click="modifyName"
+                  >
+                    Modify
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <button
+                    type="button"
+                    class="btn bg-gradient-primary w-100"
+                    data-bs-toggle="modal"
+                    data-bs-target="#ModalChangePassword"
+                  >
+                    Change Password
+                  </button>
+                  <br />
+                  <button
+                    type="button"
+                    class="btn bg-gradient-danger w-100"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-notification"
+                  >
+                    Withdrow
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </section>
-    </template>
+      </div>
+    </section>
+    <ChangePasswordModal></ChangePasswordModal>
+    <WithdrawModal></WithdrawModal>
   </div>
 </template>
 <script>
+import Vue from 'vue';
+import ChangePasswordModal from './components/ChangePasswordModal.vue';
+import WithdrawModal from './components/WithdrawModal.vue';
+import { updateUserName } from '@/api/users.js';
+import VueAlertify from 'vue-alertify';
+Vue.use(VueAlertify);
+
 export default {
   name: 'MyInfo',
-  components: {},
+  components: { ChangePasswordModal, WithdrawModal },
   data() {
     return {
       useremail: this.$store.state.users.login.useremail,
       username: this.$store.state.users.login.username,
-      userpwd: this.$store.state.users.login.userpwd,
     };
+  },
+  methods: {
+    modifyName() {
+      let message = '';
+      if (!this.username) {
+        message = '변경할 이름을 입력하세요';
+        this.$alertify.error(message);
+        return;
+      }
+      let userData = {
+        user_id: this.$store.state.users.login.userid,
+        name: this.username,
+      };
+      console.log('update name userData', userData);
+      updateUserName(userData)
+        .then(({ status }) => {
+          console.log(status);
+          if (status != 200) {
+            this.$alertify.error('이름 변경중 오류가 발생했습니다.');
+            return;
+          } else {
+            this.$alertify.success('이름이 변경됐습니다.');
+          }
+        })
+        .catch(() => {
+          this.$alertify.error('이름 변경 시도가 실패했습니다.');
+        });
+    },
   },
 };
 </script>

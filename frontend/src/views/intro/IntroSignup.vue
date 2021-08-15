@@ -176,6 +176,7 @@ export default {
   name: 'IntroSignup',
   data() {
     return {
+      user: '',
       useremail: '',
       username: '',
       userpwd: '',
@@ -195,26 +196,24 @@ export default {
         return;
       }
 
-      if (!this.checkEmail()) {
-        this.$alertify.error('이미 가입된 이메일입니다.');
-        return;
-      }
-
-      this.registerInfo();
-      this.$router.push('/', () => {});
+      this.checkEmail();
     },
 
     async checkEmail() {
-      console.log('checkEmail()');
-      const { data } = await checkUser(this.useremail);
-      return data.statusCode === 201 ? true : false;
+      try {
+        await checkUser(this.useremail).then(({ status }) => {
+          if (status != 200) {
+            this.$alertify.error('사용자 계정 확인 실패했습니다.');
+          } else {
+            this.registerInfo();
+            this.$alertify.success('회원가입 성공했습니다.');
+            this.$router.push('/', () => {});
+          }
+        });
+      } catch (err) {
+        this.$alertify.error('이미 가입된 계정입니다.');
+      }
     },
-
-    // async inviteMember() { //@inviteMember
-    //   console.log('checkEmail()');
-    //   const { data } = await checkUser(this.useremail);
-    //   return data.statusCode === 201 ? true : false;
-    // },
 
     async registerInfo() {
       const userData = {

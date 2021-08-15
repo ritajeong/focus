@@ -1,6 +1,11 @@
 <template>
-  <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 px-3 card-last-parrent">
-    <div class="card card-background move-on-hover background-wrap">
+  <!-- ㅎㅇ 마지막 원소일 경우 최상위 부모에 card-last-parrent 클래스 추가하고 RoomMore v-if-->
+  <!-- RoomMore 에 card-last-->
+  <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 p-3 card-last-parrent">
+    <div
+      v-bind:style="backgroundImg"
+      class="card card-background move-on-hover background-wrap"
+    >
       <div class="card-body content text-white">
         <h4 class="text-white">Room Name</h4>
         <p class="mb-2 text-sm">Room Id</p>
@@ -10,26 +15,39 @@
         </router-link>
       </div>
     </div>
-    <div class="card-last text-center">
-      <a href="#"
-        ><h2><i class="fas fa-plus"></i></h2>
-        <h4>more</h4></a
-      >
-    </div>
+    <!--more분리-->
+    <RoomMore />
   </div>
 </template>
 <script>
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
+import RoomMore from '@/views/room/components/RoomMore';
 
 Vue.use(VueAlertify);
 
 export default {
   name: 'RoomLast',
+  props: ['titleImg'],
   data() {
-    return {};
+    return {
+      backgroundImg:
+        "background-image: url('../../assets/img/curved-images/curved14.jpg');",
+    };
   },
-  components: {},
+  created() {
+    // console.log('RoomCard : ' + this.titleImg);
+    if (this.titleImg === 'Now')
+      this.backgroundImg =
+        "background-image: url('../../assets/img/curved-images/curved10.jpg');";
+    else if (this.titleImg === 'Future')
+      this.backgroundImg =
+        "background-image: url('../../assets/img/curved-images/curved14.jpg');";
+    else
+      this.backgroundImg =
+        "background-image: url('../../assets/img/curved-images/curved.jpg');";
+  },
+  components: { RoomMore },
 };
 </script>
 <style>

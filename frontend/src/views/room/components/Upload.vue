@@ -17,23 +17,35 @@
         class="ma-2"
         style="padding: 0px"
         color="info"
-        @click="uploadStart()"
+        @click="fileSelect()"
       >
         <v-icon style="margin-right: 5px">arrow_upward</v-icon>UpLoad Start
       </v-btn>
     </template>
     <template v-else>
+      <!-- <input
+        v-on:change="fileSelect()"
+        type="file"
+        ref="img"
+        id="File"
+        multiple="multiple"
+        drop="true"
+        drop-directory="true"
+      /> -->
+
       <FileUpload
         class="btn btn-primary"
         :multiple="true"
         :drop="true"
         :drop-directory="true"
+        type="img"
         v-model="files"
-        ref="upload"
+        ref="img"
         @input="onDrop()"
         style="display: none"
       >
       </FileUpload>
+
       <v-row>
         <v-col cols="12" sm="12" md="12">
           <div class="text-center p-5">
@@ -53,6 +65,8 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
+import { downloadFile } from '@/api/file.js';
+
 export default {
   components: {
     FileUpload,
@@ -63,16 +77,44 @@ export default {
       { text: 'name', value: 'name' },
       { text: 'size', value: 'size' },
     ],
-    user_id: this.$store.users.login.user_id,
+    userid: '',
+    roomid: '',
   }),
   methods: {
+    fileSelect() {
+      this.uploadStart();
+    },
     onDrop(item) {
       console.log(item);
     },
     uploadStart() {
       const formData = new FormData();
-      formData.append();
-      formData.append();
+      this.userid = this.$store.state.users.login.userid;
+      this.roomid = this.$store.state.rooms.room.room_id;
+      console.log(this.userid);
+      formData.append('user_id', this.userid);
+      formData.append('room_id', this.roomid);
+      formData.append('size', '0');
+      console.log(formData);
+      console.log(this.files);
+      for (let i = 0; i < this.files.length; i++) {
+        formData.append('files', this.files[i].file);
+        console.log(this.files[i]);
+      }
+      downloadFile(formData)
+        .then(({ status }) => {
+          console.log(status);
+          if (status != 200) {
+            this.$alertify.error('방 정보 수정을 실패했습니다.');
+            return;
+          } else {
+            this.$alertify.success('방 정보가 수정됐습니다.');
+            this.$router.push('/dashboard');
+          }
+        })
+        .catch(() => {
+          this.$alertify.error('error! catch');
+        });
     },
   },
 };
