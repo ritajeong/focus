@@ -39,8 +39,6 @@
             <i class="fas fa-info-circle"></i>
           </router-link>
         </span>
-
-        <!-- ㅎㅇ방 번호로 api요청, Room Info->아이콘으로 교체 -->
       </div>
     </div>
     <!-- Modal -->
@@ -52,21 +50,20 @@
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
 import RoomReadyModal from './RoomReadyModal.vue';
+import { mapGetters } from 'vuex';
 Vue.use(VueAlertify);
 
 export default {
   name: 'RoomCard',
   components: { RoomReadyModal },
-  props: ['titleImg', 'idx'], //titleImg에 따라 backgroudn 변경
+  props: ['titleImg', 'idx'], //titleImg에 따라 backgroud변경
   data() {
     return {
       isNow: false,
       isHistory: false,
       isFuture: false,
-      isLast: false,
       backgroundImg:
         "background-image: url('../../assets/img/curved-images/curved14.jpg');",
-      roomInfo: {},
       length: 0,
     };
   },
@@ -78,26 +75,30 @@ export default {
     if (this.isNow) {
       this.backgroundImg =
         "background-image: url('../../assets/img/curved-images/curved10.jpg');";
-      this.roomInfo = this.$store.state.rooms.now[this.idx];
-      this.length = this.$store.state.rooms.now.length;
     } else if (this.isFuture) {
-      this.roomInfo = this.$store.state.rooms.future[this.idx];
       this.backgroundImg =
         "background-image: url('../../assets/img/curved-images/curved14.jpg');";
-      this.length = this.$store.state.rooms.future.length;
     } else {
-      this.roomInfo = this.$store.state.rooms.history[this.idx];
       this.backgroundImg =
         "background-image: url('../../assets/img/curved-images/curved.jpg');";
-      this.length = this.$store.state.rooms.history.length;
-    }
-
-    if (this.length - 1 === this.idx) {
-      this.isLast = true;
-      console.log('Im last');
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters({
+      arrayNow: 'rooms/arrayNow',
+      arrayFuture: 'rooms/arrayFuture',
+      arrayHistory: 'rooms/arrayHistory',
+    }),
+    roomInfo() {
+      if (this.isNow) {
+        return this.arrayNow[this.idx];
+      } else if (this.isFuture) {
+        return this.arrayFuture[this.idx];
+      } else {
+        return this.arrayHistory[this.idx];
+      }
+    },
+  },
   mounted() {},
 };
 </script>

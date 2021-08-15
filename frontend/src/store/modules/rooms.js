@@ -6,26 +6,22 @@ export default {
     now: [],
     future: [],
     history: [],
-    room: {
-      name: 'room1',
-      description: 'description1',
-      startTime: '2021-08-13T14:00:00',
-      endTime: '2021-08-13T16:00:00',
-      user_id: 1,
-      room_id: 1,
-    },
+    room: {},
   }),
   mutations: {
     SET_ROOMS(state, payload) {
       state.rooms = payload;
       let now = new Date().toISOString().slice(0, 19);
-      for (let date of payload.data) {
-        if (date.startTime > now) {
-          state.future.push(date);
-        } else if (date.endTime < now) {
-          state.history.push(date);
+      state.now = [];
+      state.future = [];
+      state.history = [];
+      for (let data of payload.data) {
+        if (data.startTime > now) {
+          state.future.push(data);
+        } else if (data.endTime < now) {
+          state.history.push(data);
         } else {
-          state.now.push(date);
+          state.now.push(data);
         }
       }
     },
@@ -41,5 +37,24 @@ export default {
       commit('SET_ROOM', await getRoom(roomId));
     },
   },
-  getters: {},
+  getters: {
+    arrayNow: state => {
+      return state.now;
+    },
+    arrayFuture: state => {
+      return state.future;
+    },
+    arrayHistory: state => {
+      return state.history;
+    },
+    lengthNow: state => {
+      return state.now.length;
+    },
+    lengthFuture: state => {
+      return state.future.length;
+    },
+    lengthHistory: state => {
+      return state.history.length;
+    },
+  },
 };
