@@ -1,36 +1,99 @@
 <template>
   <!--카드 유닛-->
-  <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 px-3">
+  <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 p-3">
     <div
+      v-bind:style="backgroundImg"
       class="card card-background move-on-hover background-wrap"
-      style="
-        background-image: url('../../assets/img/curved-images/curved10.jpg');
-      "
     >
       <div class="card-body content text-white">
-        <h4 class="text-white">Room Name</h4>
-        <p class="mb-2 text-sm">Room Id</p>
-        <p class="mb-4 text-sm">Room Description</p>
-        <router-link to="/dashboard/info" class="content text-white">
+        <h4 class="text-white">{{ roomInfo.name }}</h4>
+        <!-- <p class="mb-2 text-sm">Room Id</p> -->
+        <p class="mb-2 text-sm">{{ roomInfo.description }}</p>
+        <p class="mb-2 text-sm">시작 : {{ roomInfo.startTime }}</p>
+
+        <p class="mb-4 text-sm" v-if="isHistory">
+          종료 : {{ roomInfo.endTime }}
+        </p>
+        <p
+          v-if="isNow"
+          class="mb-2"
+          data-bs-toggle="modal"
+          data-bs-target="#RoomReadyModal"
+          @click="setRoomInfo"
+          style="cursor: pointer"
+        >
           JOIN ROOM
-        </router-link>
+        </p>
+        <button @click="setAndGoToRoomInfo" type="button">Room Info</button>
+        <!-- ㅎㅇ방 번호로 api요청, Room Info->아이콘으로 교체 -->
       </div>
     </div>
+    <!-- Modal -->
+    <RoomReadyModal v-bind:roomInfo="this.roomInfo"></RoomReadyModal>
   </div>
   <!--카드 유닛-->
 </template>
 <script>
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
-
+import RoomReadyModal from './RoomReadyModal.vue';
 Vue.use(VueAlertify);
 
 export default {
   name: 'RoomCard',
+  components: { RoomReadyModal },
+  props: ['titleImg', 'idx'], //titleImg에 따라 background 변경
   data() {
-    return {};
+    return {
+      isNow: false,
+      isHistory: false,
+      isFuture: false,
+      isLast: false,
+      backgroundImg:
+        "background-image: url('../../assets/img/curved-images/curved14.jpg');",
+      roomInfo: {},
+      length: 0,
+    };
   },
-  components: {},
+  methods: {
+    setRoomInfo() {
+      console.log('setRoomInfo click');
+      this.$store.dispatch('rooms/setRoom', this.roomInfo);
+    },
+    setAndGoToRoomInfo() {
+      console.log('setAndGoToRoomInfo click');
+      this.$store.dispatch('rooms/setRoom', this.roomInfo);
+      this.$router.push('/dashboard/info');
+    },
+  },
+  created() {
+    this.isNow = this.titleImg === 'Now' ? true : false;
+    this.isFuture = this.titleImg === 'Future' ? true : false;
+    this.isHistory = this.titleImg === 'History' ? true : false;
+
+    if (this.isNow) {
+      this.backgroundImg =
+        "background-image: url('../../assets/img/curved-images/curved10.jpg');";
+      this.roomInfo = this.$store.state.rooms.now[this.idx];
+      this.length = this.$store.state.rooms.now.length;
+    } else if (this.isFuture) {
+      this.roomInfo = this.$store.state.rooms.future[this.idx];
+      this.backgroundImg =
+        "background-image: url('../../assets/img/curved-images/curved14.jpg');";
+      this.length = this.$store.state.rooms.future.length;
+    } else {
+      this.roomInfo = this.$store.state.rooms.history[this.idx];
+      this.backgroundImg =
+        "background-image: url('../../assets/img/curved-images/curved.jpg');";
+      this.length = this.$store.state.rooms.history.length;
+    }
+    if (this.length - 1 === this.idx) {
+      this.isLast = true;
+      console.log('Im last');
+    }
+  },
+  computed: {},
+  mounted() {},
 };
 </script>
 <style>

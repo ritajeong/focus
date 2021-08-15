@@ -12,4 +12,12 @@ function createRoom(roomData) {
   return instance.post('createroom', roomData);
 }
 
-export { createRoom };
+function getRooms() {
+  return instance.get();
+}
+
+function getRoom(roomId) {
+  return instance.get(roomId);
+}
+
+export { createRoom, getRooms, getRoom };

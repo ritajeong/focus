@@ -28,15 +28,41 @@ public class RoomGetRes {
 	@ApiModelProperty(name="참가자 목록")
 	List<ParticipantGetRes> participants;
 
+<<<<<<< HEAD
 	public RoomGetRes(String name, String description, LocalDateTime startTime,LocalDateTime endTime, int user_id, int room_id) {
 		super();
+=======
+	public RoomGetRes(){}
+	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id, List<ParticipantGetRes> participants) {
 		this.name = name;
-		this.description=description;
+		this.description = description;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.user_id = user_id;
 		this.room_id = room_id;
+		this.participants = participants;
 	}
-	
-	
+	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id) {
+>>>>>>> origin/feature/room-management
+		this.name = name;
+		this.description = description;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.user_id = user_id;
+		this.room_id = room_id;
+
+	}
+
+	@Override
+	public String toString() {
+		return "RoomGetRes{" +
+				"name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", startTime=" + startTime +
+				", endTime=" + endTime +
+				", user_id=" + user_id +
+				", room_id=" + room_id +
+				", participants=" + participants +
+				'}';
+	}
 }

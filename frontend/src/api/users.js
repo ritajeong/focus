@@ -16,19 +16,34 @@ function loginUser(userData) {
   return instance.post('login', userData);
 }
 
-function checkUser(input) {
-  return instance.get('check/' + input);
-}
-
-function addUser(input) {
-  return instance.get('add/' + input);
-}
-
 function findUser(email) {
   return instance.get(email);
+}
+
+function checkUser(email) {
+  return instance.get('check/' + email);
 }
 function searchUsers(input) {
   return instance.get('search/' + input);
 }
+function updateUserName(userData) {
+  return instance.put('update/name', userData);
+}
+function updateUserPwd(userData) {
+  return instance.put('update/password', userData);
+}
 
-export { registerUser, loginUser, checkUser, addUser, findUser, searchUsers };
+function deleteUser(userId) {
+  return instance.delete('delete/' + userId);
+}
+
+export {
+  registerUser,
+  loginUser,
+  findUser,
+  checkUser,
+  searchUsers,
+  updateUserName,
+  updateUserPwd,
+  deleteUser,
+};

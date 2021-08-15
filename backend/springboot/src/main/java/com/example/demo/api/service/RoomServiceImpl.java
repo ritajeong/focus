@@ -16,8 +16,14 @@ import com.example.demo.api.request.RoomRegisterPostReq;
 import com.example.demo.api.request.RoomUpdatePostReq;
 import com.example.demo.api.response.RoomGetRes;
 import com.example.demo.db.repository.PartRepository;
+import com.example.demo.db.repository.ParticipantRegistory;
 import com.example.demo.db.repository.RoomRepository;
 import com.example.demo.db.repository.UserRepository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 @Service("roomSerice")
 
@@ -30,6 +36,13 @@ public class RoomServiceImpl implements RoomService {
 
 	@Autowired
 	PartRepository parRepository;
+	
+	@Autowired
+	ParticipantRegistory partiRepository;
+
+	@PersistenceContext(unitName = "default")
+	private EntityManager entityManager;
+
 
 	private final Logger log = LoggerFactory.getLogger(RoomServiceImpl.class);
 	private final String groupCodeRole="00";
@@ -99,13 +112,23 @@ public class RoomServiceImpl implements RoomService {
 	public List<RoomGetRes> findAll() {
 		List<Rooms>room=roomRepository.findAll();
 		List<RoomGetRes> roomres = new ArrayList();
-
+		RoomGetRes roomGetRes;
 		for (Rooms r:room) {
+<<<<<<< HEAD
 			if(r.getEndTime()==null)
 				roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), null,r.getUsers().getUserId(), r.getRoomId()));
 			else
 				roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getEndTime().toLocalDateTime(),r.getUsers().getUserId(), r.getRoomId()));
 
+=======
+			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(),r.getUsers().getUserId(), r.getRoomId());
+			if(r.getEndTime()==null){
+				roomGetRes.setEndTime(null);
+			}else{
+				roomGetRes.setEndTime(r.getEndTime().toLocalDateTime());
+			}
+			roomres.add(roomGetRes);
+>>>>>>> origin/feature/room-management
 		}
 		return roomres;
 	}
@@ -121,5 +144,23 @@ public class RoomServiceImpl implements RoomService {
 		return upro;
 	}
 
-
+	@Override
+	public List<RoomGetRes> findbyuser(int userId) {
+		List<RoomGetRes> roomres = new ArrayList();
+		List<Participants>pa = partiRepository.findByusers_userId(userId);
+		log.info("[findbyuser] userId: {}, pa:{}", userId, pa);
+		RoomGetRes roomGetRes;
+		for(Participants party : pa) {
+			Rooms r = party.getRooms();
+			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getRoomId());
+			log.info("[findbyuser] r:{}", r);
+			if(r.getEndTime()==null){
+				roomGetRes.setEndTime(null);
+			}else{
+				roomGetRes.setEndTime(r.getEndTime().toLocalDateTime());
+			}
+			roomres.add(roomGetRes);
+		}
+		return roomres;
+	}
 }

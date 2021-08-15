@@ -112,7 +112,24 @@ public class RoomController {
 			item.setParticipants(participantService.getParticipantByRoomId(item.getRoom_id()));
 		}
 		return new ResponseEntity<List<RoomGetRes>>(rooms, HttpStatus.OK);
+	}
+	
+	@GetMapping("/user/{userId}")
+	@ApiOperation(value = "유저별 전체 방 보기")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<RoomGetRes>> showRoomsbyuser(@PathVariable("userId") int userId){
 
+		List<RoomGetRes> rooms=roomService.findbyuser(userId);
+		for(RoomGetRes item: rooms){
+			item.setParticipants(participantService.getParticipantByRoomId(item.getRoom_id()));
+		}
+		return new ResponseEntity<List<RoomGetRes>>(rooms, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{roomId}")
@@ -127,7 +144,16 @@ public class RoomController {
 	public ResponseEntity<RoomGetRes> showRoomone(@PathVariable("roomId") int roomId) {
 		Rooms room = roomService.getRoom(roomId);
 		List<ParticipantGetRes> participants=participantService.getParticipantByRoomId(roomId);
+<<<<<<< HEAD
 		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime().toLocalDateTime(),room.getEndTime().toLocalDateTime() ,room.getUsers().getUserId(), room.getRoomId());
+=======
+		RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime().toLocalDateTime(),room.getUsers().getUserId(), room.getRoomId());
+		if(room.getEndTime()==null){
+			roomget.setEndTime(null);
+		}else{
+			roomget.setEndTime(room.getEndTime().toLocalDateTime());
+		}
+>>>>>>> origin/feature/room-management
 		roomget.setParticipants(participants);
 
 		return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);

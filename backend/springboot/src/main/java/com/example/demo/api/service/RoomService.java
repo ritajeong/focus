@@ -15,5 +15,6 @@ public interface RoomService {
 	//void deleteParticipants(String );
 	List<RoomGetRes> findAll();
 	Rooms updateRoom (RoomUpdatePostReq room);
+	List<RoomGetRes> findbyuser(int userId);
 
 }
