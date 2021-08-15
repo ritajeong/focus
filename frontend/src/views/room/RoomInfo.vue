@@ -48,21 +48,32 @@
                 </div>
                 <div class="row">
                   <!-- <div class="col-md-12">
-                  <div class="form-check form-switch mb-4">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="flexSwitchCheckDefault"
-                      checked=""
-                    />
-                    <label class="form-check-label" for="flexSwitchCheckDefault"
-                      >I agree to the
-                      <a href="javascript:;" class="text-dark"
-                        ><u>Terms and Conditions</u></a
-                      >.</label
-                    >
-                  </div>
-                </div> -->
+                    <div class="form-check form-switch mb-4">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="flexSwitchCheckDefault"
+                        checked=""
+                      />
+                      <label
+                        class="form-check-label"
+                        for="flexSwitchCheckDefault"
+                        >I agree to the
+                        <a href="javascript:;" class="text-dark"
+                          ><u>Terms and Conditions</u></a
+                        >.</label
+                      >
+                    </div>
+                  </div> -->
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#uploadModal"
+                  >
+                    File Upload
+                  </button>
+                  <UploadDialog />
                   <div class="col-md-12"></div>
                 </div>
               </div>
@@ -74,8 +85,10 @@
   </div>
 </template>
 <script>
+import UploadDialog from './components/UploadDialog';
+
 export default {
   name: 'RoomInfo',
-  components: {},
+  components: { UploadDialog },
 };
 </script>
