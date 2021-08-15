@@ -1,7 +1,12 @@
 import Participant from './js/participant.js';
-import kurentoUtils from 'kurento-utils';
 import Vue from 'vue';
 import router from '../../router';
+
+import kurentoUtils from 'kurento-utils';
+import axios from 'axios';
+import _ from 'lodash';
+
+const API_SERVER_URL = 'http://localhost:8446';
 
 export default {
   namespaced: true,
@@ -9,6 +14,8 @@ export default {
   state: () => ({
     ws: null,
     // meetingRoom 에서 그룹콜 중일때만 쓰는 state
+    roomName: null,
+    roomNumber: null,
     participants: null,
     myName: null,
     nowImageUrl: null,
@@ -16,6 +23,7 @@ export default {
     presenter: null,
     size: null,
     location: null,
+    presentationContents: null,
   }),
   // mutations
   mutations: {
@@ -27,8 +35,11 @@ export default {
     /*     WS_ONMESSAGE(state, parsedMessage) {
       state.serverMessage = parsedMessage;
     }, */
-    SET_MY_NAME(state, myName) {
-      state.myName = myName;
+    SET_MEETING_INFO(state, meetingInfo) {
+      state.myName = meetingInfo.myName;
+      state.roomName = meetingInfo.roomName;
+      state.manager = meetingInfo.manager;
+      state.roomNumber = _.split(meetingInfo.roomName, '-')[1];
     },
     ADD_PARTICIPANT(state, { name, participant }) {
       if (state.participants === null) {
@@ -39,14 +50,6 @@ export default {
       //state.participants[name] = participant
       // 디버깅
       /* console.log('participant added', state.participants); */
-      // 임시 코드: 매니저, presenter 지정
-      if (Object.keys(state.participants).length === 1) {
-        state.manager = state.myName;
-        /* state.presenter = state.myName; */
-      } else {
-        state.manager = 'mann-1';
-        /* state.presenter = 'mann-1'; */
-      }
       // 임시코드 종료
     },
     DISPOSE_PARTICIPANT(state, participantName) {
@@ -70,9 +73,11 @@ export default {
       state.size = null;
       state.location = null;
     },
-    /* leave room: 추후 image size, location 추가 */
+    /* leave room */
     LEAVE_ROOM(state) {
       state.ws = null;
+      state.roomName = null;
+      state.roomNumber = null;
       state.participants = null;
       state.myName = null;
       state.nowImageUrl = null;
@@ -80,6 +85,10 @@ export default {
       state.presenter = null;
       state.size = null;
       state.location = null;
+      state.presentationContents = null;
+    },
+    SET_CONTENTS(state, message) {
+      state.presentationContents = message;
     },
   },
   // actions
@@ -152,8 +161,8 @@ export default {
       context.state.ws.send(jsonMessage);
     },
     // user 이름 설정 action
-    setMyName(context, myName) {
-      context.commit('SET_MY_NAME', myName);
+    setMeetingInfo(context, meetingInfo) {
+      context.commit('SET_MEETING_INFO', meetingInfo);
     },
     // onExistingParticipants 메시지에 대한 반응
     onExistingParticipants(context, message) {
@@ -262,12 +271,29 @@ export default {
         },
       );
     },
+    // 발표자가 바뀔때 자기 자신이라면 contents를 업데이트
+    setContents(context) {
+      axios({
+        method: 'get',
+        url: `${API_SERVER_URL}/board/room/${context.state.roomNumber}`,
+      })
+        .then(res => {
+          context.commit('SET_CONTENTS', res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     // 커스텀 웹소켓 메시지 by 동우님
     changePresentation(context, message) {
       context.commit('CHANGE_PRESENTATION', message);
     },
     changePresenter(context, message) {
       context.commit('CHANGE_PRESENTER', message);
+      // 발표자가 바뀔때 자기 자신이라면 미리 contents를 업데이트
+      if (context.state.myName === message.presenter) {
+        context.dispatch('setContents');
+      }
     },
   },
   getters: {},

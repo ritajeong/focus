@@ -25,7 +25,14 @@ export default {
     };
   },
   // : computed
-  computed: {},
+  computed: {
+    presentationContents() {
+      return this.$store.state.meetingRoom.presentationContents;
+    },
+    roomNumber() {
+      return this.$store.state.meetingRoom.roomNumber;
+    },
+  },
   // : lifecycle hook
   mounted() {
     // 임시
@@ -38,6 +45,16 @@ export default {
     this.$store.dispatch('meetingRoom/sendMessage', message);
   },
   // : methods
-  methods: {},
+  methods: {
+    selectContent: function (content) {
+      const slideUrls = [];
+      for (let i = 1; i <= content.size; i++) {
+        let filepath = `filepath/${this.roomNumber}/${content.userId}/${i}`;
+        slideUrls.push(filepath);
+      }
+      this.$store.dispatch('meetingRoom/selectContent', content);
+      // sliderUrls state에 갱신시켜주기
+    },
+  },
 };
 </script>
