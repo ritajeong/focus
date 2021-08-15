@@ -3,7 +3,7 @@ import store from '@/store/index.js';
 export default function Participant(name) {
   this.name = name;
   // rtcPeer 초기화
-  var rtcPeer;
+  // var rtcPeer;
   Object.defineProperty(this, 'rtcPeer', { writable: true });
 
   // video 엘리먼트와 이에 접근하는 메서드 생성
@@ -17,7 +17,8 @@ export default function Participant(name) {
   };
 
   // 웹소켓을 통해
-  this.offerToReceiveVideo = function (error, offerSdp, wp) {
+  this.offerToReceiveVideo = function (error, offerSdp) {
+    //wp
     if (error) return console.error('sdp offer error');
     // console.log('Invoking participant.offerToReceiveVideo method')
     let message = {
@@ -29,7 +30,8 @@ export default function Participant(name) {
   };
 
   //
-  this.onIceCandidate = function (candidate, wp) {
+  this.onIceCandidate = function (candidate) {
+    //wp
     // console.log("Local Participant candidate" + JSON.stringify(candidate))
     let message = {
       id: 'onIceCandidate',

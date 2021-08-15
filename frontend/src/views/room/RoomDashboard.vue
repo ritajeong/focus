@@ -1,14 +1,32 @@
 <template>
   <div>
-    <!-- <router-link to="/dashboard/tutorial"> tutorial </router-link> -->
-    <AppCard />
+    <RoomGroup v-bind:title="now" />
+    <RoomGroup v-bind:title="future" />
+    <RoomGroup v-bind:title="history" />
   </div>
 </template>
 
 <script>
-import AppCard from '@/components/common/AppCard.vue';
+import Vue from 'vue';
+import RoomGroup from '@/views/room/components/RoomGroup';
+import VueAlertify from 'vue-alertify';
+
+Vue.use(VueAlertify);
+
 export default {
   name: 'RoomDashboard',
-  components: { AppCard },
+
+  components: { RoomGroup },
+  data() {
+    return {
+      now: 'Now',
+      future: 'Future',
+      history: 'History',
+    };
+  },
+  created() {
+    this.$store.dispatch('rooms/fetchRooms');
+    //this.$store.dispatch('rooms/fetchRoom', '1');
+  }, //axios
 };
 </script>

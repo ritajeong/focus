@@ -29,11 +29,8 @@
 ### 이제부터 배포된 사이트를 이용 가능(포트번호 입력 필요)
 
 1. EC2에 업로드한 WebRTC 프로젝트에서 프로젝트 실행
-
-    ```bash
-    mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dkms.url=wss://localhost:8433/kurento"
-    ```
-
+    1. mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dkms.url=wss://localhost:8433/kurento"
+    2. 맨 뒤에 &를 붙이면 백그라운드로 실행
 2. 브라우저에서 접속
     1. [https://i5a107.p.ssafy.io:8443](https://i5a107.p.ssafy.io:8443/)
 

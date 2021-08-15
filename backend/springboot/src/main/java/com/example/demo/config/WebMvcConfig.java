@@ -46,15 +46,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
     		 * 
     		 */
         registry.addResourceHandler("/css/**")
-        			.addResourceLocations("classpath:/dist/css/");
-        	registry.addResourceHandler("/fonts/**")
-        			.addResourceLocations("classpath:/dist/fonts/");
+        			.addResourceLocations("classpath:/static/css/"); 
+        registry.addResourceHandler("/scss/**")
+                .addResourceLocations("classpath:/static/assets/scss/"); 
+        registry.addResourceHandler("/fonts/**")
+                .addResourceLocations("classpath:/static/assets/fonts/"); 
+        registry.addResourceHandler("/fonts/**")
+                .addResourceLocations("classpath:/static/fonts/"); 
         registry.addResourceHandler("/icons/**")
-				.addResourceLocations("classpath:/dist/icons/");
+				.addResourceLocations("classpath:/static/icons/");
         registry.addResourceHandler("/img/**")
-			.addResourceLocations("classpath:/dist/img/");
+			.addResourceLocations("classpath:/static/img/"); 
         registry.addResourceHandler("/js/**")
-				.addResourceLocations("classpath:/dist/js/");
+				.addResourceLocations("classpath:/static/js/");  
     }
 
     public Filter requestLoggingFilter() {

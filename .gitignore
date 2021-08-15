@@ -6,12 +6,21 @@
 
 ### Spring Boot ###
 /.metadata/
+<<<<<<< HEAD
+/backend/WebRTC/.metadata/
+/backend/WebRTC/.gradle/
+/backend/WebRTC/.mvn/
+/backend/WebRTC/src/main/resources/application.properties
+/backend/springboot/src/main/resources/static/
+/backend/webrtc/src/main/resources/static/
+=======
 /backend/webrtc/.metadata/
 /backend/webrtc/.gradle/
 /backend/webrtc/.mvn/
 /backend/webrtc/src/main/resources/application.properties
 /backend/webrtc/src/main/resources/static/*.*
 
+>>>>>>> feature/meeting-room
 
 ### Java ###
 # Compiled class file
@@ -86,6 +95,7 @@ $RECYCLE.BIN
 # End of httpswww.toptal.comdevelopersgitignoreapiwindows,java,vue,vuejs
 *.iml
 *.xml
+!pom.xml
 
 ### Eclipse ###
 .metadata

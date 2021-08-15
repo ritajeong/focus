@@ -18,26 +18,27 @@
                   <p class="mb-0">Enter your email and password to sign in</p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
+                  <form role="form" class="mb-4" @submit.prevent="submitForm()">
                     <div class="mb-3">
                       <input
                         type="email"
                         class="form-control form-control-lg"
                         placeholder="Email"
                         aria-label="Email"
-                        aria-describedby="email-addon"
+                        v-model="useremail"
                       />
                     </div>
                     <div class="mb-3">
                       <input
-                        type="email"
+                        type="password"
                         class="form-control form-control-lg"
                         placeholder="Password"
                         aria-label="Password"
-                        aria-describedby="password-addon"
+                        v-model="userpwd"
                       />
                     </div>
-                    <div class="form-check form-switch">
+                    <!-- ㅎㅇ 아이디 기억-->
+                    <!-- <div class="form-check form-switch">
                       <input
                         class="form-check-input"
                         type="checkbox"
@@ -46,10 +47,10 @@
                       <label class="form-check-label" for="rememberMe"
                         >Remember me</label
                       >
-                    </div>
+                    </div> -->
                     <div class="text-center">
                       <button
-                        type="button"
+                        type="submit"
                         class="
                           btn btn-lg
                           bg-gradient-dark
@@ -63,17 +64,29 @@
                       </button>
                     </div>
                   </form>
+                  <div class="card-footer text-left pt-0 px-lg-2 px-1">
+                    <p class="mb-2 text-sm mx-auto">
+                      Don't have an account?
+                      <router-link
+                        v:bind:disabled="!isUseremailValid || password"
+                        to="signup"
+                        class="text-dark text-gradient font-weight-bold"
+                        >Sign Up</router-link
+                      >
+                    </p>
+                    <p class="mb-2 text-sm mx-auto">
+                      Did you forget password?
+                      <router-link
+                        to=""
+                        class="text-dark text-gradient font-weight-bold"
+                        data-bs-toggle="modal"
+                        data-bs-target="#ModalChangePasswordByEmail"
+                        >Change password</router-link
+                      >
+                    </p>
+                  </div>
                 </div>
-                <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                  <p class="mb-4 text-sm mx-auto">
-                    Don't have an account?
-                    <router-link
-                      to="signup"
-                      class="text-dark text-gradient font-weight-bold"
-                      >Sign Up</router-link
-                    >
-                  </p>
-                </div>
+                <div class="card-footer text-left pt-0 px-lg-2 px-1"></div>
               </div>
             </div>
             <div
@@ -127,11 +140,59 @@
           </div>
         </div>
       </div>
+      <ChangePwdByEmailModal></ChangePwdByEmailModal>
     </section>
   </div>
 </template>
 <script>
+import Vue from 'vue';
+import { loginUser } from '@/api/users.js';
+import VueAlertify from 'vue-alertify';
+import ChangePwdByEmailModal from './components/ChangePwdByEmailModal.vue';
+Vue.use(VueAlertify);
+
 export default {
   name: 'IntroLogin',
+  components: { ChangePwdByEmailModal },
+  data() {
+    return {
+      useremail: '',
+      userpwd: '',
+      logMessage: '',
+    };
+  },
+  computed: {},
+  methods: {
+    async submitForm() {
+      try {
+        console.log('submitForm()');
+        const userData = {
+          //보낼때
+          email: this.useremail,
+          password: this.userpwd,
+        };
+        await loginUser(userData).then(({ data }) => {
+          const userInfo = {
+            //받을때
+            id: data.user_id,
+            email: data.email,
+            name: data.name,
+            isLogin: true,
+          };
+          this.$store.commit('users/SET_LOGIN', userInfo);
+
+          this.$router.push('/dashboard');
+        });
+      } catch (error) {
+        console.log(error.response.data);
+        this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
+        this.initForm();
+      }
+    },
+    initForm() {
+      this.useremail = '';
+      this.userpwd = '';
+    },
+  },
 };
 </script>

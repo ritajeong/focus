@@ -15,7 +15,7 @@
             ms-n6
           "
           style="
-            background-image: url(../../assets/img/curved-images/curved-11.jpg);
+            background-image: url(../../assets/img/curved-images/curved.jpg);
           "
         ></div>
       </div>
@@ -34,6 +34,7 @@
               <router-link to="/login" class="btn bg-gradient-dark mt-4">
                 Login
               </router-link>
+              <!--ㅎㅇ isLogin===true?none:show, 테스트 후 meetingroom, dashboard 버튼 삭제-->
 
               <router-link
                 to="/meetingroomenter"
