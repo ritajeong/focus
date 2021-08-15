@@ -157,7 +157,7 @@ export default {
           email: this.$store.state.users.login.useremail,
           codeId: {
             codeId: '001',
-            codeName: 'Owner',
+            codeName: 'Manager',
           },
         },
       ],

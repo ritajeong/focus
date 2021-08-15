@@ -11,7 +11,7 @@
                 class="form-control"
                 type="text"
                 placeholder="멋진 이름을 지어주세요."
-                :readonly="!isOwner"
+                :readonly="!isManager"
               />
             </div>
           </div>
@@ -25,7 +25,7 @@
                 format="YYYY-MM-DD HH:mm"
                 :disabled-date="disabledBeforeDate"
                 :disabled-time="disabledBeforeTime"
-                :editable="isOwner"
+                :editable="isManager"
               ></date-picker>
             </div>
           </div>
@@ -38,11 +38,11 @@
             class="form-control"
             rows="1"
             placeholder="방을 소개해주세요."
-            :readonly="!isOwner"
+            :readonly="!isManager"
           ></textarea>
         </div>
 
-        <div class="form-group mb-4" v-if="isOwner">
+        <div class="form-group mb-4" v-if="isManager">
           <label>Participant List</label>
           <div class="row">
             <div class="col-md-5">
@@ -95,7 +95,7 @@
                 <td>{{ participant.email }}</td>
                 <td>{{ participant.codeId.codeName }}</td>
                 <td>
-                  <div v-if="index > 0 && isOwner">
+                  <div v-if="index > 0 && isManager">
                     <button
                       class="btn bg-gradient-danger"
                       type="button"
@@ -109,7 +109,7 @@
               </tr>
             </tbody>
           </table>
-          <div class="col-md-12" v-if="isOwner">
+          <div class="col-md-12" v-if="isManager">
             <button
               type="button"
               class="btn bg-gradient-dark w-100"
@@ -163,7 +163,7 @@ export default {
       participantAccount: '',
       roleSelected: '',
       nowDateTime: moment(new Date()).format('YYYY-MM-DD HH:mm'),
-      isOwner: false,
+      isManager: false,
     };
   },
   created() {
@@ -171,7 +171,7 @@ export default {
       this.$store.state.rooms.room.manager_id ==
       this.$store.state.users.login.userid
     ) {
-      this.isOwner = true;
+      this.isManager = true;
     }
   },
   computed: {
