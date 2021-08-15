@@ -6,10 +6,11 @@
 
 ### Spring Boot ###
 /.metadata/
-/backend/WebRTC/.metadata/
-/backend/WebRTC/.gradle/
-/backend/WebRTC/.mvn/
-/backend/WebRTC/src/main/resources/application.properties
+/backend/webrtc/.metadata/
+/backend/webrtc/.gradle/
+/backend/webrtc/.mvn/
+/backend/webrtc/src/main/resources/application.properties
+/backend/webrtc/src/main/resources/static/*.*
 
 
 ### Java ###
