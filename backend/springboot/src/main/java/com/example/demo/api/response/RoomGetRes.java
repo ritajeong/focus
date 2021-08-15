@@ -22,30 +22,31 @@ public class RoomGetRes {
 	@ApiModelProperty
 	LocalDateTime endTime;
 	@ApiModelProperty
-	int user_id;
+	int manager_id;
+	@ApiModelProperty
+	String manager_name;
 	@ApiModelProperty
 	int room_id;
 	@ApiModelProperty(name="참가자 목록")
 	List<ParticipantGetRes> participants;
 
 	public RoomGetRes(){}
-	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id, List<ParticipantGetRes> participants) {
+	public RoomGetRes(String name, String description, LocalDateTime startTime, int manager_id, String manager_name,  int room_id, List<ParticipantGetRes> participants) {
 		this.name = name;
 		this.description = description;
 		this.startTime = startTime;
-		this.endTime = endTime;
-		this.user_id = user_id;
+		this.manager_id= manager_id;
+		this.manager_name = manager_name;
 		this.room_id = room_id;
 		this.participants = participants;
 	}
-	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id) {
+	public RoomGetRes(String name, String description, LocalDateTime startTime, int manager_id, String manager_name,int room_id) {
 		this.name = name;
 		this.description = description;
 		this.startTime = startTime;
-		this.endTime = endTime;
-		this.user_id = user_id;
+		this.manager_id= manager_id;
+		this.manager_name = manager_name;
 		this.room_id = room_id;
-
 	}
 
 	@Override
@@ -55,7 +56,8 @@ public class RoomGetRes {
 				", description='" + description + '\'' +
 				", startTime=" + startTime +
 				", endTime=" + endTime +
-				", user_id=" + user_id +
+				", manager_id=" + manager_id +
+				", manager_name='" + manager_name + '\'' +
 				", room_id=" + room_id +
 				", participants=" + participants +
 				'}';

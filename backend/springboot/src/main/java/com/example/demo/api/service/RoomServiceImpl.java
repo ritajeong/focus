@@ -107,7 +107,7 @@ public class RoomServiceImpl implements RoomService {
 		List<RoomGetRes> roomres = new ArrayList();
 		RoomGetRes roomGetRes;
 		for (Rooms r:room) {
-			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(),r.getUsers().getUserId(), r.getRoomId());
+			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(),r.getUsers().getUserId(),r.getUsers().getName(), r.getRoomId());
 			if(r.getEndTime()==null){
 				roomGetRes.setEndTime(null);
 			}else{
@@ -138,7 +138,7 @@ public class RoomServiceImpl implements RoomService {
 		RoomGetRes roomGetRes;
 		for(Participants party : pa) {
 			Rooms r = party.getRooms();
-			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getRoomId());
+			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getUsers().getName(),r.getRoomId());
 			log.info("[findbyuser] r:{}", r);
 			if(r.getEndTime()==null){
 				roomGetRes.setEndTime(null);

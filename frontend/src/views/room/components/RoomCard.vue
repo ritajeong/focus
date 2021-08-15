@@ -91,6 +91,8 @@ export default {
       this.isLast = true;
       console.log('Im last');
     }
+
+    console.log('[RoomCard] roomInfo: ', this.roomInfo);
   },
   computed: {},
   mounted() {},

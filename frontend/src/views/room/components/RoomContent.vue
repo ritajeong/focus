@@ -131,7 +131,7 @@
       </div>
     </form>
     <RoomDeleteModal
-      v-bind:roomId="this.$store.state.rooms.room.room_id"
+      v-bind:roomId="this.$store.state.rooms.room.manager_id"
     ></RoomDeleteModal>
   </section>
 </template>
@@ -168,7 +168,7 @@ export default {
   },
   created() {
     if (
-      this.$store.state.rooms.room.user_id ==
+      this.$store.state.rooms.room.manager_id ==
       this.$store.state.users.login.userid
     ) {
       this.isOwner = true;
