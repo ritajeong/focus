@@ -26,7 +26,7 @@
         :src="this.nowImageUrl"
         :key="this.nowImageUrl"
         alt="presentation image"
-        class="presentation-image img-fluid"
+        :class="[presetCss, 'img-fluid']"
         id="presentation-image"
       />
     </transition>
@@ -71,6 +71,15 @@ export default {
     },
     mainParticipantName() {
       return _.split(this.mainParticipant.name, '-')[0];
+    },
+    // presetCss: presentation-image-right-2 형태
+    presetCss() {
+      return (
+        'presentation-image-' +
+        this.$store.state.meetingRoom.location +
+        '-' +
+        this.$store.state.meetingRoom.size
+      );
     },
     /*     mainVideoInfo: function () {
       return document.getElementById('main-video').getBoundingClientRect();
@@ -121,14 +130,6 @@ export default {
   width: 60%;
   border-radius: 25px;
 } */
-.presentation-image {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  height: 50%;
-  transform: translate(-5%, -90%);
-  border-radius: 0 0 0 0;
-}
 .transition-first-enter-active {
   animation: fadeIn 0.3s;
 }
@@ -152,7 +153,114 @@ export default {
 .main-video-container:hover .overlay {
   opacity: 1;
 }
+/* presentation preset css : 프레젠테이션 위치, 크기 프리셋 */
+/* right */
+.presentation-image-right-0 {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  height: 30%;
+  transform: translate(0, -50%);
+}
+.presentation-image-right-1 {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  height: 40%;
+  transform: translate(0, -50%);
+}
+.presentation-image-right-2 {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  height: 50%;
+  transform: translate(0, -50%);
+}
+.presentation-image-right-3 {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  height: 60%;
+  transform: translate(0, -50%);
+}
+.presentation-image-right-4 {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 25px;
+}
+/* left */
+.presentation-image-left-0 {
+  position: absolute;
+  left: 2%;
+  top: 50%;
+  height: 30%;
+  transform: translate(0, -50%);
+}
+.presentation-image-left-1 {
+  position: absolute;
+  left: 2%;
+  top: 50%;
+  height: 40%;
+  transform: translate(0, -50%);
+}
+.presentation-image-left-2 {
+  position: absolute;
+  left: 2%;
+  top: 50%;
+  height: 50%;
+  transform: translate(0, -50%);
+}
+.presentation-image-left-3 {
+  position: absolute;
+  left: 2%;
+  top: 50%;
+  height: 60%;
+  transform: translate(0, -50%);
+}
+.presentation-image-left-4 {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 25px;
+}
+/* top */
+.presentation-image-top-0 {
+  position: absolute;
+  left: 50%;
+  top: 3%;
+  height: 30%;
+  transform: translate(-50%);
+}
+.presentation-image-top-1 {
+  position: absolute;
+  left: 50%;
+  top: 3%;
+  height: 40%;
+  transform: translate(-50%);
+}
+.presentation-image-top-2 {
+  position: absolute;
+  left: 50%;
+  top: 3%;
+  height: 50%;
+  transform: translate(-50%);
+}
+.presentation-image-top-3 {
+  position: absolute;
+  left: 50%;
+  top: 3%;
+  height: 60%;
+  transform: translate(-50%);
+}
+.presentation-image-top-4 {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 25px;
+}
 </style>
+
 <style>
 .video-insert {
   height: 100%;

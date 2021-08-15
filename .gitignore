@@ -10,8 +10,13 @@
 /backend/WebRTC/.gradle/
 /backend/WebRTC/.mvn/
 /backend/WebRTC/src/main/resources/application.properties
+<<<<<<< HEAD
 /backend/springboot/src/main/resources/static/
 /backend/webrtc/src/main/resources/static/
+=======
+/backend/WebRTC/src/main/resources/static/*.*
+
+>>>>>>> origin/feature/meeting-room
 
 ### Java ###
 # Compiled class file
