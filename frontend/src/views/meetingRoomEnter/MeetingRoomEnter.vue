@@ -29,10 +29,14 @@ export default {
   mounted() {
     const url = 'wss://' + location.host + '/groupcall';
     this.$store.dispatch('meetingRoom/wsInit', url);
+    console.log(this.isOpen(this.$store.state.meetingRoom.ws));
+    console.log(this.$store.state.meetingRoom.ws);
   },
   // : methods
   methods: {
     register: function () {
+      console.log(this.isOpen(this.$store.state.meetingRoom.ws));
+      console.log(this.$store.state.meetingRoom.ws);
       const myName = this.name + '-' + this.userId;
       const message = {
         id: 'joinRoom',
@@ -41,6 +45,9 @@ export default {
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
       this.$store.dispatch('meetingRoom/setMyName', myName);
+    },
+    isOpen: function (ws) {
+      return ws.readyState === ws.OPEN;
     },
   },
 };
