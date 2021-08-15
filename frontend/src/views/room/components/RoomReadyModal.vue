@@ -29,7 +29,12 @@
               >
             </div>
           </form>
-          <video width="100%" id="video" autoplay="true"></video>
+          <video
+            width="100%"
+            id="video"
+            autoplay="true"
+            :srcObject="srcObject"
+          ></video>
           <i class="bi bi-mic-fill"></i>
           <button
             type="button"
@@ -101,12 +106,25 @@ export default {
       roomDescription: this.roomInfo.description,
       isMicOn: true,
       isVideoOn: true,
+      srcObject: {},
     };
   },
   computed: {},
   mounted() {
     const url = 'wss://' + location.host + '/groupcall';
     this.$store.dispatch('meetingRoom/wsInit', url);
+
+    if (navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then(stream => {
+          console.log('stream: ', stream);
+          this.srcObject = stream;
+        })
+        .catch(function (err) {
+          console.log('Something went wrong!', err);
+        });
+    }
   },
   methods: {
     micOnOff: function () {
