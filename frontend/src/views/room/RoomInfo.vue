@@ -46,6 +46,7 @@
                     placeholder="ex) "
                   ></textarea>
                 </div>
+                <fileupload></fileupload>
                 <div class="row">
                   <!-- <div class="col-md-12">
                   <div class="form-check form-switch mb-4">
@@ -74,8 +75,9 @@
   </div>
 </template>
 <script>
+import fileupload from './components/FilePage.vue';
 export default {
   name: 'RoomInfo',
-  components: {},
+  components: { fileupload },
 };
 </script>
