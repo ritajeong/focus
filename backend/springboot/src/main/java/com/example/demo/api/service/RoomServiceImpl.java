@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.api.request.ParticipantRegisterReq;
+import com.example.demo.api.request.ParticipantReq;
 import com.example.demo.db.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,17 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.api.request.RoomRegisterPostReq;
-import com.example.demo.api.request.RoomUpdatePostReq;
+import com.example.demo.api.request.RoomUpdateReq;
 import com.example.demo.api.response.RoomGetRes;
 import com.example.demo.db.repository.PartRepository;
 import com.example.demo.db.repository.ParticipantRegistory;
 import com.example.demo.db.repository.RoomRepository;
 import com.example.demo.db.repository.UserRepository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 @Service("roomSerice")
 
@@ -39,9 +34,6 @@ public class RoomServiceImpl implements RoomService {
 	
 	@Autowired
 	ParticipantRegistory partiRepository;
-
-	@PersistenceContext(unitName = "default")
-	private EntityManager entityManager;
 
 
 	private final Logger log = LoggerFactory.getLogger(RoomServiceImpl.class);
@@ -73,7 +65,7 @@ public class RoomServiceImpl implements RoomService {
 		return room;
 	}
 
-	private void saveParticipants(List<ParticipantRegisterReq> person, Rooms room) {
+	private void saveParticipants(List<ParticipantReq> person, Rooms room) {
 		Group_Code group_code = new Group_Code();
 		group_code.setGroupCode(groupCodeRole);
 		Participants participant;
@@ -81,8 +73,9 @@ public class RoomServiceImpl implements RoomService {
 
 		int size=person.size();
 		for(int i=0;i<size;i++){
+			log.info("[saveParticipants] i:{},  person: {}",i, person.get(i));
 			code=new Code();
-			code.setCodeId(person.get(i).getCodeId());
+			code.setCodeId(person.get(i).getCodeId().getCodeId());
 
 			participant = new Participants();
 			participant.setCode(code);
@@ -114,7 +107,7 @@ public class RoomServiceImpl implements RoomService {
 		List<RoomGetRes> roomres = new ArrayList();
 		RoomGetRes roomGetRes;
 		for (Rooms r:room) {
-			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(),r.getUsers().getUserId(), r.getRoomId());
+			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(),r.getUsers().getUserId(),r.getUsers().getName(), r.getRoomId());
 			if(r.getEndTime()==null){
 				roomGetRes.setEndTime(null);
 			}else{
@@ -126,14 +119,15 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public Rooms updateRoom(RoomUpdatePostReq room) {
-		Rooms upro = getRoom(room.getRoom_id());
-		upro.setStartTime(Timestamp.valueOf(room.getStartTime()));
-		upro.setName(room.getName());
+	public Rooms updateRoom(RoomUpdateReq room) {
+		Rooms updateRoomData = getRoom(room.getRoom_id());
+		updateRoomData.setStartTime(Timestamp.valueOf(room.getStartTime()));
+		updateRoomData.setName(room.getName());
+		updateRoomData.setDescription(room.getDescription());
 		parRepository.deleteAllByRooms_RoomId(room.getRoom_id());
-		saveParticipants(room.getParticipants(), upro);
-		roomRepository.save(upro);
-		return upro;
+		saveParticipants(room.getParticipants(), updateRoomData);
+		roomRepository.save(updateRoomData);
+		return updateRoomData;
 	}
 
 	@Override
@@ -144,7 +138,7 @@ public class RoomServiceImpl implements RoomService {
 		RoomGetRes roomGetRes;
 		for(Participants party : pa) {
 			Rooms r = party.getRooms();
-			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getRoomId());
+			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getUsers().getName(),r.getRoomId());
 			log.info("[findbyuser] r:{}", r);
 			if(r.getEndTime()==null){
 				roomGetRes.setEndTime(null);

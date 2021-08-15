@@ -9,15 +9,23 @@ const instance = axios.create({
 });
 
 function createRoom(roomData) {
-  return instance.post('createroom', roomData);
+  return instance.post('create', roomData);
 }
 
-function getRooms() {
-  return instance.get();
+function updateRoom(roomData) {
+  return instance.put('update/' + roomData.room_id, roomData);
+}
+
+function deleteRoom(roomId) {
+  return instance.delete('delete/' + roomId);
+}
+
+function getRooms(userid) {
+  return instance.get('user/' + userid);
 }
 
 function getRoom(roomId) {
   return instance.get(roomId);
 }
 
-export { createRoom, getRooms, getRoom };
+export { createRoom, getRooms, getRoom, updateRoom, deleteRoom };

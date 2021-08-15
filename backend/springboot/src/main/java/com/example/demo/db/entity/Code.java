@@ -21,6 +21,12 @@ public class Code {
 	 
 	String codeName;
 
-	
-	
+
+	@Override
+	public String toString() {
+		return "Code{" +
+				"codeId='" + codeId + '\'' +
+				", codeName='" + codeName + '\'' +
+				'}';
+	}
 }

@@ -15,7 +15,9 @@ public class UserGetRes {
     String email;
     @ApiModelProperty
     String name;
-public UserGetRes(){}
+
+    public UserGetRes() {
+    }
 
     public UserGetRes(int userId, String email, String name) {
         this.userId = userId;

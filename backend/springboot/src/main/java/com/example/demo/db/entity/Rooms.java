@@ -21,7 +21,7 @@ public class Rooms {
 	String description;
 	@Column(name = "startTime", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	Timestamp startTime;
-	@Column(name = "endTime", columnDefinition = "TIMESTAMP")
+	@Column(name = "endTime", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	Timestamp endTime;
 
 	@OneToMany(mappedBy = "rooms", cascade = CascadeType.ALL, orphanRemoval = true)
