@@ -12,7 +12,8 @@ export default {
     SET_ROOMS(state, payload) {
       state.rooms = payload;
       let now = new Date().toISOString().slice(0, 19);
-      console.log(now);
+      console.log('now slice: ', now);
+      console.log('new Date(): ', new Date());
       state.now = [];
       state.future = [];
       state.history = [];
