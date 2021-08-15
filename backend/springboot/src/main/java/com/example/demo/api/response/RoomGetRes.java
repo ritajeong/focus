@@ -28,10 +28,6 @@ public class RoomGetRes {
 	@ApiModelProperty(name="참가자 목록")
 	List<ParticipantGetRes> participants;
 
-<<<<<<< HEAD
-	public RoomGetRes(String name, String description, LocalDateTime startTime,LocalDateTime endTime, int user_id, int room_id) {
-		super();
-=======
 	public RoomGetRes(){}
 	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id, List<ParticipantGetRes> participants) {
 		this.name = name;
@@ -43,7 +39,6 @@ public class RoomGetRes {
 		this.participants = participants;
 	}
 	public RoomGetRes(String name, String description, LocalDateTime startTime, int user_id, int room_id) {
->>>>>>> origin/feature/room-management
 		this.name = name;
 		this.description = description;
 		this.startTime = startTime;

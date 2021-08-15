@@ -114,13 +114,6 @@ public class RoomServiceImpl implements RoomService {
 		List<RoomGetRes> roomres = new ArrayList();
 		RoomGetRes roomGetRes;
 		for (Rooms r:room) {
-<<<<<<< HEAD
-			if(r.getEndTime()==null)
-				roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), null,r.getUsers().getUserId(), r.getRoomId()));
-			else
-				roomres.add(new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getEndTime().toLocalDateTime(),r.getUsers().getUserId(), r.getRoomId()));
-
-=======
 			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(),r.getUsers().getUserId(), r.getRoomId());
 			if(r.getEndTime()==null){
 				roomGetRes.setEndTime(null);
@@ -128,7 +121,6 @@ public class RoomServiceImpl implements RoomService {
 				roomGetRes.setEndTime(r.getEndTime().toLocalDateTime());
 			}
 			roomres.add(roomGetRes);
->>>>>>> origin/feature/room-management
 		}
 		return roomres;
 	}

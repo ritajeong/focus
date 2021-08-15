@@ -52,7 +52,6 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
-
 export default {
   components: {
     FileUpload,
@@ -69,7 +68,9 @@ export default {
       console.log(item);
     },
     uploadStart() {
-      //업로드 처리로직
+      const formData = new FormData();
+      formData.append();
+      formData.append();
     },
   },
 };
