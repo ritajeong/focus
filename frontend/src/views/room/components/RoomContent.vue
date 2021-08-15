@@ -117,10 +117,21 @@
             >
               Update Room
             </button>
+            <button
+              type="button"
+              class="btn bg-gradient-danger w-100"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-notification"
+            >
+              Delete Room
+            </button>
           </div>
         </div>
       </div>
     </form>
+    <RoomDeleteModal
+      v-bind:roomId="this.$store.state.rooms.room.room_id"
+    ></RoomDeleteModal>
   </section>
 </template>
 
@@ -133,11 +144,12 @@ import { findUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
 import moment from 'moment';
 import { mapGetters } from 'vuex';
+import RoomDeleteModal from './RoomDeleteModal.vue';
 Vue.use(VueAlertify);
 
 export default {
-  name: 'RoomContentItem',
-  components: { DatePicker },
+  name: 'RoomContent',
+  components: { DatePicker, RoomDeleteModal },
   data() {
     return {
       user: this.$store.state.users.login,

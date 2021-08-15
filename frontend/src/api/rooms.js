@@ -16,6 +16,10 @@ function updateRoom(roomData) {
   return instance.put('update/' + roomData.room_id, roomData);
 }
 
+function deleteRoom(roomId) {
+  return instance.delete('delete/' + roomId);
+}
+
 function getRooms() {
   return instance.get();
 }
@@ -24,4 +28,4 @@ function getRoom(roomId) {
   return instance.get(roomId);
 }
 
-export { createRoom, getRooms, getRoom, updateRoom };
+export { createRoom, getRooms, getRoom, updateRoom, deleteRoom };
