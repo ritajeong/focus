@@ -63,6 +63,7 @@ export default {
       { text: 'name', value: 'name' },
       { text: 'size', value: 'size' },
     ],
+    user_id: this.$store.users.login.user_id,
   }),
   methods: {
     onDrop(item) {
