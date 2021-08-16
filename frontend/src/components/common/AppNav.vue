@@ -5,7 +5,7 @@
   >
     <div class="container">
       <router-link
-        to="/"
+        to="/dashboard"
         class="navbar-brand text-white"
         rel="tooltip"
         title="Designed and Coded by Creative Tim"
