@@ -23,25 +23,38 @@
       </v-btn>
     </template>
     <template v-else>
+      <!-- <input
+        v-on:change="fileSelect()"
+        type="file"
+        ref="img"
+        id="File"
+        multiple="multiple"
+        drop="true"
+        drop-directory="true"
+      /> -->
+
       <FileUpload
         class="btn btn-primary"
         :multiple="true"
         :drop="true"
         :drop-directory="true"
+        type="img"
         v-model="files"
-        ref="upload"
+        ref="img"
         @input="onDrop()"
         style="display: none"
       >
       </FileUpload>
+
       <v-row>
         <v-col cols="12" sm="12" md="12">
           <div class="text-center p-5">
             <h4>Drop files anywhere to upload<br />or</h4>
             <v-btn class="ma-2" style="padding: 0px" color="info">
-              <label for="file" style="padding: 0px 8px">
-                <v-icon style="margin-right: 5px">add_circle</v-icon>SelectFiles
-              </label>
+              <label for="file" style="padding: 0px 8px"
+                ><v-icon style="margin-right: 5px">add_circle</v-icon>Select
+                File</label
+              >
             </v-btn>
           </div>
         </v-col>
@@ -49,9 +62,10 @@
     </template>
   </div>
 </template>
-
 <script>
+import { downloadFile } from '@/api/file.js';
 import FileUpload from 'vue-upload-component';
+
 export default {
   components: {
     FileUpload,
@@ -62,6 +76,8 @@ export default {
       { text: 'name', value: 'name' },
       { text: 'size', value: 'size' },
     ],
+    userid: '',
+    roomid: '',
   }),
   methods: {
     onDrop(item) {
@@ -69,13 +85,36 @@ export default {
     },
     uploadStart() {
       const formData = new FormData();
-      formData.append();
-      formData.append();
+      this.userid = this.$store.state.users.login.userid;
+      this.roomid = this.$store.state.rooms.room.room_id;
+      console.log(this.userid);
+      formData.append('user_id', this.userid);
+      formData.append('room_id', this.roomid);
+      formData.append('size', '0');
+      console.log(formData);
+      console.log(this.files);
+      for (let i = 0; i < this.files.length; i++) {
+        formData.append('files', this.files[i].file);
+        console.log(this.files[i]);
+      }
+      downloadFile(formData)
+        .then(({ status }) => {
+          console.log(status);
+          if (status != 200) {
+            this.$alertify.error('파일 업로드 실패하였습니다.');
+            return;
+          } else {
+            this.$alertify.success('파일이 업로드 됐습니다.');
+            this.dialog = false;
+          }
+        })
+        .catch(() => {
+          this.$alertify.error('error! catch');
+        });
     },
   },
 };
 </script>
-
 <style>
 .example-drag .drop-active {
   top: 0;
