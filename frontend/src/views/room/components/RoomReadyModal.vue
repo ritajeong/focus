@@ -101,6 +101,10 @@ export default {
   data() {
     return {
       roomName: this.roomInfo.name,
+      roomId: this.roomInfo.room_id,
+      /* 아직 구현 안된 API */
+      manager: this.roomInfo.managerName + this.roomInfo.managerId,
+      /* 아직 구현 안된 API */
       userName: this.$store.state.users.login.username,
       userId: this.$store.state.users.login.userid,
       roomDescription: this.roomInfo.description,
@@ -144,16 +148,20 @@ export default {
       console.log('video state: ', this.isVideoOn);
     },
     join: function () {
-      const roomId = '';
       const myNameId = this.userName + '-' + this.userId;
-      const roomNameId = this.roomName + '-' + roomId;
+      const roomNameId = this.roomName + '-' + this.roomId;
       const message = {
         id: 'joinRoom',
         name: myNameId,
         room: roomNameId,
       };
+      const meetingInfo = {
+        myName: myNameId,
+        roomName: roomNameId,
+        manager: this.manager,
+      };
       this.$store.dispatch('meetingRoom/sendMessage', message);
-      this.$store.dispatch('meetingRoom/setMyName', myNameId);
+      this.$store.dispatch('meetingRoom/setMeetingInfo', meetingInfo);
     },
   },
 };
