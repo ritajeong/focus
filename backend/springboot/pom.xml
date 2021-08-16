@@ -65,24 +65,27 @@
         <artifactId>swagger-models</artifactId>
 	  </exclusion>
    </exclusions>
-           </dependency> <!-- solved NumberFormatException in swagger2 -->
-            <dependency> 
-            <groupId>io.swagger</groupId>
-             <artifactId>swagger-annotations</artifactId>
-              <version>1.5.21</version>
-               </dependency> 
-               <dependency>
-                <groupId>io.swagger</groupId>
-                 <artifactId>swagger-models</artifactId> 
-                 <version>1.5.21</version>
-                  </dependency>
-
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+  </dependency> <!-- solved NumberFormatException in swagger2 -->
+	<dependency> 
+		<groupId>io.swagger</groupId>
+		<artifactId>swagger-annotations</artifactId>
+		<version>1.5.21</version>
+	</dependency> 
+	<dependency>
+		<groupId>io.swagger</groupId>
+		<artifactId>swagger-models</artifactId> 
+		<version>1.5.21</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+  		<groupId>org.apache.httpcomponents</groupId>
+  		<artifactId>httpclient</artifactId>
+  		<scope>test</scope>
+	</dependency>
 	</dependencies>
 
 	<build>

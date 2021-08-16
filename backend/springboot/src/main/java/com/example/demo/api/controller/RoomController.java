@@ -17,8 +17,12 @@ import com.example.demo.api.request.RoomRegisterPostReq;
 import com.example.demo.api.request.RoomUpdateReq;
 import com.example.demo.db.entity.Rooms;
 import com.example.demo.api.response.BaseResponseBody;
+import com.example.demo.api.response.ParticipantGetRes;
 import com.example.demo.api.response.RoomGetRes;
+import com.example.demo.api.service.ParticipantService;
 import com.example.demo.api.service.RoomService;
+import com.example.demo.db.entity.Rooms;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,8 +30,9 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(value = "유저 API", tags = {"Room"})
+@Api(value = "유저 API", tags = { "Room" })
 @RestController
+//@CrossOrigin(origins={"http://i5a107.p.ssafy.io:8446/"})
 @RequestMapping("/rooms")
 public class RoomController {
 	@Autowired
@@ -104,13 +109,9 @@ public class RoomController {
 
 	@GetMapping("/")
 	@ApiOperation(value = "전체 방 보기")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 409, message = "이미 존재하는 유저"),
+			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<List<RoomGetRes>> showRooms() {
 
 		List<RoomGetRes> rooms = roomService.findAll();

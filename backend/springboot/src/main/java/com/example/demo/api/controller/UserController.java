@@ -1,18 +1,27 @@
 package com.example.demo.api.controller;
 
-import com.example.demo.api.request.UserRegisterReq;
-import com.example.demo.api.request.UserUpdatePwdReq;
-import com.example.demo.api.response.UserGetRes;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.api.request.LoginReq;
+import com.example.demo.api.request.UserRegisterReq;
 import com.example.demo.api.request.UserUpdateNameReq;
+import com.example.demo.api.request.UserUpdatePwdReq;
 import com.example.demo.api.response.BaseResponseBody;
+import com.example.demo.api.response.UserGetRes;
 import com.example.demo.api.service.UserService;
 import com.example.demo.db.entity.Users;
 
@@ -22,13 +31,12 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-import java.util.List;
-
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
-@Api(value = "유저 API", tags = {"User"})
+@Api(value = "유저 API", tags = { "User" })
 @RestController
+//@CrossOrigin(origins={"http://i5a107.p.ssafy.io:8446/"})
 @RequestMapping("/users")
 public class UserController {
 
@@ -98,12 +106,8 @@ public class UserController {
 
 	@PutMapping("/update/password")
 	@ApiOperation(value = "비밀번호 변경")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> updatePassword(
 			@RequestBody @ApiParam(value = "수정", required = true) UserUpdatePwdReq updateInfo) {
 		Users user = null;
@@ -182,16 +186,11 @@ public class UserController {
 		}
 	}
 
-
 	@GetMapping("/search/{keyword}")
 	@ApiOperation(value = "이메일 중 일부 키워드로 검색된 사용자 정보 가져오기")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 409, message = "이미 존재하는 유저"),
+			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<List<UserGetRes>> getUserByKeyword(@PathVariable("keyword") String keyword) {
 
 		List<UserGetRes> userGetRes = userService.getUserByKeyword(keyword);
