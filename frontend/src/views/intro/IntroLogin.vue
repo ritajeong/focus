@@ -184,7 +184,7 @@ export default {
           this.$router.push('/dashboard');
         });
       } catch (error) {
-        console.log(error.response.data);
+        console.log(error);
         this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
         this.initForm();
       }

@@ -14,7 +14,7 @@ function downloadFile(filereq) {
 function showRooms(input) {
   return instance.get('room/' + input);
 }
-function showRoomdetail(ShowFileReq) {
+function showfiledetail(ShowFileReq) {
   return instance.get('detail', ShowFileReq);
 }
 function deletefile(FileReq) {
@@ -25,4 +25,4 @@ function updatefile(FileReq) {
   return instance.post('updatefile', FileReq);
 }
 
-export { downloadFile, showRooms, showRoomdetail, deletefile, updatefile };
+export { downloadFile, showRooms, showfiledetail, deletefile, updatefile };
