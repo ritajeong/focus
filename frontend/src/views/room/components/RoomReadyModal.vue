@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal fade"
-    id="RoomReadyModal"
+    :id="'RoomReadyModal' + roomInfo.room_id"
     tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalMessageTitle"
@@ -10,7 +10,9 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="RoomReadyModal">{{ roomName }}</h5>
+          <h5 class="modal-title" :id="'RoomReadyModal' + roomInfo.room_id">
+            {{ roomName }}
+          </h5>
           <button
             type="button"
             class="btn-close"
@@ -94,6 +96,7 @@
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
 import { getRoomIsOnLive, setRoomOnLive } from '@/api/rooms.js';
+import { mapGetters } from 'vuex';
 Vue.use(VueAlertify);
 export default {
   name: 'RoomReadyModal',
@@ -114,7 +117,7 @@ export default {
         this.$store.state.users.login.userid),
     };
   },
-  computed: {},
+  computed: { ...mapGetters(['room']) },
   mounted() {
     const url = 'wss://' + location.host + '/groupcall';
     this.$store.dispatch('meetingRoom/wsInit', url);

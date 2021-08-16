@@ -106,7 +106,7 @@
                       <th scope="row">{{ index + 1 }}</th>
                       <td>{{ participant.name }}</td>
                       <td>{{ participant.email }}</td>
-                      <td>{{ participant.codeName }}</td>
+                      <td>{{ participant.codeId.codeName }}</td>
                       <td>
                         <div v-if="index > 0">
                           <button
@@ -185,14 +185,24 @@ export default {
   methods: {
     addParticipant() {
       let msg = '';
-      if (!this.participantAccount) {
-        msg = '사용자를 입력해주세요';
+      if (!this.participantAccount || !this.roleSelected) {
+        msg = '추가하려는 사용자 이메일 및 역할을 입력해주세요';
         this.$alertify.error(msg);
         return;
       }
 
-      console.log('참가자 이메일 검색: ' + this.participantAccount);
-      console.log('selected role: ' + this.roleSelected);
+      console.log('참가자 이메일 검색: ', this.participantAccount);
+      console.log('participants: ', this.participants);
+
+      // 같은 계정 참가자 추가 안되게 함.
+      const size = this.participants.length;
+
+      for (let i = 0; i < size; i++) {
+        if (this.participants[i].email == this.participantAccount) {
+          this.$alertify.error('이미 등록된 사용자입니다.');
+          return;
+        }
+      }
 
       this.getUsername().then(() => {
         if (!this.participants) {
@@ -210,6 +220,7 @@ export default {
         }
       });
     },
+
     deleteParticipant(email) {
       console.log('delete participant', email);
 
