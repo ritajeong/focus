@@ -157,6 +157,6 @@ public class RoomController {
 		}
 		roomget.setParticipants(participants);
 
-		return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);
-	}
+	        return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);
+	    }
 }

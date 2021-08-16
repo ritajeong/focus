@@ -127,6 +127,7 @@
             </button>
           </div>
         </div>
+        <div></div>
         <UploadDialog />
       </div>
     </form>
@@ -146,7 +147,7 @@ import VueAlertify from 'vue-alertify';
 import moment from 'moment';
 import { mapGetters } from 'vuex';
 import RoomDeleteModal from './RoomDeleteModal.vue';
-import UploadDialog from './UploadDialog';
+import UploadDialog from './UploadDialog.vue';
 Vue.use(VueAlertify);
 
 export default {

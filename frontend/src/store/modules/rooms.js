@@ -1,4 +1,5 @@
 import { getRooms, getRoom } from '@/api/rooms.js';
+import moment from 'moment';
 export default {
   namespaced: true,
   state: () => ({
@@ -11,21 +12,15 @@ export default {
   mutations: {
     SET_ROOMS(state, payload) {
       state.rooms = payload;
-      const d = new Date();
-      const now = new Date(d.getTime() - d.getTimezoneOffset() * 60000)
-        .toISOString()
-        .slice(0, 19);
-      // const utc = ((now.getTime() - now.getTimezoneOffset()) * 60000)
-      //   .toISOString()
-      //   .slice(0, 19);
+      let now = moment(new Date()).format('YYYY-MM-DD HH:MM');
       state.now = [];
       state.future = [];
       state.history = [];
       for (let data of payload.data) {
-        if (data.startTime > now) {
+        if (moment(data.startTime).format('YYYY-MM-DD HH:MM') > now) {
           console.log(data.room_id + ' ' + data.name + ' ' + data.startTime);
           state.future.push(data);
-        } else if (data.endTime < now) {
+        } else if (data.endTime) {
           console.log(data.room_id + ' ' + data.name + ' ' + data.endTime);
           state.history.push(data);
         } else {
