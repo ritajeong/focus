@@ -15,6 +15,7 @@
             class="mb-2 card-join"
             data-bs-toggle="modal"
             data-bs-target="#RoomReadyModal"
+            @click="setRoomInfo"
           >
             <i
               class="fas fa-sign-in-alt"

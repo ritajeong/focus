@@ -28,4 +28,20 @@ function getRoom(roomId) {
   return instance.get(roomId);
 }
 
-export { createRoom, getRooms, getRoom, updateRoom, deleteRoom };
+function getRoomIsOnLive(roomId) {
+  return instance.get('onlive/' + roomId);
+}
+
+function setRoomOnLive(roomData) {
+  return instance.put('onlive/', roomData);
+}
+
+export {
+  createRoom,
+  getRooms,
+  getRoom,
+  updateRoom,
+  deleteRoom,
+  getRoomIsOnLive,
+  setRoomOnLive,
+};

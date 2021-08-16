@@ -2,6 +2,7 @@ package com.example.demo.api.service;
 
 import java.util.List;
 
+import com.example.demo.api.request.RoomOnLiveReq;
 import com.example.demo.api.request.RoomRegisterPostReq;
 import com.example.demo.api.request.RoomUpdateReq;
 import com.example.demo.db.entity.Rooms;
@@ -16,5 +17,5 @@ public interface RoomService {
 	List<RoomGetRes> findAll();
 	Rooms updateRoom (RoomUpdateReq room);
 	List<RoomGetRes> findbyuser(int userId);
-
+	void setRoomOnLive(RoomOnLiveReq roomInfo);
 }

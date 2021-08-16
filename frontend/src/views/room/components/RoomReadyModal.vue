@@ -94,16 +94,20 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import VueAlertify from 'vue-alertify';
+import { getRoomIsOnLive, setRoomOnLive } from '@/api/rooms.js';
+Vue.use(VueAlertify);
 export default {
   name: 'RoomReadyModal',
-  components: {},
   props: { roomInfo: Object },
+  components: {},
   data() {
     return {
       roomName: this.roomInfo.name,
       roomId: this.roomInfo.room_id,
       /* 아직 구현 안된 API */
-      manager: this.roomInfo.managerName + this.roomInfo.managerId,
+      manager: this.roomInfo.manager_name + this.roomInfo.manager_id,
       /* 아직 구현 안된 API */
       userName: this.$store.state.users.login.username,
       userId: this.$store.state.users.login.userid,
@@ -111,6 +115,8 @@ export default {
       isMicOn: true,
       isVideoOn: true,
       srcObject: {},
+      isManager: (this.roomInfo.manager_id =
+        this.$store.state.users.login.userid),
     };
   },
   computed: {},
@@ -148,6 +154,41 @@ export default {
       console.log('video state: ', this.isVideoOn);
     },
     join: function () {
+      console.log('[join] roomInfo : ', this.roomInfo);
+      if (this.isManager) {
+        const roomData = {
+          room_id: this.roomId,
+          on_live: true,
+        };
+        console.log('[join] roomData: ', roomData);
+        setRoomOnLive(roomData)
+          .then(({ status }) => {
+            if (status != 200) {
+              this.$alertify.error('방 상태변경에 실패했습니다.');
+              return;
+            }
+            this.$alertify.success('방 상태를 활동중으로 변경했습니다.');
+            this.sendMsgToKurento();
+          })
+          .catch(() => {
+            this.$alertify.error('setRoomOnLive error!');
+          });
+      } else {
+        getRoomIsOnLive(this.roomId)
+          .then(({ status }) => {
+            if (status != 200) {
+              this.$alertify.error('Manager 가 아직 방을 시작하지 않았습니다.');
+              return;
+            }
+            this.sendMsgToKurento();
+          })
+          .catch(() => {
+            this.$alertify.error('get room is on live error!');
+          });
+      }
+    },
+
+    sendMsgToKurento() {
       const myNameId = this.userName + '-' + this.userId;
       const roomNameId = this.roomName + '-' + this.roomId;
       const message = {
