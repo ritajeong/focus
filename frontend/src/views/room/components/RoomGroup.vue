@@ -1,7 +1,7 @@
 <template>
   <!--now-->
   <div class="row mx-0">
-    <div class="col-12">
+    <div class="col-12 p-0">
       <div class="card m-5">
         <div class="card-header pb-0 ps-5">
           <!--props값에 따라 title 출력 [Now, Future, History]-->
@@ -30,10 +30,14 @@
               :key="idx"
               v-show="idx <= showIdx"
             />
-            <h2 v-if="lengthRooms === 0">방이 없습니다.</h2>
+            <h4 class="ps-4" v-if="lengthRooms === 0">방이 없습니다.</h4>
           </div>
           <!-- more-->
-          <div class="card-last text-center" @click.stop="moreCard">
+          <div
+            class="card-last text-center"
+            v-if="lengthRooms > 0"
+            @click.stop="moreCard"
+          >
             <a href="#"
               ><h2><i class="fas fa-plus"></i></h2>
               <h4>more</h4></a

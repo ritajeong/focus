@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal fade"
-    id="RoomReadyModal"
+    :id="'RoomReadyModal' + roomInfo.room_id"
     tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalMessageTitle"
@@ -10,7 +10,9 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="RoomReadyModal">{{ roomName }}</h5>
+          <h5 class="modal-title" :id="'RoomReadyModal' + roomInfo.room_id">
+            {{ roomName }}
+          </h5>
           <button
             type="button"
             class="btn-close"
@@ -29,12 +31,9 @@
               >
             </div>
           </form>
-          <video
-            width="100%"
-            id="video"
-            autoplay="true"
-            :srcObject="srcObject"
-          ></video>
+          <!-- local video element -->
+          <video width="100%" id="local-video" autoplay="true"></video>
+          <!-- local video element -->
           <i class="bi bi-mic-fill"></i>
           <button
             type="button"
@@ -94,27 +93,36 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import VueAlertify from 'vue-alertify';
+import { getRoomIsOnLive, setRoomOnLive } from '@/api/rooms.js';
+import { mapGetters } from 'vuex';
+Vue.use(VueAlertify);
 export default {
   name: 'RoomReadyModal',
-  components: {},
   props: { roomInfo: Object },
+  components: {},
   data() {
     return {
       roomName: this.roomInfo.name,
+      roomId: this.roomInfo.room_id,
+      manager: this.roomInfo.manager_name + '-' + this.roomInfo.manager_id,
       userName: this.$store.state.users.login.username,
       userId: this.$store.state.users.login.userid,
       roomDescription: this.roomInfo.description,
       isMicOn: true,
       isVideoOn: true,
       srcObject: {},
+      isManager: (this.roomInfo.manager_id =
+        this.$store.state.users.login.userid),
     };
   },
-  computed: {},
+  computed: { ...mapGetters(['room']) },
   mounted() {
     const url = 'wss://' + location.host + '/groupcall';
     this.$store.dispatch('meetingRoom/wsInit', url);
 
-    if (navigator.mediaDevices.getUserMedia) {
+    /* if (navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices
         .getUserMedia({ video: true })
         .then(stream => {
@@ -124,7 +132,8 @@ export default {
         .catch(function (err) {
           console.log('Something went wrong!', err);
         });
-    }
+    } */
+    this.playVideoFromCamera();
   },
   methods: {
     micOnOff: function () {
@@ -144,16 +153,65 @@ export default {
       console.log('video state: ', this.isVideoOn);
     },
     join: function () {
-      const roomId = '';
+      console.log('[join] roomInfo : ', this.roomInfo);
+      if (this.isManager) {
+        const roomData = {
+          room_id: this.roomId,
+          on_live: true,
+        };
+        console.log('[join] roomData: ', roomData);
+        setRoomOnLive(roomData)
+          .then(({ status }) => {
+            if (status != 200) {
+              this.$alertify.error('방 상태변경에 실패했습니다.');
+              return;
+            }
+            this.$alertify.success('방 상태를 활동중으로 변경했습니다.');
+            this.sendMsgToKurento();
+          })
+          .catch(() => {
+            this.$alertify.error('setRoomOnLive error!');
+          });
+      } else {
+        getRoomIsOnLive(this.roomId)
+          .then(({ status }) => {
+            if (status != 200) {
+              this.$alertify.error('Manager 가 아직 방을 시작하지 않았습니다.');
+              return;
+            }
+            this.sendMsgToKurento();
+          })
+          .catch(() => {
+            this.$alertify.error('get room is on live error!');
+          });
+      }
+    },
+
+    sendMsgToKurento() {
       const myNameId = this.userName + '-' + this.userId;
-      const roomNameId = this.roomName + '-' + roomId;
+      const roomNameId = this.roomName + '-' + this.roomId;
       const message = {
         id: 'joinRoom',
         name: myNameId,
         room: roomNameId,
       };
+      const meetingInfo = {
+        myName: myNameId,
+        roomName: roomNameId,
+        manager: this.manager,
+      };
       this.$store.dispatch('meetingRoom/sendMessage', message);
-      this.$store.dispatch('meetingRoom/setMyName', myNameId);
+      this.$store.dispatch('meetingRoom/setMeetingInfo', meetingInfo);
+    },
+    playVideoFromCamera: async function () {
+      try {
+        const constraints = { video: true, audio: true };
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        const videoElement = document.getElementById('local-video');
+        videoElement.srcObject = stream;
+      } catch (error) {
+        console.error('Error opening video camera.', error);
+      }
     },
   },
 };

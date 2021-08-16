@@ -2,12 +2,21 @@
   <section>
     <div class="container py-4">
       <div class="row">
-        <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
+        <div
+          class="
+            col-lg-7
+            mx-auto
+            d-flex
+            justify-content-center
+            flex-column
+            px-10
+          "
+        >
           <h3 class="text-center">Create new room</h3>
           <form role="form" id="contact-form" method="post" autocomplete="off">
             <div class="card-body">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-7">
                   <label>Room name</label>
                   <div class="input-group mb-4">
                     <input
@@ -18,7 +27,7 @@
                     />
                   </div>
                 </div>
-                <div class="col-md-6 ps-2">
+                <div class="col-md-3 ps-5">
                   <label>Start Time</label>
                   <div>
                     <date-picker
@@ -70,7 +79,7 @@
                   <div class="col-md-2">
                     <button
                       type="button"
-                      class="btn bg-gradient-primary"
+                      class="btn bg-gradient-dark ms-2"
                       @click="addParticipant"
                     >
                       Add
@@ -78,7 +87,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row p-3">
                 <table class="table table-striped">
                   <thead>
                     <tr>
@@ -97,7 +106,7 @@
                       <th scope="row">{{ index + 1 }}</th>
                       <td>{{ participant.name }}</td>
                       <td>{{ participant.email }}</td>
-                      <td>{{ participant.codeName }}</td>
+                      <td>{{ participant.codeId.codeName }}</td>
                       <td>
                         <div v-if="index > 0">
                           <button
@@ -113,10 +122,10 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="col-md-12">
+                <div class="col-md-12 text-center">
                   <button
                     type="button"
-                    class="btn bg-gradient-dark w-100"
+                    class="btn bg-gradient-primary w-40"
                     @click="createHandler"
                   >
                     Create Room
@@ -176,14 +185,24 @@ export default {
   methods: {
     addParticipant() {
       let msg = '';
-      if (!this.participantAccount) {
-        msg = '사용자를 입력해주세요';
+      if (!this.participantAccount || !this.roleSelected) {
+        msg = '추가하려는 사용자 이메일 및 역할을 입력해주세요';
         this.$alertify.error(msg);
         return;
       }
 
-      console.log('참가자 이메일 검색: ' + this.participantAccount);
-      console.log('selected role: ' + this.roleSelected);
+      console.log('참가자 이메일 검색: ', this.participantAccount);
+      console.log('participants: ', this.participants);
+
+      // 같은 계정 참가자 추가 안되게 함.
+      const size = this.participants.length;
+
+      for (let i = 0; i < size; i++) {
+        if (this.participants[i].email == this.participantAccount) {
+          this.$alertify.error('이미 등록된 사용자입니다.');
+          return;
+        }
+      }
 
       this.getUsername().then(() => {
         if (!this.participants) {
@@ -201,6 +220,7 @@ export default {
         }
       });
     },
+
     deleteParticipant(email) {
       console.log('delete participant', email);
 

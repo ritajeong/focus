@@ -3,7 +3,7 @@
     <form role="form" id="contact-form" method="post" autocomplete="off">
       <div class="card-body">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-7">
             <label>Room name</label>
             <div class="input-group mb-4">
               <input
@@ -15,7 +15,7 @@
               />
             </div>
           </div>
-          <div class="col-md-6 ps-2">
+          <div class="col-md-3 ps-5">
             <label>Start Time</label>
             <div>
               <date-picker
@@ -69,7 +69,7 @@
             <div class="col-md-2">
               <button
                 type="button"
-                class="btn bg-gradient-primary"
+                class="btn bg-gradient-dark"
                 @click="addParticipant"
               >
                 Add
@@ -109,17 +109,18 @@
               </tr>
             </tbody>
           </table>
-          <div class="col-md-12" v-if="isManager">
+          <div class="col-md-12 text-center" v-if="isManager">
             <button
               type="button"
-              class="btn bg-gradient-dark w-100"
+              class="btn bg-gradient-dark w-50"
               @click="updateHandler"
             >
               Update Room
             </button>
+            <br />
             <button
               type="button"
-              class="btn bg-gradient-danger w-100"
+              class="btn bg-gradient-danger w-50"
               data-bs-toggle="modal"
               data-bs-target="#modal-notification"
             >
@@ -144,7 +145,6 @@
           </button>
         </div>
       </div>
-      <fileupload></fileupload>
     </form>
     <RoomDeleteModal
       v-bind:roomId="this.$store.state.rooms.room.manager_id"
@@ -239,14 +239,24 @@ export default {
     },
     addParticipant() {
       let msg = '';
-      if (!this.participantAccount) {
-        msg = '사용자를 입력해주세요';
+      if (!this.participantAccount || !this.roleSelected) {
+        msg = '추가하려는 사용자 이메일 및 역할을 입력해주세요';
         this.$alertify.error(msg);
         return;
       }
 
       console.log('참가자 이메일 검색: ' + this.participantAccount);
       console.log('selected role: ' + this.roleSelected);
+
+      // 같은 계정 참가자 추가 안되게 함.
+      const size = this.participants.length;
+
+      for (let i = 0; i < size; i++) {
+        if (this.participants[i].email == this.participantAccount) {
+          this.$alertify.error('이미 등록된 사용자입니다.');
+          return;
+        }
+      }
 
       this.getUsername().then(() => {
         if (!this.participants) {

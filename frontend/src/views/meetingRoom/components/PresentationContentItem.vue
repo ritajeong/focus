@@ -1,34 +1,83 @@
 <template>
   <div>
-    <div class="content-container">
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Aspect_ratio_16_9_example.jpg"
-        alt=""
-        class="content-insert img-fluid"
-      />
-      <div class="overlay"><span>Roomname/Username/Filename</span></div>
+    <div
+      :class="[
+        { 'container-border': content.user_id === selectedContentId },
+        'content-container',
+      ]"
+    >
+      <img :src="firstImgUrl" alt="" class="content-insert img-fluid" />
+      <div class="overlay" @click="selectContent()">
+        <span>Roomname/Username/Filename</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 // import "./template.scss";
+const FILE_PATH = '/home/ubuntu/presentations';
 
 export default {
   name: 'PresentationContentItem',
   components: {},
   // : props
-  props: {},
+  props: {
+    content: Object,
+  },
   // : data
   data() {
     return {};
   },
   // : computed
-  computed: {},
+  computed: {
+    roomNumber() {
+      return this.$store.state.meetingRoom.roomNumber;
+    },
+    firstImgUrl() {
+      return `${FILE_PATH}/${this.roomNumber}/${this.content.user_id}/1`;
+    },
+    imageSize() {
+      return this.$store.state.meetingRoom.size;
+    },
+    imageLocation() {
+      return this.$store.state.meetingRoom.location;
+    },
+    selectedContentId() {
+      return this.$store.state.meetingRoom.selectedContentId;
+    },
+  },
   // : lifecycle hook
   mounted() {},
   // :    methods
-  methods: {},
+  methods: {
+    selectContent: function () {
+      // 이미지 url 목록 만들어서 state에 저장
+      const imageUrls = [];
+      for (let i = 1; i <= this.content.file_size; i++) {
+        let filepath = `${FILE_PATH}/${this.roomNumber}/${this.content.user_id}/${i}`;
+        imageUrls.push(filepath);
+      }
+      this.$store.dispatch('meetingRoom/setImageUrls', imageUrls);
+      // 선택된 content의 user_id를 ContentId로 지정해 state에 저장
+      this.$store.dispatch(
+        'meetingRoom/setSelectedContentId',
+        this.content.user_id,
+      );
+      // websocket에 첫 번째 이미지에 대한 메시지 보내주기
+      const size = this.imageSize === null ? '2' : this.imageSize;
+      const location =
+        this.imageLocation === null ? 'right' : this.imageLocation;
+      const message = {
+        id: 'changePresentation',
+        imageUri: this.firstImgUrl,
+        location: location,
+        size: size,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
+      // sliderUrls state에 갱신시켜주기
+    },
+  },
 };
 </script>
 
@@ -37,6 +86,7 @@ export default {
   position: relative;
   width: 100%;
   height: auto;
+  border-radius: 25px;
   margin-bottom: 20px;
   cursor: pointer;
 }
@@ -45,6 +95,9 @@ export default {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: 100%;
   height: auto;
+}
+.container-border {
+  border: 0.4rem solid;
 }
 .overlay {
   position: absolute;

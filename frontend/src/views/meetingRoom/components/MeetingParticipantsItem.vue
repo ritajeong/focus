@@ -15,7 +15,8 @@
         v-if="
           this.$store.state.meetingRoom.manager &&
           this.$store.state.meetingRoom.myName ===
-            this.$store.state.meetingRoom.manager
+            this.$store.state.meetingRoom.manager &&
+          this.$store.state.meetingRoom.myName !== participant.name
         "
         @click="togglePopup"
       />
@@ -33,11 +34,16 @@
         "
       >
         <!-- popup menu items -->
-        <div class="popup-item popup-item-start"><h4>Menu</h4></div>
-        <div class="popup-item" @click="setPresenter">
+        <div
+          class="popup-item"
+          @click="setPresenter"
+          v-if="participant.name !== presenter"
+        >
           <h4>발표자 지정</h4>
         </div>
-        <div class="popup-item popup-item-end"><h4>Menu</h4></div>
+        <div class="popup-item" @click="resetPresenter" v-else>
+          <h4>발표자 지정 해제</h4>
+        </div>
         <!-- popup menu items -->
       </div>
     </transition>
@@ -68,6 +74,9 @@ export default {
       const nameOnServer = this.participant.name;
       return _.split(nameOnServer, '-')[0];
     },
+    presenter() {
+      return this.$store.state.meetingRoom.presenter;
+    },
   },
   // : lifecycle hook
   mounted() {},
@@ -80,6 +89,13 @@ export default {
       const message = {
         id: 'setPresenter',
         presenter: this.participant.name,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
+    },
+    resetPresenter: function () {
+      const message = {
+        id: 'setPresenter',
+        presenter: this.$store.state.meetingRoom.manager,
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
     },
@@ -109,7 +125,7 @@ export default {
 .popup {
   position: relative;
   width: 350px;
-  height: 150px;
+  height: 50px;
   margin: 25px 0 0 0;
 }
 .popup-item {
@@ -121,6 +137,7 @@ export default {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border-radius: 25px;
 }
 .popup-item:hover {
   background: linear-gradient(90deg, #2c3153 0%, #15182a 100%);
@@ -131,11 +148,5 @@ export default {
 .popup-item h4 {
   color: white;
   font-weight: bold;
-}
-.popup-item-start {
-  border-radius: 25px 25px 0 0;
-}
-.popup-item-end {
-  border-radius: 0 0 25px 25px;
 }
 </style>

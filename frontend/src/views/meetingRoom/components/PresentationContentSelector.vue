@@ -1,17 +1,15 @@
 <template>
   <div>
-    <PresentationContentItem />
-    <PresentationContentItem />
-    <PresentationContentItem />
-    <PresentationContentItem />
-    <PresentationContentItem />
-    <PresentationContentItem />
+    <PresentationContentItem
+      v-for="content in contentList"
+      :key="content.user_id"
+      :content="content"
+    />
   </div>
 </template>
 
 <script>
 import PresentationContentItem from './PresentationContentItem.vue';
-import Dummy from './Dummy.js';
 
 export default {
   name: 'PresentationContentSelector',
@@ -20,23 +18,19 @@ export default {
   props: {},
   // : data
   data() {
-    return {
-      slideUrls: Dummy.getSlideUrls(),
-    };
+    return {};
   },
   // : computed
-  computed: {},
-  // : lifecycle hook
-  mounted() {
-    // 임시
-    const message = {
-      id: 'changePresentation',
-      imageUri: this.slideUrls[0].url,
-      location: 'right',
-      size: '2',
-    };
-    this.$store.dispatch('meetingRoom/sendMessage', message);
+  computed: {
+    contentList() {
+      return this.$store.state.meetingRoom.presentationContents;
+    },
+    roomNumber() {
+      return this.$store.state.meetingRoom.roomNumber;
+    },
   },
+  // : lifecycle hook
+  mounted() {},
   // : methods
   methods: {},
 };
