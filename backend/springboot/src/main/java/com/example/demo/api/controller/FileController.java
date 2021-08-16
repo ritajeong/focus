@@ -47,7 +47,7 @@ public class FileController {
 		return new ResponseEntity<List<FileRes>>(fileservice.findbyroomid(roomId), HttpStatus.OK);
 	}
 
-	@GetMapping("/detail")
+	@PostMapping("/detail")
 	@ApiOperation(value = "하나방 자세히 보기")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 409, message = "이미 존재하는 유저"),
