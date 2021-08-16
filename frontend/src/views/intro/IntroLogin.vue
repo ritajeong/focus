@@ -180,8 +180,7 @@ export default {
             isLogin: true,
           };
           this.$store.commit('users/SET_LOGIN', userInfo);
-
-          this.$router.push('/dashboard');
+          // this.$router.push('/dashboard');
         });
       } catch (error) {
         console.log(error);

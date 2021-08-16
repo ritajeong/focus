@@ -122,7 +122,8 @@ export default {
     userLogout() {
       this.$alertify.success('안녕히 가세요');
       this.$store.commit('users/SET_LOGOUT');
-      this.$router.push('/', () => {});
+      console.log('logout');
+      // this.$router.push('/', () => {});
     },
   },
 };
