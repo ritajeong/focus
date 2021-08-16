@@ -9,9 +9,9 @@
         <v-col cols="12" sm="12" md="12">
           <div class="text-center">
             <div class="my-2">
-              <v-btn @click="openDialog()" large color="blue" dark>
+              <v-btn @click="openDialog()" dark>
                 <v-icon class="mr-2">cloud_upload</v-icon>
-                Upload
+                File Upload
               </v-btn>
             </div>
           </div>

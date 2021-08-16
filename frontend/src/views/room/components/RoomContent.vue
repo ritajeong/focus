@@ -3,7 +3,7 @@
     <form role="form" id="contact-form" method="post" autocomplete="off">
       <div class="card-body">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-7">
             <label>Room name</label>
             <div class="input-group mb-4">
               <input
@@ -15,7 +15,7 @@
               />
             </div>
           </div>
-          <div class="col-md-6 ps-2">
+          <div class="col-md-3 ps-5">
             <label>Start Time</label>
             <div>
               <date-picker
@@ -69,7 +69,7 @@
             <div class="col-md-2">
               <button
                 type="button"
-                class="btn bg-gradient-primary"
+                class="btn bg-gradient-dark"
                 @click="addParticipant"
               >
                 Add
@@ -109,17 +109,18 @@
               </tr>
             </tbody>
           </table>
-          <div class="col-md-12" v-if="isManager">
+          <div class="col-md-12 text-center" v-if="isManager">
             <button
               type="button"
-              class="btn bg-gradient-dark w-100"
+              class="btn bg-gradient-dark w-50"
               @click="updateHandler"
             >
               Update Room
             </button>
+            <br />
             <button
               type="button"
-              class="btn bg-gradient-danger w-100"
+              class="btn bg-gradient-danger w-50"
               data-bs-toggle="modal"
               data-bs-target="#modal-notification"
             >

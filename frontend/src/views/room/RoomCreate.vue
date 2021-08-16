@@ -2,12 +2,21 @@
   <section>
     <div class="container py-4">
       <div class="row">
-        <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
+        <div
+          class="
+            col-lg-7
+            mx-auto
+            d-flex
+            justify-content-center
+            flex-column
+            px-10
+          "
+        >
           <h3 class="text-center">Create new room</h3>
           <form role="form" id="contact-form" method="post" autocomplete="off">
             <div class="card-body">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-7">
                   <label>Room name</label>
                   <div class="input-group mb-4">
                     <input
@@ -18,7 +27,7 @@
                     />
                   </div>
                 </div>
-                <div class="col-md-6 ps-2">
+                <div class="col-md-3 ps-5">
                   <label>Start Time</label>
                   <div>
                     <date-picker
@@ -70,7 +79,7 @@
                   <div class="col-md-2">
                     <button
                       type="button"
-                      class="btn bg-gradient-primary"
+                      class="btn bg-gradient-dark ms-2"
                       @click="addParticipant"
                     >
                       Add
@@ -78,7 +87,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row p-3">
                 <table class="table table-striped">
                   <thead>
                     <tr>
@@ -113,10 +122,10 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="col-md-12">
+                <div class="col-md-12 text-center">
                   <button
                     type="button"
-                    class="btn bg-gradient-dark w-100"
+                    class="btn bg-gradient-primary w-40"
                     @click="createHandler"
                   >
                     Create Room
