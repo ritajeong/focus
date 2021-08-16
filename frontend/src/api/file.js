@@ -15,14 +15,24 @@ function showRooms(input) {
   return instance.get('room/' + input);
 }
 function showfiledetail(ShowFileReq) {
-  return instance.get('detail', ShowFileReq);
+  return instance.post('detail', ShowFileReq);
 }
 function deletefile(FileReq) {
   return instance.post('deletefile', FileReq);
+}
+function deletetot(ShowFileReq) {
+  return instance.post('delete', ShowFileReq);
 }
 
 function updatefile(FileReq) {
   return instance.post('updatefile', FileReq);
 }
 
-export { downloadFile, showRooms, showfiledetail, deletefile, updatefile };
+export {
+  downloadFile,
+  showRooms,
+  deletetot,
+  showfiledetail,
+  deletefile,
+  updatefile,
+};

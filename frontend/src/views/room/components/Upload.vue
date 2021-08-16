@@ -105,7 +105,6 @@ export default {
             return;
           } else {
             this.$alertify.success('파일이 업로드 됐습니다.');
-            this.dialog = false;
           }
         })
         .catch(() => {

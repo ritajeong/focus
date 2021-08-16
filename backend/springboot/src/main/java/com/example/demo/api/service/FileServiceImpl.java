@@ -72,7 +72,10 @@ public class FileServiceImpl implements FileService{
 	}
 	@Override
 	public List<FiledetailRes> findbygroupid(ShowFileReq filereq) {
+		System.out.println(filereq.getRoom_id());
+		System.out.println(filereq.getUser_id());
 		int group = filegroupRepository.findBygroupid(filereq.getRoom_id(), filereq.getUser_id());
+		System.out.println(group);
 		//return null;
 		List<Presentations> list = fileRepository.findByroomspresentations_GroupId(group);
 		List<FiledetailRes> res = new ArrayList<FiledetailRes>();
@@ -84,15 +87,23 @@ public class FileServiceImpl implements FileService{
 		return res;
 	}
 	@Override
-	public void delete(FileReq registerInfo) {
+	public void deletefile(FileReq registerInfo) {
 		int group = filegroupRepository.findBygroupid(registerInfo.getRoom_id(), registerInfo.getUser_id());
 		RoomsPresentations pr = filegroupRepository.getById(group);
 		filegroupRepository.delete(pr);
 	}
 	@Override
 	public FileReq update(FileReq registerInfo) throws Exception {
-		delete(registerInfo);
+		deletefile(registerInfo);
 		return saveFile(registerInfo);
+	}
+	@Override
+	public void delete(ShowFileReq registerInfo) {
+		int group = filegroupRepository.findBygroupid(registerInfo.getRoom_id(), registerInfo.getUser_id());
+		RoomsPresentations pr = filegroupRepository.getById(group);
+		
+		filegroupRepository.delete(pr);
+
 	}
 
 

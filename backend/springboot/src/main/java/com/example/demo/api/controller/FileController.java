@@ -60,7 +60,7 @@ public class FileController {
 		return new ResponseEntity<List<FileRes>>(fileservice.findbyroomid(roomId),HttpStatus.OK);
 	}
 	
-	@GetMapping("/detail")
+	@PostMapping("/detail")
 	@ApiOperation(value = "하나방 자세히 보기")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -73,6 +73,17 @@ public class FileController {
 		return new ResponseEntity<List<FiledetailRes>>(fileservice.findbygroupid(filereq),HttpStatus.OK);
 
 	}
+	@PostMapping("/delete")
+	@ApiOperation(value = "파일 삭제") 
+
+	 public ResponseEntity<?> delete(
+	    		@ModelAttribute @ApiParam(value="파일 삭제", required = true) ShowFileReq registerInfo
+	    		)throws Exception {
+			
+		  	fileservice.delete(registerInfo);
+			return  ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));	
+	    }
+	
 	@PostMapping("/deletefile")
 	@ApiOperation(value = "파일 삭제") 
 
@@ -80,9 +91,10 @@ public class FileController {
 	    		@ModelAttribute @ApiParam(value="파일 삭제", required = true) FileReq registerInfo
 	    		)throws Exception {
 		
-		  	fileservice.delete(registerInfo);
+		  	fileservice.deletefile(registerInfo);
 			return  ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));	
 	    }
+	
 	
 	@PostMapping("/updatefile")
 	@ApiOperation(value = "파일 수정") 
