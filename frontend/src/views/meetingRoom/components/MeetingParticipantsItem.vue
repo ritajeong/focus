@@ -15,7 +15,8 @@
         v-if="
           this.$store.state.meetingRoom.manager &&
           this.$store.state.meetingRoom.myName ===
-            this.$store.state.meetingRoom.manager
+            this.$store.state.meetingRoom.manager &&
+          this.$store.state.meetingRoom.myName !== participant.name
         "
         @click="togglePopup"
       />
