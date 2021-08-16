@@ -17,7 +17,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-7">
-                  <label>Room name</label>
+                  <label><h6>Room name</h6></label>
                   <div class="input-group mb-4">
                     <input
                       v-model="roomName"
@@ -28,7 +28,7 @@
                   </div>
                 </div>
                 <div class="col-md-3 ps-5">
-                  <label>Start Time</label>
+                  <label><h6>Start Time</h6></label>
                   <div>
                     <date-picker
                       v-model="datetime"
@@ -42,7 +42,7 @@
                 </div>
               </div>
               <div class="form-group mb-4">
-                <label>Room Description</label>
+                <label><h6>Description</h6></label>
                 <textarea
                   v-model="description"
                   type="text"
@@ -53,7 +53,7 @@
               </div>
 
               <div class="form-group mb-4">
-                <label>Participant List</label>
+                <label><h6>Participant List</h6></label>
                 <div class="row">
                   <div class="col-md-5">
                     <input
