@@ -86,6 +86,7 @@ export default {
     setRoomInfo() {
       console.log('setRoomInfo click');
       this.$store.dispatch('rooms/setRoom', this.roomInfo);
+      console.log('set roomInfo this.roomInfo: ', this.roomInfo);
     },
     setAndGoToRoomInfo() {
       console.log('setAndGoToRoomInfo click');

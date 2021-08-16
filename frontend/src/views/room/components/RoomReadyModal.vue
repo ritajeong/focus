@@ -94,6 +94,7 @@
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
 import { getRoomIsOnLive, setRoomOnLive } from '@/api/rooms.js';
+import { mapGetters } from 'vuex';
 Vue.use(VueAlertify);
 export default {
   name: 'RoomReadyModal',
@@ -114,7 +115,7 @@ export default {
         this.$store.state.users.login.userid),
     };
   },
-  computed: {},
+  computed: { ...mapGetters(['room']) },
   mounted() {
     const url = 'wss://' + location.host + '/groupcall';
     this.$store.dispatch('meetingRoom/wsInit', url);
