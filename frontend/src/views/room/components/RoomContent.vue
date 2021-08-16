@@ -224,10 +224,10 @@ export default {
   },
   methods: {
     deletefile() {
-      const formData = new FormData();
-      formData.append('user_id', this.userid);
-      formData.append('room_id', this.roomid);
-      deletetot(formData)
+      const formDa = new FormData();
+      formDa.append('user_id', this.userid);
+      formDa.append('room_id', this.roomid);
+      deletetot(formDa)
         .then(data => {
           console.log(data);
           this.$alertify.success('삭제 완료');
