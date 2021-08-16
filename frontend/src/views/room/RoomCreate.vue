@@ -106,7 +106,7 @@
                       <th scope="row">{{ index + 1 }}</th>
                       <td>{{ participant.name }}</td>
                       <td>{{ participant.email }}</td>
-                      <td>{{ participant.codeName }}</td>
+                      <td>{{ participant.codeId.codeName }}</td>
                       <td>
                         <div v-if="index > 0">
                           <button
