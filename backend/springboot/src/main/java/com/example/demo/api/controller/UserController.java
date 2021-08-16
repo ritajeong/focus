@@ -29,6 +29,7 @@ import java.util.List;
  */
 @Api(value = "유저 API", tags = {"User"})
 @RestController
+@CrossOrigin(origins="http://i5a107.p.ssafy.io:8446/")
 @RequestMapping("/users")
 public class UserController {
 	
