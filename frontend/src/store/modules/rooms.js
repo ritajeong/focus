@@ -11,9 +11,13 @@ export default {
   mutations: {
     SET_ROOMS(state, payload) {
       state.rooms = payload;
-      let now = new Date().toISOString().slice(0, 19);
-      console.log('now slice: ', now);
-      console.log('new Date(): ', new Date());
+      const d = new Date();
+      const now = new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 19);
+      // const utc = ((now.getTime() - now.getTimezoneOffset()) * 60000)
+      //   .toISOString()
+      //   .slice(0, 19);
       state.now = [];
       state.future = [];
       state.history = [];
