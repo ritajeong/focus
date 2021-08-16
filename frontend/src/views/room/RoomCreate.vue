@@ -282,7 +282,7 @@ export default {
       );
     },
     inputChanged() {
-      this.$store.dispatch('GET_ALL_USERS', this.participantAccount);
+      this.$store.dispatch('users/GET_ALL_USERS', this.participantAccount);
     },
   },
 };
