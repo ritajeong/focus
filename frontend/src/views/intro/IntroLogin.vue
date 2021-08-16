@@ -74,7 +74,7 @@
                         >Sign Up</router-link
                       >
                     </p>
-                    <p class="mb-2 text-sm mx-auto">
+                    <!-- <p class="mb-2 text-sm mx-auto">
                       Did you forget password?
                       <router-link
                         to=""
@@ -83,7 +83,7 @@
                         data-bs-target="#ModalChangePasswordByEmail"
                         >Change password</router-link
                       >
-                    </p>
+                    </p> -->
                   </div>
                 </div>
                 <div class="card-footer text-left pt-0 px-lg-2 px-1"></div>

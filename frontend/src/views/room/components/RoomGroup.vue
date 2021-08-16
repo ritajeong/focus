@@ -1,7 +1,7 @@
 <template>
   <!--now-->
   <div class="row mx-0">
-    <div class="col-12">
+    <div class="col-12 p-0">
       <div class="card m-5">
         <div class="card-header pb-0 ps-5">
           <!--props값에 따라 title 출력 [Now, Future, History]-->

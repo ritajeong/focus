@@ -34,6 +34,7 @@
     "vue2-timepicker": "^1.1.6",
     "vuetify": "^2.1.0",
     "vuex": "^3.4.0",
+    "vuex-persistedstate": "^4.0.0",
     "web3": "^1.5.2",
     "weekstart": "^1.1.0"
   },
