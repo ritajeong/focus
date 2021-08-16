@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @ApiModel("RoomUpdatePostRequest")
 
-public class RoomUpdatePostReq {
+public class RoomUpdateReq {
 	@ApiModelProperty
 	int room_id;
 	@ApiModelProperty
@@ -24,5 +24,17 @@ public class RoomUpdatePostReq {
 	@ApiModelProperty
 	int user_id;
 	@ApiModelProperty
-	List<ParticipantRegisterReq> participants;
+	List<ParticipantReq> participants;
+
+	@Override
+	public String toString() {
+		return "RoomUpdateReq{" +
+				"room_id=" + room_id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", startTime=" + startTime +
+				", user_id=" + user_id +
+				", participants=" + participants +
+				'}';
+	}
 }

@@ -7,7 +7,7 @@
             class="col-lg-7 mx-auto d-flex justify-content-center flex-column"
           >
             <h3 class="text-center">Room Info</h3>
-            <RoomContentItem></RoomContentItem>
+            <RoomContent></RoomContent>
           </div>
         </div>
       </div>
@@ -15,10 +15,12 @@
   </div>
 </template>
 <script>
-import RoomContentItem from './components/RoomContentItem.vue';
-
+import RoomContent from './components/RoomContent.vue';
 export default {
   name: 'RoomInfo',
-  components: { RoomContentItem },
+  components: { RoomContent },
+  data() {
+    return {};
+  },
 };
 </script>
