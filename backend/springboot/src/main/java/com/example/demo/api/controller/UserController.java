@@ -25,8 +25,9 @@ import io.swagger.annotations.ApiResponses;
 import java.util.List;
 
 /**
- * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
- */
+
+유저 관련 API 요청 처리를 위한 컨트롤러 정의.
+*/
 @Api(value = "유저 API", tags = {"User"})
 @RestController
 @RequestMapping("/users")
@@ -98,12 +99,8 @@ public class UserController {
 
 	@PutMapping("/update/password")
 	@ApiOperation(value = "비밀번호 변경")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> updatePassword(
 			@RequestBody @ApiParam(value = "수정", required = true) UserUpdatePwdReq updateInfo) {
 		Users user = null;
@@ -183,24 +180,24 @@ public class UserController {
 	}
 
 
-	@GetMapping("/search/{keyword}")
-	@ApiOperation(value = "이메일 중 일부 키워드로 검색된 사용자 정보 가져오기")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<List<UserGetRes>> getUserByKeyword(@PathVariable("keyword") String keyword) {
 
-		List<UserGetRes> userGetRes = userService.getUserByKeyword(keyword);
-		if (userGetRes != null) {
-			return new ResponseEntity<List<UserGetRes>>(userGetRes, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<List<UserGetRes>>(userGetRes, HttpStatus.NOT_FOUND);
-		}
+@GetMapping("/search/{keyword}")
+@ApiOperation(value = "이메일 중 일부 키워드로 검색된 사용자 정보 가져오기")
+@ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 409, message = "이미 존재하는 유저"),
+        @ApiResponse(code = 500, message = "서버 오류")
+})
+public ResponseEntity<List<UserGetRes>> getUserByKeyword(@PathVariable("keyword") String keyword) {
 
-	}
+    List<UserGetRes> userGetRes = userService.getUserByKeyword(keyword);
+    if (userGetRes != null) {
+        return new ResponseEntity<List<UserGetRes>>(userGetRes, HttpStatus.OK);
+    } else {
+        return new ResponseEntity<List<UserGetRes>>(userGetRes, HttpStatus.NOT_FOUND);
+    }
 
+}
 }

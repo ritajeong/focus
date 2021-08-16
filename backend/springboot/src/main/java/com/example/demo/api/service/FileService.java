@@ -16,5 +16,6 @@ public interface FileService {
 	List<FileRes> findbyroomid(int roomId);
 	List<FiledetailRes> findbygroupid(ShowFileReq filereq);
 	FileReq update(FileReq registerInfo) throws Exception;
-	void delete(FileReq registerInfo);
+	void deletefile(FileReq registerInfo);
+	void delete(ShowFileReq registerInfo);
 }

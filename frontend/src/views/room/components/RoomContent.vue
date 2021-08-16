@@ -128,8 +128,22 @@
             </button>
           </div>
         </div>
-        <div></div>
-        <UploadDialog />
+
+        <div v-if="files.length == 0">
+          <UploadDialog />
+        </div>
+        <div v-else>
+          <RoomFiledetail></RoomFiledetail>
+
+          <button
+            class="btn bg-gradient-danger"
+            type="button"
+            id="btn-delete"
+            @click="deletefile()"
+          >
+            발표 자료 삭제
+          </button>
+        </div>
       </div>
     </form>
     <RoomDeleteModal
@@ -144,16 +158,25 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import { updateRoom } from '@/api/rooms.js';
 import { findUser } from '@/api/users.js';
+import { deletetot } from '@/api/file.js';
 import VueAlertify from 'vue-alertify';
 import moment from 'moment';
 import { mapGetters } from 'vuex';
 import RoomDeleteModal from './RoomDeleteModal.vue';
-import UploadDialog from './UploadDialog.vue';
+import UploadDialog from './UploadDialog';
+import RoomFiledetail from './RoomFiledetail.vue';
+import { showfiledetail } from '@/api/file.js';
+
 Vue.use(VueAlertify);
 
 export default {
   name: 'RoomContent',
-  components: { DatePicker, RoomDeleteModal, UploadDialog },
+  components: {
+    DatePicker,
+    RoomDeleteModal,
+    UploadDialog,
+    RoomFiledetail,
+  },
   data() {
     return {
       user: this.$store.state.users.login,
@@ -166,6 +189,9 @@ export default {
       roleSelected: '',
       nowDateTime: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       isManager: false,
+      userid: this.$store.state.users.login.userid,
+      roomid: this.$store.state.rooms.room.room_id,
+      files: [],
     };
   },
   created() {
@@ -175,6 +201,20 @@ export default {
     ) {
       this.isManager = true;
     }
+    const formData = new FormData();
+    formData.append('user_id', this.userid);
+    formData.append('room_id', this.roomid);
+    console.log(formData);
+    showfiledetail(formData)
+      .then(data => {
+        console.log(data);
+        this.files = data.data;
+        this.$alertify.success('파일이 보입니다.');
+      })
+      .catch(() => {
+        console.log('error');
+        this.$alertify.error('error! catch');
+      });
   },
   computed: {
     ...mapGetters(['users', 'room']),
@@ -183,6 +223,20 @@ export default {
     },
   },
   methods: {
+    deletefile() {
+      const formDa = new FormData();
+      formDa.append('user_id', this.userid);
+      formDa.append('room_id', this.roomid);
+      deletetot(formDa)
+        .then(data => {
+          console.log(data);
+          this.$alertify.success('삭제 완료');
+        })
+        .catch(() => {
+          console.log('error');
+          this.$alertify.error('error! catch');
+        });
+    },
     addParticipant() {
       let msg = '';
       if (!this.participantAccount || !this.roleSelected) {
