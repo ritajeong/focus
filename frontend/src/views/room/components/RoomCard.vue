@@ -11,7 +11,7 @@
             {{ roomInfo.name }}
           </h4>
           <p
-            v-if="isNow"
+            v-if="!isHistory"
             class="mb-2 card-join"
             data-bs-toggle="modal"
             data-bs-target="#RoomReadyModal"
@@ -49,16 +49,7 @@
             roomInfo.endTime.slice(0, 16).replace(/\-/g, '.').replace('T', ' ')
           }}
         </p>
-        <p
-          class="mb-2 card-join"
-          data-bs-toggle="modal"
-          data-bs-target="#RoomReadyModal"
-        >
-          <i
-            class="fas fa-sign-in-alt"
-            style="color: #ffffff; font-size: 2rem"
-          ></i>
-        </p>
+
         <span class="card-info" @click="setAndGoToRoomInfo" type="button">
           <i class="fas fa-info-circle"></i>
         </span>
