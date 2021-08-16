@@ -110,6 +110,42 @@
             </tbody>
           </table>
         </div>
+        <div>
+          <!-- <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Num</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(participant, index) in getParticipants"
+                    :key="index"
+                  >
+                    <th scope="row">{{ index + 1 }}</th>
+                    <td>{{ participant.name }}</td>
+                    <td>{{ participant.email }}</td>
+                    <td>{{ participant.codeId.codeName }}</td>
+                    <td>
+                      <div v-if="index > 0 && isOwner">
+                        <button
+                          class="btn bg-gradient-danger"
+                          type="button"
+                          id="btn-delete"
+                          @click="deleteParticipant(participant.email)"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table> -->
+        </div>
         <UploadDialog />
       </div>
       <fileupload></fileupload>

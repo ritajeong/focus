@@ -53,7 +53,7 @@
 
 <script>
 import Upload from './Upload.vue';
-
+//import {showRoomdetail} from '@/api/file.js';
 export default {
   components: {
     Upload,
