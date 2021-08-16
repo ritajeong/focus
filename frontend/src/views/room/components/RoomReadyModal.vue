@@ -29,12 +29,9 @@
               >
             </div>
           </form>
-          <video
-            width="100%"
-            id="video"
-            autoplay="true"
-            :srcObject="srcObject"
-          ></video>
+          <!-- local video element -->
+          <video width="100%" id="local-video" autoplay="true"></video>
+          <!-- local video element -->
           <i class="bi bi-mic-fill"></i>
           <button
             type="button"
@@ -116,7 +113,7 @@ export default {
     const url = 'wss://' + location.host + '/groupcall';
     this.$store.dispatch('meetingRoom/wsInit', url);
 
-    if (navigator.mediaDevices.getUserMedia) {
+    /* if (navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices
         .getUserMedia({ video: true })
         .then(stream => {
@@ -126,7 +123,8 @@ export default {
         .catch(function (err) {
           console.log('Something went wrong!', err);
         });
-    }
+    } */
+    this.playVideoFromCamera();
   },
   methods: {
     micOnOff: function () {
@@ -160,6 +158,16 @@ export default {
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
       this.$store.dispatch('meetingRoom/setMeetingInfo', meetingInfo);
+    },
+    playVideoFromCamera: async function () {
+      try {
+        const constraints = { video: true, audio: true };
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        const videoElement = document.getElementById('local-video');
+        videoElement.srcObject = stream;
+      } catch (error) {
+        console.error('Error opening video camera.', error);
+      }
     },
   },
 };
