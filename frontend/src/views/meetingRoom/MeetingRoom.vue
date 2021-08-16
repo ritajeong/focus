@@ -33,7 +33,7 @@
       /></transition>
       <!-- left side bar control buttons -->
       <!-- Room Title -->
-      <h1 class="room-title">Room Title</h1>
+      <h1 class="room-title">{{ roomTitle }}</h1>
       <!-- Main Video -->
       <MainVideoUnit
         class="main-video-unit"
@@ -76,6 +76,8 @@ import MainVideoUnit from './components/MainVideoUnit.vue';
 import MeetingController from './components/MeetingController.vue';
 import MeetingSideBar from './components/MeetingSideBar.vue';
 
+import _ from 'lodash';
+
 export default {
   name: 'MeetingRoom',
   components: {
@@ -105,6 +107,9 @@ export default {
         key => key === this.$store.state.meetingRoom.presenter,
       );
       return this.participants[mainParticipantName];
+    },
+    roomTitle() {
+      return _.split(this.$store.state.meetingRoom.roomName, '-')[0];
     },
   },
   // : lifecycle hook

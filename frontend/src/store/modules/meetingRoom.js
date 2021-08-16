@@ -23,13 +23,15 @@ export default {
     presenter: null,
     size: null,
     location: null,
+    // 발표자에게 필요한 state
     presentationContents: null,
+    imageUrls: null,
+    selectedContentId: null,
   }),
   // mutations
   mutations: {
     WS_INIT(state, url) {
       state.ws = new WebSocket(url);
-      console.log(state.ws);
       return false;
     },
     /*     WS_ONMESSAGE(state, parsedMessage) {
@@ -86,9 +88,17 @@ export default {
       state.size = null;
       state.location = null;
       state.presentationContents = null;
+      state.imageUrls = null;
+      state.selectedContentId = null;
     },
     SET_CONTENTS(state, message) {
-      state.presentationContents = message;
+      state.presentationContents = message.data;
+    },
+    SET_IMAGE_URLS(state, imageUrls) {
+      state.imageUrls = imageUrls;
+    },
+    SET_SELECTED_CONTENT_ID(state, id) {
+      state.selectedContentId = id;
     },
   },
   // actions
@@ -108,7 +118,6 @@ export default {
     },
     // 웹소켓 메시지에 따른 동작
     onServerMessage(context, message) {
-      /* console.log(message); */
       switch (message.id) {
         case 'existingParticipants': {
           context.dispatch('onExistingParticipants', message);
@@ -213,8 +222,6 @@ export default {
         context.dispatch('receiveVideo', sender);
       });
       // presenter 설정, presentation 설정
-      //디버깅 콘솔
-      console.log('onExistingParticipant', message);
       context.dispatch('changePresenter', message);
       context.dispatch('changePresentation', message);
       // console.log('onExistingParticipants end')
@@ -294,6 +301,13 @@ export default {
       if (context.state.myName === message.presenter) {
         context.dispatch('setContents');
       }
+    },
+    // ContentSelector에서 컨텐츠 선택 시 action
+    setImageUrls(context, ImageUrls) {
+      context.commit('SET_IMAGE_URLS', ImageUrls);
+    },
+    setSelectedContentId(context, id) {
+      context.commit('SET_SELECTED_CONTENT_ID', id);
     },
   },
   getters: {},

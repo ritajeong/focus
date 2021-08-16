@@ -102,9 +102,7 @@ export default {
     return {
       roomName: this.roomInfo.name,
       roomId: this.roomInfo.room_id,
-      /* 아직 구현 안된 API */
-      manager: this.roomInfo.managerName + this.roomInfo.managerId,
-      /* 아직 구현 안된 API */
+      manager: this.roomInfo.manager_name + '-' + this.roomInfo.manager_id,
       userName: this.$store.state.users.login.username,
       userId: this.$store.state.users.login.userid,
       roomDescription: this.roomInfo.description,

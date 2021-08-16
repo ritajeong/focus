@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- prev -->
-    <PresentationSlideItem v-if="prev >= 0" :slideUrl="slideUrls[prev].url" />
+    <PresentationSlideItem v-if="prev >= 0" :slideUrl="slideUrls[prev]" />
     <img
       v-else
       src="@/assets/presentationTemplates/first-slide.png"
@@ -10,13 +10,13 @@
     />
     <!-- now -->
     <div style="position: relative">
-      <PresentationSlideItem :slideUrl="slideUrls[now].url" />
+      <PresentationSlideItem :slideUrl="slideUrls[now]" />
       <div class="overlay"><span>Now</span></div>
     </div>
     <!-- next -->
     <PresentationSlideItem
       v-if="next < slideUrls.length"
-      :slideUrl="slideUrls[next].url"
+      :slideUrl="slideUrls[next]"
     />
     <img
       v-else
@@ -45,7 +45,6 @@
 
 <script>
 import PresentationSlideItem from './PresentationSlideItem.vue';
-import Dummy from './Dummy.js';
 
 export default {
   name: 'PresentationSlider.vue',
@@ -55,9 +54,6 @@ export default {
   // : data
   data() {
     return {
-      /* 임시 데이터 */
-      slideUrls: Dummy.getSlideUrls(),
-      /* 임시로 data에 저장, 실 서비스에서는 state로 관리해야 함 나갔다 들어와도 그대로여야 하니까 */
       prev: -1,
       now: 0,
       next: 1,
@@ -73,12 +69,15 @@ export default {
     presentationLocation() {
       return this.$store.state.meetingRoom.location;
     },
+    slideUrls() {
+      return this.$store.state.ImageUrls;
+    },
   },
   // : watch
   watch: {
     now: function () {
       // 발표자의 현재 이미지 url state에 저장: 이미지 변경 시 -> actions / mutation으로 분리해야함
-      this.$store.state.meetingRoom.nowImageUrl = this.slideUrls[this.now].url;
+      this.$store.state.meetingRoom.nowImageUrl = this.slideUrls[this.now];
       // 현재 본인이 발표자라면 웹소켓 메시지 보내기
       if (
         this.$store.state.meetingRoom.presenter ===
@@ -86,7 +85,7 @@ export default {
       ) {
         var message = {
           id: 'changePresentation',
-          imageUri: this.slideUrls[this.now].url,
+          imageUri: this.slideUrls[this.now],
           location: this.presentationLocation,
           size: this.presentationSize,
         };
@@ -95,10 +94,7 @@ export default {
     },
   },
   // : lifecycle hook
-  mounted() {
-    // 발표자의 현재 이미지 url state에 저장: 발표 시작 시
-    this.$store.state.meetingRoom.nowImageUrl = this.slideUrls[this.now].url;
-  },
+  mounted() {},
   // : methods
   methods: {
     progressPrev: function () {
