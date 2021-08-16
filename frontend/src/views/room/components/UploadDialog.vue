@@ -1,5 +1,8 @@
 <template>
   <v-app id="inspire">
+    <div>
+      <RoomFiledetail></RoomFiledetail>
+    </div>
     <!-- Page.vue - Dialog를 열기위한 버튼 영역 -->
     <v-container fluid class="pa-0">
       <v-row align="center">
@@ -53,10 +56,12 @@
 
 <script>
 import Upload from './Upload.vue';
+import RoomFiledetail from './RoomFiledetail.vue';
 //import {showRoomdetail} from '@/api/file.js';
 export default {
   components: {
     Upload,
+    RoomFiledetail,
   },
   data: () => ({
     dialog: false,
