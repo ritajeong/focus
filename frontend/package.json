@@ -16,6 +16,7 @@
     "axios": "^0.21.1",
     "bootstrap-icons": "^1.5.0",
     "core-js": "^3.6.5",
+    "cors": "^2.8.5",
     "kurento-utils": "^6.16.0",
     "lodash": "^4.17.21",
     "luxon": "^2.0.2",
@@ -27,13 +28,13 @@
     "vue-alertify": "^1.1.0",
     "vue-datetime": "^1.0.0-beta.14",
     "vue-router": "^3.2.0",
+    "vue-upload-component": "^2.8.20",
     "vue2-datepicker": "^3.9.2",
     "vue2-timepicker": "^1.1.6",
-    "vuex": "^3.4.0",
-    "weekstart": "^1.1.0",
-    "vue-upload-component": "^2.8.20",
     "vuetify": "^2.1.0",
-    "web3": "^1.5.2"
+    "vuex": "^3.4.0",
+    "web3": "^1.5.2",
+    "weekstart": "^1.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
