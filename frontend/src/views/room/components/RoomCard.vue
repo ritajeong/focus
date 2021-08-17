@@ -1,6 +1,6 @@
 <template>
   <!--카드 유닛-->
-  <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 p-3">
+  <div class="col-xl-3 col-lg-3 mb-xl-0 mb-4 p-3">
     <div
       class="card card-background move-on-hover background-wrap"
       v-bind:style="backgroundImg"
@@ -135,13 +135,13 @@ export default {
 
     if (this.isNow) {
       this.backgroundImg =
-        "background-image: url('../../assets/img/gradient/now2.jpg');";
+        "background-image: url('../../assets/img/gradient/_now2.png');";
     } else if (this.isFuture) {
       this.backgroundImg =
-        "background-image: url('../../assets/img/gradient/future.jpg');";
+        "background-image: url('../../assets/img/gradient/_future.png');";
     } else {
       this.backgroundImg =
-        "background-image: url('../../assets/img/gradient/history.jpg');";
+        "background-image: url('../../assets/img/gradient/_history.png');";
     }
   },
   computed: {

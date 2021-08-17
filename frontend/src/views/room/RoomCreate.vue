@@ -1,10 +1,10 @@
 <template>
   <section>
-    <div class="container py-4">
+    <div class="container py-4 mb-5">
       <div class="row">
         <div
           class="
-            col-lg-7
+            col-xl-7 col-lg-10
             mx-auto
             d-flex
             justify-content-center
@@ -27,7 +27,7 @@
                     />
                   </div>
                 </div>
-                <div class="col-md-3 ps-5">
+                <div class="col-md-3 ps-4">
                   <label><h6>Start Time</h6></label>
                   <div>
                     <date-picker
