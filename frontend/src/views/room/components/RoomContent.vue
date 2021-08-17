@@ -200,6 +200,7 @@ export default {
     };
   },
   created() {
+    window.scrollTo(0, 0);
     if (
       this.$store.state.rooms.room.manager_id ==
         this.$store.state.users.login.userid &&
