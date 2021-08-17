@@ -14,7 +14,7 @@
             v-if="isNow"
             class="mb-2 card-join"
             data-bs-toggle="modal"
-            data-bs-target="#RoomReadyModal"
+            :data-bs-target="'#RoomReadyModal' + roomInfo.room_id"
           >
             <i
               class="fas fa-sign-in-alt"
@@ -52,7 +52,7 @@
         <p
           class="mb-2 card-join"
           data-bs-toggle="modal"
-          data-bs-target="#RoomReadyModal"
+          :data-bs-target="'#RoomReadyModal' + roomInfo.room_id"
         >
           <i
             class="fas fa-sign-in-alt"
@@ -65,7 +65,7 @@
       </div>
     </div>
     <!-- Modal -->
-    <RoomReadyModal v-bind:roomInfo="this.roomInfo"></RoomReadyModal>
+    <RoomReadyModal :roomInfo="roomInfo" :key="roomInfo.room_id" />
   </div>
   <!--카드 유닛-->
 </template>

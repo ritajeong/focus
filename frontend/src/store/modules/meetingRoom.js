@@ -202,7 +202,7 @@ export default {
         function (error) {
           if (error) {
             //debugging
-            console.log(participant, video);
+            /* console.log(participant, video); */
             return console.error(error);
           }
           // this -> kurentoUtils.WebRtcPeer.WebRtcPeerSendonly
@@ -251,12 +251,12 @@ export default {
     },
     // 방에 참여해있는 상태에서 새로운 참가자가 들어왔을 때
     onNewParticipant(context, request) {
-      console.log('onNewParticipant' + request.name);
+      /* console.log('onNewParticipant' + request.name); */
       context.dispatch('receiveVideo', request.name);
     },
     // participant 객체에서 삭제 메서드를 사용했을 때
     onParticipantLeft(context, request) {
-      console.log('Participant' + request.name + 'left');
+      /* console.log('Participant' + request.name + 'left'); */
       var participant = context.state.participants[request.name];
       participant.dispose();
     },
