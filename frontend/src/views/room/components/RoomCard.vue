@@ -102,8 +102,6 @@
   <!--카드 유닛-->
 </template>
 <script>
-import axios from 'axios';
-
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
 import RoomReadyModal from './RoomReadyModal.vue';
