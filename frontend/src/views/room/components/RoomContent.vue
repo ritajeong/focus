@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-md-7">
             <label><h6>Room Name</h6></label>
-            <div class="input-group mb-4">
+            <div class="input-group mb-3">
               <input
                 v-model="roomName"
                 class="form-control"
@@ -97,7 +97,7 @@
                 <td>
                   <div v-if="index > 0 && isManager">
                     <button
-                      class="btn btn-outline-danger text-danger"
+                      class="btn btn-outline-danger text-danger py-1"
                       type="button"
                       id="btn-delete"
                       @click="deleteParticipant(participant.email)"

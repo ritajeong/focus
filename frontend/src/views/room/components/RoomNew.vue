@@ -8,9 +8,7 @@
         background-wrap
         card-new-parrent
       "
-      style="
-        background-image: url('../../assets/img/curved-images/curved9.jpg');
-      "
+      style="background-image: url('../../assets/img/gradient/new.jpg')"
     >
       <router-link to="/dashboard/create" class="text-white">
         <div

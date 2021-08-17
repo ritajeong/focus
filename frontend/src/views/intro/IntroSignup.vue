@@ -3,6 +3,21 @@
     <!--ㅎㅇ 회원가입 유효성 검사 -->
     <section>
       <div class="page-header min-vh-100">
+        <div class="oblique position-absolute top-0 h-100 d-md-block d-none">
+          <div
+            class="
+              oblique-image
+              bg-cover
+              position-absolute
+              fixed-top
+              ms-auto
+              h-100
+              z-index-0
+              ms-n9
+            "
+            style="background-image: url(../../assets/img/gradient/Sky.jpg)"
+          ></div>
+        </div>
         <div class="container">
           <div class="row">
             <div
@@ -10,13 +25,17 @@
                 col-xl-4 col-lg-5 col-md-7
                 d-flex
                 flex-column
-                mx-lg-0 mx-auto
+                mx-lg-8 mx-auto
               "
             >
               <div class="card card-plain">
-                <div class="card-header pb-0 text-left">
-                  <h4 class="font-weight-bolder">Sign Up</h4>
-                  <p class="mb-0">Enter your infomation to sign up</p>
+                <div class="pb-0 text-center">
+                  <h1 class="text-gradient text-focus font-weight-bolder pb-3">
+                    Sign Up
+                  </h1>
+                  <h4 class="mb-0 text-gradient text-focus">
+                    Enter your infomation to sign up
+                  </h4>
                 </div>
                 <div class="card-body">
                   <form role="form" @submit.prevent="submitForm()">
@@ -82,16 +101,17 @@
                         >
                       </label>
                     </div> -->
-                    <div class="text-center">
+                    <div class="text-center pb-3">
                       <button
                         type="submit"
                         class="
                           btn btn-lg
                           bg-gradient-dark
                           btn-lg
-                          w-100
+                          w-50
                           mt-4
                           mb-0
+                          text-lg
                         "
                       >
                         Sign Up
@@ -100,63 +120,19 @@
                   </form>
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                  <p class="mb-4 text-sm mx-auto">
+                  <h3 class="mb-4 mx-auto text-lg">
                     Already have an account?
                     <router-link
                       to="login"
-                      class="text-dark text-gradient font-weight-bold"
+                      class="
+                        text-dark text-gradient
+                        font-weight-bold
+                        text-center text-lg
+                      "
                       >Sign In</router-link
                     >
-                  </p>
+                  </h3>
                 </div>
-              </div>
-            </div>
-            <div
-              class="
-                col-6
-                d-lg-flex d-none
-                h-100
-                my-auto
-                pe-0
-                position-absolute
-                top-0
-                end-0
-                text-center
-                justify-content-center
-                flex-column
-              "
-            >
-              <div
-                class="
-                  position-relative
-                  bg-gradient-dark
-                  h-100
-                  m-3
-                  px-7
-                  border-radius-lg
-                  d-flex
-                  flex-column
-                  justify-content-center
-                "
-              >
-                <img
-                  src="@/assets/img/shapes/pattern-lines.svg"
-                  alt="pattern-lines"
-                  class="position-absolute opacity-4 start-0"
-                />
-                <div class="position-relative">
-                  <img
-                    class="max-width-500 w-100 position-relative z-index-2"
-                    src="@/assets/img/illustrations/rocket-white.png"
-                  />
-                </div>
-                <h4 class="mt-5 text-white font-weight-bolder">
-                  "Attention is the new currency"
-                </h4>
-                <p class="text-white">
-                  The more effortless the writing looks, the more effort the
-                  writer actually put into the process.
-                </p>
               </div>
             </div>
           </div>
@@ -227,3 +203,15 @@ export default {
   },
 };
 </script>
+<style scoped>
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+.text-gradient.text-focus {
+  background-image: linear-gradient(310deg, #141727, #3f92be);
+}
+</style>
