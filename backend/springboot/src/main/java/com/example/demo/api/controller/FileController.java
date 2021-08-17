@@ -74,6 +74,7 @@ public class FileController {
 		return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
 	}
 
+
 	@PostMapping("/delete")
 	@ApiOperation(value = "파일 삭제")
 
