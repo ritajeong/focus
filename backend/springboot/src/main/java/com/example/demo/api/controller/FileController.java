@@ -73,6 +73,7 @@ public class FileController {
 		return new ResponseEntity<List<byte[]>>(fileservice.getAllImage(roomId, userId), HttpStatus.OK);
 	}
 
+
 	@PostMapping("/delete")
 	@ApiOperation(value = "파일 삭제")
 
