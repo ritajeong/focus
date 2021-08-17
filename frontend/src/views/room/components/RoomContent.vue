@@ -235,7 +235,7 @@ export default {
       deletetot(formDa)
         .then(data => {
           console.log(data);
-          this.$alertify.success('삭제 완료');
+          this.$router.go();
         })
         .catch(() => {
           console.log('error');

@@ -68,6 +68,7 @@ export default {
     },
     closeDialog() {
       this.dialog = false;
+      this.$router.go();
     },
   },
 };
