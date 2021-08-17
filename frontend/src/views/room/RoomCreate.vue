@@ -191,9 +191,6 @@ export default {
         return;
       }
 
-      console.log('참가자 이메일 검색: ', this.participantAccount);
-      console.log('participants: ', this.participants);
-
       // 같은 계정 참가자 추가 안되게 함.
       const size = this.participants.length;
 
@@ -216,14 +213,11 @@ export default {
               codeName: this.roleSelected.split('-')[1],
             },
           });
-          console.log('getUsername() success in addParticipant()');
         }
       });
     },
 
     deleteParticipant(email) {
-      console.log('delete participant', email);
-
       this.participants.forEach((element, index) => {
         if (element.email == email) {
           this.participants.splice(index);
@@ -254,11 +248,9 @@ export default {
           email: this.$store.state.users.login.useremail,
           participants: this.participants,
         };
-        console.log('[createHandler] roomData: ', roomData);
 
         createRoom(roomData)
           .then(({ status }) => {
-            console.log(status);
             if (status != 200) {
               this.$alertify.error('방 생성 실패했습니다.');
               return;

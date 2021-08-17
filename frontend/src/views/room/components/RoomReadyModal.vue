@@ -32,7 +32,11 @@
             </div>
           </form>
           <!-- local video element -->
-          <video width="100%" id="local-video" autoplay="true"></video>
+          <video
+            width="100%"
+            :id="'local-video' + roomId"
+            autoplay="true"
+          ></video>
           <!-- local video element -->
           <i class="bi bi-mic-fill"></i>
           <button
@@ -153,7 +157,6 @@ export default {
       console.log('video state: ', this.isVideoOn);
     },
     join: function () {
-      console.log('[join] roomInfo : ', this.roomInfo);
       if (this.isManager) {
         const roomData = {
           room_id: this.roomId,
@@ -205,9 +208,11 @@ export default {
     },
     playVideoFromCamera: async function () {
       try {
-        const constraints = { video: true, audio: true };
+        const constraints = { video: true, audio: false };
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        const videoElement = document.getElementById('local-video');
+        const videoElement = document.getElementById(
+          'local-video' + this.roomId,
+        );
         videoElement.srcObject = stream;
       } catch (error) {
         console.error('Error opening video camera.', error);

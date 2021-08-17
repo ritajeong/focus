@@ -132,7 +132,7 @@
           </div>
         </div>
 
-        <div v-if="files.length == 0">
+        <div v-if="files.length == 0 && !this.$store.state.rooms.room.endTime">
           <UploadDialog />
         </div>
         <div v-else>
@@ -201,9 +201,11 @@ export default {
     };
   },
   created() {
+    window.scrollTo(0, 0);
     if (
       this.$store.state.rooms.room.manager_id ==
-      this.$store.state.users.login.userid
+        this.$store.state.users.login.userid &&
+      !this.$store.state.rooms.room.endTime
     ) {
       this.isManager = true;
     }
@@ -215,11 +217,10 @@ export default {
       .then(data => {
         console.log(data);
         this.files = data.data;
-        this.$alertify.success('파일이 보입니다.');
       })
       .catch(() => {
         console.log('error');
-        this.$alertify.error('error! catch');
+        this.$alertify.error('파일을 가져오지 못했습니다.');
       });
   },
   computed: {
@@ -236,7 +237,7 @@ export default {
       deletetot(formDa)
         .then(data => {
           console.log(data);
-          this.$alertify.success('삭제 완료');
+          this.$router.go();
         })
         .catch(() => {
           console.log('error');
@@ -250,9 +251,6 @@ export default {
         this.$alertify.error(msg);
         return;
       }
-
-      console.log('참가자 이메일 검색: ' + this.participantAccount);
-      console.log('selected role: ' + this.roleSelected);
 
       // 같은 계정 참가자 추가 안되게 함.
       const size = this.participants.length;
@@ -276,13 +274,10 @@ export default {
               codeName: this.roleSelected.split('-')[1],
             },
           });
-          console.log('getUsername() success in addParticipant()');
         }
       });
     },
     deleteParticipant(email) {
-      console.log('delete participant', email);
-
       this.participants.forEach((element, index) => {
         if (element.email == email) {
           this.participants.splice(index);
@@ -313,11 +308,9 @@ export default {
           startTime: this.datetime,
           participants: this.participants,
         };
-        console.log('[updateHandler] roomData: ', roomData);
 
         updateRoom(roomData)
           .then(({ status }) => {
-            console.log(status);
             if (status != 200) {
               this.$alertify.error('방 정보 수정중 실패했습니다.');
               return;

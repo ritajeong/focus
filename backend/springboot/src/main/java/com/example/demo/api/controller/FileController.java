@@ -40,12 +40,12 @@ public class FileController {
 
 
     @PostMapping("/down")
-        public ResponseEntity<?> downloadfile(
-                @ModelAttribute @ApiParam(value="파일 저장", required = true) FileReq registerInfo
-                )throws Exception {
-              FileReq file = fileservice.saveFile(registerInfo);
-            return  ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-        }
+    public ResponseEntity<?> downloadfile(
+            @ModelAttribute @ApiParam(value = "파일 저장", required = true) FileReq registerInfo
+    ) throws Exception {
+        FileReq file = fileservice.saveFile(registerInfo);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
 
     @GetMapping("/room/{roomId}")
     @ApiOperation(value = "하나방 파일보기")
@@ -56,8 +56,8 @@ public class FileController {
             @ApiResponse(code = 409, message = "이미 존재하는 유저"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<FileRes>> showRooms(@PathVariable("roomId") int roomId){
-        return new ResponseEntity<List<FileRes>>(fileservice.findbyroomid(roomId),HttpStatus.OK);
+    public ResponseEntity<List<FileRes>> showRooms(@PathVariable("roomId") int roomId) {
+        return new ResponseEntity<List<FileRes>>(fileservice.findbyroomid(roomId), HttpStatus.OK);
     }
 
     @PostMapping("/detail")
@@ -69,41 +69,48 @@ public class FileController {
             @ApiResponse(code = 409, message = "이미 존재하는 유저"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<FiledetailRes>> showRoomdetail(@ModelAttribute @ApiParam(value="파일 저장", required = true) ShowFileReq filereq){
-        return new ResponseEntity<List<FiledetailRes>>(fileservice.findbygroupid(filereq),HttpStatus.OK);
+    public ResponseEntity<List<FiledetailRes>> showRoomdetail(@ModelAttribute @ApiParam(value = "파일 저장", required = true) ShowFileReq filereq) {
+        List<FiledetailRes> files=null;
+        try{
+            files=fileservice.findbygroupid(filereq);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<List<FiledetailRes>>(files, HttpStatus.OK);
 
-}
-@PostMapping("/delete")
-@ApiOperation(value = "파일 삭제") 
-
- public ResponseEntity<?> delete(
-            @ModelAttribute @ApiParam(value="파일 삭제", required = true) ShowFileReq registerInfo
-            )throws Exception {
-        
-          fileservice.delete(registerInfo);
-        return  ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));    
     }
 
-@PostMapping("/deletefile")
-@ApiOperation(value = "파일 삭제") 
+    @PostMapping("/delete")
+    @ApiOperation(value = "파일 삭제")
 
- public ResponseEntity<?> deletefile(
-            @ModelAttribute @ApiParam(value="파일 삭제", required = true) FileReq registerInfo
-            )throws Exception {
-    
-          fileservice.deletefile(registerInfo);
-        return  ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));    
+    public ResponseEntity<?> delete(
+            @ModelAttribute @ApiParam(value = "파일 삭제", required = true) ShowFileReq registerInfo
+    ) throws Exception {
+
+        fileservice.delete(registerInfo);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
+
+    @PostMapping("/deletefile")
+    @ApiOperation(value = "파일 삭제")
+
+    public ResponseEntity<?> deletefile(
+            @ModelAttribute @ApiParam(value = "파일 삭제", required = true) FileReq registerInfo
+    ) throws Exception {
+
+        fileservice.deletefile(registerInfo);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
 
-@PostMapping("/updatefile")
-@ApiOperation(value = "파일 수정") 
+    @PostMapping("/updatefile")
+    @ApiOperation(value = "파일 수정")
 
- public ResponseEntity<?> updatefile(
-            @ModelAttribute @ApiParam(value="파일 수정", required = true) FileReq registerInfo
-            )throws Exception {
-    
-          FileReq file = fileservice.update(registerInfo);
-        return  ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));    
+    public ResponseEntity<?> updatefile(
+            @ModelAttribute @ApiParam(value = "파일 수정", required = true) FileReq registerInfo
+    ) throws Exception {
+
+        FileReq file = fileservice.update(registerInfo);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 }

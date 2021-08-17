@@ -94,7 +94,6 @@ export default {
   },
   methods: {
     setAndGoToRoomInfo() {
-      console.log('setAndGoToRoomInfo click');
       this.$store.dispatch('rooms/setRoom', this.roomInfo);
       this.$router.push('/dashboard/info');
     },
@@ -114,8 +113,6 @@ export default {
       this.backgroundImg =
         "background-image: url('../../assets/img/curved-images/curved.jpg');";
     }
-
-    console.log('[RoomCard] roomInfo: ', this.roomInfo);
   },
   computed: {
     ...mapGetters({

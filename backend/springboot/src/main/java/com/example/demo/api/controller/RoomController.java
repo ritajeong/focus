@@ -50,7 +50,6 @@ public class RoomController {
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value = "방정보", required = true) RoomRegisterPostReq registerInfo) {
 		try {
-			System.out.println("[createroom] register: registerInfo: " + registerInfo);
 			log.info("[register] room register info: {}", registerInfo);
 			Rooms room = roomService.createRoom(registerInfo);
 			log.info("[register] room : {}", room);
@@ -91,8 +90,6 @@ public class RoomController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> deleteRoom(@PathVariable("roomId") int roomId) {
-
-		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
 		Rooms room = roomService.getRoom(roomId);
 		roomService.deleteRoom(roomId);
 
