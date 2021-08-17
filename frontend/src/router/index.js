@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueAlertify from 'vue-alertify';
 
 import IntroPage from '@/views/intro/IntroPage.vue';
 import IntroContent from '@/views/intro/IntroContent.vue';
@@ -23,14 +24,17 @@ import MyInfo from '@/views/mypage/MyInfo.vue';
 import MyPresentation from '@/views/mypage/MyPresentation.vue';
 import MyNote from '@/views/mypage/MyNote.vue';
 
-Vue.use(VueRouter);
+import store from '@/store/index.js';
 
+Vue.use(VueRouter);
+Vue.use(VueAlertify);
 const router = new VueRouter({
   // mode: 'history',
   routes: [
     {
       path: '/',
       component: IntroPage,
+      meta: { authRequired: false },
       children: [
         {
           path: '',
@@ -50,10 +54,12 @@ const router = new VueRouter({
       path: '/setting',
       name: 'MySetting',
       component: MySetting,
+      meta: { authRequired: true },
     },
     {
       path: '/dashboard',
       component: RoomPage,
+      meta: { authRequired: true },
       children: [
         {
           path: '',
@@ -82,16 +88,19 @@ const router = new VueRouter({
       path: '/meetingroomenter',
       name: 'MeetingRoomEnter',
       component: MeetingRoomEnter,
+      meta: { authRequired: true },
     },
     /* 임시 주소 - 미팅룸 입장 */
     {
       path: '/meetingroom',
       name: 'MeetingRoom',
       component: MeetingRoom,
+      meta: { authRequired: true },
     },
     {
       path: '/mypage',
       component: MyPage,
+      meta: { authRequired: true },
       children: [
         {
           path: '',
@@ -111,6 +120,26 @@ const router = new VueRouter({
   // scrollBehavior(to, from, savedPosition) {
   //   return { x: 0, y: 0 };
   // },
+});
+
+// let isLogin =
+router.beforeEach(function (to, from, next) {
+  var authRequired = to.matched.some(routeInfo => {
+    // console.log(routeInfo);
+    return routeInfo.meta.authRequired;
+  });
+  if (!authRequired || (authRequired && store.state.users.login.isLogin)) {
+    // console.log('authRequired : ' + authRequired);
+    // console.log('isLogin : ' + store.state.users.login.isLogin);
+    next();
+  } else {
+    // VueAlertify.error('로그인이 필요합니다');
+    // this.$alertify.error('로그인이 필요합니다');
+    alert('로그인이 필요합니다');
+    router.push('/login');
+    // console.log('authRequired : ' + authRequired);
+    // console.log('isLogin : ' + store.state.users.login.isLogin);
+  }
 });
 
 export default router;

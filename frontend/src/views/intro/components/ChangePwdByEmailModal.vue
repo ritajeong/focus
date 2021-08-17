@@ -146,7 +146,6 @@ export default {
         };
         updateUserPwd(userData)
           .then(({ status }) => {
-            console.log('update user pwd status: ', status);
             if (status == 401) {
               this.$alertify.error('없는 이메일 계정입니다.');
               this.isEmailValid = false;

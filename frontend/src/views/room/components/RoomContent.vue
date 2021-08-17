@@ -4,7 +4,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-7">
-            <label>Room name</label>
+            <label><h6>Room Name</h6></label>
             <div class="input-group mb-4">
               <input
                 v-model="roomName"
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="col-md-3 ps-5">
-            <label>Start Time</label>
+            <label><h6>Start Time</h6></label>
             <div>
               <date-picker
                 v-model="datetime"
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="form-group mb-4">
-          <label>Room Description</label>
+          <label><h6>Description</h6></label>
           <textarea
             v-model="description"
             type="text"
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group mb-4" v-if="isManager">
-          <label>Participant List</label>
+          <label><h6>Participant List</h6></label>
           <div class="row">
             <div class="col-md-5">
               <input
@@ -77,27 +77,27 @@
             </div>
           </div>
         </div>
-        <div class="mb-4 row">
+        <div class="mb-4 row px-3">
           <table class="table table-striped">
             <thead>
               <tr>
-                <th scope="col">Num</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role</th>
-                <th scope="col"></th>
+                <th class="ps-3" scope="col">Num</th>
+                <th class="ps-3" scope="col">Name</th>
+                <th class="ps-3" scope="col">Email</th>
+                <th class="ps-3" scope="col">Role</th>
+                <th class="ps-3" scope="col"></th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(participant, index) in getParticipants" :key="index">
-                <th scope="row">{{ index + 1 }}</th>
-                <td>{{ participant.name }}</td>
-                <td>{{ participant.email }}</td>
-                <td>{{ participant.codeId.codeName }}</td>
+                <th scope="row" class="ps-3">{{ index + 1 }}</th>
+                <td class="ps-3">{{ participant.name }}</td>
+                <td class="ps-3">{{ participant.email }}</td>
+                <td class="ps-3">{{ participant.codeId.codeName }}</td>
                 <td>
                   <div v-if="index > 0 && isManager">
                     <button
-                      class="btn bg-gradient-danger"
+                      class="btn btn-outline-danger text-danger"
                       type="button"
                       id="btn-delete"
                       @click="deleteParticipant(participant.email)"
@@ -109,40 +109,46 @@
               </tr>
             </tbody>
           </table>
-          <div class="col-md-12 text-center" v-if="isManager">
-            <button
-              type="button"
-              class="btn bg-gradient-dark w-50"
-              @click="updateHandler"
-            >
-              Update Room
-            </button>
-            <br />
-            <button
-              type="button"
-              class="btn bg-gradient-danger w-50"
-              data-bs-toggle="modal"
-              data-bs-target="#modal-notification"
-            >
-              Delete Room
-            </button>
+
+          <div class="col-md-12 justify-content-between" v-if="isManager">
+            <span>
+              <button
+                type="button"
+                class="btn bg-gradient-dark w-30 ms-8"
+                @click="updateHandler"
+              >
+                Update Room
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-danger text-danger w-30 ms-3"
+                data-bs-toggle="modal"
+                data-bs-target="#modal-notification"
+              >
+                Delete Room
+              </button>
+            </span>
           </div>
         </div>
 
-        <div v-if="files.length == 0">
+        <div v-if="files.length == 0 && !this.$store.state.rooms.room.endTime">
           <UploadDialog />
         </div>
         <div v-else>
-          <RoomFiledetail></RoomFiledetail>
+          <h3 class="text-center">Presentation Files</h3>
 
-          <button
-            class="btn bg-gradient-danger"
-            type="button"
-            id="btn-delete"
-            @click="deletefile()"
-          >
-            발표 자료 삭제
-          </button>
+          <RoomFiledetail></RoomFiledetail>
+          <div class="text-center">
+            <button
+              class="btn btn-outline-danger text-danger"
+              type="button"
+              id="btn-delete"
+              @click="deletefile()"
+            >
+              발표 자료 삭제
+            </button>
+          </div>
         </div>
       </div>
     </form>
@@ -195,9 +201,11 @@ export default {
     };
   },
   created() {
+    window.scrollTo(0, 0);
     if (
       this.$store.state.rooms.room.manager_id ==
-      this.$store.state.users.login.userid
+        this.$store.state.users.login.userid &&
+      !this.$store.state.rooms.room.endTime
     ) {
       this.isManager = true;
     }
@@ -209,11 +217,10 @@ export default {
       .then(data => {
         console.log(data);
         this.files = data.data;
-        this.$alertify.success('파일이 보입니다.');
       })
       .catch(() => {
         console.log('error');
-        this.$alertify.error('error! catch');
+        this.$alertify.error('파일을 가져오지 못했습니다.');
       });
   },
   computed: {
@@ -230,7 +237,7 @@ export default {
       deletetot(formDa)
         .then(data => {
           console.log(data);
-          this.$alertify.success('삭제 완료');
+          this.$router.go();
         })
         .catch(() => {
           console.log('error');
@@ -244,9 +251,6 @@ export default {
         this.$alertify.error(msg);
         return;
       }
-
-      console.log('참가자 이메일 검색: ' + this.participantAccount);
-      console.log('selected role: ' + this.roleSelected);
 
       // 같은 계정 참가자 추가 안되게 함.
       const size = this.participants.length;
@@ -270,13 +274,10 @@ export default {
               codeName: this.roleSelected.split('-')[1],
             },
           });
-          console.log('getUsername() success in addParticipant()');
         }
       });
     },
     deleteParticipant(email) {
-      console.log('delete participant', email);
-
       this.participants.forEach((element, index) => {
         if (element.email == email) {
           this.participants.splice(index);
@@ -307,11 +308,9 @@ export default {
           startTime: this.datetime,
           participants: this.participants,
         };
-        console.log('[updateHandler] roomData: ', roomData);
 
         updateRoom(roomData)
           .then(({ status }) => {
-            console.log(status);
             if (status != 200) {
               this.$alertify.error('방 정보 수정중 실패했습니다.');
               return;

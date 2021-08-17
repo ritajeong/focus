@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-4 row">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -41,11 +41,10 @@ export default {
       .then(data => {
         console.log(data);
         this.files = data.data;
-        this.$alertify.success('파일이 보입니다.');
       })
       .catch(() => {
         console.log('error');
-        this.$alertify.error('파일이 안보입니다.');
+        this.$alertify.error('파일 목록을 가져오는 데 에러가 발생했습니다.');
       });
   },
 };

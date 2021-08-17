@@ -32,7 +32,12 @@
             </div>
           </form>
           <!-- local video element -->
-          <video width="100%" id="local-video" autoplay="true"></video>
+          <video
+            width="100%"
+            :id="'local-video' + roomId"
+            autoplay="true"
+            placeholder="비디오를 켜주시고 접속 허용을 눌러주세요"
+          ></video>
           <!-- local video element -->
           <i class="bi bi-mic-fill"></i>
           <button
@@ -111,30 +116,14 @@ export default {
       userId: this.$store.state.users.login.userid,
       roomDescription: this.roomInfo.description,
       isMicOn: true,
-      isVideoOn: true,
+      isVideoOn: false,
       srcObject: {},
       isManager: (this.roomInfo.manager_id =
         this.$store.state.users.login.userid),
     };
   },
   computed: { ...mapGetters(['room']) },
-  mounted() {
-    const url = 'wss://' + location.host + '/groupcall';
-    this.$store.dispatch('meetingRoom/wsInit', url);
-
-    /* if (navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then(stream => {
-          console.log('stream: ', stream);
-          this.srcObject = stream;
-        })
-        .catch(function (err) {
-          console.log('Something went wrong!', err);
-        });
-    } */
-    this.playVideoFromCamera();
-  },
+  mounted() {},
   methods: {
     micOnOff: function () {
       if (this.isMicOn) {
@@ -147,13 +136,15 @@ export default {
     videoOnOff: function () {
       if (this.isVideoOn) {
         this.isVideoOn = false;
+        this.stopVideoFromCamera();
       } else {
         this.isVideoOn = true;
+        this.playVideoFromCamera();
       }
+
       console.log('video state: ', this.isVideoOn);
     },
     join: function () {
-      console.log('[join] roomInfo : ', this.roomInfo);
       if (this.isManager) {
         const roomData = {
           room_id: this.roomId,
@@ -203,14 +194,37 @@ export default {
       this.$store.dispatch('meetingRoom/sendMessage', message);
       this.$store.dispatch('meetingRoom/setMeetingInfo', meetingInfo);
     },
+
     playVideoFromCamera: async function () {
       try {
-        const constraints = { video: true, audio: true };
+        const constraints = { video: true, audio: false };
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        const videoElement = document.getElementById('local-video');
+        const videoElement = document.getElementById(
+          'local-video' + this.roomId,
+        );
+        console.log('videoElement.srcObject before : ', videoElement.srcObject);
         videoElement.srcObject = stream;
+        console.log('videoElement.srcObject after: ', videoElement.srcObject);
       } catch (error) {
         console.error('Error opening video camera.', error);
+      }
+    },
+    stopVideoFromCamera: async function () {
+      try {
+        const videoElement = document.getElementById(
+          'local-video' + this.roomId,
+        );
+        var stream = videoElement.srcObject;
+        var tracks = stream.getTracks();
+
+        for (var i = 0; i < tracks.length; i++) {
+          var track = tracks[i];
+          track.stop();
+        }
+
+        videoElement.srcObject = null;
+      } catch (err) {
+        console.error('Error stop video camera.', err);
       }
     },
   },

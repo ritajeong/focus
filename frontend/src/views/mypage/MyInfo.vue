@@ -17,7 +17,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-12">
-                  <label>Email</label>
+                  <label><h6>Email</h6></label>
                   <div class="input-group">
                     <input
                       type="email"
@@ -30,7 +30,7 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <label>Name</label>
+                  <label><h6>Name</h6></label>
                   <div class="input-group row">
                     <div class="col-10">
                       <input
@@ -110,7 +110,6 @@ export default {
         user_id: this.$store.state.users.login.userid,
         name: this.username,
       };
-      console.log('update name userData', userData);
       updateUserName(userData)
         .then(({ status }) => {
           console.log(status);

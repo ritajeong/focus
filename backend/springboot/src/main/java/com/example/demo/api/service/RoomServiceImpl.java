@@ -51,6 +51,7 @@ public class RoomServiceImpl implements RoomService {
 		}else{
 			room.setStartTime(Timestamp.valueOf(roomInfo.getStartTime()));
 		}
+		room.setOnLive(false);
 		room.setDescription(roomInfo.getDescription());
 		Users user=userRepository.findByEmail(roomInfo.getEmail());
 		room.setUsers(user);
