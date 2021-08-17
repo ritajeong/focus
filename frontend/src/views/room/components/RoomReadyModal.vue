@@ -44,7 +44,7 @@
             type="button"
             class="btn"
             :class="{
-              'bg-gradient-warning': isMicOn,
+              'bg-gradient-dark': isMicOn,
               'bg-gradient-secondary': !isMicOn,
             }"
             @click="micOnOff"
@@ -61,7 +61,7 @@
             type="button"
             class="btn"
             :class="{
-              'bg-gradient-warning': isVideoOn,
+              'bg-gradient-dark': isVideoOn,
               'bg-gradient-secondary': !isVideoOn,
             }"
             @click="videoOnOff"
