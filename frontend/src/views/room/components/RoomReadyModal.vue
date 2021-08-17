@@ -153,7 +153,6 @@ export default {
       console.log('video state: ', this.isVideoOn);
     },
     join: function () {
-      console.log('[join] roomInfo : ', this.roomInfo);
       if (this.isManager) {
         const roomData = {
           room_id: this.roomId,

@@ -69,9 +69,7 @@ export default {
   },
   methods: {
     deleteRoom() {
-      console.log('[deleteRoom] roomId', this.roomId);
       deleteRoom(this.roomId).then(({ status }) => {
-        console.log(status);
         if (status != 200) {
           this.$alertify.error('방 삭제에 실패했습니다.');
         } else {

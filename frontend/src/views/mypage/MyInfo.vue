@@ -110,7 +110,6 @@ export default {
         user_id: this.$store.state.users.login.userid,
         name: this.username,
       };
-      console.log('update name userData', userData);
       updateUserName(userData)
         .then(({ status }) => {
           console.log(status);
