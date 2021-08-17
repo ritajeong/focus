@@ -16,7 +16,8 @@
 
 <script>
 // import "./template.scss";
-const FILE_PATH = '/home/ubuntu/presentations';
+import _ from 'lodash';
+const FILE_PATH = 'https://i5a107.p.ssafy.io:8446/board/image';
 
 export default {
   name: 'PresentationContentItem',
@@ -45,6 +46,16 @@ export default {
     },
     selectedContentId() {
       return this.$store.state.meetingRoom.selectedContentId;
+    },
+    // 파일의 주인 유저 이름을 가져오기
+    participants() {
+      return this.$store.state.meetingRoom.participants;
+    },
+    contentUserName() {
+      const userName = this.participants.keys.find(
+        userName => _.split(userName, '-')[1] === this.content.user_id,
+      );
+      return _.split(userName, '-')[0];
     },
   },
   // : lifecycle hook

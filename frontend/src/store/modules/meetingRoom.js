@@ -6,7 +6,7 @@ import kurentoUtils from 'kurento-utils';
 import axios from 'axios';
 import _ from 'lodash';
 
-const API_SERVER_URL = 'http://localhost:8446';
+const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446';
 
 export default {
   namespaced: true,
@@ -96,6 +96,7 @@ export default {
     },
     SET_IMAGE_URLS(state, imageUrls) {
       state.imageUrls = imageUrls;
+      console.log(state.imageUrls);
     },
     SET_SELECTED_CONTENT_ID(state, id) {
       state.selectedContentId = id;
@@ -181,18 +182,18 @@ export default {
       var video = participant.getVideoElement();
 
       // WebRtcPeer의 옵션 설정
-      var constraints = {
-        audio: true,
-        video: {
-          width: 320,
-          height: 240,
-          framerate: 15,
-        },
-      };
+      // var constraints = {
+      //   audio: true,
+      //   video: {
+      //     width: 320,
+      //     height: 240,
+      //     framerate: 15,
+      //   },
+      // };
 
       var options = {
         localVideo: video,
-        mediaConstraints: constraints,
+        // mediaConstraints: constraints,
         onicecandidate: participant.onIceCandidate.bind(participant),
       };
 
@@ -303,12 +304,16 @@ export default {
       }
     },
     // ContentSelector에서 컨텐츠 선택 시 action
-    setImageUrls(context, ImageUrls) {
-      context.commit('SET_IMAGE_URLS', ImageUrls);
+    setImageUrls(context, imageUrls) {
+      context.commit('SET_IMAGE_URLS', imageUrls);
     },
     setSelectedContentId(context, id) {
       context.commit('SET_SELECTED_CONTENT_ID', id);
     },
   },
-  getters: {},
+  getters: {
+    getImageUrls: state => {
+      return state.imageUrls;
+    },
+  },
 };

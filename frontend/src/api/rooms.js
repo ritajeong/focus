@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const instance = axios.create({
+  baseURL: 'https://i5a107.p.ssafy.io:8446/rooms/',
   //baseURL: 'http://52.79.80.65:8446/rooms/',
-  baseURL: 'http://localhost:8446/rooms/',
+  // baseURL: 'http://localhost:8446/rooms/',
   headers: {
     'Content-type': 'application/json',
   },

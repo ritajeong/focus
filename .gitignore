@@ -6,31 +6,25 @@
 
 ### Spring Boot ###
 /.metadata/
-<<<<<<< HEAD
 /backend/WebRTC/.metadata/
 /backend/WebRTC/.gradle/
 /backend/WebRTC/.mvn/
 /backend/WebRTC/src/main/resources/application.properties
-<<<<<<< HEAD
-<<<<<<< HEAD
-/backend/springboot/src/main/resources/static/
-/backend/webrtc/src/main/resources/static/
-=======
-/backend/WebRTC/src/main/resources/static/*.*
+/backend/WebRTC/target/
 
->>>>>>> origin/feature/meeting-room
-=======
-/backend/springboot/src/main/resources/static/
-/backend/webrtc/src/main/resources/static/
-=======
 /backend/webrtc/.metadata/
 /backend/webrtc/.gradle/
 /backend/webrtc/.mvn/
 /backend/webrtc/src/main/resources/application.properties
-/backend/webrtc/src/main/resources/static/*.*
+/backend/webrtc/src/main/resources/static
+/backend/webrtc/target/
 
->>>>>>> feature/meeting-room
->>>>>>> origin/feature/room-management
+/backend/springboot/.metadata/
+/backend/springboot/.gradle/
+/backend/springboot/.mvn/
+/backend/springboot/src/main/resources/application.properties
+/backend/springboot/src/main/resources/static/
+/backend/springboot/target/
 
 ### Java ###
 # Compiled class file
