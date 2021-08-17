@@ -1,13 +1,14 @@
 import Participant from './js/participant.js';
 import Vue from 'vue';
 import router from '../../router';
+import { setRoomOnLive } from '@/api/rooms.js';
 
 import kurentoUtils from 'kurento-utils';
 import axios from 'axios';
 import _ from 'lodash';
 
-//const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446';
-const API_SERVER_URL = 'http://localhost:8446';
+const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446';
+// const API_SERVER_URL = 'https://localhost:8446';
 
 export default {
   namespaced: true,
@@ -97,6 +98,7 @@ export default {
     },
     SET_IMAGE_URLS(state, imageUrls) {
       state.imageUrls = imageUrls;
+      console.log(state.imageUrls);
     },
     SET_SELECTED_CONTENT_ID(state, id) {
       state.selectedContentId = id;
@@ -182,18 +184,18 @@ export default {
       var video = participant.getVideoElement();
 
       // WebRtcPeer의 옵션 설정
-      var constraints = {
-        audio: true,
-        video: {
-          width: 320,
-          height: 240,
-          framerate: 15,
-        },
-      };
+      // var constraints = {
+      //   audio: true,
+      //   video: {
+      //     width: 320,
+      //     height: 240,
+      //     framerate: 15,
+      //   },
+      // };
 
       var options = {
         localVideo: video,
-        mediaConstraints: constraints,
+        // mediaConstraints: constraints,
         onicecandidate: participant.onIceCandidate.bind(participant),
       };
 
@@ -203,7 +205,7 @@ export default {
         function (error) {
           if (error) {
             //debugging
-            console.log(participant, video);
+            /* console.log(participant, video); */
             return console.error(error);
           }
           // this -> kurentoUtils.WebRtcPeer.WebRtcPeerSendonly
@@ -252,12 +254,12 @@ export default {
     },
     // 방에 참여해있는 상태에서 새로운 참가자가 들어왔을 때
     onNewParticipant(context, request) {
-      console.log('onNewParticipant' + request.name);
+      /* console.log('onNewParticipant' + request.name); */
       context.dispatch('receiveVideo', request.name);
     },
     // participant 객체에서 삭제 메서드를 사용했을 때
     onParticipantLeft(context, request) {
-      console.log('Participant' + request.name + 'left');
+      /* console.log('Participant' + request.name + 'left'); */
       var participant = context.state.participants[request.name];
       participant.dispose();
     },
@@ -268,6 +270,13 @@ export default {
     leaveRoom(context) {
       context.commit('LEAVE_ROOM');
       router.push({ path: '/dashboard' });
+      if (context.state.myName === context.state.manager) {
+        const roomData = {
+          room_id: context.state.roomNumber,
+          on_live: false,
+        };
+        setRoomOnLive(roomData);
+      }
     },
     receiveVideoResponse(context, result) {
       context.state.participants[result.name].rtcPeer.processAnswer(
@@ -304,12 +313,16 @@ export default {
       }
     },
     // ContentSelector에서 컨텐츠 선택 시 action
-    setImageUrls(context, ImageUrls) {
-      context.commit('SET_IMAGE_URLS', ImageUrls);
+    setImageUrls(context, imageUrls) {
+      context.commit('SET_IMAGE_URLS', imageUrls);
     },
     setSelectedContentId(context, id) {
       context.commit('SET_SELECTED_CONTENT_ID', id);
     },
   },
-  getters: {},
+  getters: {
+    getImageUrls: state => {
+      return state.imageUrls;
+    },
+  },
 };
