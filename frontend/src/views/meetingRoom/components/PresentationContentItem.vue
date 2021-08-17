@@ -54,8 +54,8 @@ export default {
       return this.$store.state.meetingRoom.participants;
     },
     contentUserName() {
-      const userName = this.participants.keys.find(
-        userName => _.split(userName, '-')[1] === this.content.user_id,
+      const userName = Object.keys(this.participants).find(
+        userName => _.split(userName, '-')[1] == this.content.user_id,
       );
       return _.split(userName, '-')[0];
     },
