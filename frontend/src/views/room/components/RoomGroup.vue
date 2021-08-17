@@ -18,12 +18,12 @@
             >
               <h2>
                 <i
-                  class="fas fa-chevron-down ps-3"
+                  class="fas fa-chevron-down move-on-hover ps-3"
                   v-show="isToggle"
                   @click="showToggle"
                 ></i
                 ><i
-                  class="fas fa-chevron-up ps-3"
+                  class="fas fa-chevron-up move-on-hover ps-3"
                   @click="showToggle"
                   v-show="!isToggle"
                 ></i>
@@ -32,8 +32,8 @@
           </div>
         </div>
         <!--카드목록-->
-        <div class="card-body ps-5 pe-10" v-show="isToggle">
-          <div class="row">
+        <div class="card-body ps-5 pe-10">
+          <div class="row" v-show="isToggle">
             <RoomNew v-show="isNow" />
             <RoomCard
               :titleImg="titleImg"
@@ -42,18 +42,18 @@
               :key="idx"
               v-show="idx <= showIdx"
             />
-            <h4 class="ps-4" v-if="lengthRooms === 0">방이 없습니다.</h4>
+            <h4 class="ps-4" v-if="lengthRooms === 0">No Rooms in here.</h4>
           </div>
           <!-- more-->
           <div
-            class="card-last text-center"
-            v-if="lengthRooms > 0"
+            class="card-last move-on-hover text-center"
+            v-if="lengthRooms > 0 && isToggle"
             @click.stop="moreCard"
           >
             <a href="#"
               ><h2><i class="fas fa-plus"></i></h2>
-              <h4>more</h4></a
-            >
+              <h4>more</h4>
+            </a>
           </div>
         </div>
       </div>
