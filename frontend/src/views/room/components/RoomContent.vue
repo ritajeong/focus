@@ -131,7 +131,7 @@
           </div>
         </div>
 
-        <div v-if="files.length == 0">
+        <div v-if="files.length == 0 && !this.$store.state.rooms.room.endTime">
           <UploadDialog />
         </div>
         <div v-else>
@@ -202,7 +202,8 @@ export default {
   created() {
     if (
       this.$store.state.rooms.room.manager_id ==
-      this.$store.state.users.login.userid
+        this.$store.state.users.login.userid &&
+      !this.$store.state.rooms.room.endTime
     ) {
       this.isManager = true;
     }
