@@ -43,7 +43,7 @@
         </p>
       </div>
       <span
-        class="card-info"
+        class="card-info move-on-hover"
         @click.prevent="setAndGoToRoomInfo"
         type="button"
         style="z-index: 5"
@@ -80,7 +80,7 @@
         </p>
 
         <!-- 방 번호로 api요청, Room Info->아이콘으로 교체 -->
-        <p class="mb-4 text-sm">
+        <p class="mb-2 text-lg">
           종료 :
           {{
             roomInfo.endTime.slice(0, 16).replace(/\-/g, '.').replace('T', ' ')
@@ -88,7 +88,7 @@
         </p>
       </div>
       <span
-        class="card-info"
+        class="card-info move-on-hover"
         @click.prevent="setAndGoToRoomInfo"
         type="button"
         style="z-index: 5"
