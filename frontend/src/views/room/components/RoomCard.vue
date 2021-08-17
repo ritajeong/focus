@@ -162,14 +162,7 @@ export default {
       }
     },
   },
-  mounted() {
-    axios
-      .get('https://i5a107.p.ssafy.io:8446/board/get-image-with-media-type')
-      .then(res => {
-        console.log(res);
-      })
-      .catch(e => console.log(e));
-  },
+  mounted() {},
 };
 </script>
 <style>
