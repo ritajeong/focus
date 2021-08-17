@@ -77,23 +77,23 @@
             </div>
           </div>
         </div>
-        <div class="mb-4 row">
+        <div class="mb-4 row px-3">
           <table class="table table-striped">
             <thead>
               <tr>
-                <th scope="col">Num</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role</th>
-                <th scope="col"></th>
+                <th class="ps-3" scope="col">Num</th>
+                <th class="ps-3" scope="col">Name</th>
+                <th class="ps-3" scope="col">Email</th>
+                <th class="ps-3" scope="col">Role</th>
+                <th class="ps-3" scope="col"></th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(participant, index) in getParticipants" :key="index">
-                <th scope="row">{{ index + 1 }}</th>
-                <td>{{ participant.name }}</td>
-                <td>{{ participant.email }}</td>
-                <td>{{ participant.codeId.codeName }}</td>
+                <th scope="row" class="ps-3">{{ index + 1 }}</th>
+                <td class="ps-3">{{ participant.name }}</td>
+                <td class="ps-3">{{ participant.email }}</td>
+                <td class="ps-3">{{ participant.codeId.codeName }}</td>
                 <td>
                   <div v-if="index > 0 && isManager">
                     <button
@@ -109,6 +109,7 @@
               </tr>
             </tbody>
           </table>
+
           <div class="col-md-12 justify-content-between" v-if="isManager">
             <span>
               <button

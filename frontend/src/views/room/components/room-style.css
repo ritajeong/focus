@@ -56,13 +56,16 @@
   position: absolute;
   bottom: 23px;
   right: -40px;
+  z-index: 3;
 }
 .card-info a{
-  float: right
+  float: right;
+  z-index: 3;
 }
 .card-info i{
   color : white;
   font-size: 2rem;
+  z-index: 3;
 }
 
 
@@ -76,4 +79,12 @@
 
 .card-pt-3{
   padding-top: 30px;
+}
+
+.icon-up{
+  position: absolute;
+  cursor: pointer;
+  float: right;
+  top: 23px;
+  right: -14px;
 }
