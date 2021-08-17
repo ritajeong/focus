@@ -24,7 +24,7 @@
         </span>
         <span v-if="!isHistory"><br /></span>
         <!-- <p class="mb-2 text-sm">Room Id</p> -->
-        <p class="mb-2 text-sm" :class="{ cardPt5: isNow }">
+        <p class="mb-2 text-lg" :class="{ cardPt5: isNow }">
           {{
             roomInfo.description.length > 30
               ? roomInfo.description.slice(0, 29)
@@ -32,7 +32,7 @@
           }}
         </p>
 
-        <p class="mb-2 text-sm">
+        <p class="mb-2 text-lg">
           시작 :
           {{
             roomInfo.startTime

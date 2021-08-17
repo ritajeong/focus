@@ -44,7 +44,7 @@
               ><h6 class="text-white">Dashboard</h6></router-link
             >
           </li>
-
+          <!-- 
           <li class="nav-item mx-2">
             <router-link
               to="/meetingroom"
@@ -58,7 +58,7 @@
               "
               ><h6 class="text-white">Meeting Room</h6></router-link
             >
-          </li>
+          </li> -->
           <!-- <li class="nav-item mx-2">
             <router-link
               to="/setting"
