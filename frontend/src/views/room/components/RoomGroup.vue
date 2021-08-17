@@ -11,7 +11,11 @@
                 {{ title }}
               </h3>
             </div>
-            <div class="col-1 icon-up" style="position: absolute">
+            <div
+              class="col-1 icon-up"
+              style="position: absolute"
+              v-if="lengthRooms > 0"
+            >
               <h2>
                 <i
                   class="fas fa-chevron-down ps-3"
