@@ -4,7 +4,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-7">
-            <label>Room name</label>
+            <label><h6>Room Name</h6></label>
             <div class="input-group mb-4">
               <input
                 v-model="roomName"
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="col-md-3 ps-5">
-            <label>Start Time</label>
+            <label><h6>Start Time</h6></label>
             <div>
               <date-picker
                 v-model="datetime"
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="form-group mb-4">
-          <label>Room Description</label>
+          <label><h6>Description</h6></label>
           <textarea
             v-model="description"
             type="text"
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group mb-4" v-if="isManager">
-          <label>Participant List</label>
+          <label><h6>Participant List</h6></label>
           <div class="row">
             <div class="col-md-5">
               <input
@@ -97,7 +97,7 @@
                 <td>
                   <div v-if="index > 0 && isManager">
                     <button
-                      class="btn bg-gradient-danger"
+                      class="btn btn-outline-danger text-danger"
                       type="button"
                       id="btn-delete"
                       @click="deleteParticipant(participant.email)"
@@ -109,23 +109,25 @@
               </tr>
             </tbody>
           </table>
-          <div class="col-md-12 text-center" v-if="isManager">
-            <button
-              type="button"
-              class="btn bg-gradient-dark w-50"
-              @click="updateHandler"
-            >
-              Update Room
-            </button>
-            <br />
-            <button
-              type="button"
-              class="btn bg-gradient-danger w-50"
-              data-bs-toggle="modal"
-              data-bs-target="#modal-notification"
-            >
-              Delete Room
-            </button>
+          <div class="col-md-12 justify-content-between" v-if="isManager">
+            <span>
+              <button
+                type="button"
+                class="btn bg-gradient-dark w-30 ms-8"
+                @click="updateHandler"
+              >
+                Update Room
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-danger text-danger w-30 ms-3"
+                data-bs-toggle="modal"
+                data-bs-target="#modal-notification"
+              >
+                Delete Room
+              </button>
+            </span>
           </div>
         </div>
 
@@ -133,16 +135,19 @@
           <UploadDialog />
         </div>
         <div v-else>
-          <RoomFiledetail></RoomFiledetail>
+          <h3 class="text-center">Presentation Files</h3>
 
-          <button
-            class="btn bg-gradient-danger"
-            type="button"
-            id="btn-delete"
-            @click="deletefile()"
-          >
-            발표 자료 삭제
-          </button>
+          <RoomFiledetail></RoomFiledetail>
+          <div class="text-center">
+            <button
+              class="btn btn-outline-danger text-danger"
+              type="button"
+              id="btn-delete"
+              @click="deletefile()"
+            >
+              발표 자료 삭제
+            </button>
+          </div>
         </div>
       </div>
     </form>

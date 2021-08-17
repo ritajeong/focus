@@ -1,7 +1,7 @@
 <template>
   <!-- Navbar Dark -->
   <nav
-    class="navbar navbar-expand-lg navbar-dark bg-gradient-dark z-index-3 py-3"
+    class="navbar navbar-expand-lg navbar-dark bg-gradient-dark z-index-3 py-0"
   >
     <div class="container">
       <router-link
@@ -11,7 +11,7 @@
         title="Designed and Coded by Creative Tim"
         data-placement="bottom"
       >
-        FOCUS
+        <h6 class="text-white">FOCUS</h6>
       </router-link>
       <!-- <button
         class="navbar-toggler"
@@ -41,7 +41,7 @@
                 cursor-pointer
                 align-items-center
               "
-              >DashBoard</router-link
+              ><h6 class="text-white">Dashboard</h6></router-link
             >
           </li>
 
@@ -56,10 +56,10 @@
                 cursor-pointer
                 align-items-center
               "
-              >MeetingRoom</router-link
+              ><h6 class="text-white">Meeting Room</h6></router-link
             >
           </li>
-          <li class="nav-item mx-2">
+          <!-- <li class="nav-item mx-2">
             <router-link
               to="/setting"
               class="
@@ -72,7 +72,7 @@
               "
               >Setting</router-link
             >
-          </li>
+          </li> -->
           <li class="nav-item mx-2">
             <router-link
               to="/mypage"
@@ -84,25 +84,24 @@
                 cursor-pointer
                 align-items-center
               "
-              >Mypage</router-link
-            >
-          </li>
-          <li class="nav-item mx-2">
-            <router-link
-              to="/"
-              class="
-                nav-link
-                ps-2
-                d-flex
-                justify-content-between
-                cursor-pointer
-                align-items-center
-              "
-              @click.native="userLogout()"
-              >Logout</router-link
+              ><h6 class="text-white">My Page</h6></router-link
             >
           </li>
         </ul>
+        <router-link
+          to="/"
+          class="
+            nav-link
+            ps-2
+            d-flex
+            justify-content-between
+            cursor-pointer
+            align-items-center
+            text-white
+          "
+          @click.native="userLogout()"
+          ><h6 class="text-white">Logout</h6></router-link
+        >
       </div>
     </div>
   </nav>

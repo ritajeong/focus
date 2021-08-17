@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-4 row">
     <table class="table table-striped">
       <thead>
         <tr>
