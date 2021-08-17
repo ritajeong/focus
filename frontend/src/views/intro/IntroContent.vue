@@ -12,11 +12,9 @@
             ms-auto
             h-100
             z-index-0
-            ms-n6
+            ms-n9
           "
-          style="
-            background-image: url(../../assets/img/curved-images/curved.jpg);
-          "
+          style="background-image: url(../../assets/img/gradient/Sky.jpg)"
         ></div>
       </div>
       <div class="container">
@@ -24,19 +22,25 @@
           <div
             class="col-lg-6 col-md-7 d-flex justify-content-center flex-column"
           >
-            <h1 class="text-gradient text-dark">Your Work With</h1>
-            <h1 class="text-gradient text-dark mb-4">Soft Design System</h1>
-            <p class="lead pe-5 me-5">
-              The time is now for it be okay to be great. People in this world
-              shun people for being nice.
-            </p>
-            <div class="buttons">
-              <router-link to="/login" class="btn bg-gradient-dark mt-4">
-                Login
+            <h1 class="text-gradient text-focus mb-4 text-center">
+              Focus on your presentation
+            </h1>
+            <h3 class="text-gradient text-focus mb-4 text-center">
+              change the paradigm of video presentation
+            </h3>
+            <h4 class="text-gradient text-focus lead text-center mb-4">
+              당신의 발표자료를 화상화면과 함께 띄워보세요
+            </h4>
+            <div class="buttons text-center">
+              <router-link
+                to="/login"
+                class="btn bg-gradient-dark mt-4 w-20 text-lg"
+              >
+                Start
               </router-link>
               <!--ㅎㅇ isLogin===true?none:show, 테스트 후 meetingroom, dashboard 버튼 삭제-->
 
-              <router-link
+              <!-- <router-link
                 to="/meetingroomenter"
                 class="btn btn-outline-dark text-dark shadow-none mt-4"
               >
@@ -48,7 +52,7 @@
                 class="btn btn-outline-dark text-dark shadow-none mt-4"
               >
                 Dashboard
-              </router-link>
+              </router-link> -->
             </div>
           </div>
         </div>
@@ -63,3 +67,15 @@ export default {
   name: 'IntroPage',
 };
 </script>
+<style scoped>
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+.text-gradient.text-focus {
+  background-image: linear-gradient(310deg, #141727, #3f92be);
+}
+</style>

@@ -105,13 +105,13 @@ export default {
 
     if (this.isNow) {
       this.backgroundImg =
-        "background-image: url('../../assets/img/curved-images/curved10.jpg');";
+        "background-image: url('../../assets/img/gradient/now2.jpg');";
     } else if (this.isFuture) {
       this.backgroundImg =
-        "background-image: url('../../assets/img/curved-images/curved14.jpg');";
+        "background-image: url('../../assets/img/gradient/future.jpg');";
     } else {
       this.backgroundImg =
-        "background-image: url('../../assets/img/curved-images/curved.jpg');";
+        "background-image: url('../../assets/img/gradient/history.jpg');";
     }
   },
   computed: {
