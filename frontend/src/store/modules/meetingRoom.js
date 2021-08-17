@@ -1,6 +1,7 @@
 import Participant from './js/participant.js';
 import Vue from 'vue';
 import router from '../../router';
+import { setRoomOnLive } from '@/api/rooms.js';
 
 import kurentoUtils from 'kurento-utils';
 import axios from 'axios';
@@ -267,6 +268,13 @@ export default {
     leaveRoom(context) {
       context.commit('LEAVE_ROOM');
       router.push({ path: '/dashboard' });
+      if (context.state.myName === context.state.manager) {
+        const roomData = {
+          room_id: context.state.roomNumber,
+          on_live: false,
+        };
+        setRoomOnLive(roomData);
+      }
     },
     receiveVideoResponse(context, result) {
       context.state.participants[result.name].rtcPeer.processAnswer(
