@@ -3,8 +3,8 @@
     <form role="form" id="contact-form" method="post" autocomplete="off">
       <div class="card-body">
         <div class="row">
-          <div class="col-md-6">
-            <label>Room name</label>
+          <div class="col-md-7">
+            <label><h6>Room Name</h6></label>
             <div class="input-group mb-4">
               <input
                 v-model="roomName"
@@ -15,8 +15,8 @@
               />
             </div>
           </div>
-          <div class="col-md-6 ps-2">
-            <label>Start Time</label>
+          <div class="col-md-3 ps-5">
+            <label><h6>Start Time</h6></label>
             <div>
               <date-picker
                 v-model="datetime"
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="form-group mb-4">
-          <label>Room Description</label>
+          <label><h6>Description</h6></label>
           <textarea
             v-model="description"
             type="text"
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group mb-4" v-if="isManager">
-          <label>Participant List</label>
+          <label><h6>Participant List</h6></label>
           <div class="row">
             <div class="col-md-5">
               <input
@@ -69,7 +69,7 @@
             <div class="col-md-2">
               <button
                 type="button"
-                class="btn bg-gradient-primary"
+                class="btn bg-gradient-dark"
                 @click="addParticipant"
               >
                 Add
@@ -77,27 +77,27 @@
             </div>
           </div>
         </div>
-        <div class="mb-4 row">
+        <div class="mb-4 row px-3">
           <table class="table table-striped">
             <thead>
               <tr>
-                <th scope="col">Num</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role</th>
-                <th scope="col"></th>
+                <th class="ps-3" scope="col">Num</th>
+                <th class="ps-3" scope="col">Name</th>
+                <th class="ps-3" scope="col">Email</th>
+                <th class="ps-3" scope="col">Role</th>
+                <th class="ps-3" scope="col"></th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(participant, index) in getParticipants" :key="index">
-                <th scope="row">{{ index + 1 }}</th>
-                <td>{{ participant.name }}</td>
-                <td>{{ participant.email }}</td>
-                <td>{{ participant.codeId.codeName }}</td>
+                <th scope="row" class="ps-3">{{ index + 1 }}</th>
+                <td class="ps-3">{{ participant.name }}</td>
+                <td class="ps-3">{{ participant.email }}</td>
+                <td class="ps-3">{{ participant.codeId.codeName }}</td>
                 <td>
                   <div v-if="index > 0 && isManager">
                     <button
-                      class="btn bg-gradient-danger"
+                      class="btn btn-outline-danger text-danger"
                       type="button"
                       id="btn-delete"
                       @click="deleteParticipant(participant.email)"
@@ -109,26 +109,47 @@
               </tr>
             </tbody>
           </table>
-          <div class="col-md-12" v-if="isManager">
+
+          <div class="col-md-12 justify-content-between" v-if="isManager">
+            <span>
+              <button
+                type="button"
+                class="btn bg-gradient-dark w-30 ms-8"
+                @click="updateHandler"
+              >
+                Update Room
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-danger text-danger w-30 ms-3"
+                data-bs-toggle="modal"
+                data-bs-target="#modal-notification"
+              >
+                Delete Room
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <div v-if="files.length == 0 && !this.$store.state.rooms.room.endTime">
+          <UploadDialog />
+        </div>
+        <div v-else>
+          <h3 class="text-center">Presentation Files</h3>
+
+          <RoomFiledetail></RoomFiledetail>
+          <div class="text-center">
             <button
+              class="btn btn-outline-danger text-danger"
               type="button"
-              class="btn bg-gradient-dark w-100"
-              @click="updateHandler"
+              id="btn-delete"
+              @click="deletefile()"
             >
-              Update Room
-            </button>
-            <button
-              type="button"
-              class="btn bg-gradient-danger w-100"
-              data-bs-toggle="modal"
-              data-bs-target="#modal-notification"
-            >
-              Delete Room
+              발표 자료 삭제
             </button>
           </div>
         </div>
-        <div></div>
-        <UploadDialog />
       </div>
     </form>
     <RoomDeleteModal
@@ -143,16 +164,25 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import { updateRoom } from '@/api/rooms.js';
 import { findUser } from '@/api/users.js';
+import { deletetot } from '@/api/file.js';
 import VueAlertify from 'vue-alertify';
 import moment from 'moment';
 import { mapGetters } from 'vuex';
 import RoomDeleteModal from './RoomDeleteModal.vue';
-import UploadDialog from './UploadDialog.vue';
+import UploadDialog from './UploadDialog';
+import RoomFiledetail from './RoomFiledetail.vue';
+import { showfiledetail } from '@/api/file.js';
+
 Vue.use(VueAlertify);
 
 export default {
   name: 'RoomContent',
-  components: { DatePicker, RoomDeleteModal, UploadDialog },
+  components: {
+    DatePicker,
+    RoomDeleteModal,
+    UploadDialog,
+    RoomFiledetail,
+  },
   data() {
     return {
       user: this.$store.state.users.login,
@@ -165,15 +195,33 @@ export default {
       roleSelected: '',
       nowDateTime: moment(new Date()).format('YYYY-MM-DD HH:mm'),
       isManager: false,
+      userid: this.$store.state.users.login.userid,
+      roomid: this.$store.state.rooms.room.room_id,
+      files: [],
     };
   },
   created() {
+    window.scrollTo(0, 0);
     if (
       this.$store.state.rooms.room.manager_id ==
-      this.$store.state.users.login.userid
+        this.$store.state.users.login.userid &&
+      !this.$store.state.rooms.room.endTime
     ) {
       this.isManager = true;
     }
+    const formData = new FormData();
+    formData.append('user_id', this.userid);
+    formData.append('room_id', this.roomid);
+    console.log(formData);
+    showfiledetail(formData)
+      .then(data => {
+        console.log(data);
+        this.files = data.data;
+      })
+      .catch(() => {
+        console.log('error');
+        this.$alertify.error('파일을 가져오지 못했습니다.');
+      });
   },
   computed: {
     ...mapGetters(['users', 'room']),
@@ -182,16 +230,37 @@ export default {
     },
   },
   methods: {
+    deletefile() {
+      const formDa = new FormData();
+      formDa.append('user_id', this.userid);
+      formDa.append('room_id', this.roomid);
+      deletetot(formDa)
+        .then(data => {
+          console.log(data);
+          this.$router.go();
+        })
+        .catch(() => {
+          console.log('error');
+          this.$alertify.error('error! catch');
+        });
+    },
     addParticipant() {
       let msg = '';
-      if (!this.participantAccount) {
-        msg = '사용자를 입력해주세요';
+      if (!this.participantAccount || !this.roleSelected) {
+        msg = '추가하려는 사용자 이메일 및 역할을 입력해주세요';
         this.$alertify.error(msg);
         return;
       }
 
-      console.log('참가자 이메일 검색: ' + this.participantAccount);
-      console.log('selected role: ' + this.roleSelected);
+      // 같은 계정 참가자 추가 안되게 함.
+      const size = this.participants.length;
+
+      for (let i = 0; i < size; i++) {
+        if (this.participants[i].email == this.participantAccount) {
+          this.$alertify.error('이미 등록된 사용자입니다.');
+          return;
+        }
+      }
 
       this.getUsername().then(() => {
         if (!this.participants) {
@@ -205,13 +274,10 @@ export default {
               codeName: this.roleSelected.split('-')[1],
             },
           });
-          console.log('getUsername() success in addParticipant()');
         }
       });
     },
     deleteParticipant(email) {
-      console.log('delete participant', email);
-
       this.participants.forEach((element, index) => {
         if (element.email == email) {
           this.participants.splice(index);
@@ -242,11 +308,9 @@ export default {
           startTime: this.datetime,
           participants: this.participants,
         };
-        console.log('[updateHandler] roomData: ', roomData);
 
         updateRoom(roomData)
           .then(({ status }) => {
-            console.log(status);
             if (status != 200) {
               this.$alertify.error('방 정보 수정중 실패했습니다.');
               return;

@@ -24,6 +24,9 @@ public class Rooms {
 	@Column(name = "endTime", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	Timestamp endTime;
 
+	@Column(name="onLive", columnDefinition = "BOOLEAN DEFAULT FALSE")
+	Boolean onLive;
+
 	@OneToMany(mappedBy = "rooms", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Participants> participant = new ArrayList<>();
 
@@ -42,6 +45,9 @@ public class Rooms {
 				", description='" + description + '\'' +
 				", startTime=" + startTime +
 				", endTime=" + endTime +
+				", onLive=" + onLive +
+				", participant=" + participant +
+				", presentation=" + presentation +
 				", users=" + users +
 				'}';
 	}

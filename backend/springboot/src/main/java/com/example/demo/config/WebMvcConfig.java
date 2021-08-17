@@ -5,6 +5,7 @@ import javax.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+<<<<<<< HEAD
 //	@Bean
 //	public CorsConfigurationSource corsConfigurationSource() {
 //		CorsConfiguration configuration = new CorsConfiguration();
@@ -40,6 +42,30 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/");
 
 		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+=======
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.addAllowedOrigin("http://localhost:3000/");
+////        configuration.addAllowedOriginPattern("*");
+//        configuration.addAllowedMethod(HttpMethod.GET);
+//        configuration.addAllowedMethod(HttpMethod.POST);
+//        configuration.addAllowedMethod(HttpMethod.DELETE);
+//        configuration.addAllowedMethod(HttpMethod.PUT);
+//        configuration.addAllowedHeader("*");
+//        configuration.setAllowCredentials(true);
+//        configuration.setMaxAge(3600L);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
+    
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        //registry.addMapping("/**").allowedOrigins("http://localhost:3000/").allowedMethods("*").allowCredentials(true).maxAge(360);
+    	registry.addMapping("/**").allowedOrigins("https://localhost:8443/").allowedMethods("*").allowCredentials(true).maxAge(360);
+    }
+>>>>>>> feature/room-management
 
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 

@@ -2,13 +2,22 @@
   <section>
     <div class="container py-4">
       <div class="row">
-        <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
+        <div
+          class="
+            col-lg-7
+            mx-auto
+            d-flex
+            justify-content-center
+            flex-column
+            px-10
+          "
+        >
           <h3 class="text-center">Create new room</h3>
           <form role="form" id="contact-form" method="post" autocomplete="off">
             <div class="card-body">
               <div class="row">
-                <div class="col-md-6">
-                  <label>Room name</label>
+                <div class="col-md-7">
+                  <label><h6>Room name</h6></label>
                   <div class="input-group mb-4">
                     <input
                       v-model="roomName"
@@ -18,8 +27,8 @@
                     />
                   </div>
                 </div>
-                <div class="col-md-6 ps-2">
-                  <label>Start Time</label>
+                <div class="col-md-3 ps-5">
+                  <label><h6>Start Time</h6></label>
                   <div>
                     <date-picker
                       v-model="datetime"
@@ -33,7 +42,7 @@
                 </div>
               </div>
               <div class="form-group mb-4">
-                <label>Room Description</label>
+                <label><h6>Description</h6></label>
                 <textarea
                   v-model="description"
                   type="text"
@@ -44,7 +53,7 @@
               </div>
 
               <div class="form-group mb-4">
-                <label>Participant List</label>
+                <label><h6>Participant List</h6></label>
                 <div class="row">
                   <div class="col-md-5">
                     <input
@@ -70,7 +79,7 @@
                   <div class="col-md-2">
                     <button
                       type="button"
-                      class="btn bg-gradient-primary"
+                      class="btn bg-gradient-dark ms-2"
                       @click="addParticipant"
                     >
                       Add
@@ -78,15 +87,15 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row p-3">
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th scope="col">Num</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Email</th>
-                      <th scope="col">Role</th>
-                      <th scope="col"></th>
+                      <th class="ps-3" scope="col">Num</th>
+                      <th class="ps-3" scope="col">Name</th>
+                      <th class="ps-3" scope="col">Email</th>
+                      <th class="ps-3" scope="col">Role</th>
+                      <th class="ps-3" scope="col"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -94,10 +103,10 @@
                       v-for="(participant, index) in getParticipants"
                       :key="index"
                     >
-                      <th scope="row">{{ index + 1 }}</th>
-                      <td>{{ participant.name }}</td>
-                      <td>{{ participant.email }}</td>
-                      <td>{{ participant.codeName }}</td>
+                      <th class="ps-3" scope="row">{{ index + 1 }}</th>
+                      <td class="ps-3">{{ participant.name }}</td>
+                      <td class="ps-3">{{ participant.email }}</td>
+                      <td class="ps-3">{{ participant.codeId.codeName }}</td>
                       <td>
                         <div v-if="index > 0">
                           <button
@@ -113,10 +122,10 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="col-md-12">
+                <div class="col-md-12 text-center">
                   <button
                     type="button"
-                    class="btn bg-gradient-dark w-100"
+                    class="btn bg-gradient-primary w-40"
                     @click="createHandler"
                   >
                     Create Room
@@ -176,14 +185,21 @@ export default {
   methods: {
     addParticipant() {
       let msg = '';
-      if (!this.participantAccount) {
-        msg = '사용자를 입력해주세요';
+      if (!this.participantAccount || !this.roleSelected) {
+        msg = '추가하려는 사용자 이메일 및 역할을 입력해주세요';
         this.$alertify.error(msg);
         return;
       }
 
-      console.log('참가자 이메일 검색: ' + this.participantAccount);
-      console.log('selected role: ' + this.roleSelected);
+      // 같은 계정 참가자 추가 안되게 함.
+      const size = this.participants.length;
+
+      for (let i = 0; i < size; i++) {
+        if (this.participants[i].email == this.participantAccount) {
+          this.$alertify.error('이미 등록된 사용자입니다.');
+          return;
+        }
+      }
 
       this.getUsername().then(() => {
         if (!this.participants) {
@@ -197,13 +213,11 @@ export default {
               codeName: this.roleSelected.split('-')[1],
             },
           });
-          console.log('getUsername() success in addParticipant()');
         }
       });
     },
-    deleteParticipant(email) {
-      console.log('delete participant', email);
 
+    deleteParticipant(email) {
       this.participants.forEach((element, index) => {
         if (element.email == email) {
           this.participants.splice(index);
@@ -234,11 +248,9 @@ export default {
           email: this.$store.state.users.login.useremail,
           participants: this.participants,
         };
-        console.log('[createHandler] roomData: ', roomData);
 
         createRoom(roomData)
           .then(({ status }) => {
-            console.log(status);
             if (status != 200) {
               this.$alertify.error('방 생성 실패했습니다.');
               return;

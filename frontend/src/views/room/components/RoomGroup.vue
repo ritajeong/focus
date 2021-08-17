@@ -1,23 +1,31 @@
 <template>
   <!--now-->
   <div class="row mx-0">
-    <div class="col-12">
+    <div class="col-12 p-0">
       <div class="card m-5">
         <div class="card-header pb-0 ps-5">
           <!--props값에 따라 title 출력 [Now, Future, History]-->
-          <h4 class="mb-1 ps-3">
-            {{ title
-            }}<i
-              class="fas fa-chevron-down ps-3"
-              v-show="isToggle"
-              @click="showToggle"
-            ></i
-            ><i
-              class="fas fa-chevron-up ps-3"
-              @click="showToggle"
-              v-show="!isToggle"
-            ></i>
-          </h4>
+          <div class="row">
+            <div class="col-11">
+              <h3 class="mb-1 ps-3">
+                {{ title }}
+              </h3>
+            </div>
+            <div class="col-1 icon-up" style="position: absolute">
+              <h2>
+                <i
+                  class="fas fa-chevron-down ps-3"
+                  v-show="isToggle"
+                  @click="showToggle"
+                ></i
+                ><i
+                  class="fas fa-chevron-up ps-3"
+                  @click="showToggle"
+                  v-show="!isToggle"
+                ></i>
+              </h2>
+            </div>
+          </div>
         </div>
         <!--카드목록-->
         <div class="card-body ps-5 pe-10" v-show="isToggle">
@@ -30,10 +38,14 @@
               :key="idx"
               v-show="idx <= showIdx"
             />
-            <h2 v-if="lengthRooms === 0">방이 없습니다.</h2>
+            <h4 class="ps-4" v-if="lengthRooms === 0">방이 없습니다.</h4>
           </div>
           <!-- more-->
-          <div class="card-last text-center" @click.stop="moreCard">
+          <div
+            class="card-last text-center"
+            v-if="lengthRooms > 0"
+            @click.stop="moreCard"
+          >
             <a href="#"
               ><h2><i class="fas fa-plus"></i></h2>
               <h4>more</h4></a

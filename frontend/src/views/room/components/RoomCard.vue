@@ -11,7 +11,7 @@
             {{ roomInfo.name }}
           </h4>
           <p
-            v-if="isNow"
+            v-if="!isHistory"
             class="mb-2 card-join"
             data-bs-toggle="modal"
             :data-bs-target="'#RoomReadyModal' + roomInfo.room_id"
@@ -24,7 +24,7 @@
         </span>
         <span v-if="!isHistory"><br /></span>
         <!-- <p class="mb-2 text-sm">Room Id</p> -->
-        <p class="mb-2 text-sm" :class="{ cardPt5: isNow }">
+        <p class="mb-2 text-lg" :class="{ cardPt5: isNow }">
           {{
             roomInfo.description.length > 30
               ? roomInfo.description.slice(0, 29)
@@ -32,7 +32,7 @@
           }}
         </p>
 
-        <p class="mb-2 text-sm">
+        <p class="mb-2 text-lg">
           시작 :
           {{
             roomInfo.startTime
@@ -48,16 +48,6 @@
           {{
             roomInfo.endTime.slice(0, 16).replace(/\-/g, '.').replace('T', ' ')
           }}
-        </p>
-        <p
-          class="mb-2 card-join"
-          data-bs-toggle="modal"
-          :data-bs-target="'#RoomReadyModal' + roomInfo.room_id"
-        >
-          <i
-            class="fas fa-sign-in-alt"
-            style="color: #ffffff; font-size: 2rem"
-          ></i>
         </p>
         <span class="card-info" @click="setAndGoToRoomInfo" type="button">
           <i class="fas fa-info-circle"></i>
@@ -91,12 +81,7 @@ export default {
     };
   },
   methods: {
-    setRoomInfo() {
-      console.log('setRoomInfo click');
-      this.$store.dispatch('rooms/setRoom', this.roomInfo);
-    },
     setAndGoToRoomInfo() {
-      console.log('setAndGoToRoomInfo click');
       this.$store.dispatch('rooms/setRoom', this.roomInfo);
       this.$router.push('/dashboard/info');
     },
@@ -116,8 +101,6 @@ export default {
       this.backgroundImg =
         "background-image: url('../../assets/img/curved-images/curved.jpg');";
     }
-
-    console.log('[RoomCard] roomInfo: ', this.roomInfo);
   },
   computed: {
     ...mapGetters({

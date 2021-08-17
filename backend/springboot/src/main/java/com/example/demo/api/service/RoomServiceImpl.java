@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.api.request.ParticipantReq;
+import com.example.demo.api.request.RoomOnLiveReq;
 import com.example.demo.db.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,6 @@ import com.example.demo.db.repository.RoomRepository;
 import com.example.demo.db.repository.UserRepository;
 
 @Service("roomSerice")
-
 public class RoomServiceImpl implements RoomService {
 	@Autowired
 	RoomRepository roomRepository;
@@ -51,6 +51,7 @@ public class RoomServiceImpl implements RoomService {
 		}else{
 			room.setStartTime(Timestamp.valueOf(roomInfo.getStartTime()));
 		}
+		room.setOnLive(false);
 		room.setDescription(roomInfo.getDescription());
 		Users user=userRepository.findByEmail(roomInfo.getEmail());
 		room.setUsers(user);
@@ -140,7 +141,6 @@ public class RoomServiceImpl implements RoomService {
 		for(Participants party : pa) {
 			Rooms r = party.getRooms();
 			roomGetRes=new RoomGetRes(r.getName(), r.getDescription(), r.getStartTime().toLocalDateTime(), r.getUsers().getUserId(), r.getUsers().getName(),r.getRoomId());
-			log.info("[findbyuser] r:{}", r);
 			if(r.getEndTime()==null){
 				roomGetRes.setEndTime(null);
 			}else{
@@ -149,5 +149,15 @@ public class RoomServiceImpl implements RoomService {
 			roomres.add(roomGetRes);
 		}
 		return roomres;
+	}
+
+	@Override
+	public void setRoomOnLive(RoomOnLiveReq roomInfo) {
+		try{
+			roomRepository.updateRoomOnLive(roomInfo.getOn_live(),roomInfo.getRoom_id());
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
 	}
 }

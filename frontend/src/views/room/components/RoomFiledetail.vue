@@ -1,34 +1,19 @@
 <template>
-  <div>
-    <!-- <table class="table table-striped">
+  <div class="mb-4 row">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">Num</th>
-          <th scope="col">Name</th>
           <th scope="col">original</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(participant, index) in getParticipants" :key="index">
+        <tr v-for="(file, index) in files" :key="index">
           <th scope="row">{{ index + 1 }}</th>
-          <td>{{ participant.name }}</td>
-          <td>{{ participant.email }}</td>
-          <td>{{ participant.codeId.codeName }}</td>
-          <td>
-            <div v-if="index > 0 && isOwner">
-              <button
-                class="btn bg-gradient-danger"
-                type="button"
-                id="btn-delete"
-                @click="deleteParticipant(participant.email)"
-              >
-                Delete
-              </button>
-            </div>
-          </td>
+          <td>{{ file.original }}</td>
         </tr>
       </tbody>
-    </table> -->
+    </table>
   </div>
 </template>
 <script>
@@ -39,9 +24,9 @@ export default {
   components: {},
   data() {
     return {
-      user: this.$store.state.users.login.userid,
-      room: this.$store.state.rooms.room.room_id,
-
+      userid: this.$store.state.users.login.userid,
+      roomid: this.$store.state.rooms.room.room_id,
+      files: [],
       file: '',
     };
   },
@@ -49,19 +34,17 @@ export default {
   methods: {},
   mounted() {
     const formData = new FormData();
-    console.log(this.user);
-    console.log(this.room);
-    formData.append('user_id', this.user);
-    formData.append('room_id', this.room);
+    formData.append('user_id', this.userid);
+    formData.append('room_id', this.roomid);
     console.log(formData);
     showfiledetail(formData)
-      .then(({ status }) => {
-        console.log(status);
-        this.$alertify.success('파일이 보입니다.');
+      .then(data => {
+        console.log(data);
+        this.files = data.data;
       })
       .catch(() => {
         console.log('error');
-        this.$alertify.error('error! catch');
+        this.$alertify.error('파일 목록을 가져오는 데 에러가 발생했습니다.');
       });
   },
 };

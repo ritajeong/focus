@@ -1,4 +1,7 @@
+// import Vue from 'vue';
 import { searchUsers } from '@/api/users.js';
+// import router from '@/router/index.js';
+import router from '../../router';
 export default {
   namespaced: true,
   state: () => ({
@@ -14,12 +17,14 @@ export default {
   }),
   mutations: {
     SET_LOGIN(state, payload) {
-      console.log('login: ', payload);
+      // Vue.set(state.login, 'isLogin', true);
+      // console.log('login: ', payload);
       state.login.isLogin = true;
       state.login.userid = payload.id;
       state.login.username = payload.name;
       state.login.useremail = payload.email;
       //state.login.userpwd = payload.password;
+      router.push('/dashboard');
     },
     SET_LOGOUT(state) {
       state.login.isLogin = false;
@@ -27,6 +32,8 @@ export default {
       state.login.username = '';
       state.login.useremail = '';
       //state.login.userpwd = '';
+      // console.log('SET_LOGOUT');
+      router.push('/');
     },
     SET_ALL_USERS(state, payload) {
       state.users = payload;

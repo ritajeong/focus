@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +35,9 @@ public class FileServiceImpl implements FileService{
 
 	@Autowired
 	FileGroupRepository groupRepository;
+
+	private final Logger log = LoggerFactory.getLogger(FileServiceImpl.class);
+
 	@Override
 	public FileReq saveFile(FileReq filereq) throws Exception {
 		System.out.println("1234");
@@ -72,27 +77,44 @@ public class FileServiceImpl implements FileService{
 	}
 	@Override
 	public List<FiledetailRes> findbygroupid(ShowFileReq filereq) {
-		int group = filegroupRepository.findBygroupid(filereq.getRoom_id(), filereq.getUser_id());
-		//return null;
-		List<Presentations> list = fileRepository.findByroomspresentations_GroupId(group);
+		System.out.println(filereq.getRoom_id());
+		System.out.println(filereq.getUser_id());
 		List<FiledetailRes> res = new ArrayList<FiledetailRes>();
-		for (int i = 0; i < list.size(); i++) {
-			Presentations p = list.get(i);
-			FiledetailRes fr = new FiledetailRes(p.getDirectory(), p.getOriginal());
-			res.add(fr);
+		try{
+			int group = filegroupRepository.findBygroupid(filereq.getRoom_id(), filereq.getUser_id());
+			System.out.println(group);
+			//return null;
+			List<Presentations> list = fileRepository.findByroomspresentations_GroupId(group);
+
+			for (int i = 0; i < list.size(); i++) {
+				Presentations p = list.get(i);
+				FiledetailRes fr = new FiledetailRes(p.getDirectory(), p.getOriginal());
+				res.add(fr);
+			}
+		}catch(Exception e){
+			log.error("[findbygroupid] error:{}", e);
+			e.printStackTrace();
 		}
 		return res;
 	}
 	@Override
-	public void delete(FileReq registerInfo) {
+	public void deletefile(FileReq registerInfo) {
 		int group = filegroupRepository.findBygroupid(registerInfo.getRoom_id(), registerInfo.getUser_id());
 		RoomsPresentations pr = filegroupRepository.getById(group);
 		filegroupRepository.delete(pr);
 	}
 	@Override
 	public FileReq update(FileReq registerInfo) throws Exception {
-		delete(registerInfo);
+		deletefile(registerInfo);
 		return saveFile(registerInfo);
+	}
+	@Override
+	public void delete(ShowFileReq registerInfo) {
+		int group = filegroupRepository.findBygroupid(registerInfo.getRoom_id(), registerInfo.getUser_id());
+		RoomsPresentations pr = filegroupRepository.getById(group);
+		
+		filegroupRepository.delete(pr);
+
 	}
 
 

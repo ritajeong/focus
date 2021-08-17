@@ -1,50 +1,61 @@
 <template>
   <div>
     <section>
-      <div class="container py-4">
+      <div class="container py-4 mb-12">
         <div class="row">
           <div
-            class="col-lg-6 mx-auto d-flex justify-content-center flex-column"
+            class="
+              col-lg-6
+              mx-auto
+              d-flex
+              justify-content-center
+              flex-column
+              px-10
+            "
           >
             <h3 class="text-center">My Page</h3>
-
             <div class="card-body">
-              <div class="mb-4">
-                <label>Email</label>
-                <div class="input-group">
-                  <input
-                    type="email"
-                    class="form-control"
-                    :value="useremail"
-                    readonly
-                  />
-                </div>
-              </div>
-              <div class="mb-9">
-                <label>Name</label>
-                <div class="input-group row">
-                  <div class="col-9">
+              <div class="row">
+                <div class="col-md-12">
+                  <label><h6>Email</h6></label>
+                  <div class="input-group">
                     <input
-                      type="name"
+                      type="email"
                       class="form-control"
-                      v-model="username"
+                      :value="useremail"
+                      readonly
                     />
                   </div>
-
-                  <button
-                    type="button"
-                    class="btn bg-gradient-dark col-3"
-                    @click="modifyName"
-                  >
-                    Modify
-                  </button>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12">
+                  <label><h6>Name</h6></label>
+                  <div class="input-group row">
+                    <div class="col-10">
+                      <input
+                        type="name"
+                        class="form-control"
+                        v-model="username"
+                      />
+                    </div>
+                    <div class="col-2">
+                      <button
+                        type="button"
+                        class="btn bg-gradient-dark"
+                        @click="modifyName"
+                      >
+                        Modify
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 text-center mt-5">
                   <button
                     type="button"
-                    class="btn bg-gradient-primary w-100"
+                    class="btn bg-gradient-dark w-50"
                     data-bs-toggle="modal"
                     data-bs-target="#ModalChangePassword"
                   >
@@ -53,7 +64,7 @@
                   <br />
                   <button
                     type="button"
-                    class="btn bg-gradient-danger w-100"
+                    class="text-danger btn btn-outline-danger w-50"
                     data-bs-toggle="modal"
                     data-bs-target="#modal-notification"
                   >
@@ -99,7 +110,6 @@ export default {
         user_id: this.$store.state.users.login.userid,
         name: this.username,
       };
-      console.log('update name userData', userData);
       updateUserName(userData)
         .then(({ status }) => {
           console.log(status);

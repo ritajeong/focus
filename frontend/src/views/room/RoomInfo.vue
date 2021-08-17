@@ -4,7 +4,14 @@
       <div class="container py-4">
         <div class="row">
           <div
-            class="col-lg-7 mx-auto d-flex justify-content-center flex-column"
+            class="
+              col-lg-7
+              mx-auto
+              d-flex
+              justify-content-center
+              flex-column
+              px-10
+            "
           >
             <h3 class="text-center">Room Info</h3>
             <RoomContent></RoomContent>

@@ -1,17 +1,15 @@
 <template>
   <v-app id="inspire">
-    <div>
-      <RoomFiledetail></RoomFiledetail>
-    </div>
     <!-- Page.vue - Dialog를 열기위한 버튼 영역 -->
+
     <v-container fluid class="pa-0">
       <v-row align="center">
         <v-col cols="12" sm="12" md="12">
           <div class="text-center">
             <div class="my-2">
-              <v-btn @click="openDialog()" large color="blue" dark>
+              <v-btn @click="openDialog()" dark>
                 <v-icon class="mr-2">cloud_upload</v-icon>
-                Upload
+                File Upload
               </v-btn>
             </div>
           </div>
@@ -56,12 +54,10 @@
 
 <script>
 import Upload from './Upload.vue';
-import RoomFiledetail from './RoomFiledetail.vue';
 //import {showRoomdetail} from '@/api/file.js';
 export default {
   components: {
     Upload,
-    RoomFiledetail,
   },
   data: () => ({
     dialog: false,
@@ -72,6 +68,7 @@ export default {
     },
     closeDialog() {
       this.dialog = false;
+      this.$router.go();
     },
   },
 };
