@@ -45,6 +45,7 @@
 
 <script>
 import PresentationSlideItem from './PresentationSlideItem.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'PresentationSlider.vue',
@@ -63,6 +64,7 @@ export default {
   },
   // : computed
   computed: {
+    ...mapGetters(['getImageUrls']),
     presentationSize() {
       return this.$store.state.meetingRoom.size;
     },
@@ -70,7 +72,7 @@ export default {
       return this.$store.state.meetingRoom.location;
     },
     slideUrls() {
-      return this.$store.state.ImageUrls;
+      return this.$store.state.meetingRoom.imageUrls;
     },
   },
   // : watch
