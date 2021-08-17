@@ -62,17 +62,22 @@ public class FileController {
 	}
 
 	@GetMapping(value = "/image/{roomId}/{userId}/{currentPage}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ApiOperation(value = "현재 발표 자료 한 장 보기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사진 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public @ResponseBody ResponseEntity<byte[]> getImage(@PathVariable int roomId, @PathVariable int userId,
 			@PathVariable int currentPage) throws IOException {
 		return new ResponseEntity<byte[]>(fileservice.getImage(roomId, userId, currentPage), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/image/{roomId}/{userId}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ApiOperation(value = "현재 발표 자료 모두 보기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사진 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public @ResponseBody ResponseEntity<List<byte[]>> getAllImages(@PathVariable int roomId, @PathVariable int userId)
 			throws IOException {
-		return new ResponseEntity<List<byte[]>>(fileservice.getAllImage(roomId, userId), HttpStatus.OK);
+		return new ResponseEntity<List<byte[]>>(fileservice.getAllImages(roomId, userId), HttpStatus.OK);
 	}
-
 
 	@PostMapping("/delete")
 	@ApiOperation(value = "파일 삭제")

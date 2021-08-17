@@ -19,7 +19,7 @@ public interface FileService {
 
 	byte[] getImage(int roomId, int userId, int currentPage) throws IOException;
 
-	List<byte[]> getAllImage(int roomId, int userId) throws IOException;
+	List<byte[]> getAllImages(int roomId, int userId) throws IOException;
 
 	FileReq update(FileReq registerInfo) throws Exception;
 
