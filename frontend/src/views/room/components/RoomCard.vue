@@ -60,6 +60,8 @@
   <!--카드 유닛-->
 </template>
 <script>
+import axios from 'axios';
+
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
 import RoomReadyModal from './RoomReadyModal.vue';
@@ -118,7 +120,14 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+    axios
+      .get('https://i5a107.p.ssafy.io:8446/board/get-image-with-media-type')
+      .then(res => {
+        console.log(res);
+      })
+      .catch(e => console.log(e));
+  },
 };
 </script>
 <style>

@@ -67,7 +67,8 @@ public class FileController {
 	@GetMapping(value = "/image/{roomId}/{userId}/{curPage}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody ResponseEntity<byte[]> getImageWithMediaType(@PathVariable int roomId,
 			@PathVariable int userId, @PathVariable int curPage) throws IOException {
-		InputStream imageStream = new FileInputStream("/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + curPage +".jpg");
+		InputStream imageStream = new FileInputStream(
+				"/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + curPage + ".jpg");
 		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
 		imageStream.close();
 		return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
