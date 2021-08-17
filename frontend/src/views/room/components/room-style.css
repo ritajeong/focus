@@ -54,8 +54,8 @@
 
 .card-info {
   position: absolute;
-  bottom: 23px;
-  right: -40px;
+  bottom: 20px;
+  right: 20px;
   z-index: 3;
 }
 .card-info a{

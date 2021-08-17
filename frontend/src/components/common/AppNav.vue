@@ -11,7 +11,7 @@
         title="Designed and Coded by Creative Tim"
         data-placement="bottom"
       >
-        <h6 class="text-white">FOCUS</h6>
+        <h5 class="text-white">FOCUS</h5>
       </router-link>
       <!-- <button
         class="navbar-toggler"
@@ -41,7 +41,7 @@
                 cursor-pointer
                 align-items-center
               "
-              ><h6 class="text-white">Dashboard</h6></router-link
+              ><h5 class="text-white">Dashboard</h5></router-link
             >
           </li>
           <!-- 
@@ -84,7 +84,7 @@
                 cursor-pointer
                 align-items-center
               "
-              ><h6 class="text-white">My Page</h6></router-link
+              ><h5 class="text-white">My Page</h5></router-link
             >
           </li>
         </ul>
@@ -100,7 +100,7 @@
             text-white
           "
           @click.native="userLogout()"
-          ><h6 class="text-white">Logout</h6></router-link
+          ><h5 class="text-white">Logout</h5></router-link
         >
       </div>
     </div>

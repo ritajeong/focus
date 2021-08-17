@@ -2,15 +2,22 @@
   <!--카드 유닛-->
   <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 p-3">
     <div
-      v-bind:style="backgroundImg"
       class="card card-background move-on-hover background-wrap"
+      v-bind:style="backgroundImg"
+      style="position: relative"
     >
-      <div class="card-body content text-white ps-0">
-        <span style="display: inline-block">
-          <h4 class="text-white" style="cursor: pointer; float: left">
-            {{ roomInfo.name }}
-          </h4>
-          <p
+      <div
+        class="card-body content text-white ps-0"
+        v-if="!isHistory"
+        data-bs-toggle="modal"
+        :data-bs-target="'#RoomReadyModal' + roomInfo.room_id"
+        style="cursor: pointer"
+      >
+        <!-- <span style="display: inline-block"> -->
+        <h4 class="text-white" style="cursor: pointer; float: left">
+          {{ roomInfo.name }}
+        </h4>
+        <!-- <p
             v-if="!isHistory"
             class="mb-2 card-join"
             data-bs-toggle="modal"
@@ -20,9 +27,9 @@
               class="fas fa-sign-in-alt"
               style="color: #ffffff; font-size: 2rem"
             ></i>
-          </p>
-        </span>
-        <span v-if="!isHistory"><br /></span>
+          </p> -->
+        <!-- </span>
+        <span v-if="!isHistory"><br /></span> -->
         <!-- <p class="mb-2 text-sm">Room Id</p> -->
         <p class="mb-2 text-lg" :class="{ cardPt5: isNow }">
           {{
@@ -49,10 +56,15 @@
             roomInfo.endTime.slice(0, 16).replace(/\-/g, '.').replace('T', ' ')
           }}
         </p>
-        <span class="card-info" @click="setAndGoToRoomInfo" type="button">
-          <i class="fas fa-info-circle"></i>
-        </span>
       </div>
+      <span
+        class="card-info"
+        @click.prevent="setAndGoToRoomInfo"
+        type="button"
+        style="z-index: 5"
+      >
+        <i class="fas fa-info-circle" style="z-index: 5"></i>
+      </span>
     </div>
     <!-- Modal -->
     <RoomReadyModal :roomInfo="roomInfo" :key="roomInfo.room_id" />
