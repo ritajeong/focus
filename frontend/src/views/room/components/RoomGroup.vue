@@ -47,7 +47,7 @@
           <!-- more-->
           <div
             class="card-last move-on-hover text-center"
-            v-if="lengthRooms > 0 && isToggle"
+            v-show="lengthRooms > 0 && isToggle"
             @click.stop="moreCard"
           >
             <a href="#"
