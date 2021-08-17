@@ -1,11 +1,8 @@
 package com.example.demo.api.controller;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -64,14 +61,16 @@ public class FileController {
 		return new ResponseEntity<List<FiledetailRes>>(fileservice.findbygroupid(filereq), HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/image/{roomId}/{userId}/{curPage}", produces = MediaType.IMAGE_JPEG_VALUE)
-	public @ResponseBody ResponseEntity<byte[]> getImageWithMediaType(@PathVariable int roomId,
-			@PathVariable int userId, @PathVariable int curPage) throws IOException {
-		InputStream imageStream = new FileInputStream(
-				"/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + curPage + ".jpg");
-		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-		imageStream.close();
-		return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
+	@GetMapping(value = "/image/{roomId}/{userId}/{currentPage}", produces = MediaType.IMAGE_JPEG_VALUE)
+	public @ResponseBody ResponseEntity<byte[]> getImage(@PathVariable int roomId, @PathVariable int userId,
+			@PathVariable int currentPage) throws IOException {
+		return new ResponseEntity<byte[]>(fileservice.getImage(roomId, userId, currentPage), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/image/{roomId}/{userId}", produces = MediaType.IMAGE_JPEG_VALUE)
+	public @ResponseBody ResponseEntity<List<byte[]>> getAllImages(@PathVariable int roomId, @PathVariable int userId)
+			throws IOException {
+		return new ResponseEntity<List<byte[]>>(fileservice.getAllImage(roomId, userId), HttpStatus.OK);
 	}
 
 	@PostMapping("/delete")

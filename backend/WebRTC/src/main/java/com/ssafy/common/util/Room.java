@@ -40,13 +40,13 @@ public class Room implements Closeable {
 	public Room(String roomName, MediaPipeline pipeline, String presenterName) {
 		this.name = roomName;
 		this.pipeline = pipeline;
-		this.presentation = new Presentation(presenterName, null, null, null);
+		this.presentation = new Presentation(null, presenterName, null, null, null);
 		log.info("ROOM {} has been created", roomName);
 	}
 
 	public void setPresenter(String presenterName) throws IOException {
 		presentation.setPresenterName(presenterName);
-		presentation.setPresentationImageUri(null);
+		presentation.setPresentationCurrentPage(null);
 		presentation.setPresentationLocation(null);
 		presentation.setPresentationSize(null);
 
@@ -58,10 +58,27 @@ public class Room implements Closeable {
 		}
 	}
 
-	public void setPresentation(String presentationImageUri, String presentationLocation, String presentationSize) {
-		presentation.setPresentationImageUri(presentationImageUri);
+	public void setPresentation(String presentationUserId, String presentationCurrentPage, String presentationLocation, String presentationSize) {
+		presentation.setPresentationUserId(presentationUserId);
+		presentation.setPresentationCurrentPage(presentationCurrentPage);
 		presentation.setPresentationLocation(presentationLocation);
 		presentation.setPresentationSize(presentationSize);
+	}
+	
+	public String getPresentationUserId() {
+		return presentation.getPresentationUserId();
+	}
+	
+	public String getPresentationCurrentPage() {
+		return presentation.getPresentationCurrentPage();
+	}
+	
+	public String getPresentationLocation() {
+		return presentation.getPresentationLocation();
+	}
+	
+	public String getPresentationSize() {
+		return presentation.getPresentationSize();
 	}
 
 	public String getPresenter() {
@@ -147,7 +164,8 @@ public class Room implements Closeable {
 		existingParticipantsMsg.addProperty("id", "existingParticipants");
 		existingParticipantsMsg.add("data", participantsArray);
 		existingParticipantsMsg.addProperty("presenter", presentation.getPresenterName());
-		existingParticipantsMsg.addProperty("imageUri", presentation.getPresentationImageUri());
+		existingParticipantsMsg.addProperty("presentationUserId", presentation.getPresentationUserId());
+		existingParticipantsMsg.addProperty("currentPage", presentation.getPresentationCurrentPage());
 		existingParticipantsMsg.addProperty("location", presentation.getPresentationLocation());
 		existingParticipantsMsg.addProperty("size", presentation.getPresentationSize());
 		log.debug("PARTICIPANT {}: sending a list of {} participants", user.getName(), participantsArray.size());
