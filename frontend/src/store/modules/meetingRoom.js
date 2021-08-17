@@ -6,7 +6,7 @@ import kurentoUtils from 'kurento-utils';
 import axios from 'axios';
 import _ from 'lodash';
 
-const API_SERVER_URL = 'http://localhost:8446';
+const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446/';
 
 export default {
   namespaced: true,
