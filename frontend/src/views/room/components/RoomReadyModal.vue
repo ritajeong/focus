@@ -7,7 +7,7 @@
     aria-labelledby="exampleModalMessageTitle"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered text-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" :id="'RoomReadyModal' + roomInfo.room_id">
@@ -36,7 +36,7 @@
             width="100%"
             :id="'local-video' + roomId"
             autoplay="true"
-            placeholder="비디오를 켜주시고 접속 허용을 눌러주세요"
+            poster="@/assets/img/logos/focus_camera3.jpg"
           ></video>
           <!-- local video element -->
           <i class="bi bi-mic-fill"></i>
@@ -202,9 +202,7 @@ export default {
         const videoElement = document.getElementById(
           'local-video' + this.roomId,
         );
-        console.log('videoElement.srcObject before : ', videoElement.srcObject);
         videoElement.srcObject = stream;
-        console.log('videoElement.srcObject after: ', videoElement.srcObject);
       } catch (error) {
         console.error('Error opening video camera.', error);
       }
@@ -221,7 +219,6 @@ export default {
           var track = tracks[i];
           track.stop();
         }
-
         videoElement.srcObject = null;
       } catch (err) {
         console.error('Error stop video camera.', err);
