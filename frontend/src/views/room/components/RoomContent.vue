@@ -316,7 +316,7 @@ export default {
               return;
             } else {
               this.$alertify.success('방 정보가 수정됐습니다.');
-              this.$router.push('/dashboard/info');
+              //this.$router.push('/dashboard/info');
             }
           })
           .catch(() => {
