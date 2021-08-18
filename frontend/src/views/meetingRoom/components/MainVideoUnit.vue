@@ -21,7 +21,7 @@
     <!-- main video -->
     <!-- presentation image -->
     <!-- <div id="image-container" class="image-container"> -->
-    <transition name="transition-first" v-if="currentPage !== null">
+    <transition name="transition-fade" v-if="currentPage !== null">
       <img
         :src="imageSrcs[currentPage]"
         :key="imageSrcs[currentPage]"
@@ -133,9 +133,6 @@ export default {
   width: 60%;
   border-radius: 25px;
 } */
-.transition-first-enter-active {
-  animation: fadeIn 0.3s;
-}
 .overlay {
   position: absolute;
   bottom: 5%;
@@ -261,6 +258,10 @@ export default {
   top: 0;
   height: 100%;
   border-radius: 25px;
+}
+/* transitions */
+.transition-fade-enter-active {
+  animation: fadeIn 0.3s;
 }
 </style>
 

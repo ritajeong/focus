@@ -7,8 +7,8 @@ import kurentoUtils from 'kurento-utils';
 import axios from 'axios';
 import _ from 'lodash';
 
-const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446';
-// const API_SERVER_URL = 'https://localhost:8446';
+/* const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446'; */
+const API_SERVER_URL = 'https://localhost:8446';
 
 export default {
   namespaced: true,
@@ -31,6 +31,7 @@ export default {
     /* imageUrls: null, */
     imageSrcs: null,
     selectedContentId: null,
+    transition: null,
   }),
   // mutations
   mutations: {
@@ -71,6 +72,7 @@ export default {
       state.currentPage = message.currentPage;
       state.size = message.size;
       state.location = message.location;
+      state.transition = message.transition;
     },
     // 발표자 변경, 발표자료 null 로 설정
     CHANGE_PRESENTER(state, message) {
@@ -81,6 +83,7 @@ export default {
       state.size = null;
       state.location = null;
       state.selectedContentId = null;
+      state.transition = null;
     },
     CHANGE_CONTENT(state, message) {
       state.selectedContentId = message.presentationUserId;
@@ -102,6 +105,7 @@ export default {
       /* state.imageUrls = null; */
       state.imageSrcs = null;
       state.selectedContentId = null;
+      state.transition = null;
     },
     SET_CONTENTS(state, message) {
       state.presentationContents = message.data;
@@ -111,12 +115,14 @@ export default {
       state.currentPage = 0;
       state.location = state.location === null ? 'right' : state.location;
       state.size = state.size === null ? '2' : state.size;
+      state.transition = state.transition === null ? 'fade' : state.transition;
     },
     SET_ONGOING_PRESENTATION(state, { message, imageSrcs }) {
       state.imageSrcs = imageSrcs;
       state.currentPage = message.currentPage;
       state.location = message.location;
       state.size = message.size;
+      state.transition = message.transition;
     },
     /* SET_IMAGE_URLS(state, imageUrls) {
       state.imageUrls = imageUrls;

@@ -85,6 +85,9 @@ export default {
     presentationLocation() {
       return this.$store.state.meetingRoom.location;
     },
+    presentationTransition() {
+      return this.$store.state.meetingRoom.transition;
+    },
   },
   // : watch
   watch: {
@@ -94,6 +97,7 @@ export default {
         currentPage: this.currentPage,
         location: this.presentationLocation,
         size: this.selectedSize,
+        transition: this.presentationTransition,
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
     },
@@ -113,6 +117,7 @@ export default {
         currentPage: this.currentPage,
         location: this.selectedLocation,
         size: this.presentationSize,
+        transition: this.presentationTransition,
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
     },
@@ -123,6 +128,7 @@ export default {
         currentPage: this.currentPage,
         location: this.selectedLocation,
         size: this.presentationSize,
+        transition: this.presentationTransition,
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
     },
@@ -133,6 +139,7 @@ export default {
         currentPage: this.currentPage,
         location: this.selectedLocation,
         size: this.presentationSize,
+        transition: this.presentationTransition,
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
     },
