@@ -40,12 +40,12 @@ export default {
     firstImgUrl() {
       return `${FILE_PATH}/${this.roomNumber}/${this.content.user_id}/1`;
     },
-    imageSize() {
+    /*     imageSize() {
       return this.$store.state.meetingRoom.size;
     },
     imageLocation() {
       return this.$store.state.meetingRoom.location;
-    },
+    }, */
     selectedContentId() {
       return this.$store.state.meetingRoom.selectedContentId;
     },
@@ -66,19 +66,19 @@ export default {
   methods: {
     selectContent: function () {
       // 이미지 url 목록 만들어서 state에 저장
-      const imageUrls = [];
+      /* const imageUrls = [];
       for (let i = 1; i <= this.content.file_size; i++) {
         let filepath = `${FILE_PATH}/${this.roomNumber}/${this.content.user_id}/${i}`;
         imageUrls.push(filepath);
       }
-      this.$store.dispatch('meetingRoom/setImageUrls', imageUrls);
+      this.$store.dispatch('meetingRoom/setImageUrls', imageUrls); */
       // 선택된 content의 user_id를 ContentId로 지정해 state에 저장
-      this.$store.dispatch(
+      /* this.$store.dispatch(
         'meetingRoom/setSelectedContentId',
         this.content.user_id,
-      );
+      ); */
       // websocket에 첫 번째 이미지에 대한 메시지 보내주기
-      const size = this.imageSize === null ? '2' : this.imageSize;
+      /* const size = this.imageSize === null ? '2' : this.imageSize;
       const location =
         this.imageLocation === null ? 'right' : this.imageLocation;
       const message = {
@@ -87,8 +87,14 @@ export default {
         location: location,
         size: size,
       };
-      this.$store.dispatch('meetingRoom/sendMessage', message);
+      this.$store.dispatch('meetingRoom/sendMessage', message); */
       // sliderUrls state에 갱신시켜주기
+      // Websocket에 Content 변경 정보 보내주기
+      const message = {
+        id: 'changeContent',
+        presentationUserId: this.content.user_id,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
     },
   },
 };

@@ -1,17 +1,27 @@
 package com.ssafy.common.util;
 
 public class Presentation {
+	private String presentationUserId;
 	private String presenterName;
-	private String presentationImageUri;
+	private String presentationCurrentPage;
 	private String presentationLocation;
 	private String presentationSize;
 
-	public Presentation(String presenterName, String presentationImageUri, String presentationLocation,
-			String presentationSize) {
+	public Presentation(String presentationUserId, String presenterName, String presentationCurrentPage,
+			String presentationLocation, String presentationSize) {
+		this.presentationUserId = presentationUserId;
 		this.presenterName = presenterName;
-		this.presentationImageUri = presentationImageUri;
+		this.presentationCurrentPage = presentationCurrentPage;
 		this.presentationLocation = presentationLocation;
 		this.presentationSize = presentationSize;
+	}
+
+	public String getPresentationUserId() {
+		return presentationUserId;
+	}
+
+	public void setPresentationUserId(String presentationUserId) {
+		this.presentationUserId = presentationUserId;
 	}
 
 	public String getPresenterName() {
@@ -22,12 +32,12 @@ public class Presentation {
 		this.presenterName = presenterName;
 	}
 
-	public String getPresentationImageUri() {
-		return presentationImageUri;
+	public String getPresentationCurrentPage() {
+		return presentationCurrentPage;
 	}
 
-	public void setPresentationImageUri(String presentationImageUri) {
-		this.presentationImageUri = presentationImageUri;
+	public void setPresentationCurrentPage(String presentationCurrentPage) {
+		this.presentationCurrentPage = presentationCurrentPage;
 	}
 
 	public String getPresentationLocation() {
@@ -46,4 +56,10 @@ public class Presentation {
 		this.presentationSize = presentationSize;
 	}
 
+	@Override
+	public String toString() {
+		return "Presentation [presentationUserId=" + presentationUserId + ", presenterName=" + presenterName
+				+ ", presentationCurrentPage=" + presentationCurrentPage + ", presentationLocation=" + presentationLocation
+				+ ", presentationSize=" + presentationSize + "]";
+	}
 }

@@ -76,8 +76,8 @@ export default {
   },
   // : computed
   computed: {
-    presentationUrl() {
-      return this.$store.state.meetingRoom.nowImageUrl;
+    currentPage() {
+      return this.$store.state.meetingRoom.currentPage;
     },
     presentationSize() {
       return this.$store.state.meetingRoom.size;
@@ -91,7 +91,7 @@ export default {
     selectedSize: function () {
       const message = {
         id: 'changePresentation',
-        imageUri: this.presentationUrl,
+        currentPage: this.currentPage,
         location: this.presentationLocation,
         size: this.selectedSize,
       };
@@ -110,7 +110,7 @@ export default {
       this.selectedLocation = 'right';
       const message = {
         id: 'changePresentation',
-        imageUri: this.presentationUrl,
+        currentPage: this.currentPage,
         location: this.selectedLocation,
         size: this.presentationSize,
       };
@@ -120,7 +120,7 @@ export default {
       this.selectedLocation = 'left';
       const message = {
         id: 'changePresentation',
-        imageUri: this.presentationUrl,
+        currentPage: this.currentPage,
         location: this.selectedLocation,
         size: this.presentationSize,
       };
@@ -130,7 +130,7 @@ export default {
       this.selectedLocation = 'top';
       const message = {
         id: 'changePresentation',
-        imageUri: this.presentationUrl,
+        currentPage: this.currentPage,
         location: this.selectedLocation,
         size: this.presentationSize,
       };

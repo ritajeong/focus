@@ -72,6 +72,19 @@ public class CallHandler extends TextWebSocketHandler {
 			setPresenter(jsonMessage);
 			break;
 		}
+		case "changeContent": {
+			log.trace("changeContent");
+			UserSession userSession = registry.getBySession(session);
+			Room room = roomManager.getRoom(userSession.getRoomName(), userSession.getName());
+			for (UserSession participant : room.getParticipants()) {
+				participant.sendMessage(jsonMessage);
+			}
+
+			String presentationUserId = jsonMessage.get("presentationUserId").getAsString();
+			room.setPresentation(presentationUserId, room.getPresentationCurrentPage(), room.getPresentationLocation(),
+					room.getPresentationSize());
+			break;
+		}
 		case "changePresentation": {
 			log.trace("changePresentation");
 			UserSession userSession = registry.getBySession(session);
@@ -80,10 +93,11 @@ public class CallHandler extends TextWebSocketHandler {
 				participant.sendMessage(jsonMessage);
 			}
 
-			String presentationImageUri = jsonMessage.get("imageUri").getAsString();
+			String presentationCurrentPage = jsonMessage.get("currentPage").getAsString();
 			String presentationLocation = jsonMessage.get("location").getAsString();
 			String presentationSize = jsonMessage.get("size").getAsString();
-			room.setPresentation(presentationImageUri, presentationLocation, presentationSize);
+			room.setPresentation(room.getPresentationUserId(), presentationCurrentPage, presentationLocation,
+					presentationSize);
 			break;
 		}
 		default:
@@ -123,7 +137,7 @@ public class CallHandler extends TextWebSocketHandler {
 			roomManager.removeRoom(room);
 		}
 	}
-	
+
 	private void setPresenter(JsonObject params) throws IOException {
 		String presenterName = params.get("presenter").getAsString();
 		UserSession presenter = registry.getByName(presenterName);
