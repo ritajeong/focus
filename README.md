@@ -1,6 +1,6 @@
 ![waving](https://capsule-render.vercel.app/api?type=waving&height=200&text=Focus:on-your-presentation&fontSize=50&fontAlignY=35&color=gradient)
 
-## 👨‍🏫 FOCUS
+## 🏆 FOCUS
 ### 프로젝트 소개
   * https://i5a107.p.ssafy.io
   * [Notion 개발 WIKI](https://www.notion.so/7-FOCUS-a4db4765db0d47059f1a743e2e87347c)
@@ -87,75 +87,9 @@
 - __접속 가능__ : 접속 가능
 - __HTTPS 적용__ : O 
 - __PORT__ : 8443
+
 ### 배포하기
-
-#### 1. Front-End Node Modules Install
-* /frontend에서 npm install
-#### 2. Front-End Build into /backend/webrtc/src/main/resources/static
-* vue.config.js의 outputDir 확인
-* npm build
-#### 3. WinSCP를 이용해서 /backend/webrtc 프로젝트 EC2에 업로드
-#### 4. WinSCP를 이용해서 /backend/springboot 프로젝트 EC2에 업로드
-
-#### 5. Kurento Media Server 설정
-
-* 5-1. EC2에서 docker를 이용하여 kms를 기본 설정합니다.
-
-    [Installation Guide - Kurento 6.16.0 documentation](https://doc-kurento.readthedocs.io/en/stable/user/installation.html#docker-image)
-
-* 5-2. kms container를 실행합니다.
-    ```
-    $ docker ps -a
-    $ docker container start {kms container id} 
-    ```
-* 5-3. kms server에 인증 키 정보를 저장합니다.
-    (1) WinSCP를 이용해서 /backend/webrtc/server.pem을 EC2에 업로드
-    (2) EC2의 server.pem을 kms container의 kurenot.conf.json과 같은 경로에 업로드
-        ```
-         $ dokcer cp server.pem {kms container id}:/etc/kurento/
-         ```
-    (3) docker exec -it {kms container id} /bin/bash
-    (4) vi /etc/kurento/kurento.conf.json
-        * mediaServer > net > websocket > secure > port,certificate,password 주석 해제
-        * certificate의 값을 server.pem으로 변경후 저장 (password는 없으므로 "")
-    (5) container에서 나와서 kms container restart
-    ```
-         $ docker container restart {kms container id}
-    ```
-#### 참고
- * [Securing Kurento Applications - Kurento 6.16.0 documentation](https://doc-kurento.readthedocs.io/en/stable/features/security.html)
-
-#### 6. EC2의 보안 규칙 변경
-
-* 6-1. 22번 포트 (putty ssh 접속), 80번 포트(http), 443번 포트(https) 허용
-    ```
-    $ sudo ufw allow {port#}
-    $ sudo ufw allow {port#}/tcp
-    $ sudo ufw allow {port#}/udp
-    ```
-* 6-2. EC2 방화벽 실행
-    ```
-    $ sudo ufw enable
-    ```
-
-#### 7. Port Forwarding
-
-* 7-1. 80번, 443번 포트를  8443번 포트로 Port Forwarding
-    ```
-    $ sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8443
-    $ sudo iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 8443
-    ```
-* 7-2. iptables의 정보를 영구적으로 저장
-    ```
-    $ sudo apt install netfilter-persistent iptables-persistent
-    $ sudo netfilter-persistent save
-    ```
-* 7-3. EC2 재부팅
-    ```
-    $ sudo reboot
-    ```
-##### 참고
-* [Port forwarding with iptables](https://www.cogini.com/blog/port-forwarding-with-iptables/)
+* [보러가기✔]()
 
 
 
@@ -220,6 +154,7 @@
 
 
 ### 시스템 아키텍쳐
+![](https://i.imgur.com/fE1rUHo.png)
 
 ### 데이터베이스
 ![](https://i.imgur.com/i5uIiJE.png)
@@ -237,18 +172,25 @@
 <br>
 
 ## 디렉토리 구조
-### Frontend > [보러가기✔]()
-### Backend > [보러가기✔]()
+### Frontend
+* [보러가기✔]()
+### Backend
+* [보러가기✔]()
 
 
 <br>
 
 ## 서비스 상세
-### Controller > [보러가기✔]()
-### WebSocket > [보러가기✔]()
-### Component > [보러가기✔]()
-### 사용자 시나리오 > [보러가기✔]()
-### 기타 라이브러리 > [보러가기✔]()
+### Controller 
+* [보러가기✔]()
+### WebSocket
+* [보러가기✔]()
+### Component
+* [보러가기✔]()
+### 사용자 시나리오
+* [보러가기✔]()
+### 기타 라이브러리
+* [보러가기✔]()
 
 <br>
 
