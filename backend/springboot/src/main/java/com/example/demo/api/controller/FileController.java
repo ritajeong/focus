@@ -62,16 +62,12 @@ public class FileController {
 			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<List<FiledetailRes>> showRoomdetail(
 			@ModelAttribute @ApiParam(value = "파일 저장", required = true) ShowFileReq filereq) {
-
-		List<FiledetailRes> filedetailRes=null;
-		try{
-			filedetailRes=fileservice.findbygroupid(filereq);
-			log.info("[showRoomdetail] filedetailRes:{}",filedetailRes);
-			return new ResponseEntity<List<FiledetailRes>>(filedetailRes, HttpStatus.OK);
-		}catch(Exception e){
-			e.printStackTrace();
+		List<FiledetailRes> fileDetailResList = fileservice.findbygroupid(filereq);
+		if(fileDetailResList != null) {
+		return new ResponseEntity<List<FiledetailRes>>(fileservice.findbygroupid(filereq), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<List<FiledetailRes>>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<FiledetailRes>>(filedetailRes, HttpStatus.NOT_FOUND);
 	}
 
 	@GetMapping(value = "/image/{roomId}/{userId}/{currentPage}", produces = MediaType.IMAGE_JPEG_VALUE)
