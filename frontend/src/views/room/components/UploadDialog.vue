@@ -1,13 +1,12 @@
 <template>
   <v-app id="inspire">
     <!-- Page.vue - Dialog를 열기위한 버튼 영역 -->
-
     <v-container fluid class="pa-0">
       <v-row align="center">
         <v-col cols="12" sm="12" md="12">
           <div class="text-center">
             <div class="my-2">
-              <v-btn @click="openDialog()" dark>
+              <v-btn @click="openDialog()" class="bg-gradient-dark white--text">
                 <v-icon class="mr-2">cloud_upload</v-icon>
                 File Upload
               </v-btn>
@@ -51,6 +50,12 @@
     </v-dialog>
   </v-app>
 </template>
+
+<style>
+.v-application--wrap {
+  min-height: 10vh !important;
+}
+</style>
 
 <script>
 import Upload from './Upload.vue';

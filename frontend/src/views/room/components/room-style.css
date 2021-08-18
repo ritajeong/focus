@@ -7,7 +7,7 @@
     0 0.125rem 0.25rem -0.0625rem rgba(20, 20, 20, 0.07) !important;
   border-radius: 1rem;
   /* 이미지 클래스 추가*/
-  background-size: 400px 400px;
+  background-size: 400px 200px;
   width: 400px;
   height: 200px;
   display: flex;

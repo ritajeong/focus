@@ -20,7 +20,12 @@
       <div class="container">
         <div class="row">
           <div
-            class="col-lg-6 col-md-7 d-flex justify-content-center flex-column"
+            class="
+              col-xl-6 col-lg-8 col-md-7
+              d-flex
+              justify-content-center
+              flex-column
+            "
           >
             <h1 class="text-gradient text-focus mb-4 text-center">
               Focus on your presentation
