@@ -61,34 +61,35 @@ public class Room implements Closeable {
 		}
 	}
 
-	public void setPresentation(String presentationUserId, String presentationTransition, String presentationCurrentPage, String presentationLocation, String presentationSize) {
+	public void setPresentation(String presentationUserId, String presentationTransition,
+			String presentationCurrentPage, String presentationLocation, String presentationSize) {
 		presentation.setPresentationUserId(presentationUserId);
 		presentation.setPresentationTransition(presentationTransition);
 		presentation.setPresentationCurrentPage(presentationCurrentPage);
 		presentation.setPresentationLocation(presentationLocation);
 		presentation.setPresentationSize(presentationSize);
 	}
-	
+
 	public String getOwner() {
 		return owner;
 	}
-	
+
 	public String getPresentationUserId() {
 		return presentation.getPresentationUserId();
 	}
-	
+
 	public String getPresentationTransitio() {
 		return presentation.getPresentationTransition();
 	}
-	
+
 	public String getPresentationCurrentPage() {
 		return presentation.getPresentationCurrentPage();
 	}
-	
+
 	public String getPresentationLocation() {
 		return presentation.getPresentationLocation();
 	}
-	
+
 	public String getPresentationSize() {
 		return presentation.getPresentationSize();
 	}
@@ -140,7 +141,7 @@ public class Room implements Closeable {
 	private void removeParticipant(String name) throws IOException {
 		participants.remove(name);
 
-		log.debug("ROOM {}: notifying all users that {} is leaving the room", this.name, name);
+		log.info("ROOM {}: notifying all users that {} is leaving the room", this.name, name);
 
 		final List<String> unnotifiedParticipants = new ArrayList<>();
 		final JsonObject participantLeftJson = new JsonObject();
