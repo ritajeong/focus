@@ -66,7 +66,8 @@
     ```json
     {
     	id: 'changePresenter',
-    	currentPage: 'currentPage',
+    	transition: 'presentationTransition',
+    	currentPage: 'presentationCurrentPage',
     	location: 'presentationLocation',
     	size: 'presentationSize'
     }
@@ -91,6 +92,7 @@
     	data: 'participantsArray',
     	presenter: 'persenterName',
     	presentationUserId: 'presentationUserId',
+    	transition: 'presentationTransition',
     	currentPage: 'presentationCurrentPage',
     	location: 'presentationLocation',
     	size: ' presentationSize'
@@ -139,6 +141,7 @@
     ```json
     {
     	id: 'changePresentation',
+    	transition: 'presentationTransition',
     	currentPage: 'presentationCurrentPage',
     	location: 'presentationLocation',
     	size: ' presentationSize'
