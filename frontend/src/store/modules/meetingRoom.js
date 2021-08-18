@@ -287,6 +287,7 @@ export default {
     // participant 객체에서 삭제 메서드를 사용했을 때
     onParticipantLeft(context, request) {
       /* console.log('Participant' + request.name + 'left'); */
+      context.dispatch('leaveRoom');
       var participant = context.state.participants[request.name];
       participant.dispose();
     },
