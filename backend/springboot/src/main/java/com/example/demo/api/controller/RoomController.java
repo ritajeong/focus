@@ -94,7 +94,7 @@ public class RoomController {
 		roomService.deleteRoom(roomId);
 
 		if (room == null) {
-			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "fail"));
+			return ResponseEntity.status(500).body(BaseResponseBody.of(404, "방이 없습니다."));
 		}
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "성공"));
 	}

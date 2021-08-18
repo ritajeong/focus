@@ -13,21 +13,21 @@ import lombok.Setter;
 @ApiModel("RoomGetResponse")
 
 public class RoomGetRes {
-	@ApiModelProperty
+	@ApiModelProperty(example="방 이름")
 	String name;
-	@ApiModelProperty
+	@ApiModelProperty(example="방 이름")
 	String description;
-	@ApiModelProperty
+	@ApiModelProperty(example="방 시작 시간")
 	LocalDateTime startTime;
-	@ApiModelProperty
+	@ApiModelProperty(example="방 종료 시간")
 	LocalDateTime endTime;
-	@ApiModelProperty
+	@ApiModelProperty(example="방장 아이디")
 	int manager_id;
-	@ApiModelProperty
+	@ApiModelProperty(example="방장 이름")
 	String manager_name;
-	@ApiModelProperty
+	@ApiModelProperty(example="방 아이디")
 	int room_id;
-	@ApiModelProperty(name="참가자 목록")
+	@ApiModelProperty(example="참가자 목록")
 	List<ParticipantGetRes> participants;
 
 	public RoomGetRes(){}

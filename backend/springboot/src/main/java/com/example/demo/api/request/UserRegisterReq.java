@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserRegisterRequest")
 public class UserRegisterReq {
-    @ApiModelProperty
+    @ApiModelProperty(example = "사용자 아이디")
     int userId;
-    @ApiModelProperty
+    @ApiModelProperty(example = "사용자 이름")
     String name;
-    @ApiModelProperty
+    @ApiModelProperty(example = "사용자 이메일")
     String email;
-    @ApiModelProperty
+    @ApiModelProperty(example = "사용자 비밀번호")
     String password;
 }
