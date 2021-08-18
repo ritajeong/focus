@@ -54,6 +54,21 @@
 
               <div class="form-group mb-4">
                 <label><h6>Participant List</h6></label>
+                <popper
+                  ref="popper"
+                  :prevent-default="true"
+                  :force-show="ture"
+                  :options="{
+                    placement: 'top',
+                    modifiers: { offset: { offset: '0,10px' } },
+                  }"
+                >
+                  <div class="popper">참가자를 검색하세요</div>
+
+                  <button slot="reference" disable>
+                    <i class="far fa-question-circle"></i>
+                  </button>
+                </popper>
                 <div class="row">
                   <div class="col-md-5">
                     <input
@@ -149,11 +164,13 @@ import { findUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
 import moment from 'moment';
 import { mapGetters } from 'vuex';
+import Popper from 'vue-popperjs';
+import 'vue-popperjs/dist/vue-popper.css';
 Vue.use(VueAlertify);
 
 export default {
   name: 'RoomCreate',
-  components: { DatePicker },
+  components: { DatePicker, Popper },
   data() {
     return {
       user: this.$store.state.users.login,
