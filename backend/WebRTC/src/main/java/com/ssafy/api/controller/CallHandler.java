@@ -93,7 +93,8 @@ public class CallHandler extends TextWebSocketHandler {
 				participant.sendMessage(jsonMessage);
 			}
 
-			String presentationTransition = jsonMessage.get("transition").getAsString();
+//			String presentationTransition = jsonMessage.get("transition").getAsString();
+			String presentationTransition = null;
 			String presentationCurrentPage = jsonMessage.get("currentPage").getAsString();
 			String presentationLocation = jsonMessage.get("location").getAsString();
 			String presentationSize = jsonMessage.get("size").getAsString();
@@ -115,6 +116,10 @@ public class CallHandler extends TextWebSocketHandler {
 			log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
 			if (room.getParticipants().isEmpty()) {
 				roomManager.removeRoom(room);
+			} else {
+				if (user.getName().equals(room.getPresenterName())) {
+					roomManager.setPresenter(room.getName(), room.getOwner());
+				}
 			}
 		}
 	}
@@ -136,6 +141,10 @@ public class CallHandler extends TextWebSocketHandler {
 		log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
 		if (room.getParticipants().isEmpty()) {
 			roomManager.removeRoom(room);
+		} else {
+			if (user.getName().equals(room.getPresenterName())) {
+				roomManager.setPresenter(room.getName(), room.getOwner());
+			}
 		}
 	}
 
