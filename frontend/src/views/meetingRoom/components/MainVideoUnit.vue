@@ -21,10 +21,10 @@
     <!-- main video -->
     <!-- presentation image -->
     <!-- <div id="image-container" class="image-container"> -->
-    <transition name="transition-first" v-if="nowImageUrl !== null">
+    <transition name="transition-first" v-if="currentPage !== null">
       <img
-        :src="this.nowImageUrl"
-        :key="this.nowImageUrl"
+        :src="imageSrcs[currentPage]"
+        :key="imageSrcs[currentPage]"
         alt="presentation image"
         :class="[presetCss, 'img-fluid']"
         id="presentation-image"
@@ -63,8 +63,11 @@ export default {
   }, */
   // : computed
   computed: {
-    nowImageUrl: function () {
-      return this.$store.state.meetingRoom.nowImageUrl;
+    imageSrcs: function () {
+      return this.$store.state.meetingRoom.imageSrcs;
+    },
+    currentPage: function () {
+      return this.$store.state.meetingRoom.currentPage;
     },
     mainVideo() {
       return this.mainParticipant.getVideoElement();

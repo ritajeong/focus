@@ -45,7 +45,6 @@
 
 <script>
 import PresentationSlideItem from './PresentationSlideItem.vue';
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'PresentationSlider.vue',
@@ -64,7 +63,6 @@ export default {
   },
   // : computed
   computed: {
-    ...mapGetters(['getImageUrls']),
     presentationSize() {
       return this.$store.state.meetingRoom.size;
     },
@@ -72,14 +70,14 @@ export default {
       return this.$store.state.meetingRoom.location;
     },
     slideUrls() {
-      return this.$store.state.meetingRoom.imageUrls;
+      return this.$store.state.meetingRoom.imageSrcs;
     },
   },
   // : watch
   watch: {
     now: function () {
       // 발표자의 현재 이미지 url state에 저장: 이미지 변경 시 -> actions / mutation으로 분리해야함
-      this.$store.state.meetingRoom.nowImageUrl = this.slideUrls[this.now];
+      this.$store.state.meetingRoom.currentPage = this.now;
       // 현재 본인이 발표자라면 웹소켓 메시지 보내기
       if (
         this.$store.state.meetingRoom.presenter ===
@@ -87,7 +85,7 @@ export default {
       ) {
         var message = {
           id: 'changePresentation',
-          imageUri: this.slideUrls[this.now],
+          currentPage: this.now,
           location: this.presentationLocation,
           size: this.presentationSize,
         };
