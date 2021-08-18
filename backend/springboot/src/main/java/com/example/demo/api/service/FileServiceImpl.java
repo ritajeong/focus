@@ -158,7 +158,7 @@ public class FileServiceImpl implements FileService {
 		int size = filegroupRepository.getFileSizeByGroupId(roomId, userId);
 		for (int i = 1; i <= size; i++) {
 			InputStream imageStream = new FileInputStream(
-					"C:\\Users\\multicampus\\presentations\\" + roomId + "\\" + userId + "\\" + i + ".jpg");
+					"C:\\presentations\\" + roomId + "\\" + userId + "\\" + i + ".jpg");
 //			InputStream imageStream = new FileInputStream("/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + i + ".jpg");
 			byte[] imageByteArray = IOUtils.toByteArray(imageStream);
 			imageStream.close();
