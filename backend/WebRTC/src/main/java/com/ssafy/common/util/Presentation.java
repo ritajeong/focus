@@ -3,14 +3,16 @@ package com.ssafy.common.util;
 public class Presentation {
 	private String presentationUserId;
 	private String presenterName;
+	private String presentationTransition;
 	private String presentationCurrentPage;
 	private String presentationLocation;
 	private String presentationSize;
 
-	public Presentation(String presentationUserId, String presenterName, String presentationCurrentPage,
-			String presentationLocation, String presentationSize) {
+	public Presentation(String presentationUserId, String presenterName, String presentationTransition,
+			String presentationCurrentPage, String presentationLocation, String presentationSize) {
 		this.presentationUserId = presentationUserId;
 		this.presenterName = presenterName;
+		this.presentationTransition = presentationTransition;
 		this.presentationCurrentPage = presentationCurrentPage;
 		this.presentationLocation = presentationLocation;
 		this.presentationSize = presentationSize;
@@ -30,6 +32,14 @@ public class Presentation {
 
 	public void setPresenterName(String presenterName) {
 		this.presenterName = presenterName;
+	}
+
+	public String getPresentationTransition() {
+		return presentationTransition;
+	}
+
+	public void setPresentationTransition(String presentationTransition) {
+		this.presentationTransition = presentationTransition;
 	}
 
 	public String getPresentationCurrentPage() {
@@ -59,7 +69,9 @@ public class Presentation {
 	@Override
 	public String toString() {
 		return "Presentation [presentationUserId=" + presentationUserId + ", presenterName=" + presenterName
-				+ ", presentationCurrentPage=" + presentationCurrentPage + ", presentationLocation=" + presentationLocation
-				+ ", presentationSize=" + presentationSize + "]";
+				+ ", presentationTransition=" + presentationTransition + ", presentationCurrentPage="
+				+ presentationCurrentPage + ", presentationLocation=" + presentationLocation + ", presentationSize="
+				+ presentationSize + "]";
 	}
+
 }
