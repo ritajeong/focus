@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.example.demo.api.response.FileRes;
 import com.example.demo.db.entity.RoomsPresentations;
 
 public interface FileGroupRepository extends JpaRepository<RoomsPresentations, Integer>{
@@ -15,6 +14,6 @@ public interface FileGroupRepository extends JpaRepository<RoomsPresentations, I
 	int findBygroupid(int room_id,int user_id);
 
 	@Query(value="select file_size from rooms_presentations where room_id=?1 and user_id=?2",nativeQuery=true)
-	int getFileSizeBygroupid(int room_id,int user_id);
+	int getFileSizeByGroupId(int room_id,int user_id);
 
 }

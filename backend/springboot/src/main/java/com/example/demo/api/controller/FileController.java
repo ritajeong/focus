@@ -1,11 +1,8 @@
 package com.example.demo.api.controller;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -64,23 +61,38 @@ public class FileController {
 		return new ResponseEntity<List<FiledetailRes>>(fileservice.findbygroupid(filereq), HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/image/{roomId}/{userId}/{curPage}", produces = MediaType.IMAGE_JPEG_VALUE)
-	public @ResponseBody ResponseEntity<byte[]> getImageWithMediaType(@PathVariable int roomId,
-			@PathVariable int userId, @PathVariable int curPage) throws IOException {
-		InputStream imageStream = new FileInputStream(
-				"/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + curPage + ".jpg");
-		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-		imageStream.close();
-		return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
+	@GetMapping(value = "/image/{roomId}/{userId}/{currentPage}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ApiOperation(value = "현재 발표 자료 한 장 보기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사진 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+	public @ResponseBody ResponseEntity<byte[]> getImage(@PathVariable int roomId, @PathVariable int userId,
+			@PathVariable int currentPage) throws IOException {
+		return new ResponseEntity<byte[]>(fileservice.getImage(roomId, userId, currentPage), HttpStatus.OK);
 	}
 
+//	@GetMapping(value = "/image/{roomId}/{userId}")
+//	@ApiOperation(value = "현재 발표 자료 모두 보기")
+//	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+//			@ApiResponse(code = 404, message = "사진 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+//	public @ResponseBody ResponseEntity<List<byte[]>> getAllImages(@PathVariable int roomId, @PathVariable int userId)
+//			throws IOException {
+//		return new ResponseEntity<List<byte[]>>(fileservice.getAllImages(roomId, userId), HttpStatus.OK);
+//	}
+
+	@GetMapping(value = "/image/{roomId}/{userId}")
+	@ApiOperation(value = "현재 발표 자료 모두 보기 base64")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사진 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+	public @ResponseBody ResponseEntity<List<String>> getAllImages(@PathVariable int roomId, @PathVariable int userId)
+			throws IOException {
+		return new ResponseEntity<List<String>>(fileservice.getAllImages(roomId, userId), HttpStatus.OK);
+	}
 
 	@PostMapping("/delete")
 	@ApiOperation(value = "파일 삭제")
 
 	public ResponseEntity<?> delete(
 			@ModelAttribute @ApiParam(value = "파일 삭제", required = true) ShowFileReq registerInfo) throws Exception {
-
 		fileservice.delete(registerInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -90,7 +102,6 @@ public class FileController {
 
 	public ResponseEntity<?> deletefile(
 			@ModelAttribute @ApiParam(value = "파일 삭제", required = true) FileReq registerInfo) throws Exception {
-
 		fileservice.deletefile(registerInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
