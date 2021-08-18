@@ -1,4 +1,4 @@
-# Focus Deploy
+# Focus Deploy & Build
 
 # Front-End Build 및 EC2에 업로드
 
@@ -51,8 +51,22 @@
     2. sudo netfilter-persistent save
 3. EC2 재부팅
     1. sudo reboot
-4. 재부팅 후 kms container 실행 필요
-    1. docker ps -a
-    2. docker container start {kms container id}
 
 [Port forwarding with iptables](https://www.cogini.com/blog/port-forwarding-with-iptables/)
+
+# Build
+
+1. kms container 실행
+    1. docker ps -a
+    2. docker container start {kms container id}
+2. springboot 프로젝트 실행
+    1. cd ~/springboot
+    2. mvn spring-boot:run &
+    (&을 붙이면 background에서 실행)
+3. webrtc 프로젝트 실행
+    1. cd ~/webrtc
+    2. mvn -U clean spring-boot:run -Dspring-boot.run.jvmArguments="-Dkms.url=wss://localhost:8433/kurento" &
+    (&을 붙이면 background에서 실행)
+4. 브라우저를 통해 접속 (크롬 부라우저 권장)
+
+    [Focus](https://i5a107.p.ssafy.io)
