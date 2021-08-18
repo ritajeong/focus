@@ -40,12 +40,12 @@ export default {
     firstImgUrl() {
       return `${FILE_PATH}/${this.roomNumber}/${this.content.user_id}/1`;
     },
-    imageSize() {
+    /*     imageSize() {
       return this.$store.state.meetingRoom.size;
     },
     imageLocation() {
       return this.$store.state.meetingRoom.location;
-    },
+    }, */
     selectedContentId() {
       return this.$store.state.meetingRoom.selectedContentId;
     },

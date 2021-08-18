@@ -7,8 +7,8 @@ import kurentoUtils from 'kurento-utils';
 import axios from 'axios';
 import _ from 'lodash';
 
-// const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446';
-const API_SERVER_URL = 'https://localhost:8446';
+const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446';
+// const API_SERVER_URL = 'http://localhost:8446';
 
 export default {
   namespaced: true,
@@ -20,7 +20,8 @@ export default {
     roomNumber: null,
     participants: null,
     myName: null,
-    nowImageUrl: null,
+    /* nowImageUrl: null, */
+    currentPage: null,
     manager: null,
     presenter: null,
     size: null,
@@ -75,9 +76,11 @@ export default {
     CHANGE_PRESENTER(state, message) {
       /* console.log('CHANGE_PRESENTER', message); */
       state.presenter = message.presenter;
-      state.nowImageUrl = null;
+      /* state.nowImageUrl = null; */
+      state.currentPage = null;
       state.size = null;
       state.location = null;
+      state.selectedContentId = null;
     },
     CHANGE_CONTENT(state, message) {
       state.selectedContentId = message.presentationUserId;
@@ -89,13 +92,15 @@ export default {
       state.roomNumber = null;
       state.participants = null;
       state.myName = null;
-      state.nowImageUrl = null;
+      /* state.nowImageUrl = null; */
+      state.currentPage = null;
       state.manager = null;
       state.presenter = null;
       state.size = null;
       state.location = null;
       state.presentationContents = null;
-      state.imageUrls = null;
+      /* state.imageUrls = null; */
+      state.imageSrcs = null;
       state.selectedContentId = null;
     },
     SET_CONTENTS(state, message) {
@@ -103,6 +108,15 @@ export default {
     },
     SET_IMAGE_SRCS(state, imageSrcs) {
       state.imageSrcs = imageSrcs;
+      state.currentPage = 0;
+      state.location = state.location === null ? 'right' : state.location;
+      state.size = state.size === null ? '2' : state.size;
+    },
+    SET_ONGOING_PRESENTATION(state, { message, imageSrcs }) {
+      state.imageSrcs = imageSrcs;
+      state.currentPage = message.currentPage;
+      state.location = message.location;
+      state.size = message.size;
     },
     /* SET_IMAGE_URLS(state, imageUrls) {
       state.imageUrls = imageUrls;
@@ -239,7 +253,7 @@ export default {
       });
       // presenter 설정, presentation 설정
       context.dispatch('changePresenter', message);
-      context.dispatch('changePresentation', message);
+      context.dispatch('setOngoingPresentation', message);
       // console.log('onExistingParticipants end')
       router.push({ name: 'MeetingRoom' });
     },
@@ -331,10 +345,8 @@ export default {
         url: `${API_SERVER_URL}/board/image/${context.state.roomNumber}/${message.presentationUserId}`,
       }).then(res => {
         const imageSrcs = [];
-        res.data.forEach(byteList => {
-          let imageSrc =
-            'data:image/jpeg;base64,' +
-            Buffer.from(byteList).toString('base64');
+        res.data.forEach(imageStr => {
+          let imageSrc = 'data:image/jpeg;base64,' + imageStr;
           imageSrcs.push(imageSrc);
         });
         context.commit('SET_IMAGE_SRCS', imageSrcs);
@@ -348,10 +360,20 @@ export default {
     /* setSelectedContentId(context, id) {
       context.commit('SET_SELECTED_CONTENT_ID', id);
     }, */
-  },
-  getters: {
-    getImageUrls: state => {
-      return state.imageUrls;
+    setOngoingPresentation(context, message) {
+      if (message.presentationUserId !== null) {
+        axios({
+          method: 'get',
+          url: `${API_SERVER_URL}/board/image/${context.state.roomNumber}/${message.presentationUserId}`,
+        }).then(res => {
+          const imageSrcs = [];
+          res.data.forEach(imageStr => {
+            let imageSrc = 'data:image/jpeg;base64,' + imageStr;
+            imageSrcs.push(imageSrc);
+          });
+          context.commit('SET_ONGOING_PRESENTATION', { message, imageSrcs });
+        });
+      }
     },
   },
 };

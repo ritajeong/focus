@@ -19,7 +19,7 @@ const store = new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      paths: ['users', 'rooms', 'meetingRoom'],
+      paths: ['users'],
     }),
   ],
 });

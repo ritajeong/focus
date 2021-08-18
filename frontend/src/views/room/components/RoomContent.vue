@@ -15,7 +15,7 @@
               />
             </div>
           </div>
-          <div class="col-md-3 ps-5">
+          <div class="col-md-3 ps-3">
             <label><h6>Start Time</h6></label>
             <div>
               <date-picker

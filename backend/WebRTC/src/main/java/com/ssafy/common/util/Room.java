@@ -40,12 +40,13 @@ public class Room implements Closeable {
 	public Room(String roomName, MediaPipeline pipeline, String presenterName) {
 		this.name = roomName;
 		this.pipeline = pipeline;
-		this.presentation = new Presentation(null, presenterName, null, null, null);
+		this.presentation = new Presentation(null, presenterName, null, null, null, null);
 		log.info("ROOM {} has been created", roomName);
 	}
 
 	public void setPresenter(String presenterName) throws IOException {
 		presentation.setPresenterName(presenterName);
+		presentation.setPresentationTransition(null);
 		presentation.setPresentationCurrentPage(null);
 		presentation.setPresentationLocation(null);
 		presentation.setPresentationSize(null);
@@ -58,8 +59,9 @@ public class Room implements Closeable {
 		}
 	}
 
-	public void setPresentation(String presentationUserId, String presentationCurrentPage, String presentationLocation, String presentationSize) {
+	public void setPresentation(String presentationUserId, String presentationTransition, String presentationCurrentPage, String presentationLocation, String presentationSize) {
 		presentation.setPresentationUserId(presentationUserId);
+		presentation.setPresentationTransition(presentationTransition);
 		presentation.setPresentationCurrentPage(presentationCurrentPage);
 		presentation.setPresentationLocation(presentationLocation);
 		presentation.setPresentationSize(presentationSize);
@@ -67,6 +69,10 @@ public class Room implements Closeable {
 	
 	public String getPresentationUserId() {
 		return presentation.getPresentationUserId();
+	}
+	
+	public String getPresentationTransitio() {
+		return presentation.getPresentationTransition();
 	}
 	
 	public String getPresentationCurrentPage() {
