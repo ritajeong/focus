@@ -80,7 +80,7 @@ public class CallHandler extends TextWebSocketHandler {
 				participant.sendMessage(jsonMessage);
 			}
 
-			String presentationUserId = jsonMessage.get("userId").getAsString();
+			String presentationUserId = jsonMessage.get("presentationUserId").getAsString();
 			room.setPresentation(presentationUserId, room.getPresentationCurrentPage(), room.getPresentationLocation(),
 					room.getPresentationSize());
 			break;
