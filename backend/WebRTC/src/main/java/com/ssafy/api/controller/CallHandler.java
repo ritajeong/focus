@@ -117,10 +117,6 @@ public class CallHandler extends TextWebSocketHandler {
 			if (room.getParticipants().isEmpty()) {
 				roomManager.removeRoom(room);
 			} else if (user.getName().equals(room.getOwner())) {
-				System.out.println("========================================");
-				System.out.println("afterConnectionClosed");
-				System.out.println("userName : " + user.getName() + " ownerName : " + room.getOwner());
-				System.out.println("========================================");
 				for (UserSession userSession : room.getParticipants()) {
 					System.out.println("userSessionName : " + userSession.getName());
 					room.leave(userSession);
@@ -150,10 +146,6 @@ public class CallHandler extends TextWebSocketHandler {
 		if (room.getParticipants().isEmpty()) {
 			roomManager.removeRoom(room);
 		} else if (user.getName().equals(room.getOwner())) {
-			System.out.println("========================================");
-			System.out.println("leaveRoom");
-			System.out.println("userName : " + user.getName() + " ownerName : " + room.getOwner());
-			System.out.println("========================================");
 			for (UserSession userSession : room.getParticipants()) {
 				System.out.println("userSessionName : " + userSession.getName());
 				room.leave(userSession);
