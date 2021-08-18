@@ -187,7 +187,7 @@ export default {
   opacity: 1;
 }
 .size-controller {
-  margin-top: 50px;
+  margin-top: 0px;
 }
 .range-select {
   -webkit-appearance: none;

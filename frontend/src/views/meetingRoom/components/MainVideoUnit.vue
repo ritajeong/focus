@@ -3,7 +3,7 @@
     :class="[locationPreset, 'main-video-container']"
     id="main-video-container"
   >
-    <transition name="transition-fade" v-if="currentPage !== null">
+    <transition :name="transitionPreset" v-if="currentPage !== null">
       <img
         :src="imageSrcs[currentPage]"
         :key="imageSrcs[currentPage]"
@@ -56,6 +56,9 @@ export default {
     },
     sizePreset() {
       return 'presentation-' + this.$store.state.meetingRoom.size;
+    },
+    transitionPreset() {
+      return 'transition-' + this.$store.state.meetingRoom.transition;
     },
     /* presetCss() {
       return (
@@ -255,8 +258,20 @@ export default {
   border-radius: 25px;
 } */
 /* transitions */
-.transition-fade-enter-active {
-  animation: flipInX 0.7s;
+.transition-fadein-enter-active {
+  animation: fadeIn 0.7s;
+}
+.transition-fadedown-enter-active {
+  animation: fadeInDown 0.7s;
+}
+.transition-fadeleft-enter-active {
+  animation: fadeInLeft 0.7s;
+}
+.transition-faderight-enter-active {
+  animation: fadeInRight 0.7s;
+}
+.transition-fadeup-enter-active {
+  animation: fadeInUp 0.7s;
 }
 </style>
 
