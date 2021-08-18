@@ -18,8 +18,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedOrigins("https://i5a107.p.ssafy.io/").allowedMethods("*").allowCredentials(true);		
-//		registry.addMapping("/**").allowedOrigins("http://localhost:3000/").allowedMethods("*").allowCredentials(true);
+//		registry.addMapping("/**").allowedOrigins("https://i5a107.p.ssafy.io/").allowedMethods("*").allowCredentials(true);
+		registry.addMapping("/**").allowedOrigins("http://localhost:3000/").allowedMethods("*").allowCredentials(true);
 //    	registry.addMapping("/**").allowedOrigins("https://localhost:8443/").allowedMethods("*").allowCredentials(true);
 	}
 

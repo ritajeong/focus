@@ -88,16 +88,20 @@ public class FileServiceImpl implements FileService {
 		System.out.println(filereq.getUser_id());
 		List<FiledetailRes> res = new ArrayList<FiledetailRes>();
 		try {
-			int group = filegroupRepository.findBygroupid(filereq.getRoom_id(), filereq.getUser_id());
-			System.out.println(group);
-			// return null;
-			List<Presentations> list = fileRepository.findByroomspresentations_GroupId(group);
+			Integer group = filegroupRepository.findBygroupid(filereq.getRoom_id(), filereq.getUser_id());
 
-			for (int i = 0; i < list.size(); i++) {
-				Presentations p = list.get(i);
-				FiledetailRes fr = new FiledetailRes(p.getDirectory(), p.getOriginal());
-				res.add(fr);
+			System.out.println(group);
+
+			if(group>0){
+				List<Presentations> list = fileRepository.findByroomspresentations_GroupId(group);
+
+				for (int i = 0; i < list.size(); i++) {
+					Presentations p = list.get(i);
+					FiledetailRes fr = new FiledetailRes(p.getDirectory(), p.getOriginal());
+					res.add(fr);
+				}
 			}
+
 		} catch (Exception e) {
 			log.error("[findbygroupid] error:{}", e);
 			e.printStackTrace();
