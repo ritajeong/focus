@@ -70,13 +70,22 @@ public class FileController {
 		return new ResponseEntity<byte[]>(fileservice.getImage(roomId, userId, currentPage), HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/image/{roomId}/{userId}", produces = MediaType.IMAGE_JPEG_VALUE)
-	@ApiOperation(value = "현재 발표 자료 모두 보기")
+//	@GetMapping(value = "/image/{roomId}/{userId}")
+//	@ApiOperation(value = "현재 발표 자료 모두 보기")
+//	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+//			@ApiResponse(code = 404, message = "사진 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+//	public @ResponseBody ResponseEntity<List<byte[]>> getAllImages(@PathVariable int roomId, @PathVariable int userId)
+//			throws IOException {
+//		return new ResponseEntity<List<byte[]>>(fileservice.getAllImages(roomId, userId), HttpStatus.OK);
+//	}
+
+	@GetMapping(value = "/image/{roomId}/{userId}")
+	@ApiOperation(value = "현재 발표 자료 모두 보기 base64")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "사진 없음"), @ApiResponse(code = 500, message = "서버 오류") })
-	public @ResponseBody ResponseEntity<List<byte[]>> getAllImages(@PathVariable int roomId, @PathVariable int userId)
+	public @ResponseBody ResponseEntity<List<String>> getAllImages(@PathVariable int roomId, @PathVariable int userId)
 			throws IOException {
-		return new ResponseEntity<List<byte[]>>(fileservice.getAllImages(roomId, userId), HttpStatus.OK);
+		return new ResponseEntity<List<String>>(fileservice.getAllImages(roomId, userId), HttpStatus.OK);
 	}
 
 	@PostMapping("/delete")
@@ -84,7 +93,6 @@ public class FileController {
 
 	public ResponseEntity<?> delete(
 			@ModelAttribute @ApiParam(value = "파일 삭제", required = true) ShowFileReq registerInfo) throws Exception {
-
 		fileservice.delete(registerInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -94,7 +102,6 @@ public class FileController {
 
 	public ResponseEntity<?> deletefile(
 			@ModelAttribute @ApiParam(value = "파일 삭제", required = true) FileReq registerInfo) throws Exception {
-
 		fileservice.deletefile(registerInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}

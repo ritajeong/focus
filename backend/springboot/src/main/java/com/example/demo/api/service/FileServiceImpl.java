@@ -5,14 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -130,25 +129,43 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public byte[] getImage(int roomId, int userId, int currentPage) throws IOException {
+//		InputStream imageStream = new FileInputStream("/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + i + ".jpg");
 		InputStream imageStream = new FileInputStream(
-				"/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + currentPage + ".jpg");
+				"C:\\Users\\multicampus\\presentations\\" + roomId + "\\" + userId + "\\" + currentPage + ".jpg");
 		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
 		imageStream.close();
 		return imageByteArray;
 	}
 
+//	@Override
+//	public List<byte[]> getAllImages(int roomId, int userId) throws IOException {
+//		List<byte[]> imageByteArrayList = new ArrayList<byte[]>();
+//		int size = filegroupRepository.getFileSizeByGroupId(roomId, userId);
+//		for (int i = 1; i <= size; i++) {
+//			InputStream imageStream = new FileInputStream(
+//					"C:\\Users\\multicampus\\presentations\\" + roomId + "\\" + userId + "\\" + i + ".jpg");
+////			InputStream imageStream = new FileInputStream("/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + i + ".jpg");
+//			byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+//			imageStream.close();
+//			imageByteArrayList.add(imageByteArray);
+//		}
+//		return imageByteArrayList;
+//	}
+
 	@Override
-	public List<byte[]> getAllImages(int roomId, int userId) throws IOException {
-		List<byte[]> imageByteArrayList = new ArrayList<byte[]>();
+	public List<String> getAllImages(int roomId, int userId) throws IOException {
+		List<String> imageStringList = new ArrayList<String>();
 		int size = filegroupRepository.getFileSizeByGroupId(roomId, userId);
 		for (int i = 1; i <= size; i++) {
 			InputStream imageStream = new FileInputStream(
-					"/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + i + ".jpg");
+					"C:\\Users\\multicampus\\presentations\\" + roomId + "\\" + userId + "\\" + i + ".jpg");
+//			InputStream imageStream = new FileInputStream("/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + i + ".jpg");
 			byte[] imageByteArray = IOUtils.toByteArray(imageStream);
 			imageStream.close();
-			imageByteArrayList.add(imageByteArray);
+			String encodedString = Base64.getEncoder().encodeToString(imageByteArray);
+			imageStringList.add(encodedString);
 		}
-		return imageByteArrayList;
+		return imageStringList;
 	}
 
 }
