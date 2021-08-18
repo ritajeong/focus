@@ -301,8 +301,8 @@ export default {
       context.commit('DISPOSE_PARTICIPANT', participantName);
     },
     leaveRoom(context) {
-      context.commit('LEAVE_ROOM');
       router.push({ path: '/dashboard' });
+      console.log(context.state.roomNumber);
       if (context.state.myName === context.state.manager) {
         const roomData = {
           room_id: context.state.roomNumber,
@@ -310,6 +310,7 @@ export default {
         };
         setRoomOnLive(roomData);
       }
+      context.commit('LEAVE_ROOM');
     },
     receiveVideoResponse(context, result) {
       context.state.participants[result.name].rtcPeer.processAnswer(
