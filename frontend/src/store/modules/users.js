@@ -38,6 +38,9 @@ export default {
     SET_ALL_USERS(state, payload) {
       state.users = payload;
     },
+    SET_NAME(state, payload) {
+      state.login.username = payload;
+    },
   },
   actions: {
     GET_ALL_USERS(context, payload) {
@@ -49,6 +52,9 @@ export default {
         .catch(err => {
           console.log('get all users actions err ', err);
         });
+    },
+    SET_NAME({ commit }, username) {
+      commit('SET_NAME', username);
     },
   },
   getters: {

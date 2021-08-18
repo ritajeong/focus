@@ -119,6 +119,7 @@ export default {
             return;
           } else {
             this.$alertify.success('이름이 변경됐습니다.');
+            this.$store.dispatch('users/SET_NAME', this.username);
           }
         })
         .catch(() => {
