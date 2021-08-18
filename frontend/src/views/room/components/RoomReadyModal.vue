@@ -115,7 +115,7 @@ export default {
       userName: this.$store.state.users.login.username,
       userId: this.$store.state.users.login.userid,
       roomDescription: this.roomInfo.description,
-      isMicOn: true,
+      isMicOn: false,
       isVideoOn: false,
       srcObject: {},
       isManager: (this.roomInfo.manager_id =
@@ -190,9 +190,11 @@ export default {
         myName: myNameId,
         roomName: roomNameId,
         manager: this.manager,
+        startWithMic: this.isMicOn,
+        startWithVideo: this.isVideoOn,
       };
-      this.$store.dispatch('meetingRoom/sendMessage', message);
       this.$store.dispatch('meetingRoom/setMeetingInfo', meetingInfo);
+      this.$store.dispatch('meetingRoom/sendMessage', message);
     },
 
     playVideoFromCamera: async function () {

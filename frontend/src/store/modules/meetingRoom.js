@@ -32,6 +32,9 @@ export default {
     imageSrcs: null,
     selectedContentId: null,
     transition: null,
+    // 초기 카메라, 마이크 세팅
+    startWithMic: null,
+    startWithVideo: null,
   }),
   // mutations
   mutations: {
@@ -47,6 +50,8 @@ export default {
       state.roomName = meetingInfo.roomName;
       state.manager = meetingInfo.manager;
       state.roomNumber = _.split(meetingInfo.roomName, '-')[1];
+      state.startWithMic = meetingInfo.startWithMic;
+      state.startWithVideo = meetingInfo.startWithVideo;
     },
     ADD_PARTICIPANT(state, { name, participant }) {
       if (state.participants === null) {
@@ -244,7 +249,8 @@ export default {
           // this -> kurentoUtils.WebRtcPeer.WebRtcPeerSendonly
           // generateOffer:
           this.generateOffer(participant.offerToReceiveVideo.bind(participant));
-          this.audioEnabled = false;
+          this.audioEnabled = context.state.startWithMic;
+          this.videoEnabled = context.state.startWithVideo;
         },
       );
 
