@@ -26,8 +26,9 @@ export default {
     size: null,
     location: null,
     // 발표자에게 필요한 state
-    presentationContents: null,
-    imageUrls: null,
+    presentationContents: null, // 최초 API 요청으로 콘텐츠들의 size, user_id 받아옴
+    /* imageUrls: null, */
+    imageSrcs: null,
     selectedContentId: null,
   }),
   // mutations
@@ -65,7 +66,8 @@ export default {
     CHANGE_PRESENTATION(state, message) {
       // 디버깅 콘솔
       /* console.log('CHANGE_PRESENTATION', message); */
-      state.nowImageUrl = message.imageUri;
+      /* state.nowImageUrl = message.imageUri; */
+      state.currentPage = message.currentPage;
       state.size = message.size;
       state.location = message.location;
     },
@@ -76,6 +78,9 @@ export default {
       state.nowImageUrl = null;
       state.size = null;
       state.location = null;
+    },
+    CHANGE_CONTENT(state, message) {
+      state.selectedContentId = message.presentationUserId;
     },
     /* leave room */
     LEAVE_ROOM(state) {
@@ -96,13 +101,16 @@ export default {
     SET_CONTENTS(state, message) {
       state.presentationContents = message.data;
     },
-    SET_IMAGE_URLS(state, imageUrls) {
+    SET_IMAGE_SRCS(state, imageSrcs) {
+      state.imageSrcs = imageSrcs;
+    },
+    /* SET_IMAGE_URLS(state, imageUrls) {
       state.imageUrls = imageUrls;
       console.log(state.imageUrls);
-    },
-    SET_SELECTED_CONTENT_ID(state, id) {
+    }, */
+    /* SET_SELECTED_CONTENT_ID(state, id) {
       state.selectedContentId = id;
-    },
+    }, */
   },
   // actions
   actions: {
@@ -147,6 +155,11 @@ export default {
         // 발표자 변경 정보 수신 시
         case 'changePresenter': {
           context.dispatch('changePresenter', message);
+          break;
+        }
+        // 발표자료 묶음 (Content) 변경 수신 시
+        case 'changeContent': {
+          context.dispatch('changeContent', message);
           break;
         }
         case 'iceCandidate': {
@@ -312,13 +325,29 @@ export default {
         context.dispatch('setContents');
       }
     },
+    changeContent(context, message) {
+      axios({
+        method: 'get',
+        url: `${API_SERVER_URL}/board/image/${context.state.roomNumber}/${message.presentationUserId}`,
+      }).then(res => {
+        const imageSrcs = [];
+        res.data.forEach(byteList => {
+          let imageSrc =
+            'data:image/jpeg;base64,' +
+            Buffer.from(byteList).toString('base64');
+          imageSrcs.push(imageSrc);
+        });
+        context.commit('SET_IMAGE_SRCS', imageSrcs);
+      });
+      context.commit('CHANGE_CONTENT', message);
+    },
     // ContentSelector에서 컨텐츠 선택 시 action
-    setImageUrls(context, imageUrls) {
+    /* setImageUrls(context, imageUrls) {
       context.commit('SET_IMAGE_URLS', imageUrls);
-    },
-    setSelectedContentId(context, id) {
+    }, */
+    /* setSelectedContentId(context, id) {
       context.commit('SET_SELECTED_CONTENT_ID', id);
-    },
+    }, */
   },
   getters: {
     getImageUrls: state => {
