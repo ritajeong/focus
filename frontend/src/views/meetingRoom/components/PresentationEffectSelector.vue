@@ -54,7 +54,6 @@ export default {
         ...this.messageData,
         transition: effect,
       };
-      console.log(message);
       this.$store.dispatch('meetingRoom/sendMessage', message);
     },
     showExample(effect) {
