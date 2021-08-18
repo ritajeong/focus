@@ -1,20 +1,26 @@
-# Focus Deploy
+# Focus Deploy & Build
+
+# Front-End Build 및 EC2에 업로드
 
 1. Front-End Node Modules Install
-    - /frontend에서 npm install
+    1. /frontend에서 npm install
 2. Front-End Build into /backend/webrtc/src/main/resources/static
-    - npm build
-    - 첫 번째 빌드 시도 시 에러. (participants.js에서 rtc 변수를 한번도 사용하지 않음)
-    - 두 번째 시도에서 성공
-3. WinSCP를 이용해서 WebRTC프로젝트 EC2에 업로드
+    1. vue.config.js의 outputDir 확인
+    2. npm build
+3. WinSCP를 이용해서 /backend/webrtc 프로젝트 EC2에 업로드
+4. WinSCP를 이용해서 /backend/springboot 프로젝트 EC2에 업로드
 
 # Kurento Media Server 설정
 
-1. kms container 실행
+1. EC2에서 docker를 이용하여 kms 기본 설정
+
+    [Installation Guide - Kurento 6.16.0 documentation](https://doc-kurento.readthedocs.io/en/stable/user/installation.html#docker-image)
+
+2. kms container 실행
     1. docker ps -a
     2. docker container start {kms container id}
-2. kms server에 인증 키 정보 저장하기
-    1. WinSCP를 이용해서 /server.pem을 EC2에 업로드
+3. kms server에 인증 키 정보 저장하기
+    1. WinSCP를 이용해서 /backend/webrtc/server.pem을 EC2에 업로드
     2. EC2의 server.pem을 kms container의 kurenot.conf.json과 같은 경로에 업로드
         1. dokcer cp server.pem {kms container id}:/etc/kurento/
     3. docker exec -it {kms container id} /bin/bash
@@ -26,15 +32,7 @@
 
 [Securing Kurento Applications - Kurento 6.16.0 documentation](https://doc-kurento.readthedocs.io/en/stable/features/security.html)
 
-### 이제부터 배포된 사이트를 이용 가능(포트번호 입력 필요)
-
-1. EC2에 업로드한 WebRTC 프로젝트에서 프로젝트 실행
-    1. mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dkms.url=wss://localhost:8433/kurento"
-    2. 맨 뒤에 &를 붙이면 백그라운드로 실행
-2. 브라우저에서 접속
-    1. [https://i5a107.p.ssafy.io:8443](https://i5a107.p.ssafy.io:8443/)
-
-## EC2의 보안 규칙 변경
+# EC2의 보안 규칙 변경
 
 1. 22번 포트 (putty ssh 접속), 80번 포트(http), 443번 포트(https) 허용
     1. sudo ufw allow {port#}
@@ -51,5 +49,24 @@
 2. iptables의 정보를 영구적으로 저장
     1. sudo apt install netfilter-persistent iptables-persistent
     2. sudo netfilter-persistent save
+3. EC2 재부팅
+    1. sudo reboot
 
 [Port forwarding with iptables](https://www.cogini.com/blog/port-forwarding-with-iptables/)
+
+# Build
+
+1. kms container 실행
+    1. docker ps -a
+    2. docker container start {kms container id}
+2. springboot 프로젝트 실행
+    1. cd ~/springboot
+    2. mvn spring-boot:run &
+    (&을 붙이면 background에서 실행)
+3. webrtc 프로젝트 실행
+    1. cd ~/webrtc
+    2. mvn -U clean spring-boot:run -Dspring-boot.run.jvmArguments="-Dkms.url=wss://localhost:8433/kurento" &
+    (&을 붙이면 background에서 실행)
+4. 브라우저를 통해 접속 (크롬 부라우저 권장)
+
+    [Focus](https://i5a107.p.ssafy.io)
