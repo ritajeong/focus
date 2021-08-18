@@ -261,7 +261,8 @@ export default {
 }
 /* transitions */
 .transition-fade-enter-active {
-  animation: fadeIn 0.3s;
+  animation: fadeIn 0.6s;
+  animation-delay: 0.6s;
 }
 </style>
 
