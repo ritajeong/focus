@@ -125,7 +125,7 @@
                       <td>
                         <div v-if="index > 0">
                           <button
-                            class="btn bg-gradient-danger"
+                            class="btn btn-outline-danger text-danger py-1"
                             type="button"
                             id="btn-delete"
                             @click="deleteParticipant(participant.email)"
