@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(value = "유저 API", tags = {"Room"})
+@Api(value = "방 관련 API", tags = {"Room"})
 @RestController
 @RequestMapping("/rooms")
 public class RoomController {
@@ -39,7 +39,7 @@ public class RoomController {
 	private final Logger log = LoggerFactory.getLogger(RoomController.class);
 
 	@PostMapping("/create")
-	@ApiOperation(value = "방생성")
+	@ApiOperation(value = "방 생성")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm A", timezone = "Asia/Seoul")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -61,7 +61,7 @@ public class RoomController {
 	}
 
 	@PutMapping("/update/{roomId}")
-	@ApiOperation(value = "방업데이트")
+	@ApiOperation(value = "방 정보 수정")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -82,7 +82,7 @@ public class RoomController {
 	}
 
 	@DeleteMapping("/delete/{roomId}")
-	@ApiOperation(value = "방삭제")
+	@ApiOperation(value = "방 삭제")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -114,7 +114,7 @@ public class RoomController {
 	}
 
 	@GetMapping("/user/{userId}")
-	@ApiOperation(value = "유저별 전체 방 보기")
+	@ApiOperation(value = "사용자 아이디가 참가자로 포함된 전체 방 보기")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -133,7 +133,7 @@ public class RoomController {
 
 
 	@GetMapping("/onlive/{roomId}")
-	@ApiOperation(value = "방이 활동중인지 보기")
+	@ApiOperation(value = "방이 현재 활동중인지 보기")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -157,7 +157,7 @@ public class RoomController {
 	}
 
 	@PutMapping("/onlive")
-	@ApiOperation(value = "방을 활동중으로 상태 변경하기")
+	@ApiOperation(value = "방의 활동 상태를 true/false로 변경하기")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -180,7 +180,7 @@ public class RoomController {
 
 
 @GetMapping("/{roomId}")
-@ApiOperation(value = "방하나보기")
+@ApiOperation(value = "방 하나의 정보 보기")
 @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "인증 실패"),
