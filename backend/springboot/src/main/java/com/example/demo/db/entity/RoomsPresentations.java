@@ -21,25 +21,24 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoomsPresentations {
-	 @Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="group_id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "group_id")
 	int groupId;
-	@Column(name="file_size")
+	@Column(name = "file_size")
 	int fileSize;
-	 
-	@Column(name="upload_time", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	Timestamp upload_time;
-	
-	 @OneToMany(mappedBy = "roomspresentations",cascade = CascadeType.ALL, orphanRemoval = true)
-	 private List<Presentations> presentations = new ArrayList<>();
 
-	
+	@Column(name = "upload_time", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	Timestamp upload_time;
+
+	@OneToMany(mappedBy = "roomspresentations", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Presentations> presentations = new ArrayList<>();
+
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	Users users;
-	
+
 	@ManyToOne
-	@JoinColumn(name="room_id")
+	@JoinColumn(name = "room_id")
 	Rooms rooms;
 }

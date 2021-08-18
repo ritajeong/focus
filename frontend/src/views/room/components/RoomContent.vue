@@ -153,7 +153,7 @@
       </div>
     </form>
     <RoomDeleteModal
-      v-bind:roomId="this.$store.state.rooms.room.manager_id"
+      v-bind:roomId="this.$store.state.rooms.room.room_id"
     ></RoomDeleteModal>
   </section>
 </template>
