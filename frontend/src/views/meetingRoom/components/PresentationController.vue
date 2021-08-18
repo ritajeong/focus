@@ -42,6 +42,12 @@
           Slider
         </button>
       </div>
+      <!-- access alert -->
+      <transition name="fade">
+        <div v-if="alertShow" class="access-alert">
+          <h5 class="mb-0">발표자료를 선택하세요.</h5>
+        </div>
+      </transition>
     </div>
     <!-- presentation controller navigator -->
   </div>
@@ -67,6 +73,7 @@ export default {
       contentShow: true,
       locationShow: false,
       sliderShow: false,
+      alertShow: false,
       /* 이 외 slide controller의 모든 데이터는 발표와 관련(다른 사람과 동일한 데이터를 유지해야함) 있으므로 state에서 관리  */
     };
   },
@@ -82,14 +89,29 @@ export default {
       this.sliderShow = false;
     },
     selectLocationMenu: function () {
-      this.contentShow = false;
-      this.locationShow = true;
-      this.sliderShow = false;
+      if (this.$store.state.meetingRoom.imageSrcs === null) {
+        this.activateAlert();
+      } else {
+        this.contentShow = false;
+        this.locationShow = true;
+        this.sliderShow = false;
+      }
     },
     selectSliderMenu: function () {
-      this.contentShow = false;
-      this.locationShow = false;
-      this.sliderShow = true;
+      if (this.$store.state.meetingRoom.imageSrcs === null) {
+        this.activateAlert();
+      } else {
+        this.contentShow = false;
+        this.locationShow = false;
+        this.sliderShow = true;
+      }
+    },
+    activateAlert: function () {
+      this.alertShow = true;
+      setTimeout(this.inactivateAlert, 2000);
+    },
+    inactivateAlert: function () {
+      this.alertShow = false;
     },
   },
 };
@@ -106,6 +128,20 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.access-alert {
+  position: absolute;
+  left: 50%;
+  top: 7%;
+  width: 75%;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.774);
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%);
+  transition: 0.5s;
 }
 .navigator-button {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
