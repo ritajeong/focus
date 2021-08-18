@@ -129,9 +129,9 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public byte[] getImage(int roomId, int userId, int currentPage) throws IOException {
-//		InputStream imageStream = new FileInputStream("/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + i + ".jpg");
-		InputStream imageStream = new FileInputStream(
-				"C:\\Users\\multicampus\\presentations\\" + roomId + "\\" + userId + "\\" + currentPage + ".jpg");
+		InputStream imageStream = new FileInputStream("/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + currentPage + ".jpg");
+//		InputStream imageStream = new FileInputStream(
+//				"C:\\Users\\multicampus\\presentations\\" + roomId + "\\" + userId + "\\" + currentPage + ".jpg");
 		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
 		imageStream.close();
 		return imageByteArray;
@@ -157,9 +157,9 @@ public class FileServiceImpl implements FileService {
 		List<String> imageStringList = new ArrayList<String>();
 		int size = filegroupRepository.getFileSizeByGroupId(roomId, userId);
 		for (int i = 1; i <= size; i++) {
-			InputStream imageStream = new FileInputStream(
-					"C:\\presentations\\" + roomId + "\\" + userId + "\\" + i + ".jpg");
-//			InputStream imageStream = new FileInputStream("/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + i + ".jpg");
+//			InputStream imageStream = new FileInputStream(
+//					"C:\\presentations\\" + roomId + "\\" + userId + "\\" + i + ".jpg");
+			InputStream imageStream = new FileInputStream("/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + i + ".jpg");
 			byte[] imageByteArray = IOUtils.toByteArray(imageStream);
 			imageStream.close();
 			String encodedString = Base64.getEncoder().encodeToString(imageByteArray);
