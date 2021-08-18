@@ -1,5 +1,7 @@
 <template>
   <div class="d-flex flex-column justify-content-center align-items-center">
+    <!-- location -->
+    <h2 class="text-center">location</h2>
     <div class="template-container">
       <img
         src="@/assets/presentationTemplates/presentation-right.jpg"
@@ -45,7 +47,9 @@
         <span v-else>Presentation On Top</span>
       </div>
     </div>
+    <!-- size -->
     <div class="size-controller">
+      <h2 class="text-center">size</h2>
       <input
         type="range"
         class="range-select"
@@ -54,7 +58,6 @@
         step="1"
         v-model="selectedSize"
       />
-      <h2 class="text-center">size</h2>
     </div>
   </div>
 </template>

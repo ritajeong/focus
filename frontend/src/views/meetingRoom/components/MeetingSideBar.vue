@@ -122,7 +122,7 @@ export default {
   margin: 25px 25px;
 }
 .presentation-controller {
-  margin: 50px 25px 0;
+  margin: 30px 25px 0;
 }
 .access-alert {
   position: absolute;

@@ -1,32 +1,14 @@
 <template>
-  <div class="main-video-container" id="main-video-container">
-    <!-- main video -->
-    <!-- example image -->
-    <!-- <img
-      src="https://images.unsplash.com/photo-1566475955255-404134a79aeb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
-      alt=""
-      class="video-insert img-fluid"
-      id="main-video"
-    /> -->
-    <!-- example image -->
-    <!-- example video -->
-    <!--     <video
-      src="@/assets/videos/pepper.mp4"
-      autoplay
-      class="video-insert"
-      type="video/mp4"
-      id="main-video"
-    ></video> -->
-    <!-- example video -->
-    <!-- main video -->
-    <!-- presentation image -->
-    <!-- <div id="image-container" class="image-container"> -->
+  <div
+    :class="[locationPreset, 'main-video-container']"
+    id="main-video-container"
+  >
     <transition name="transition-fade" v-if="currentPage !== null">
       <img
         :src="imageSrcs[currentPage]"
         :key="imageSrcs[currentPage]"
         alt="presentation image"
-        :class="[presetCss, 'img-fluid']"
+        :class="[sizePreset, 'img-fluid']"
         id="presentation-image"
       />
     </transition>
@@ -54,13 +36,6 @@ export default {
   data() {
     return {};
   },
-  // : watch
-  /*   watch: {
-    videoY: function () {
-      this.$store.state.meetingRoom.videoY = this.videoY;
-      console.log(this.$store.state.meetingRoom.videoY);
-    },
-  }, */
   // : computed
   computed: {
     imageSrcs: function () {
@@ -75,47 +50,25 @@ export default {
     mainParticipantName() {
       return _.split(this.mainParticipant.name, '-')[0];
     },
-    // presetCss: presentation-image-right-2 형태
-    presetCss() {
+    // locationPreset, sizePreset
+    locationPreset() {
+      return 'presentation-' + this.$store.state.meetingRoom.location;
+    },
+    sizePreset() {
+      return 'presentation-' + this.$store.state.meetingRoom.size;
+    },
+    /* presetCss() {
       return (
         'presentation-image-' +
         this.$store.state.meetingRoom.location +
         '-' +
         this.$store.state.meetingRoom.size
       );
-    },
-    /*     mainVideoInfo: function () {
-      return document.getElementById('main-video').getBoundingClientRect();
-    },
-    imageContainerInfo: function () {
-      return document.getElementById('image-container').getBoundingClientRect();
     }, */
   },
-  // : lifecycle hook
-  /*   created() {
-    console.log(window.innerWidth);
-  }, */
   mounted() {
     this.mainVideo.classList.add('video-insert');
     document.getElementById('main-video-container').appendChild(this.mainVideo);
-    /* console.log(this.mainVideoInfo); */
-    // 발표자료의 너비는 영상의
-    /* document.getElementById('image-container').style.width =
-      String((this.mainVideoInfo['width'] / 10) * 6) + 'px'; */
-    // 비디오의 y축 중앙으로 오게 하기: style 이미지 top = 비디오의 top + 비디오 height/2 - 이미지 width/2
-    /* document.getElementById('image-container').style.top =
-      String(this.mainVideoInfo['top'] + this.mainVideoInfo['height'] / 2) +
-      'px'; */
-    // 비디오의y축 중앙과  발표자료의 y축 중앙 일치시키기 오게 하기: style transfrom y축 -50% 주기
-    /* document.getElementById('image-container').style.transform =
-      'translate(0, -50%)'; */
-    /* console.log(window.innerWidth - this.mainVideoInfo['right']); */
-    // 비디오의 x축 오른쪽 라인에 발표자료 붙이기
-    /* document.getElementById('image-container').style.right =
-      String(window.innerWidth - this.mainVideoInfo['right']) + 'px'; */
-    // 비디오의 x축 오른쪽 라인에서 발표자료의 크기보다 10% 띄어 두기
-    /* document.getElementById('image-container').style.transform =
-      'translate(-10%, -50%)'; */
   },
   // : methods
   methods: {},
@@ -123,16 +76,18 @@ export default {
 </script>
 
 <style scoped>
+/* .main-video-container {
+  position: relative;
+  height: 100%;
+  width: auto;
+} */
 .main-video-container {
   position: relative;
   height: 100%;
   width: auto;
+  display: flex;
+  overflow: hidden;
 }
-/* .image-container {
-  position: absolute;
-  width: 60%;
-  border-radius: 25px;
-} */
 .overlay {
   position: absolute;
   bottom: 5%;
@@ -153,9 +108,49 @@ export default {
 .main-video-container:hover .overlay {
   opacity: 1;
 }
+/* location presets */
+.presentation-right {
+  justify-content: flex-end;
+  align-items: center;
+}
+.presentation-left {
+  justify-content: start;
+  align-items: center;
+}
+.presentation-top {
+  justify-content: center;
+  align-items: start;
+}
+/* size presets */
+.presentation-0 {
+  position: absolute;
+  margin: 2%;
+  height: 30%;
+}
+.presentation-1 {
+  position: absolute;
+  margin: 2%;
+  height: 40%;
+}
+.presentation-2 {
+  position: absolute;
+  margin: 2%;
+  height: 50%;
+}
+.presentation-3 {
+  position: absolute;
+  margin: 2%;
+  height: 60%;
+}
+.presentation-4 {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 25px;
+}
 /* presentation preset css : 프레젠테이션 위치, 크기 프리셋 */
 /* right */
-.presentation-image-right-0 {
+/* .presentation-image-right-0 {
   position: absolute;
   right: 2%;
   top: 50%;
@@ -188,9 +183,9 @@ export default {
   top: 0;
   height: 100%;
   border-radius: 25px;
-}
+} */
 /* left */
-.presentation-image-left-0 {
+/* .presentation-image-left-0 {
   position: absolute;
   left: 2%;
   top: 50%;
@@ -223,9 +218,9 @@ export default {
   top: 0;
   height: 100%;
   border-radius: 25px;
-}
+} */
 /* top */
-.presentation-image-top-0 {
+/* .presentation-image-top-0 {
   position: absolute;
   left: 50%;
   top: 3%;
@@ -258,11 +253,10 @@ export default {
   top: 0;
   height: 100%;
   border-radius: 25px;
-}
+} */
 /* transitions */
 .transition-fade-enter-active {
-  animation: fadeIn 0.6s;
-  animation-delay: 0.6s;
+  animation: flipInX 0.7s;
 }
 </style>
 
