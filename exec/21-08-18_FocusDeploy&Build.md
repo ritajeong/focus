@@ -53,7 +53,6 @@
     2. sudo netfilter-persistent save
 3. EC2 재부팅
     1. sudo reboot
-<<<<<<< HEAD:Documents/21-08-18_FocusDeploy&Build.md
 
 [Port forwarding with iptables](https://www.cogini.com/blog/port-forwarding-with-iptables/)
 
@@ -71,10 +70,5 @@
     2. mvn -U clean spring-boot:run -Dspring-boot.run.jvmArguments="-Dkms.url=wss://localhost:8433/kurento" &
     (&을 붙이면 background에서 실행)
 4. 브라우저를 통해 접속 (크롬 부라우저 권장)
-=======
-4. 재부팅 후 kms container 실행 필요
-    1. docker ps -a
-    2. docker container start {kms container id}
->>>>>>> feature/transition:Documents/21-08-18_Focus_Deploy.md
 
     [Focus](https://i5a107.p.ssafy.io)
