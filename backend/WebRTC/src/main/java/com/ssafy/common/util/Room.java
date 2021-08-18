@@ -27,6 +27,7 @@ public class Room implements Closeable {
 	private final ConcurrentMap<String, UserSession> participants = new ConcurrentHashMap<>();
 	private final MediaPipeline pipeline;
 	private final String name;
+	private final String owner;
 	private Presentation presentation;
 
 	public String getName() {
@@ -37,10 +38,11 @@ public class Room implements Closeable {
 		return pipeline;
 	}
 
-	public Room(String roomName, MediaPipeline pipeline, String presenterName) {
+	public Room(String roomName, MediaPipeline pipeline, String owner) {
 		this.name = roomName;
 		this.pipeline = pipeline;
-		this.presentation = new Presentation(null, presenterName, null, null, null, null);
+		this.owner = owner;
+		this.presentation = new Presentation(null, owner, null, null, null, null);
 		log.info("ROOM {} has been created", roomName);
 	}
 
@@ -67,6 +69,10 @@ public class Room implements Closeable {
 		presentation.setPresentationSize(presentationSize);
 	}
 	
+	public String getOwner() {
+		return owner;
+	}
+	
 	public String getPresentationUserId() {
 		return presentation.getPresentationUserId();
 	}
@@ -87,7 +93,7 @@ public class Room implements Closeable {
 		return presentation.getPresentationSize();
 	}
 
-	public String getPresenter() {
+	public String getPresenterName() {
 		return presentation.getPresenterName();
 	}
 
