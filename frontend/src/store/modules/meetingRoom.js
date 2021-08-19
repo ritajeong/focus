@@ -120,8 +120,7 @@ export default {
       state.currentPage = 0;
       state.location = state.location === null ? 'right' : state.location;
       state.size = state.size === null ? '2' : state.size;
-      state.transition =
-        state.transition === null ? 'fadein' : state.transition;
+      state.transition = state.transition === null ? 'none' : state.transition;
     },
     SET_ONGOING_PRESENTATION(state, { message, imageSrcs }) {
       state.imageSrcs = imageSrcs;
