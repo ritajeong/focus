@@ -101,10 +101,10 @@ export default {
         .then(({ status }) => {
           console.log(status);
           if (status != 200) {
-            this.$alertify.error('파일 업로드 실패하였습니다.');
             return;
           } else {
             this.$alertify.success('파일이 업로드 됐습니다.');
+            this.$emit('change');
           }
         })
         .catch(() => {

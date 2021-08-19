@@ -12,12 +12,12 @@ export default {
   mutations: {
     SET_ROOMS(state, payload) {
       state.rooms = payload;
-      let now = moment(new Date()).format('YYYY-MM-DD HH:MM');
+      let now = moment(new Date()).format('YYYY-MM-DD HH:mm');
       state.now = [];
       state.future = [];
       state.history = [];
       for (let data of payload.data) {
-        if (moment(data.startTime).format('YYYY-MM-DD HH:MM') > now) {
+        if (moment(data.startTime).format('YYYY-MM-DD HH:mm') > now) {
           console.log(data.room_id + ' ' + data.name + ' ' + data.startTime);
           state.future.push(data);
         } else if (data.endTime) {

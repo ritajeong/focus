@@ -17,6 +17,19 @@
           style="background-image: url(../../assets/img/gradient/Sky.jpg)"
         ></div>
       </div>
+      <div
+        class="
+          col-xl-6 col-lg-5 col-md-5 col-sm-5
+          position-absolute
+          text-center
+          end-0
+          d-md-block
+          align-middle
+        "
+        style="top: 30%"
+      >
+        <img src="../../assets/intro9.gif" style="width: 70%" />
+      </div>
       <div class="container">
         <div class="row">
           <div
