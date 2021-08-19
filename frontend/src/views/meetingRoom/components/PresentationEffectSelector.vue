@@ -27,7 +27,18 @@ export default {
   // : data
   data() {
     return {
-      effects: ['fadein', 'fadedown', 'fadeleft', 'faderight', 'fadeup'],
+      effects: [
+        'fadein',
+        'fadedown',
+        'fadeleft',
+        'faderight',
+        'fadeup',
+        'backdown',
+        'backup',
+        'flipx',
+        'flipy',
+        'rotatein',
+      ],
     };
   },
   // : computed
@@ -98,5 +109,20 @@ export default {
 }
 .fadeup {
   animation: fadeInUp 0.7s;
+}
+.backdown {
+  animation: backInDown 0.7s;
+}
+.backup {
+  animation: backInUp 0.7s;
+}
+.flipx {
+  animation: flipInX 0.7s;
+}
+.flipy {
+  animation: flipInY 0.7s;
+}
+.rotatein {
+  animation: rotateIn 0.7s;
 }
 </style>
