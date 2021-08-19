@@ -15,7 +15,7 @@
               />
             </div>
           </div>
-          <div class="col-md-3 ps-5">
+          <div class="col-md-3 ps-3">
             <label><h6>Start Time</h6></label>
             <div>
               <date-picker
@@ -153,7 +153,7 @@
       </div>
     </form>
     <RoomDeleteModal
-      v-bind:roomId="this.$store.state.rooms.room.manager_id"
+      v-bind:roomId="this.$store.state.rooms.room.room_id"
     ></RoomDeleteModal>
   </section>
 </template>
@@ -316,7 +316,8 @@ export default {
               return;
             } else {
               this.$alertify.success('방 정보가 수정됐습니다.');
-              this.$router.push('/dashboard/info');
+              this.$store.dispatch('rooms/setRoom', roomData);
+              //this.$router.push('/dashboard/info');
             }
           })
           .catch(() => {

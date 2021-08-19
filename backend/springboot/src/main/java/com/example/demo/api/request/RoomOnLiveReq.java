@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @ApiModel("RoomOnLiveReqest")
 public class RoomOnLiveReq {
-    @ApiModelProperty
+    @ApiModelProperty(example = "방 아이디")
     int room_id;
-    @ApiModelProperty
+    @ApiModelProperty(example = "방의 현재 활동 상태")
     Boolean on_live;
 
     @Override

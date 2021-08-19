@@ -9,13 +9,13 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserUpdateRequest")
 public class UserUpdatePwdReq {
-	@ApiModelProperty
+	@ApiModelProperty(example = "사용자 아이디")
 	int user_id;
-	@ApiModelProperty
+	@ApiModelProperty(example = "사용자 이메일")
 	String email;
-	@ApiModelProperty
+	@ApiModelProperty(example = "현재 비밀번호")
 	String currentPassword;
-	@ApiModelProperty
+	@ApiModelProperty(example = "새 비밀번호")
 	String newPassword;
 
 	@Override

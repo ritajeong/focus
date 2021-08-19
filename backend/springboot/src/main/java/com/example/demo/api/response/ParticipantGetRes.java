@@ -11,16 +11,16 @@ import lombok.Setter;
 @Setter
 @ApiModel("ParticipantGetResponse")
 public class ParticipantGetRes {
-    @ApiModelProperty(name="참가자 이름")
+    @ApiModelProperty(example="참가자 이름")
     String name;
     
-    @ApiModelProperty(name="참가자 이메일")
+    @ApiModelProperty(example="참가자 이메일")
     String email;
 
-    @ApiModelProperty(name="그룹 코드")
+    @ApiModelProperty(example="그룹 코드")
     Group_Code groupCode;
 
-    @ApiModelProperty(name="역할 코드")
+    @ApiModelProperty(example="역할 코드 {CodeId: 역할 아이디, CodeName: 역할 이름}")
     Code codeId;
 
 

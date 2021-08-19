@@ -20,7 +20,7 @@ public interface RoomRepository extends JpaRepository<Rooms, Integer> {
 	Rooms findByRoomId(int roomId);
 
 	@Transactional
-	void deleteAllByRoomId(int roomId);
+	int deleteAllByRoomId(int roomId);
 
 	@Modifying
 	@Transactional

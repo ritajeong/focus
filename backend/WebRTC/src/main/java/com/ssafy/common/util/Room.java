@@ -27,6 +27,7 @@ public class Room implements Closeable {
 	private final ConcurrentMap<String, UserSession> participants = new ConcurrentHashMap<>();
 	private final MediaPipeline pipeline;
 	private final String name;
+	private final String owner;
 	private Presentation presentation;
 
 	public String getName() {
@@ -37,10 +38,11 @@ public class Room implements Closeable {
 		return pipeline;
 	}
 
-	public Room(String roomName, MediaPipeline pipeline, String presenterName) {
+	public Room(String roomName, MediaPipeline pipeline, String owner) {
 		this.name = roomName;
 		this.pipeline = pipeline;
-		this.presentation = new Presentation(null, presenterName, null, null, null, null);
+		this.owner = owner;
+		this.presentation = new Presentation(null, owner, null, null, null, null);
 		log.info("ROOM {} has been created", roomName);
 	}
 
@@ -59,35 +61,40 @@ public class Room implements Closeable {
 		}
 	}
 
-	public void setPresentation(String presentationUserId, String presentationTransition, String presentationCurrentPage, String presentationLocation, String presentationSize) {
+	public void setPresentation(String presentationUserId, String presentationTransition,
+			String presentationCurrentPage, String presentationLocation, String presentationSize) {
 		presentation.setPresentationUserId(presentationUserId);
 		presentation.setPresentationTransition(presentationTransition);
 		presentation.setPresentationCurrentPage(presentationCurrentPage);
 		presentation.setPresentationLocation(presentationLocation);
 		presentation.setPresentationSize(presentationSize);
 	}
-	
+
+	public String getOwner() {
+		return owner;
+	}
+
 	public String getPresentationUserId() {
 		return presentation.getPresentationUserId();
 	}
-	
+
 	public String getPresentationTransition() {
 		return presentation.getPresentationTransition();
 	}
-	
+
 	public String getPresentationCurrentPage() {
 		return presentation.getPresentationCurrentPage();
 	}
-	
+
 	public String getPresentationLocation() {
 		return presentation.getPresentationLocation();
 	}
-	
+
 	public String getPresentationSize() {
 		return presentation.getPresentationSize();
 	}
 
-	public String getPresenter() {
+	public String getPresenterName() {
 		return presentation.getPresenterName();
 	}
 
@@ -134,7 +141,7 @@ public class Room implements Closeable {
 	private void removeParticipant(String name) throws IOException {
 		participants.remove(name);
 
-		log.debug("ROOM {}: notifying all users that {} is leaving the room", this.name, name);
+		log.info("ROOM {}: notifying all users that {} is leaving the room", this.name, name);
 
 		final List<String> unnotifiedParticipants = new ArrayList<>();
 		final JsonObject participantLeftJson = new JsonObject();

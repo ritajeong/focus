@@ -1,22 +1,23 @@
 <template>
   <div>
     <section>
-      <div class="container py-4 mb-12">
+      <div class="container py-4 mb-3">
         <div class="row">
           <div
             class="
-              col-lg-6
+              col-xl-4 col-lg-6
               mx-auto
               d-flex
               justify-content-center
               flex-column
-              px-10
+              px-6
+              py-7
             "
           >
             <h3 class="text-center">My Page</h3>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 pt-5">
                   <label><h6>Email</h6></label>
                   <div class="input-group">
                     <input
@@ -32,14 +33,14 @@
                 <div class="col-md-12">
                   <label><h6>Name</h6></label>
                   <div class="input-group row">
-                    <div class="col-10">
+                    <div class="col-9">
                       <input
                         type="name"
                         class="form-control"
                         v-model="username"
                       />
                     </div>
-                    <div class="col-2">
+                    <div class="col-3">
                       <button
                         type="button"
                         class="btn bg-gradient-dark"
@@ -68,7 +69,7 @@
                     data-bs-toggle="modal"
                     data-bs-target="#modal-notification"
                   >
-                    Withdrow
+                    Withdraw
                   </button>
                 </div>
               </div>
@@ -118,6 +119,7 @@ export default {
             return;
           } else {
             this.$alertify.success('이름이 변경됐습니다.');
+            this.$store.dispatch('users/SET_NAME', this.username);
           }
         })
         .catch(() => {

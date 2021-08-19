@@ -1,6 +1,6 @@
 <template>
   <!--카드 유닛-->
-  <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 p-3">
+  <div class="col-xl-3 col-lg-3 mb-xl-0 mb-4 p-3">
     <div
       class="
         card card-background
@@ -8,7 +8,7 @@
         background-wrap
         card-new-parrent
       "
-      style="background-image: url('../../assets/img/gradient/new.jpg')"
+      style="background-image: url('../../assets/img/gradient/_new.png')"
     >
       <router-link to="/dashboard/create" class="text-white">
         <div
