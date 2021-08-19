@@ -135,7 +135,6 @@ export default {
   methods: {
     async submitForm() {
       try {
-        console.log('submitForm()');
         const userData = {
           //보낼때
           email: this.useremail,

@@ -6,10 +6,20 @@
         <v-col cols="12" sm="12" md="12">
           <div class="text-center">
             <div class="my-2">
-              <v-btn @click="openDialog()" class="bg-gradient-dark white--text">
-                <v-icon class="mr-2">cloud_upload</v-icon>
-                File Upload
-              </v-btn>
+              <v-tooltip top content-class="className">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    @click="openDialog()"
+                    class="bg-gradient-dark white--text"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon class="mr-2">cloud_upload</v-icon>
+                    File Upload
+                  </v-btn>
+                </template>
+                <span>발표자료를 업로드 해주세요.</span>
+              </v-tooltip>
             </div>
           </div>
         </v-col>
@@ -54,6 +64,9 @@
 <style>
 .v-application--wrap {
   min-height: 10vh !important;
+}
+.className {
+  transform: translate(0, -100%);
 }
 </style>
 

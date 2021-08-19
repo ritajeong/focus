@@ -166,7 +166,6 @@ export default {
   },
   methods: {
     submitForm() {
-      console.log('submitForm()');
       if (!this.checkPwd) {
         this.$alertify.error('비밀번호확인이 틀렸습니다.');
         return;
