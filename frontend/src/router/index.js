@@ -11,17 +11,12 @@ import RoomPage from '@/views/room/RoomPage';
 import RoomDashboard from '@/views/room/RoomDashboard';
 import RoomCreate from '@/views/room/RoomCreate';
 import RoomInfo from '@/views/room/RoomInfo';
-import RoomModify from '@/views/room/RoomModify';
 import RoomTutorial from '@/views/room/RoomTutorial';
 
 import MeetingRoom from '@/views/meetingRoom/MeetingRoom.vue';
 
-import MySetting from '@/views/mypage/MySetting.vue';
-
 import MyPage from '@/views/mypage/MyPage.vue';
 import MyInfo from '@/views/mypage/MyInfo.vue';
-import MyPresentation from '@/views/mypage/MyPresentation.vue';
-import MyNote from '@/views/mypage/MyNote.vue';
 
 import store from '@/store/index.js';
 
@@ -50,12 +45,6 @@ const router = new VueRouter({
       ],
     },
     {
-      path: '/setting',
-      name: 'MySetting',
-      component: MySetting,
-      meta: { authRequired: true },
-    },
-    {
       path: '/dashboard',
       component: RoomPage,
       meta: { authRequired: true },
@@ -71,10 +60,6 @@ const router = new VueRouter({
         {
           path: '/dashboard/info',
           component: RoomInfo,
-        },
-        {
-          path: '/dashboard/modify',
-          component: RoomModify,
         },
         {
           path: '/dashboard/tutorial',
@@ -96,14 +81,6 @@ const router = new VueRouter({
         {
           path: '',
           component: MyInfo,
-        },
-        {
-          path: '/mypage/presentation',
-          component: MyPresentation,
-        },
-        {
-          path: '/mypage/note',
-          component: MyNote,
         },
       ],
     },
