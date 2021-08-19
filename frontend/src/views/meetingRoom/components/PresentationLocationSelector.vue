@@ -1,7 +1,18 @@
 <template>
   <div class="d-flex flex-column justify-content-center align-items-center">
     <!-- location -->
-    <h2 class="text-center">location</h2>
+    <button
+      @keyup.up="selectTop"
+      @keyup.right="selectRight"
+      @keyup.left="selectLeft"
+      @keyup.49="selectSize(0)"
+      @keyup.50="selectSize(1)"
+      @keyup.51="selectSize(2)"
+      @keyup.52="selectSize(3)"
+      @keyup.53="selectSize(4)"
+    >
+      <h2 class="text-center">location</h2>
+    </button>
     <div class="template-container">
       <img
         src="@/assets/presentationTemplates/presentation-right.jpg"
@@ -113,6 +124,9 @@ export default {
   },
   // : methods
   methods: {
+    selectSize: function (size) {
+      this.selectedSize = size;
+    },
     selectRight: function () {
       this.selectedLocation = 'right';
       const message = {

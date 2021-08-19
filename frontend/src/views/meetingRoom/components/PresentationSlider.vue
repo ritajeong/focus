@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @keyup.right="progressNext" @keyup.left="progressPrev">
     <!-- prev -->
     <PresentationSlideItem v-if="prev >= 0" :slideUrl="slideUrls[prev]" />
     <img
