@@ -112,7 +112,6 @@
           </div>
         </div>
       </div>
-      <ChangePwdByEmailModal></ChangePwdByEmailModal>
     </section>
   </div>
 </template>
@@ -120,12 +119,11 @@
 import Vue from 'vue';
 import { loginUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
-import ChangePwdByEmailModal from './components/ChangePwdByEmailModal.vue';
 Vue.use(VueAlertify);
 
 export default {
   name: 'IntroLogin',
-  components: { ChangePwdByEmailModal },
+  components: {},
   data() {
     return {
       useremail: '',
