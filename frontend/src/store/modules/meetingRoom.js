@@ -7,8 +7,8 @@ import kurentoUtils from 'kurento-utils';
 import axios from 'axios';
 import _ from 'lodash';
 
-//const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446';
-const API_SERVER_URL = 'https://localhost:8446';
+const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446';
+// const API_SERVER_URL = 'https://localhost:8446';
 
 export default {
   namespaced: true,
@@ -300,7 +300,6 @@ export default {
     // participant 객체에서 삭제 메서드를 사용했을 때
     onParticipantLeft(context, request) {
       /* console.log('Participant' + request.name + 'left'); */
-      context.dispatch('leaveRoom');
       var participant = context.state.participants[request.name];
       participant.dispose();
     },

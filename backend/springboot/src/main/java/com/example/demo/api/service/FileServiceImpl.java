@@ -45,7 +45,6 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public FileReq saveFile(FileReq filereq) throws Exception {
-		System.out.println("1234");
 		RoomsPresentations pr = new RoomsPresentations();
 		if (pr.getUpload_time() == null) {
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -84,11 +83,9 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public List<FiledetailRes> findbygroupid(ShowFileReq filereq) {
-		System.out.println(filereq.getRoom_id());
-		System.out.println(filereq.getUser_id());
+		log.info("[findByGroupId] Room {} and User {}", filereq.getRoom_id(), filereq.getUser_id());
 		List<FiledetailRes> res = new ArrayList<FiledetailRes>();
 		try {
-			System.out.println("this is findbygroupid()!!!!!!!!!!!!!!!!!!!!!!!!");
 			Integer group = filegroupRepository.findBygroupid(filereq.getRoom_id(), filereq.getUser_id());
 			if (group != null) {
 				List<Presentations> list = fileRepository.findByroomspresentations_GroupId(group);

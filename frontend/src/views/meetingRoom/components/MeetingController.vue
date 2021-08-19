@@ -79,7 +79,7 @@ export default {
         id: 'leaveRoom',
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
-      // this.$store.dispatch('meetingRoom/leaveRoom');
+      this.$store.dispatch('meetingRoom/leaveRoom');
     },
   },
 };

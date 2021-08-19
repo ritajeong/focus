@@ -138,6 +138,7 @@ public class CallHandler extends TextWebSocketHandler {
 	}
 
 	private void leaveRoom(UserSession user) throws IOException {
+		System.out.println("user.getRoomName : " + user.getRoomName() + " user.getName : " + user.getName());
 		final Room room = roomManager.getRoom(user.getRoomName(), user.getName());
 		room.leave(user);
 		registry.removeBySession(user.getSession());
