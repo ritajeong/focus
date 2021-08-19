@@ -42,7 +42,7 @@
                 border-style: dashed;
               "
             >
-              <Upload></Upload>
+              <Upload @change="change"></Upload>
             </v-col>
           </v-row>
         </v-card-text>
@@ -74,6 +74,10 @@ export default {
     closeDialog() {
       this.dialog = false;
       this.$router.go();
+    },
+    change() {
+      this.dialog = false;
+      window.location.reload();
     },
   },
 };
