@@ -7,8 +7,8 @@ import kurentoUtils from 'kurento-utils';
 import axios from 'axios';
 import _ from 'lodash';
 
-//const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446';
-const API_SERVER_URL = 'https://localhost:8446';
+const API_SERVER_URL = 'https://i5a107.p.ssafy.io:8446';
+// const API_SERVER_URL = 'https://localhost:8446';
 
 export default {
   namespaced: true,
@@ -31,6 +31,10 @@ export default {
     /* imageUrls: null, */
     imageSrcs: null,
     selectedContentId: null,
+    transition: null,
+    // 초기 카메라, 마이크 세팅
+    startWithMic: null,
+    startWithVideo: null,
   }),
   // mutations
   mutations: {
@@ -46,6 +50,8 @@ export default {
       state.roomName = meetingInfo.roomName;
       state.manager = meetingInfo.manager;
       state.roomNumber = _.split(meetingInfo.roomName, '-')[1];
+      state.startWithMic = meetingInfo.startWithMic;
+      state.startWithVideo = meetingInfo.startWithVideo;
     },
     ADD_PARTICIPANT(state, { name, participant }) {
       if (state.participants === null) {
@@ -71,6 +77,7 @@ export default {
       state.currentPage = message.currentPage;
       state.size = message.size;
       state.location = message.location;
+      state.transition = message.transition;
     },
     // 발표자 변경, 발표자료 null 로 설정
     CHANGE_PRESENTER(state, message) {
@@ -81,6 +88,7 @@ export default {
       state.size = null;
       state.location = null;
       state.selectedContentId = null;
+      state.transition = null;
     },
     CHANGE_CONTENT(state, message) {
       state.selectedContentId = message.presentationUserId;
@@ -102,6 +110,7 @@ export default {
       /* state.imageUrls = null; */
       state.imageSrcs = null;
       state.selectedContentId = null;
+      state.transition = null;
     },
     SET_CONTENTS(state, message) {
       state.presentationContents = message.data;
@@ -111,12 +120,15 @@ export default {
       state.currentPage = 0;
       state.location = state.location === null ? 'right' : state.location;
       state.size = state.size === null ? '2' : state.size;
+      state.transition =
+        state.transition === null ? 'fadein' : state.transition;
     },
     SET_ONGOING_PRESENTATION(state, { message, imageSrcs }) {
       state.imageSrcs = imageSrcs;
       state.currentPage = message.currentPage;
       state.location = message.location;
       state.size = message.size;
+      state.transition = message.transition;
     },
     /* SET_IMAGE_URLS(state, imageUrls) {
       state.imageUrls = imageUrls;
@@ -238,7 +250,8 @@ export default {
           // this -> kurentoUtils.WebRtcPeer.WebRtcPeerSendonly
           // generateOffer:
           this.generateOffer(participant.offerToReceiveVideo.bind(participant));
-          this.audioEnabled = false;
+          this.audioEnabled = context.state.startWithMic;
+          this.videoEnabled = context.state.startWithVideo;
         },
       );
 
@@ -287,7 +300,6 @@ export default {
     // participant 객체에서 삭제 메서드를 사용했을 때
     onParticipantLeft(context, request) {
       /* console.log('Participant' + request.name + 'left'); */
-      context.dispatch('leaveRoom');
       var participant = context.state.participants[request.name];
       participant.dispose();
     },
@@ -296,8 +308,8 @@ export default {
       context.commit('DISPOSE_PARTICIPANT', participantName);
     },
     leaveRoom(context) {
-      context.commit('LEAVE_ROOM');
       router.push({ path: '/dashboard' });
+      console.log(context.state.roomNumber);
       if (context.state.myName === context.state.manager) {
         const roomData = {
           room_id: context.state.roomNumber,
@@ -305,6 +317,7 @@ export default {
         };
         setRoomOnLive(roomData);
       }
+      context.commit('LEAVE_ROOM');
     },
     receiveVideoResponse(context, result) {
       context.state.participants[result.name].rtcPeer.processAnswer(

@@ -31,8 +31,8 @@ export default {
   // : data
   data() {
     return {
-      myVideoEnabled: true,
-      myAudioEnabled: false,
+      myVideoEnabled: null,
+      myAudioEnabled: null,
     };
   },
   // : computed
@@ -53,7 +53,10 @@ export default {
     },
   },
   // : lifecycle hook
-  mounted() {},
+  mounted() {
+    this.myVideoEnabled = this.$store.state.meetingRoom.startWithVideo;
+    this.myAudioEnabled = this.$store.state.meetingRoom.startWithMic;
+  },
   // : methods
   methods: {
     toggleVideo: function () {
@@ -76,7 +79,7 @@ export default {
         id: 'leaveRoom',
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
-      // this.$store.dispatch('meetingRoom/leaveRoom');
+      this.$store.dispatch('meetingRoom/leaveRoom');
     },
   },
 };

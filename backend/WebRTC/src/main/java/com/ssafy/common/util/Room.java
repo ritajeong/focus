@@ -78,7 +78,7 @@ public class Room implements Closeable {
 		return presentation.getPresentationUserId();
 	}
 
-	public String getPresentationTransitio() {
+	public String getPresentationTransition() {
 		return presentation.getPresentationTransition();
 	}
 
@@ -178,6 +178,7 @@ public class Room implements Closeable {
 		existingParticipantsMsg.add("data", participantsArray);
 		existingParticipantsMsg.addProperty("presenter", presentation.getPresenterName());
 		existingParticipantsMsg.addProperty("presentationUserId", presentation.getPresentationUserId());
+		existingParticipantsMsg.addProperty("presentationTransition", presentation.getPresentationTransition());
 		existingParticipantsMsg.addProperty("currentPage", presentation.getPresentationCurrentPage());
 		existingParticipantsMsg.addProperty("location", presentation.getPresentationLocation());
 		existingParticipantsMsg.addProperty("size", presentation.getPresentationSize());

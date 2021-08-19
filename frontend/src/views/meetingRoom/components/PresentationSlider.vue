@@ -54,9 +54,9 @@ export default {
   // : data
   data() {
     return {
-      prev: -1,
-      now: 0,
-      next: 1,
+      prev: null,
+      now: null,
+      next: null,
       alertMessage: null,
       alertShow: false,
     };
@@ -71,6 +71,12 @@ export default {
     },
     slideUrls() {
       return this.$store.state.meetingRoom.imageSrcs;
+    },
+    transition() {
+      return this.$store.state.meetingRoom.transition;
+    },
+    currentPage() {
+      return this.$store.state.meetingRoom.currentPage;
     },
   },
   // : watch
@@ -88,13 +94,18 @@ export default {
           currentPage: this.now,
           location: this.presentationLocation,
           size: this.presentationSize,
+          transition: this.transition,
         };
         this.$store.dispatch('meetingRoom/sendMessage', message);
       }
     },
   },
   // : lifecycle hook
-  mounted() {},
+  mounted() {
+    this.prev = this.currentPage - 1;
+    this.now = this.currentPage;
+    this.next = this.currentPage + 1;
+  },
   // : methods
   methods: {
     progressPrev: function () {
