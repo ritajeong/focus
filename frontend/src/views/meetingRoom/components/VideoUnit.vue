@@ -51,6 +51,7 @@ export default {
   height: 100%;
   border-radius: 15px;
   box-shadow: 0px 4px 4px black;
+  transform: scale(-1, 1);
 }
 .overlay {
   position: absolute;

@@ -129,27 +129,32 @@ export default {
   position: absolute;
   margin: 2%;
   height: 30%;
+  z-index: 1;
 }
 .presentation-1 {
   position: absolute;
   margin: 2%;
   height: 40%;
+  z-index: 1;
 }
 .presentation-2 {
   position: absolute;
   margin: 2%;
   height: 50%;
+  z-index: 1;
 }
 .presentation-3 {
   position: absolute;
   margin: 2%;
   height: 60%;
+  z-index: 1;
 }
 .presentation-4 {
   position: absolute;
   top: 0;
   height: 100%;
   border-radius: 25px;
+  z-index: 1;
 }
 /* presentation preset css : 프레젠테이션 위치, 크기 프리셋 */
 /* right */
@@ -280,5 +285,6 @@ export default {
   height: 100%;
   border-radius: 25px;
   box-shadow: 0px 4px 4px black;
+  transform: scale(-1, 1);
 }
 </style>
