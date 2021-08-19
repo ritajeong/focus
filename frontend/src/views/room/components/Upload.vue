@@ -41,7 +41,6 @@
         type="img"
         v-model="files"
         ref="img"
-        @input="onDrop()"
         style="display: none"
       >
       </FileUpload>
@@ -80,26 +79,19 @@ export default {
     roomid: '',
   }),
   methods: {
-    onDrop(item) {
-      console.log(item);
-    },
     uploadStart() {
       const formData = new FormData();
       this.userid = this.$store.state.users.login.userid;
       this.roomid = this.$store.state.rooms.room.room_id;
-      console.log(this.userid);
       formData.append('user_id', this.userid);
       formData.append('room_id', this.roomid);
       formData.append('size', '0');
-      console.log(formData);
-      console.log(this.files);
+
       for (let i = 0; i < this.files.length; i++) {
         formData.append('files', this.files[i].file);
-        console.log(this.files[i]);
       }
       downloadFile(formData)
         .then(({ status }) => {
-          console.log(status);
           if (status != 200) {
             return;
           } else {

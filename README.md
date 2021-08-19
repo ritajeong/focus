@@ -170,7 +170,8 @@
 
 
 ### 시스템 아키텍쳐
-![](https://i.imgur.com/6fzgta8.png)
+![](https://i.imgur.com/xd2oEs1.png)
+
 
 
 

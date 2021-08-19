@@ -44,7 +44,6 @@ export default {
   },
   actions: {
     GET_ALL_USERS(context, payload) {
-      console.log('[actions] get all users');
       searchUsers(payload)
         .then(({ data }) => {
           context.commit('SET_ALL_USERS', data);

@@ -41,9 +41,8 @@
             :readonly="!isManager"
           ></textarea>
         </div>
-
+        <label><h6>Participant List</h6></label>
         <div class="form-group mb-4" v-if="isManager">
-          <label><h6>Participant List</h6></label>
           <div class="row">
             <div class="col-md-5">
               <input
@@ -77,6 +76,7 @@
             </div>
           </div>
         </div>
+
         <div class="mb-4 row px-3">
           <table class="table table-striped">
             <thead>
@@ -131,13 +131,12 @@
             </span>
           </div>
         </div>
+        <h3 class="text-center">Presentation Files</h3>
 
         <div v-if="files.length == 0 && !this.$store.state.rooms.room.endTime">
           <UploadDialog />
         </div>
         <div v-else>
-          <h3 class="text-center">Presentation Files</h3>
-
           <RoomFiledetail></RoomFiledetail>
           <div class="text-center">
             <button
@@ -212,10 +211,8 @@ export default {
     const formData = new FormData();
     formData.append('user_id', this.userid);
     formData.append('room_id', this.roomid);
-    console.log(formData);
     showfiledetail(formData)
       .then(data => {
-        console.log(data);
         this.files = data.data;
       })
       .catch(() => {
@@ -240,7 +237,6 @@ export default {
           this.$router.go();
         })
         .catch(() => {
-          console.log('error');
           this.$alertify.error('error! catch');
         });
     },

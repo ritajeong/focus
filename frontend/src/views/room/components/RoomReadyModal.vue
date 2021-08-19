@@ -131,7 +131,6 @@ export default {
       } else {
         this.isMicOn = true;
       }
-      console.log('mic state: ', this.isMicOn);
     },
     videoOnOff: function () {
       if (this.isVideoOn) {
@@ -141,8 +140,6 @@ export default {
         this.isVideoOn = true;
         this.playVideoFromCamera();
       }
-
-      console.log('video state: ', this.isVideoOn);
     },
     join: function () {
       if (this.isManager) {
@@ -150,7 +147,6 @@ export default {
           room_id: this.roomId,
           on_live: true,
         };
-        console.log('[join] roomData: ', roomData);
         setRoomOnLive(roomData)
           .then(({ status }) => {
             if (status != 200) {

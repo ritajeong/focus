@@ -30,7 +30,7 @@
             ]"
             @click="selectLocationMenu"
           >
-            Loction
+            Location
           </button>
         </div>
         <div>
