@@ -3,7 +3,6 @@ package com.example.demo.db.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;

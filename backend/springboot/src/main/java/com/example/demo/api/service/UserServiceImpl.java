@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserGetRes> getUserByKeyword(String keyword) {
 		//TODO query dsl로 key워드 검색 하기
 		List<Users>users=userRepository.findAll();
-		List<UserGetRes> userGetRes = new ArrayList();
+		List<UserGetRes> userGetRes = new ArrayList<>();
 		for (Users item:users) {
 			userGetRes.add(new UserGetRes(item.getUserId(), item.getEmail(), item.getName()));
 		}

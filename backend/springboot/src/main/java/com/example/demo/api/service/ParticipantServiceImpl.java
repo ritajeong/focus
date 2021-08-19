@@ -18,7 +18,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Override
 	public List<ParticipantGetRes> getParticipantByRoomId(int roomId) {
 		List<Participants> participants = participantRepository.findByrooms_roomId(roomId);
-		List<ParticipantGetRes> participantGetReqList = new ArrayList();
+		List<ParticipantGetRes> participantGetReqList = new ArrayList<>();
 
 		for (Participants item : participants) {
 			participantGetReqList.add(new ParticipantGetRes(item.getUsers().getName(), item.getUsers().getEmail(),
