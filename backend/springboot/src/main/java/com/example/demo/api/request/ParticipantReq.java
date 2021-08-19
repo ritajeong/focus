@@ -10,12 +10,12 @@ import lombok.Setter;
 @Setter
 @ApiModel("ParticipantsRequest")
 public class ParticipantReq {
-	@ApiModelProperty(name="참가자 이름", example = "관리자")
+	@ApiModelProperty(example = "참가자 이름")
 	String name;
-	@ApiModelProperty(name="참가자 이메일", example = "master@master.com")
+	@ApiModelProperty(example = "참가자 이메일")
 	String email;
 
-	@ApiModelProperty(name="역할 코드 객체", example = "{001, 방장}")
+	@ApiModelProperty(example = "참가자의 역할 정보 {역할 아이디,역할 이름}")
 	Code codeId;
 
 	@Override

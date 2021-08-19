@@ -1,10 +1,10 @@
 <template>
   <section>
-    <div class="container py-4">
+    <div class="container py-4 mb-5">
       <div class="row">
         <div
           class="
-            col-lg-7
+            col-xl-7 col-lg-10
             mx-auto
             d-flex
             justify-content-center
@@ -27,7 +27,7 @@
                     />
                   </div>
                 </div>
-                <div class="col-md-3 ps-5">
+                <div class="col-md-3 ps-4">
                   <label><h6>Start Time</h6></label>
                   <div>
                     <date-picker
@@ -54,6 +54,21 @@
 
               <div class="form-group mb-4">
                 <label><h6>Participant List</h6></label>
+                <popper
+                  ref="popper"
+                  :prevent-default="true"
+                  :force-show="ture"
+                  :options="{
+                    placement: 'top',
+                    modifiers: { offset: { offset: '0,10px' } },
+                  }"
+                >
+                  <div class="popper">참가자를 검색하세요</div>
+
+                  <button slot="reference" disable>
+                    <i class="far fa-question-circle"></i>
+                  </button>
+                </popper>
                 <div class="row">
                   <div class="col-md-5">
                     <input
@@ -110,7 +125,7 @@
                       <td>
                         <div v-if="index > 0">
                           <button
-                            class="btn bg-gradient-danger"
+                            class="btn btn-outline-danger text-danger py-1"
                             type="button"
                             id="btn-delete"
                             @click="deleteParticipant(participant.email)"
@@ -149,11 +164,13 @@ import { findUser } from '@/api/users.js';
 import VueAlertify from 'vue-alertify';
 import moment from 'moment';
 import { mapGetters } from 'vuex';
+import Popper from 'vue-popperjs';
+import 'vue-popperjs/dist/vue-popper.css';
 Vue.use(VueAlertify);
 
 export default {
   name: 'RoomCreate',
-  components: { DatePicker },
+  components: { DatePicker, Popper },
   data() {
     return {
       user: this.$store.state.users.login,

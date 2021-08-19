@@ -24,7 +24,7 @@ public class Rooms {
 	@Column(name = "endTime", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	Timestamp endTime;
 
-	@Column(name="onLive", columnDefinition = "BOOLEAN DEFAULT FALSE")
+	@Column(name = "onLive", columnDefinition = "BOOLEAN DEFAULT FALSE")
 	Boolean onLive;
 
 	@OneToMany(mappedBy = "rooms", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -39,17 +39,16 @@ public class Rooms {
 
 	@Override
 	public String toString() {
-		return "Rooms{" +
-				"roomId=" + roomId +
-				", name='" + name + '\'' +
-				", description='" + description + '\'' +
-				", startTime=" + startTime +
-				", endTime=" + endTime +
-				", onLive=" + onLive +
-				", participant=" + participant +
-				", presentation=" + presentation +
-				", users=" + users +
-				'}';
+		String ret = "Rooms{" + "roomId=" + roomId + ", name='" + name + '\'' + ", description='" + description + '\''
+				+ ", startTime=" + startTime + ", endTime=" + endTime + ", onLive=" + onLive + ", participant=";
+		for (Participants p : participant) {
+			ret += p.getUsers().getName() + ", ";
+		}
+		ret += ", presentation=";
+		for (RoomsPresentations rp : presentation) {
+			ret += rp.getGroupId() + ", ";
+		}
+		ret += ", users=" + users + '}';
+		return ret;
 	}
 }
-

@@ -10,19 +10,20 @@ import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
+
 @Entity
 @Getter
 @Setter
 public class Presentations {
-	 @Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="file_id")
-	 int fileId;
-	 String name;
-	 String original;
-	 String directory;
-	 
-	 @ManyToOne
-	@JoinColumn(name="group_id")
-	 RoomsPresentations roomspresentations;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "file_id")
+	int fileId;
+	String name;
+	String original;
+	String directory;
+
+	@ManyToOne
+	@JoinColumn(name = "group_id")
+	RoomsPresentations roomspresentations;
 }

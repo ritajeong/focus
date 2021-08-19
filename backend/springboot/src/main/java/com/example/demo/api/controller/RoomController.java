@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(value = "유저 API", tags = {"Room"})
+@Api(value = "방 관련 API", tags = { "Room" })
 @RestController
 @RequestMapping("/rooms")
 public class RoomController {
@@ -39,14 +39,10 @@ public class RoomController {
 	private final Logger log = LoggerFactory.getLogger(RoomController.class);
 
 	@PostMapping("/create")
-	@ApiOperation(value = "방생성")
+	@ApiOperation(value = "방 생성")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm A", timezone = "Asia/Seoul")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value = "방정보", required = true) RoomRegisterPostReq registerInfo) {
 		try {
@@ -61,13 +57,9 @@ public class RoomController {
 	}
 
 	@PutMapping("/update/{roomId}")
-	@ApiOperation(value = "방업데이트")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
+	@ApiOperation(value = "방 정보 수정")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> update(
 			@RequestBody @ApiParam(value = "방업데이트", required = true) RoomUpdateReq roomInfo) {
 		try {
@@ -82,19 +74,16 @@ public class RoomController {
 	}
 
 	@DeleteMapping("/delete/{roomId}")
-	@ApiOperation(value = "방삭제")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
+	@ApiOperation(value = "방 삭제")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> deleteRoom(@PathVariable("roomId") int roomId) {
+		log.info("[DeleteRoom] room {} is deleted - controller", roomId);
 		Rooms room = roomService.getRoom(roomId);
 		roomService.deleteRoom(roomId);
 
 		if (room == null) {
-			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "fail"));
+			return ResponseEntity.status(500).body(BaseResponseBody.of(404, "방이 없습니다."));
 		}
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "성공"));
 	}
@@ -114,14 +103,10 @@ public class RoomController {
 	}
 
 	@GetMapping("/user/{userId}")
-	@ApiOperation(value = "유저별 전체 방 보기")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
+	@ApiOperation(value = "사용자 아이디가 참가자로 포함된 전체 방 보기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 409, message = "이미 존재하는 유저"),
+			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<List<RoomGetRes>> showRoomsbyuser(@PathVariable("userId") int userId) {
 
 		List<RoomGetRes> rooms = roomService.findbyuser(userId);
@@ -131,16 +116,11 @@ public class RoomController {
 		return new ResponseEntity<List<RoomGetRes>>(rooms, HttpStatus.OK);
 	}
 
-
 	@GetMapping("/onlive/{roomId}")
-	@ApiOperation(value = "방이 활동중인지 보기")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
+	@ApiOperation(value = "방이 현재 활동중인지 보기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 409, message = "이미 존재하는 유저"),
+			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> isOnLive(@PathVariable("roomId") int roomId) {
 		try {
 			Rooms room = roomService.getRoom(roomId);
@@ -157,15 +137,12 @@ public class RoomController {
 	}
 
 	@PutMapping("/onlive")
-	@ApiOperation(value = "방을 활동중으로 상태 변경하기")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 409, message = "이미 존재하는 유저"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<? extends BaseResponseBody> setOnLive(@RequestBody @ApiParam(value = "방의 onLive 상태 변경", required = true) RoomOnLiveReq roomInfo) {
+	@ApiOperation(value = "방의 활동 상태를 true/false로 변경하기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 409, message = "이미 존재하는 유저"),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> setOnLive(
+			@RequestBody @ApiParam(value = "방의 onLive 상태 변경", required = true) RoomOnLiveReq roomInfo) {
 		try {
 			log.info("[set on live] roomInfo: {}", roomInfo);
 			roomService.setRoomOnLive(roomInfo);
@@ -178,27 +155,24 @@ public class RoomController {
 		}
 	}
 
+	@GetMapping("/{roomId}")
+	@ApiOperation(value = "방 하나의 정보 보기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 409, message = "이미 존재하는 유저"),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<RoomGetRes> showRoomone(@PathVariable("roomId") int roomId) {
+		Rooms room = roomService.getRoom(roomId);
+		List<ParticipantGetRes> participants = participantService.getParticipantByRoomId(roomId);
+		RoomGetRes roomget = new RoomGetRes(room.getName(), room.getDescription(),
+				room.getStartTime().toLocalDateTime(), room.getUsers().getUserId(), room.getUsers().getName(),
+				room.getRoomId());
+		if (room.getEndTime() == null) {
+			roomget.setEndTime(null);
+		} else {
+			roomget.setEndTime(room.getEndTime().toLocalDateTime());
+		}
+		roomget.setParticipants(participants);
 
-@GetMapping("/{roomId}")
-@ApiOperation(value = "방하나보기")
-@ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
-        @ApiResponse(code = 409, message = "이미 존재하는 유저"),
-        @ApiResponse(code = 500, message = "서버 오류")
-})
-public ResponseEntity<RoomGetRes> showRoomone(@PathVariable("roomId") int roomId) {
-    Rooms room = roomService.getRoom(roomId);
-    List<ParticipantGetRes> participants=participantService.getParticipantByRoomId(roomId);
-    RoomGetRes roomget = new RoomGetRes(room.getName(),room.getDescription(), room.getStartTime().toLocalDateTime(),room.getUsers().getUserId(),room.getUsers().getName(), room.getRoomId());
-    if(room.getEndTime()==null){
-        roomget.setEndTime(null);
-    }else{
-        roomget.setEndTime(room.getEndTime().toLocalDateTime());
-    }
-    roomget.setParticipants(participants);
-
-        return new ResponseEntity<RoomGetRes>(roomget,HttpStatus.OK);
-    }
+		return new ResponseEntity<RoomGetRes>(roomget, HttpStatus.OK);
+	}
 }

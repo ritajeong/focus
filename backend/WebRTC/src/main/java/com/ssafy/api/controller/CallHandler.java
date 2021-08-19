@@ -115,6 +115,14 @@ public class CallHandler extends TextWebSocketHandler {
 			log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
 			if (room.getParticipants().isEmpty()) {
 				roomManager.removeRoom(room);
+			} else if (user.getName().equals(room.getOwner())) {
+				for (UserSession userSession : room.getParticipants()) {
+					System.out.println("userSessionName : " + userSession.getName());
+					room.leave(userSession);
+					registry.removeBySession(userSession.getSession());
+				}
+			} else if (user.getName().equals(room.getPresenterName())) {
+				roomManager.setPresenter(room.getName(), room.getOwner());
 			}
 		}
 	}
@@ -130,12 +138,22 @@ public class CallHandler extends TextWebSocketHandler {
 	}
 
 	private void leaveRoom(UserSession user) throws IOException {
+		System.out.println("user.getRoomName : " + user.getRoomName() + " user.getName : " + user.getName());
 		final Room room = roomManager.getRoom(user.getRoomName(), user.getName());
 		room.leave(user);
 		registry.removeBySession(user.getSession());
 		log.info("(User){} is removed from (Room){}", user.getName(), user.getRoomName());
 		if (room.getParticipants().isEmpty()) {
 			roomManager.removeRoom(room);
+		} else if (user.getName().equals(room.getOwner())) {
+			for (UserSession userSession : room.getParticipants()) {
+				System.out.println("userSessionName : " + userSession.getName());
+				room.leave(userSession);
+				registry.removeBySession(userSession.getSession());
+			}
+			roomManager.removeRoom(room);
+		} else if (user.getName().equals(room.getPresenterName())) {
+			roomManager.setPresenter(room.getName(), room.getOwner());
 		}
 	}
 

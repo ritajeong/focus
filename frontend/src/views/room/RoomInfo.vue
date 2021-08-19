@@ -5,7 +5,7 @@
         <div class="row">
           <div
             class="
-              col-lg-7
+              col-xl-7 col-lg-10
               mx-auto
               d-flex
               justify-content-center

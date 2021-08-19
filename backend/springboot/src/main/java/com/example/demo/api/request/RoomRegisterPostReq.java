@@ -13,15 +13,15 @@ import lombok.Setter;
 @ApiModel("RoomRegisterPostRequest")
 
 public class RoomRegisterPostReq {
-	@ApiModelProperty(name="방 이름", example = "ssafy_room")
+	@ApiModelProperty(name="방 이름", example = "방 이름")
 	String name;
-	@ApiModelProperty(name="방 설명", example = "ssafy_room_description")
+	@ApiModelProperty(name="방 설명", example = "방 설명")
 	String description;
-	@ApiModelProperty(name="시작 시간")
+	@ApiModelProperty(example="시작 시간")
 	LocalDateTime startTime;
-	@ApiModelProperty(name="방장 이메일", example = "master@master.com")
+	@ApiModelProperty(name="방장 이메일", example = "방장 이메일")
 	String email;
-	@ApiModelProperty(name="참가자 목록")
+	@ApiModelProperty(example="참가자 목록")
 	List<ParticipantReq> participants;
 
 	@Override

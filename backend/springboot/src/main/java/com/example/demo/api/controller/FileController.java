@@ -3,6 +3,8 @@ package com.example.demo.api.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,13 +30,15 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+import javax.annotation.PostConstruct;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/board")
 public class FileController {
 	@Autowired
 	private FileService fileservice;
-
+	private final Logger log = LoggerFactory.getLogger(FileController.class);
 	@PostMapping("/down")
 	public ResponseEntity<?> downloadfile(
 			@ModelAttribute @ApiParam(value = "파일 저장", required = true) FileReq registerInfo) throws Exception {
@@ -58,7 +62,12 @@ public class FileController {
 			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<List<FiledetailRes>> showRoomdetail(
 			@ModelAttribute @ApiParam(value = "파일 저장", required = true) ShowFileReq filereq) {
-		return new ResponseEntity<List<FiledetailRes>>(fileservice.findbygroupid(filereq), HttpStatus.OK);
+		List<FiledetailRes> fileDetailResList = fileservice.findbygroupid(filereq);
+		if (fileDetailResList != null) {
+			return new ResponseEntity<List<FiledetailRes>>(fileservice.findbygroupid(filereq), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<List<FiledetailRes>>(HttpStatus.NO_CONTENT);
+		}
 	}
 
 	@GetMapping(value = "/image/{roomId}/{userId}/{currentPage}", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -69,15 +78,6 @@ public class FileController {
 			@PathVariable int currentPage) throws IOException {
 		return new ResponseEntity<byte[]>(fileservice.getImage(roomId, userId, currentPage), HttpStatus.OK);
 	}
-
-//	@GetMapping(value = "/image/{roomId}/{userId}")
-//	@ApiOperation(value = "현재 발표 자료 모두 보기")
-//	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
-//			@ApiResponse(code = 404, message = "사진 없음"), @ApiResponse(code = 500, message = "서버 오류") })
-//	public @ResponseBody ResponseEntity<List<byte[]>> getAllImages(@PathVariable int roomId, @PathVariable int userId)
-//			throws IOException {
-//		return new ResponseEntity<List<byte[]>>(fileservice.getAllImages(roomId, userId), HttpStatus.OK);
-//	}
 
 	@GetMapping(value = "/image/{roomId}/{userId}")
 	@ApiOperation(value = "현재 발표 자료 모두 보기 base64")

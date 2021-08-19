@@ -14,7 +14,6 @@ import RoomInfo from '@/views/room/RoomInfo';
 import RoomModify from '@/views/room/RoomModify';
 import RoomTutorial from '@/views/room/RoomTutorial';
 
-import MeetingRoomEnter from '@/views/meetingRoomEnter/MeetingRoomEnter.vue';
 import MeetingRoom from '@/views/meetingRoom/MeetingRoom.vue';
 
 import MySetting from '@/views/mypage/MySetting.vue';
@@ -83,14 +82,6 @@ const router = new VueRouter({
         },
       ],
     },
-    /* 임시 주소 - 미팅룸 입장 */
-    {
-      path: '/meetingroomenter',
-      name: 'MeetingRoomEnter',
-      component: MeetingRoomEnter,
-      meta: { authRequired: true },
-    },
-    /* 임시 주소 - 미팅룸 입장 */
     {
       path: '/meetingroom',
       name: 'MeetingRoom',
