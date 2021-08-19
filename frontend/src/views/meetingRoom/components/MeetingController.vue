@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex controller">
+  <div class="d-flex controller" @keyup.right="progressNext">
     <button class="controller-button mx-3" @click="toggleVideo">
       <div v-if="myVideoEnabled">비디오 중지</div>
       <div v-else>비디오 시작</div>
@@ -51,6 +51,21 @@ export default {
     presenter() {
       return this.$store.state.meetingRoom.presenter;
     },
+    currentPage() {
+      return this.$store.state.meetingRoom.currentPage;
+    },
+    contentLength() {
+      return this.$store.state.meetingRoom.imageSrcs.length;
+    },
+    messageData() {
+      const data = {
+        id: 'changePresentation',
+        location: this.$store.state.meetingRoom.location,
+        size: this.$store.state.meetingRoom.size,
+        transition: this.$store.state.meetingRoom.transition,
+      };
+      return data;
+    },
   },
   // : lifecycle hook
   mounted() {
@@ -80,6 +95,13 @@ export default {
       };
       this.$store.dispatch('meetingRoom/sendMessage', message);
       this.$store.dispatch('meetingRoom/leaveRoom');
+    },
+    progressNext: function () {
+      const message = {
+        ...this.messageData,
+        currentPage: this.currentPage + 1,
+      };
+      this.$store.dispatch('meetingRoom/sendMessage', message);
     },
   },
 };
