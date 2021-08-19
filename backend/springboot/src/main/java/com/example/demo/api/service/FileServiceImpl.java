@@ -101,6 +101,7 @@ public class FileServiceImpl implements FileService {
 			} else {
 				return null;
 			}
+
 		} catch (Exception e) {
 			log.error("[findbygroupid] error:{}", e);
 			e.printStackTrace();

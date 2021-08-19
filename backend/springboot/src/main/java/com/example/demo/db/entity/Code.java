@@ -14,7 +14,6 @@ import lombok.Setter;
 public class Code {
 	@Column(name = "code_id")
 	@Id
-	@OneToMany
 	String codeId;
 
 	String codeName;

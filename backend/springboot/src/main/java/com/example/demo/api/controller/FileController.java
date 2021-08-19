@@ -3,6 +3,8 @@ package com.example.demo.api.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,13 +30,15 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+import javax.annotation.PostConstruct;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/board")
 public class FileController {
 	@Autowired
 	private FileService fileservice;
-
+	private final Logger log = LoggerFactory.getLogger(FileController.class);
 	@PostMapping("/down")
 	public ResponseEntity<?> downloadfile(
 			@ModelAttribute @ApiParam(value = "파일 저장", required = true) FileReq registerInfo) throws Exception {

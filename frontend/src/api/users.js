@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://i5a107.p.ssafy.io:8446/users/',
-  // baseURL: 'http://localhost:8446/users/',
+  //baseURL: 'https://i5a107.p.ssafy.io:8446/users/',
+  baseURL: 'https://localhost:8446/users/',
   headers: {
     'Content-type': 'application/json',
   },
