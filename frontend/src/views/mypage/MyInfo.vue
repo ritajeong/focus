@@ -69,7 +69,7 @@
                     data-bs-toggle="modal"
                     data-bs-target="#modal-notification"
                   >
-                    Withdrow
+                    Withdraw
                   </button>
                 </div>
               </div>
