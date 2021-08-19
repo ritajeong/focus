@@ -6,9 +6,9 @@
 
     ```json
     {
-    	id: 'joinRoom',
-    	room: 'roomName',
-    	name : 'userName'
+    	"id": "joinRoom",
+    	"room": "roomName",
+    	"name" : "userName"
     }
     ```
 
@@ -16,9 +16,9 @@
 
     ```json
     {
-    	id: 'receiveVideoFrom',
-    	sender: 'sender',
-    	sdpOffer: 'sdpOffer'
+    	"id": "receiveVideoFrom",
+    	"sender": "sender",
+    	"sdpOffer": "sdpOffer"
     }
     ```
 
@@ -26,7 +26,7 @@
 
     ```json
     {
-    	id: 'leaveRoom'
+    	"id": "leaveRoom"
     }
     ```
 
@@ -34,12 +34,12 @@
 
     ```json
     {
-    	id: 'onIceCandidate',
-    	candidate: {
-    								candidate: 'candidate',
-    								sdpMid: 'sdpMid',
-    								sdpMLineIndex: 'sdpMLineIndex'
-    						 }
+    	"id": "onIceCandidate",
+    	"candidate": {
+                        "candidate": "candidate",
+                        "sdpMid": "sdpMid",
+                        "sdpMLineIndex": "sdpMLineIndex"
+        			 }
     }
     ```
 
@@ -47,8 +47,8 @@
 
     ```json
     {
-    	id: 'setPresenter',
-    	presenter: 'presenterName'
+    	"id": "setPresenter",
+    	"presenter": "presenterName"
     }
     ```
 
@@ -56,8 +56,8 @@
 
     ```json
     {
-    	id: 'changeContent',
-    	presentationUserId: 'presentationUserId'
+    	"id": "changeContent",
+    	"presentationUserId": "presentationUserId"
     }
     ```
 
@@ -65,11 +65,11 @@
 
     ```json
     {
-    	id: 'changePresenter',
-    	transition: 'presentationTransition',
-    	currentPage: 'presentationCurrentPage',
-    	location: 'presentationLocation',
-    	size: 'presentationSize'
+    	"id": "changePresenter",
+    	"transition": "presentationTransition",
+    	"currentPage": "presentationCurrentPage",
+    	"location": "presentationLocation",
+    	"size": "presentationSize"
     }
     ```
 
@@ -79,8 +79,8 @@
 
     ```json
     {
-    	id: 'newParticipantArrived',
-    	name: 'userName'
+    	"id": "newParticipantArrived",
+    	"name": "userName"
     }
     ```
 
@@ -88,14 +88,14 @@
 
     ```json
     {
-    	id: 'exisitingParticipants',
-    	data: 'participantsArray',
-    	presenter: 'persenterName',
-    	presentationUserId: 'presentationUserId',
-    	transition: 'presentationTransition',
-    	currentPage: 'presentationCurrentPage',
-    	location: 'presentationLocation',
-    	size: ' presentationSize'
+    	"id": "exisitingParticipants",
+    	"data": "participantsArray",
+    	"presenter": "persenterName",
+    	"presentationUserId": "presentationUserId",
+    	"transition": "presentationTransition",
+    	"currentPage": "presentationCurrentPage",
+    	"location": "presentationLocation",
+    	"size": "presentationSize"
     }
     ```
 
@@ -103,9 +103,9 @@
 
     ```json
     {
-    	id: 'receiveVideoAnswer',
-    	name: 'senderName',
-    	sdpAnswer: 'ipSdpAnswer'
+    	"id": "receiveVideoAnswer",
+    	"name": "senderName",
+    	"sdpAnswer": "ipSdpAnswer"
     }
     ```
 
@@ -113,8 +113,8 @@
 
     ```json
     {
-    	id: 'participantLeft',
-    	name: 'userName'
+    	"id": "participantLeft",
+    	"name": "userName"
     }
     ```
 
@@ -122,8 +122,8 @@
 
     ```json
     {
-    	id: 'changePresenter',
-    	presenter : 'presenterName'
+    	"id": "changePresenter",
+    	"presenter" : "presenterName"
     }
     ```
 
@@ -131,8 +131,8 @@
 
     ```json
     {
-    	id: 'changeContent',
-    	presentationUserId: 'presentationUserId'
+    	"id": "changeContent",
+    	"presentationUserId": "presentationUserId"
     }
     ```
 
@@ -140,10 +140,10 @@
 
     ```json
     {
-    	id: 'changePresentation',
-    	transition: 'presentationTransition',
-    	currentPage: 'presentationCurrentPage',
-    	location: 'presentationLocation',
-    	size: ' presentationSize'
+    	"id": "changePresentation",
+    	"transition": "presentationTransition",
+    	"currentPage": "presentationCurrentPage",
+    	"location": "presentationLocation",
+    	"size": "presentationSize"
     }
     ```
