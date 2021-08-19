@@ -72,6 +72,9 @@ export default {
     slideUrls() {
       return this.$store.state.meetingRoom.imageSrcs;
     },
+    transition() {
+      return this.$store.state.meetingRoom.transition;
+    },
   },
   // : watch
   watch: {
@@ -88,6 +91,7 @@ export default {
           currentPage: this.now,
           location: this.presentationLocation,
           size: this.presentationSize,
+          transition: this.transition,
         };
         this.$store.dispatch('meetingRoom/sendMessage', message);
       }

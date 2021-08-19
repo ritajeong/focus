@@ -141,21 +141,6 @@ public class FileServiceImpl implements FileService {
 		return imageByteArray;
 	}
 
-//	@Override
-//	public List<byte[]> getAllImages(int roomId, int userId) throws IOException {
-//		List<byte[]> imageByteArrayList = new ArrayList<byte[]>();
-//		int size = filegroupRepository.getFileSizeByGroupId(roomId, userId);
-//		for (int i = 1; i <= size; i++) {
-//			InputStream imageStream = new FileInputStream(
-//					"C:\\Users\\multicampus\\presentations\\" + roomId + "\\" + userId + "\\" + i + ".jpg");
-////			InputStream imageStream = new FileInputStream("/home/ubuntu/presentations/" + roomId + "/" + userId + "/" + i + ".jpg");
-//			byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-//			imageStream.close();
-//			imageByteArrayList.add(imageByteArray);
-//		}
-//		return imageByteArrayList;
-//	}
-
 	@Override
 	public List<String> getAllImages(int roomId, int userId) throws IOException {
 		List<String> imageStringList = new ArrayList<String>();

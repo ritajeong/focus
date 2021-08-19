@@ -81,7 +81,7 @@ public class CallHandler extends TextWebSocketHandler {
 			}
 
 			String presentationUserId = jsonMessage.get("presentationUserId").getAsString();
-			room.setPresentation(presentationUserId, room.getPresentationTransitio(), room.getPresentationCurrentPage(),
+			room.setPresentation(presentationUserId, room.getPresentationTransition(), room.getPresentationCurrentPage(),
 					room.getPresentationLocation(), room.getPresentationSize());
 			break;
 		}
@@ -93,8 +93,7 @@ public class CallHandler extends TextWebSocketHandler {
 				participant.sendMessage(jsonMessage);
 			}
 
-//			String presentationTransition = jsonMessage.get("transition").getAsString();
-			String presentationTransition = null;
+			String presentationTransition = jsonMessage.get("transition").getAsString();
 			String presentationCurrentPage = jsonMessage.get("currentPage").getAsString();
 			String presentationLocation = jsonMessage.get("location").getAsString();
 			String presentationSize = jsonMessage.get("size").getAsString();
