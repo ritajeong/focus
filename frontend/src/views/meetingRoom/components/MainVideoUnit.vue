@@ -278,6 +278,21 @@ export default {
 .transition-fadeup-enter-active {
   animation: fadeInUp 0.7s;
 }
+.transition-backdown-enter-active {
+  animation: backInDown 0.7s;
+}
+.transition-backup-enter-active {
+  animation: backInUp 0.7s;
+}
+.transition-flipx-enter-active {
+  animation: flipInX 0.7s;
+}
+.transition-flipy-enter-active {
+  animation: flipInY 0.7s;
+}
+.transition-rotatein-enter-active {
+  animation: rotateIn 0.7s;
+}
 </style>
 
 <style>

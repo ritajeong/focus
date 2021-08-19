@@ -92,7 +92,6 @@ public class CallHandler extends TextWebSocketHandler {
 			for (UserSession participant : room.getParticipants()) {
 				participant.sendMessage(jsonMessage);
 			}
-
 			String presentationTransition = jsonMessage.get("transition").getAsString();
 			String presentationCurrentPage = jsonMessage.get("currentPage").getAsString();
 			String presentationLocation = jsonMessage.get("location").getAsString();
