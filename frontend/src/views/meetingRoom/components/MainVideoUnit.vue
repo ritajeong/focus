@@ -279,7 +279,7 @@ export default {
   animation: fadeInUp 0.7s;
 }
 .transition-backdown-enter-active {
-  animation: backInDow 0.7s;
+  animation: backInDown 0.7s;
 }
 .transition-backup-enter-active {
   animation: backInUp 0.7s;
