@@ -153,7 +153,7 @@ export default {
               this.$alertify.error('방 상태변경에 실패했습니다.');
               return;
             }
-            this.$alertify.success('방 상태를 활동중으로 변경했습니다.');
+            // this.$alertify.success('방 상태를 활동중으로 변경했습니다.');
             this.sendMsgToKurento();
           })
           .catch(() => {
