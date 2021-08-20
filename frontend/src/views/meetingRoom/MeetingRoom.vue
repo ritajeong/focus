@@ -15,7 +15,7 @@
       ]"
     >
       <!-- left side bar control buttons -->
-      <transition name="button-show"
+      <!-- <transition name="button-show"
         ><img
           src="@/assets/icons/left.svg"
           alt="left side bar(participants videos) toggle button"
@@ -30,7 +30,7 @@
           class="left-side-toggler"
           v-if="!leftSideShow"
           @click="toggleLeftSide"
-      /></transition>
+      /></transition> -->
       <!-- left side bar control buttons -->
       <!-- Room Title -->
       <h1 class="room-title">{{ roomTitle }}</h1>

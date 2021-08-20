@@ -1,5 +1,5 @@
 <template>
-  <div @keyup.right="progressNext" @keyup.left="progressPrev">
+  <div>
     <!-- prev -->
     <PresentationSlideItem v-if="prev >= 0" :slideUrl="slideUrls[prev]" />
     <img
@@ -27,9 +27,11 @@
     <!-- slider: 슬라이드 넘기기 ui -->
     <div class="d-flex justify-content-center align-items-center">
       <button class="slider-prev-button" @click="progressPrev">prev</button>
-      <div class="slider-progress-indicator">
-        {{ now + 1 }}/{{ slideUrls.length }}
-      </div>
+      <button @keyup.right="progressNext" @keyup.left="progressPrev">
+        <div class="slider-progress-indicator">
+          {{ now + 1 }}/{{ slideUrls.length }}
+        </div>
+      </button>
       <button class="slider-next-button" @click="progressNext">next</button>
     </div>
     <!-- slider: 슬라이드 넘기기 ui -->
