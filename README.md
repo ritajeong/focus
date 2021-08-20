@@ -2,7 +2,8 @@
 
 ## 🏆 FOCUS
 ### 프로젝트 소개
-  * https://i5a107.p.ssafy.io
+  * [Focus HomePage](https://i5a107.p.ssafy.io)
+  * [YouTube](https://www.youtube.com/watch?v=RCCz8Ckgg8k)
   * [Notion 개발 WIKI](https://www.notion.so/7-FOCUS-a4db4765db0d47059f1a743e2e87347c)
   * ```FOCUS``` 는 온라인 발표환경과 오프라인 발표 환경의 차이를 줄이기 위해 화상영상에 발표자료를 함께 띄워서 제어하는 서비스입니다.
 
