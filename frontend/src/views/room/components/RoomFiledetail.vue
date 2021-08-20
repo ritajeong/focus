@@ -36,10 +36,8 @@ export default {
     const formData = new FormData();
     formData.append('user_id', this.userid);
     formData.append('room_id', this.roomid);
-    console.log(formData);
     showfiledetail(formData)
       .then(data => {
-        console.log(data);
         this.files = data.data;
       })
       .catch(() => {

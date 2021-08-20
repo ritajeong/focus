@@ -63,7 +63,9 @@
                     modifiers: { offset: { offset: '0,10px' } },
                   }"
                 >
-                  <div class="popper">참가자를 검색하세요</div>
+                  <div class="popper">
+                    참가자 이메일과 역할을 지정해 주세요.
+                  </div>
 
                   <button slot="reference" disable>
                     <i class="far fa-question-circle"></i>

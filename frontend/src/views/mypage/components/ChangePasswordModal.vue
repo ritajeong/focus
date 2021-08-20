@@ -147,7 +147,6 @@ export default {
         };
         updateUserPwd(userData)
           .then(({ status }) => {
-            console.log('update user pwd status: ', status);
             if (status == 401) {
               this.$alertify.error('현재 비밀번호가 틀립니다.');
               this.isCurrentPwdValid = false;

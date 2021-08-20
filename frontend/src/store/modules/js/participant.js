@@ -44,7 +44,6 @@ export default function Participant(name) {
 
   // 소멸 메서드: participants에서 삭제 해줘야함
   this.dispose = function () {
-    console.log('Disposing participant ' + this.name);
     this.rtcPeer.dispose();
     store.dispatch('meetingRoom/disposeParticipant', this.name);
   };

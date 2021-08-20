@@ -113,7 +113,6 @@ export default {
       };
       updateUserName(userData)
         .then(({ status }) => {
-          console.log(status);
           if (status != 200) {
             this.$alertify.error('이름 변경중 오류가 발생했습니다.');
             return;

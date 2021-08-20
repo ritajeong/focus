@@ -18,13 +18,10 @@ export default {
       state.history = [];
       for (let data of payload.data) {
         if (moment(data.startTime).format('YYYY-MM-DD HH:mm') > now) {
-          console.log(data.room_id + ' ' + data.name + ' ' + data.startTime);
           state.future.push(data);
         } else if (data.endTime) {
-          console.log(data.room_id + ' ' + data.name + ' ' + data.endTime);
           state.history.push(data);
         } else {
-          console.log(data.room_id + ' ' + data.name + ' ' + data.startTime);
           state.now.push(data);
         }
       }
@@ -46,7 +43,6 @@ export default {
   },
   getters: {
     room(state) {
-      console.log('getters room');
       return state.room;
     },
     arrayNow: state => {

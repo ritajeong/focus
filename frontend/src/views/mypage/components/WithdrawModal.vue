@@ -73,7 +73,6 @@ export default {
     withdraw() {
       const userId = this.$store.state.users.login.userid;
       deleteUser(userId).then(({ status }) => {
-        console.log(status);
         if (status != 200) {
           this.$alertify.error('탈퇴에 실패했습니다.');
         } else {
