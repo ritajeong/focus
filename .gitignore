@@ -10,7 +10,21 @@
 /backend/WebRTC/.gradle/
 /backend/WebRTC/.mvn/
 /backend/WebRTC/src/main/resources/application.properties
+/backend/WebRTC/target/
 
+/backend/webrtc/.metadata/
+/backend/webrtc/.gradle/
+/backend/webrtc/.mvn/
+/backend/webrtc/src/main/resources/application.properties
+/backend/webrtc/src/main/resources/static
+/backend/webrtc/target/
+
+/backend/springboot/.metadata/
+/backend/springboot/.gradle/
+/backend/springboot/.mvn/
+/backend/springboot/src/main/resources/application.properties
+/backend/springboot/src/main/resources/static/
+/backend/springboot/target/
 
 ### Java ###
 # Compiled class file
@@ -85,6 +99,7 @@ $RECYCLE.BIN
 # End of httpswww.toptal.comdevelopersgitignoreapiwindows,java,vue,vuejs
 *.iml
 *.xml
+!pom.xml
 
 ### Eclipse ###
 .metadata

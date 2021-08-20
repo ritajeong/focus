@@ -1,30 +1,77 @@
 package com.ssafy.common.util;
 
-import org.kurento.client.MediaPipeline;
-
 public class Presentation {
-    private String presenter;
-    private String[] presentationImageUris;
-    private String roomName;
-    private MediaPipeline pipeline;
+	private String presentationUserId;
+	private String presenterName;
+	private String presentationTransition;
+	private String presentationCurrentPage;
+	private String presentationLocation;
+	private String presentationSize;
 
-    public Presentation(){}
-    public Presentation(String presenter, String[] imageUris, String roomName, MediaPipeline pipeline){
-        this.presenter=presenter;
-        this.presentationImageUris=imageUris;
-        this.roomName=roomName;
-        this.pipeline=pipeline;
-    }
+	public Presentation(String presentationUserId, String presenterName, String presentationTransition,
+			String presentationCurrentPage, String presentationLocation, String presentationSize) {
+		this.presentationUserId = presentationUserId;
+		this.presenterName = presenterName;
+		this.presentationTransition = presentationTransition;
+		this.presentationCurrentPage = presentationCurrentPage;
+		this.presentationLocation = presentationLocation;
+		this.presentationSize = presentationSize;
+	}
 
-    public String getPresenterName(){
-        return presenter;
-    }
+	public String getPresentationUserId() {
+		return presentationUserId;
+	}
 
-    public String[] getPresentationImages(){
-        return presentationImageUris;
-    }
+	public void setPresentationUserId(String presentationUserId) {
+		this.presentationUserId = presentationUserId;
+	}
 
-    public MediaPipeline getPipeline(){
-        return pipeline;
-    }
+	public String getPresenterName() {
+		return presenterName;
+	}
+
+	public void setPresenterName(String presenterName) {
+		this.presenterName = presenterName;
+	}
+
+	public String getPresentationTransition() {
+		return presentationTransition;
+	}
+
+	public void setPresentationTransition(String presentationTransition) {
+		this.presentationTransition = presentationTransition;
+	}
+
+	public String getPresentationCurrentPage() {
+		return presentationCurrentPage;
+	}
+
+	public void setPresentationCurrentPage(String presentationCurrentPage) {
+		this.presentationCurrentPage = presentationCurrentPage;
+	}
+
+	public String getPresentationLocation() {
+		return presentationLocation;
+	}
+
+	public void setPresentationLocation(String presentationLocation) {
+		this.presentationLocation = presentationLocation;
+	}
+
+	public String getPresentationSize() {
+		return presentationSize;
+	}
+
+	public void setPresentationSize(String presentationSize) {
+		this.presentationSize = presentationSize;
+	}
+
+	@Override
+	public String toString() {
+		return "Presentation [presentationUserId=" + presentationUserId + ", presenterName=" + presenterName
+				+ ", presentationTransition=" + presentationTransition + ", presentationCurrentPage="
+				+ presentationCurrentPage + ", presentationLocation=" + presentationLocation + ", presentationSize="
+				+ presentationSize + "]";
+	}
+
 }
