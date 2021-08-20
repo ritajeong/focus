@@ -17,8 +17,8 @@
       * 방은 Now, Future, History로 구분됩니다.
   
     * Now 그룹은 __시작시간 < 현재시간__ 인 방 목록을 보여줍니다.
-      * Future 그룹은 __현재시간 < 시작시간__ 인 방 목록을 보여줍니다.
-      * History 그룹은 __종료시간__ 이 존재하는 방 목록을 보여줍니다.
+    * Future 그룹은 __현재시간 < 시작시간__ 인 방 목록을 보여줍니다.
+    * History 그룹은 __종료시간__ 이 존재하는 방 목록을 보여줍니다.
 ### 실행화면
 * 발표자료 제어
 ![GOMCAM 20210819_1639400155](https://user-images.githubusercontent.com/39117025/130028175-f3159a36-64ca-41a2-9eae-3da1428061c6.gif)
@@ -158,8 +158,7 @@
 #### DevOps
 
 - AWS EC2
-- Docker
-
+- Apache Tomcat
 
 #### Collaboration
 - Jira
