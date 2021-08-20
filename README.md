@@ -208,7 +208,7 @@
 ### Component
 * [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-19_FrontendComponent.md)
 ### 사용자 시나리오
-* [보러가기✔]()
+* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/exec/%EC%8B%9C%EC%97%B0%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.pdf)
 ### 기타 라이브러리
 * [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-18_%EA%B8%B0%ED%83%80_%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC.md)
 
