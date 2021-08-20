@@ -204,7 +204,7 @@
 ### Controller 
 * [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-19_Controller.md)
 ### WebSocket
-* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-18_Kurento_WebSocket_Message.md)
+* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-20_Kurento_WebSocket_Message.md)
 ### Component
 * [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-19_FrontendComponent.md)
 ### 사용자 시나리오
