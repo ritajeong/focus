@@ -106,7 +106,7 @@
 - __PORT__ : 8443
 
 ### 배포하기
-* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/exec/21_08_18_%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0.md)
+* [보러가기✔](https://github.com/ritajeong/focus/blob/master/exec/21_08_18_%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0.md)
 
 
 
@@ -193,24 +193,24 @@
 
 ## 디렉토리 구조
 ### Frontend
-* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-18_%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C_%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC_%EA%B5%AC%EC%A1%B0.md)
+* [보러가기✔](https://github.com/ritajeong/focus/blob/master/documents/21-08-18_%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C_%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC_%EA%B5%AC%EC%A1%B0.mdd)
 ### Backend
-* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-18_%EB%B0%B1%EC%97%94%EB%93%9C_%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC_%EA%B5%AC%EC%A1%B0.md)
+* [보러가기✔](https://github.com/ritajeong/focus/blob/master/documents/21-08-18_%EB%B0%B1%EC%97%94%EB%93%9C_%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC_%EA%B5%AC%EC%A1%B0.md)
 
 
 <br>
 
 ## 서비스 상세
 ### Controller 
-* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-19_Controller.md)
+* [보러가기✔](https://github.com/ritajeong/focus/blob/master/documents/21-08-19_Controller.md)
 ### WebSocket
-* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-20_Kurento_WebSocket_Message.md)
+* [보러가기✔](https://github.com/ritajeong/focus/blob/master/documents/21-08-20_Kurento_WebSocket_Message.md)
 ### Component
-* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-19_FrontendComponent.md)
+* [보러가기✔](https://github.com/ritajeong/focus/blob/master/documents/21-08-19_FrontendComponent.md)
 ### 사용자 시나리오
-* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/exec/%EC%8B%9C%EC%97%B0%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.pdf)
+* [보러가기✔](https://github.com/ritajeong/focus/blob/master/exec/%EC%8B%9C%EC%97%B0%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.pdf)
 ### 기타 라이브러리
-* [보러가기✔](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A107/-/blob/master/documents/21-08-18_%EA%B8%B0%ED%83%80_%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC.md)
+* [보러가기✔](https://github.com/ritajeong/focus/blob/master/documents/21-08-18_%EA%B8%B0%ED%83%80_%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC.md)
 
 <br>
 
